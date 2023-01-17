@@ -5,7 +5,7 @@ import {
   HOME_PAGE_NAME,
   PROFILE_PAGE_NAME,
   QNA_PAGE_NAME,
-  SETTINGS_PAGE_NAME,
+  SETTINGS_PAGE_NAME
 } from './constant';
 import { FeedPage, HomePage, LandingPage, ProfilePage, QnaPage, SettingPage } from './pages';
 import { Error, Feed, Home, QnA, Settings } from './routes';
