@@ -1,8 +1,11 @@
 import Error from './Error';
-import Feed from './Feed';
 import Home from './Home';
-import Profile from './Profile';
 import QnA from './QnA';
+import Feed from './Feed';
+import Challenges from './Challenges';
+import Roadmap from './Roadmap';
+import Bookmark from './Bookmark';
+import Profile from './Profile';
 import Settings from './Settings';
 
-export { Error, Feed, Home, Profile, QnA, Settings };
+export { Error, Home, QnA, Feed, Challenges, Roadmap, Bookmark, Profile, Settings };
