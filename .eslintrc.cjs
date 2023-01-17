@@ -36,8 +36,8 @@ module.exports = {
       },
     ],
     'react/jsx-props-no-spreading': ['warn', { exceptions: ['input'] }], // props를 spread 연산자를 이용해서 내려주는 방식을 error가 아닌 warn으로 설정
-    'import/no-extraneous-dependencies': 0, // 테스트 또는 개발환경을 구성하는 파일에서는 devDependency 사용을 허용 
+    'import/no-extraneous-dependencies': 0, // 테스트 또는 개발환경을 구성하는 파일에서는 devDependency 사용을 허용
     'jsx-a11y/no-noninteractive-element-interactions': 0, // 나중에 필요하다고 생각하면 제거
-		'import/prefer-default-export': 'warn',
+    'import/prefer-default-export': 'warn',
   },
 };
