@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Input, Checkbox, Ul, Li, Dropdown } from '../../components';
+import { Button, Input, Checkbox, Ul, Li, Dropdown, Title } from '../../components';
 import Layout from '../../layout/Layout';
 
 const HomePage = () => {
@@ -19,6 +19,7 @@ const HomePage = () => {
   return (
     <Layout>
       HomePage
+      <Title>제목입니다</Title>
       <Button
         designType="brand500"
         fontSize="var(--fonts-body-xm)"
