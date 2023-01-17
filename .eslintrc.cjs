@@ -20,6 +20,12 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
+    'prettier/prettier': [
+      'warn',
+      {
+        trailingComma: 'es5',
+      },
+    ],
     'react/react-in-jsx-scope': 0, // 0 이면 import React 안해도 됨
     'react/function-component-definition': 0,
     'arrow-body-style': 0, // 화살표 함수의 리턴 방식을 제한하지 않음
@@ -36,8 +42,8 @@ module.exports = {
       },
     ],
     'react/jsx-props-no-spreading': ['warn', { exceptions: ['input'] }], // props를 spread 연산자를 이용해서 내려주는 방식을 error가 아닌 warn으로 설정
-    'import/no-extraneous-dependencies': 0, // 테스트 또는 개발환경을 구성하는 파일에서는 devDependency 사용을 허용 
+    'import/no-extraneous-dependencies': 0, // 테스트 또는 개발환경을 구성하는 파일에서는 devDependency 사용을 허용
     'jsx-a11y/no-noninteractive-element-interactions': 0, // 나중에 필요하다고 생각하면 제거
-		'import/prefer-default-export': 'warn',
+    'import/prefer-default-export': 'warn',
   },
 };
