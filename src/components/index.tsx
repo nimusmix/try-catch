@@ -9,5 +9,19 @@ import Title from './font/Title';
 import Input from './input/Input';
 import Li from './list/Li';
 import Ul from './list/Ul';
+import TopButton from './button/TopButton';
 
-export { Button, Div, Input, Checkbox, Ul, Li, Dropdown, Title, SubTitle, MiniTitle, Paragraph };
+export {
+  Button,
+  CheckBox,
+  Div,
+  Dropdown,
+  MiniTitle,
+  Paragraph,
+  SubTitle,
+  Title,
+  Input,
+  Li,
+  Ul,
+  TopButton,
+};
