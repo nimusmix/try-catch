@@ -1,0 +1,94 @@
+:root {
+  /* Font Sizes */
+  --fonts-desktop-heading-5xl: 3rem;
+  --fonts-desktop-heading-4xl: 2.25rem;
+  --fonts-desktop-heading-3xl: 1.875rem;
+  --fonts-desktop-heading-2xl: 1.5rem;
+  --fonts-desktop-heading-xl: 1.25rem;
+  --fonts-mobile-heading-4xl: 2.25rem;
+  --fonts-mobile-heading-3xl: 1.875rem;
+  --fonts-mobile-heading-2xl: 1.5rem;
+  --fonts-mobile-heading-xl: 1.25rem;
+  --fonts-body-lg: 1.125rem;
+  --fonts-body-base: 1rem;
+  --fonts-body-sm: 0.875rem;
+  --fonts-body-xm: 0.75rem;
+
+  /* line Heights */
+  --lineHights-desktop-heading-5xl: 3rem;
+  --lineHights-desktop-heading-4xl: 2.5rem;
+  --lineHights-desktop-heading-3xl: 2.25rem;
+  --lineHights-desktop-heading-2xl: 2rem;
+  --lineHights-desktop-heading-xl: 1.75rem;
+  --lineHights-mobile-heading-4xl: 2.5rem;
+  --lineHights-mobile-heading-3xl: 2.25rem;
+  --lineHights-mobile-heading-2xl: 2rem;
+  --lineHights-mobile-heading-xl: 1.75rem;
+  --lineHights-body-lg: 1.75rem;
+  --lineHights-body-base: 1.5rem;
+  --lineHights-body-sm: 1.25rem;
+  --lineHights-body-xm: 1rem;
+
+  /* Colors */
+  --colors-brand-600: #276ee2;
+  --colors-brand-500: #3b82f6;
+  --colors-brand-400: #d6e4fb;
+  --colors-brand-300: #e9f0fc;
+  --colors-black-500: #0f172a;
+  --colors-black-400: #232b3e;
+  --colors-black-300: #373f52;
+  --colors-black-200: #4b5366;
+  --colors-black-100: #5f677a;
+  --colors-white-500: #fcfcfc;
+  --colors-white-400: #e9e9e9;
+  --colors-white-300: #d5d5d5;
+  --colors-white-200: #c1c1c1;
+  --colors-white-100: #adadad;
+  --colors-success-darkMode: #4fff65;
+  --colors-success-lightMode: #13ce29;
+  --colors-yellow: #ffff4f;
+  --colors-orange: #f6af3b;
+  --colors-red-500: #f85149;
+  --colors-red-600: #e43d35;
+  --colors-red-700: #d02921;
+  --colors-emph-200: #bc77ff;
+  --colors-emph-500: #803bf6;
+
+  /* Breakpoints */
+  --breakpoints-mobile: 320px;
+  --breakpoints-tablet: 768px;
+  --breakpoints-desktop: 1200px;
+  --sui-breakpoints-widescreen: 1920px;
+
+  /* Borders */
+  --borders-radius-base: 8px;
+  --borders-radius-lg: 12px;
+  --borders-radius-xl: 16px;
+  --borders-radius-2xl: 24px;
+  --borders-radius-round: 50%;
+
+  /* Shadows */
+  --shadows-black-sm: 0px 1px 2px rgba(0, 0, 0, 0.05);
+  --shadows-black: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+  --shadows-black-md: 0px 4px 6px -1px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadows-black-lg: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadows-black-xl: 0px 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0px 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadows-black-2xl: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  --shadows-brand-sm: 0px 1px 2px rgba(59, 130, 246, 0.05);
+  --shadows-brand: 0px 1px 3px rgba(59, 130, 246, 0.1), 0px 1px 2px rgba(59, 130, 246, 0.06);
+  --shadows-brand-md: 0px 4px 6px -1px rgba(59, 130, 246, 0.1),
+    0px 2px 4px -1px rgba(59, 130, 246, 0.06);
+  --shadows-brand-lg: 0px 10px 15px -3px rgba(59, 130, 246, 0.1),
+    0px 4px 6px -2px rgba(59, 130, 246, 0.05);
+  --shadows-brand-xl: 0px 20px 25px -5px rgba(59, 130, 246, 0.1),
+    0px 10px 10px -5px rgba(59, 130, 246, 0.04);
+  --shadows-brand-2xl: 0px 25px 50px -12px rgba(59, 130, 246, 0.25);
+  /* --minus-margin-android: 0px -16px;
+--minus-margin-ios: 0px -24px;
+--minus-margin-undefined: 0px -24px;
+--padding-android: 0px 16px;
+--padding-ios: 0px 24px;
+--padding-undefined: 0px 24px; */
+}
