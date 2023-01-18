@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import btnImg from '../../../public/topbutton.svg';
+import btnImg from '../../assets/topbutton.svg';
 
 const StyledButton = styled.button`
   position: fixed;
