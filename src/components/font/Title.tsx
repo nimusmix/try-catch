@@ -1,19 +1,27 @@
-import styled, { CSSProperties } from 'styled-components';
+import styled from 'styled-components';
 
-const Title = styled.h1<CSSProperties>`
-  display: flex;
-  align-items: center;
-  justify-content: left;
-  -webkit-align-items: center; /* Safari 7.0+ */
+export interface ITitleProps {
+  margin?: string;
+  padding?: string;
+  color?: string;
+  display?: 'block' | 'inline-block' | 'inline-flex' | 'inline';
+  textAlign?: 'left' | 'right' | 'center' | 'justify' | 'inherit';
+}
 
+const Title = styled.h1<ITitleProps>`
+  display: ${({ display }) => display || 'block'};
+  text-align: ${({ textAlign }) => textAlign || 'center'};
   margin: ${({ margin }) => margin || 0};
   padding: ${({ padding }) => padding || 0};
+  color: ${({ color }) => color || `var(--colors-black-500)`};
 
-  height: ${({ height }) => height || '5rem'};
+  font-size: var(--fonts-desktop-heading-5xl);
+  line-height: var(--lineHights-desktop-heading-5xl);
 
-  color: ${({ color }) => color};
-  font-size: ${({ fontSize }) => fontSize || `var(--fonts-desktop-heading-4xl)`};
-  font-weight: ${({ fontWeight }) => fontWeight || 'bold'};
+  @media (max-width: 768px) {
+    font-size: var(--fonts-mobile-heading-4xl);
+    line-height: var(--lineHights-mobile-heading-4xl);
+  }
 `;
 
 export default Title;
