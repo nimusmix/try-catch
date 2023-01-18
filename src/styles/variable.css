@@ -55,7 +55,6 @@
   --colors-emph-500: #803bf6;
 
   /* Breakpoints */
-  --breakpoints-mobile: 320px;
   --breakpoints-tablet: 768px;
   --breakpoints-desktop: 1200px;
   --sui-breakpoints-widescreen: 1920px;
