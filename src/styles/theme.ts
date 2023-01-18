@@ -1,17 +1,37 @@
 import { DefaultTheme } from 'styled-components';
 
 const darkTheme: DefaultTheme = {
-  backgroundColor: '#2f3640',
-  textColor: '#f5f6fa',
-  accentColor: '#4cd137',
-  brandColor: 'red',
+  // 전역 설정 컬러
+  bgColor: 'var(--colors-black-500)',
+  navColor: 'var(--colors-black-400)',
+  textColor: 'var(--colors-white-500)',
+  textColor300: 'var(--colors-white-300)',
+  textColor100: 'var(--colors-white-100)',
+
+  // 시맨틱 컬러
+  brandColor: 'var(--colors-brand-500)',
+  dangerColor: 'var(--colors-red-500)',
+  emphColor: 'var(--colors-emph-500)',
+  warnColor: 'var(--colors-orange-500)',
+  successColor: 'var(--colors-success-400)',
+  whiteColor: 'var(--colors-white-500)',
 };
 
 const lightTheme: DefaultTheme = {
-  backgroundColor: '#f5f6fa',
-  textColor: '#2f3640',
-  accentColor: '#4cd137',
-  brandColor: 'red',
+  // 전역 설정 컬러
+  bgColor: 'var(--colors-white-500)',
+  navColor: 'var(--colors-white-400)',
+  textColor: 'var(--colors-black-500)',
+  textColor300: 'var(--colors-black-300)',
+  textColor100: 'var(--colors-black-100)',
+
+  // 시맨틱 컬러
+  brandColor: 'var(--colors-brand-500)',
+  dangerColor: 'var(--colors-red-500)',
+  emphColor: 'var(--colors-emph-500)',
+  warnColor: 'var(--colors-orange-500)',
+  successColor: 'var(--colors-success-800)',
+  whiteColor: 'var(--colors-white-500)',
 };
 
 export { darkTheme, lightTheme };
