@@ -15,6 +15,8 @@ const darkTheme: DefaultTheme = {
   emphColor: 'var(--colors-emph-500)',
   warnColor: 'var(--colors-orange)',
   successColor: 'var(--colors-success-400)',
+
+  isDark: true,
 };
 
 const lightTheme: DefaultTheme = {
@@ -32,6 +34,8 @@ const lightTheme: DefaultTheme = {
   emphColor: 'var(--colors-emph-500)',
   warnColor: 'var(--colors-orange)',
   successColor: 'var(--colors-success-800)',
+
+  isDark: false,
 };
 
 export { darkTheme, lightTheme };

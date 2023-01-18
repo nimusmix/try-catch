@@ -5,15 +5,20 @@ import {
   HOME_PAGE_NAME,
   PROFILE_PAGE_NAME,
   QNA_PAGE_NAME,
-  SETTINGS_PAGE_NAME
+  SETTINGS_PAGE_NAME,
 } from '../constant';
-import isDarkState from '../recoil/atoms/isDarkAtom';
+import Toast from '../feature/toast/Toast';
+import { isDarkState, toastState } from '../recoil';
 
 const Navigation = () => {
   const [isDark, setIsDark] = useRecoilState(isDarkState);
-
+  const [toast, setToast] = useRecoilState(toastState);
   const onClickHandler = () => {
     setIsDark((isDarkMode: boolean) => !isDarkMode);
+  };
+
+  const onClickToast = () => {
+    setToast({ message: 'Hello World!', isVisible: true, type: 'positive' });
   };
 
   return (
@@ -27,6 +32,17 @@ const Navigation = () => {
       <button type="button" onClick={onClickHandler}>
         {isDark ? '지금은 다크모드' : '지금은 라이트모드'}
         {`${isDark}`}
+      </button>
+      {toast.isVisible && <Toast />}
+      <button
+        onClick={onClickToast}
+        type="button"
+        style={{
+          backgroundColor: 'black',
+          color: 'white',
+        }}
+      >
+        show toast
       </button>
     </nav>
   );
