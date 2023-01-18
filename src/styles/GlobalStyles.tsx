@@ -49,8 +49,8 @@ const GlobalStyles = styled.createGlobalStyle`
     --colors-white-300: #d5d5d5;
     --colors-white-200: #c1c1c1;
     --colors-white-100: #adadad;
-    --colors-success-darkMode: #4fff65;
-    --colors-success-lightMode: #13ce29;
+    --colors-success-800: #13ce29;
+    --colors-success-400: #4fff65;
     --colors-yellow: #ffff4f;
     --colors-orange: #f6af3b;
     --colors-red-500: #f85149;
