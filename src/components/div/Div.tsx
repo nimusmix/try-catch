@@ -12,7 +12,7 @@ const StyledDiv = styled.div<{
   height: ${({ height }) => height};
   padding: ${({ padding }) => padding};
   background-color: ${({ bgColor }) => bgColor};
-  border: 0.8px ${({ border }) => border} solid;
+  border: ${({ border }) => border};
   border-radius: ${({ borderRadius }) => borderRadius};
 `;
 
@@ -46,7 +46,7 @@ Div.defaultProps = {
   height: '400px',
   padding: '2rem',
   bgColor: 'transparent',
-  border: 'var(--colors-white-100)',
+  border: '0.8px var(--colors-white-100) solid',
   borderRadius: 'var(--borders-radius-base)',
 };
 
