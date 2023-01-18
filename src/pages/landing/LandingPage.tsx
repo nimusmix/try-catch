@@ -1,7 +1,10 @@
+import { useState } from 'react';
+import { Checkbox, MiniTitle, Paragraph, SubTitle, Title } from '../../components';
 import { Button, Div, MiniTitle, Paragraph, SubTitle, Title } from '../../components';
 import Layout from '../../layout/Layout';
 
 const LandingPage = () => {
+  const [checked, setChecked] = useState(false);
   return (
     <Layout>
       <Title color="red">123</Title>
@@ -19,6 +22,10 @@ const LandingPage = () => {
       <Paragraph as="span" sizeType="sm">
         123
       </Paragraph>
+      <div>
+        <Checkbox label="123" checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+        <p>CheckBox is {checked ? '체크됨' : '체크안됨'}</p>
+      </div>
       <Button>ㅎㅇㅎㅇ버튼임</Button>
       <Div>Div임</Div>
     </Layout>

@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import {
@@ -13,6 +14,12 @@ import { isDarkState, toastState } from '../recoil';
 const Navigation = () => {
   const [isDark, setIsDark] = useRecoilState(isDarkState);
   const [toast, setToast] = useRecoilState(toastState);
+  const [checked, setChecked] = useState(false);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
+
   const onClickHandler = () => {
     setIsDark((isDarkMode: boolean) => !isDarkMode);
   };
