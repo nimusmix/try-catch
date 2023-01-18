@@ -13,7 +13,7 @@ const Title = styled.h1<ITitleProps>`
   text-align: ${({ textAlign }) => textAlign || 'center'};
   margin: ${({ margin }) => margin || 0};
   padding: ${({ padding }) => padding || 0};
-  color: ${({ color }) => color || `var(--colors-black-500)`};
+  color: ${({ color, theme: { textColor } }) => color || textColor || `var(--colors-black-500)`};
 
   font-size: var(--fonts-desktop-heading-5xl);
   line-height: var(--lineHights-desktop-heading-5xl);

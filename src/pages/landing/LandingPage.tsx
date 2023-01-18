@@ -4,8 +4,11 @@ import Layout from '../../layout/Layout';
 const LandingPage = () => {
   return (
     <Layout>
-      <Title>123</Title>
+      <Title color="red">123</Title>
       <SubTitle>123</SubTitle>
+      <MiniTitle sizeType="3xl" color="red">
+        123
+      </MiniTitle>
       <MiniTitle sizeType="3xl">123</MiniTitle>
       <MiniTitle sizeType="2xl">123</MiniTitle>
       <MiniTitle sizeType="xl">123</MiniTitle>

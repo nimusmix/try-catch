@@ -7,7 +7,7 @@ const SubTitle = styled.h2<ITitleProps>`
 
   margin: ${({ margin }) => margin || 0};
   padding: ${({ padding }) => padding || 0};
-  color: ${({ theme: { textColor } }) => textColor || `var(--colors-black-500)`};
+  color: ${({ color, theme: { textColor } }) => color || textColor || `var(--colors-black-500)`};
 
   font-size: var(--fonts-desktop-heading-4xl);
   line-height: var(--lineHights-desktop-heading-4xl);

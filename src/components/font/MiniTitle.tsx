@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { ITitleProps } from './Title';
 
 type TSizeType = 'xl' | '2xl' | '3xl';
@@ -8,23 +8,25 @@ interface IMiniTitleProps extends ITitleProps {
 }
 
 const sizeList = {
-  xl: `
+  xl: css`
     font-size: var(--fonts-desktop-heading-xl);
     line-height: var(--lineHights-desktop-heading-xl);
   `,
 
-  '2xl': `
+  '2xl': css`
     font-size: var(--fonts-desktop-heading-2xl);
     line-height: var(--lineHights-desktop-heading-2xl);
+
     @media (max-width: 768px) {
       font-size: var(--fonts-mobile-heading-xl);
       line-height: var(--lineHights-mobile-heading-xl);
     }
   `,
 
-  '3xl': `
+  '3xl': css`
     font-size: var(--fonts-desktop-heading-3xl);
     line-height: var(--lineHights-desktop-heading-3xl);
+
     @media (max-width: 768px) {
       font-size: var(--fonts-mobile-heading-2xl);
       line-height: var(--lineHights-mobile-heading-2xl);
@@ -38,7 +40,7 @@ const MiniTitle = styled.h3<IMiniTitleProps>`
 
   margin: ${({ margin }) => margin || 0};
   padding: ${({ padding }) => padding || 0};
-  color: ${({ theme: { textColor } }) => textColor || `var(--colors-black-500)`};
+  color: ${({ color, theme: { textColor } }) => color || textColor || `var(--colors-black-500)`};
 
   ${({ sizeType }) => sizeType && sizeList[sizeType]}
 `;
