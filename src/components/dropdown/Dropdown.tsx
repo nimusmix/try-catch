@@ -1,27 +1,26 @@
 import styled from 'styled-components';
-// https://stackblitz.com/edit/typescript-dropdown?file=style.css
-const Select = styled.select`
-  padding: 3px;
+
+const Select = styled.select<{ border?: string }>`
+  padding: 4px;
+  padding-right: 24px;
   margin: 0;
   border-radius: 0.25rem;
   background: var(--colors-white-500);
   color: var(--colors-black-100);
-  /* border:none; */
-  border: 1px solid var(--colors-white-100);
+  border: ${({ border }) => border || '1px solid var(--colors-white-100)'};
   outline: none;
   display: inline-block;
-  /* appearance:none; */
+  appearance: none;
   cursor: pointer;
 `;
 
-const Label = styled.label`
+const Label = styled.label<{ border?: string }>`
   position: relative;
 
   :after {
     content: '>';
     font: 11px 'Consolas', monospace;
     color: var(--colors-white-100);
-    /* border:none; */
     -webkit-transform: rotate(90deg);
     -moz-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
@@ -29,7 +28,7 @@ const Label = styled.label`
     right: 8px;
     top: 2px;
     padding: 0 0 2px;
-    border-bottom: 1px solid var(--colors-black-100);
+    border-bottom: ${({ border }) => border || '1px solid var(--colors-white-100)'};
     position: absolute;
     pointer-events: none;
   }
@@ -46,18 +45,34 @@ const Label = styled.label`
   }
 `;
 
-const Dropdown = () => {
+interface IDropdownProps {
+  items: any[];
+  border?: string;
+}
+
+// items.value === 0이면 추후 hidden
+const Dropdown = ({ items, border }: IDropdownProps) => {
   return (
-    <Label>
-      <Select>
-        <option value="" hidden>
-          Select...
-        </option>
-        <option value="1">Edit</option>
-        <option value="2">Mail</option>
+    <Label border={border}>
+      <Select border={border}>
+        {items.map((item) =>
+          item.value === 0 ? (
+            <option key={item.value} value={item.value} hidden>
+              {item.text}
+            </option>
+          ) : (
+            <option key={item.value} value={item.value}>
+              {item.text}
+            </option>
+          )
+        )}
       </Select>
     </Label>
   );
+};
+
+Dropdown.defaultProps = {
+  border: `1px solid var(--colors-white-100)`,
 };
 
 export default Dropdown;
