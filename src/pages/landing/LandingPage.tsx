@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Checkbox, MiniTitle, Paragraph, SubTitle, Title } from '../../components';
+import { Button, Div, MiniTitle, Paragraph, SubTitle, Title } from '../../components';
 import Layout from '../../layout/Layout';
 
 const LandingPage = () => {
@@ -25,6 +26,8 @@ const LandingPage = () => {
         <Checkbox label="123" checked={checked} onChange={(e) => setChecked(e.target.checked)} />
         <p>CheckBox is {checked ? '체크됨' : '체크안됨'}</p>
       </div>
+      <Button>ㅎㅇㅎㅇ버튼임</Button>
+      <Div>Div임</Div>
     </Layout>
   );
 };
