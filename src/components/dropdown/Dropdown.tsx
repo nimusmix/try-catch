@@ -20,7 +20,8 @@ const Label = styled.label`
   :after {
     content: '>';
     font: 11px 'Consolas', monospace;
-    color: #aaa;
+    color: var(--colors-white-100);
+    /* border:none; */
     -webkit-transform: rotate(90deg);
     -moz-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
@@ -28,7 +29,7 @@ const Label = styled.label`
     right: 8px;
     top: 2px;
     padding: 0 0 2px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--colors-black-100);
     position: absolute;
     pointer-events: none;
   }
@@ -38,7 +39,7 @@ const Label = styled.label`
     top: 0px;
     width: 20px;
     height: 20px;
-    background: #f8f8f8;
+    background: var(--colors-white-500);
     position: absolute;
     pointer-events: none;
     display: block;
