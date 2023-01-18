@@ -1,4 +1,4 @@
-import { Div, MiniTitle, Paragraph, SubTitle, Title } from '../../components';
+import { Button, Div, MiniTitle, Paragraph, SubTitle, Title } from '../../components';
 import Layout from '../../layout/Layout';
 
 const LandingPage = () => {
@@ -19,7 +19,7 @@ const LandingPage = () => {
       <Paragraph as="span" sizeType="sm">
         123
       </Paragraph>
-
+      <Button>ㅎㅇㅎㅇ버튼임</Button>
       <Div>Div임</Div>
     </Layout>
   );

@@ -96,21 +96,36 @@ const StyledButton = styled.button<{
   borderRadius?: string;
 }>`
   ${({ designType }) => designType && designList[designType]};
-  padding: 0.25rem 0.5rem 0.25rem 0.5rem;
-  border-radius: ${({ borderRadius }) => borderRadius || 'var(--borders-radius-base)'};
-  font-size: ${({ fontSize }) => fontSize || 'var(--fonts-body-base)'};
+  font-size: ${({ fontSize }) => fontSize};
+  padding: ${({ padding }) => padding};
+  border-radius: ${({ borderRadius }) => borderRadius};
 `;
 
 interface IButtonProps {
   children: React.ReactNode;
+  onClick?: () => void;
   designType?: TDesignType;
   fontSize?: string;
+  padding?: string;
   borderRadius?: string;
 }
 
-const Button = ({ children, designType, fontSize, borderRadius }: IButtonProps) => {
+const Button = ({
+  children,
+  onClick,
+  designType,
+  fontSize,
+  padding,
+  borderRadius,
+}: IButtonProps) => {
   return (
-    <StyledButton designType={designType} fontSize={fontSize} borderRadius={borderRadius}>
+    <StyledButton
+      onClick={onClick}
+      designType={designType}
+      fontSize={fontSize}
+      padding={padding}
+      borderRadius={borderRadius}
+    >
       {children}
     </StyledButton>
   );
@@ -118,7 +133,9 @@ const Button = ({ children, designType, fontSize, borderRadius }: IButtonProps) 
 
 Button.defaultProps = {
   designType: 'blueFill',
+  onClick: () => {},
   fontSize: `var(--fonts-body-base)`,
+  padding: '0.25rem 0.5rem 0.25rem 0.5rem',
   borderRadius: `var(--borders-radius-base)`,
 };
 

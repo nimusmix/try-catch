@@ -1,4 +1,5 @@
 import Button from './button/Button';
+import TopButton from './button/TopButton';
 import Checkbox from './checkbox/Checkbox';
 import Div from './div/Div';
 import Dropdown from './dropdown/Dropdown';
@@ -9,11 +10,10 @@ import Title from './font/Title';
 import Input from './input/Input';
 import Li from './list/Li';
 import Ul from './list/Ul';
-import TopButton from './button/TopButton';
 
 export {
   Button,
-  CheckBox,
+  Checkbox,
   Div,
   Dropdown,
   MiniTitle,
