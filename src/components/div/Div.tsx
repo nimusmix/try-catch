@@ -7,6 +7,7 @@ const StyledDiv = styled.div<{
   bgColor?: string;
   border?: string;
   borderRadius?: string;
+  zIndex?: number;
 }>`
   width: ${({ width }) => width};
   height: ${({ height }) => height};
@@ -14,6 +15,7 @@ const StyledDiv = styled.div<{
   background-color: ${({ bgColor }) => bgColor};
   border: ${({ border }) => border};
   border-radius: ${({ borderRadius }) => borderRadius};
+  z-index: ${({ zIndex }) => zIndex};
 `;
 
 interface IDivProps {
@@ -24,9 +26,19 @@ interface IDivProps {
   bgColor?: string;
   border?: string;
   borderRadius?: string;
+  zIndex?: number;
 }
 
-const Div = ({ children, width, height, padding, bgColor, border, borderRadius }: IDivProps) => {
+const Div = ({
+  children,
+  width,
+  height,
+  padding,
+  bgColor,
+  border,
+  borderRadius,
+  zIndex,
+}: IDivProps) => {
   return (
     <StyledDiv
       width={width}
@@ -35,6 +47,7 @@ const Div = ({ children, width, height, padding, bgColor, border, borderRadius }
       bgColor={bgColor}
       border={border}
       borderRadius={borderRadius}
+      zIndex={zIndex}
     >
       {children}
     </StyledDiv>
@@ -48,6 +61,7 @@ Div.defaultProps = {
   bgColor: 'transparent',
   border: '0.8px var(--colors-white-100) solid',
   borderRadius: 'var(--borders-radius-base)',
+  zIndex: 'default',
 };
 
 export default Div;
