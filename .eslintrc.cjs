@@ -20,6 +20,12 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
+    'prettier/prettier': [
+      'warn',
+      {
+        trailingComma: 'es5',
+      },
+    ],
     'react/react-in-jsx-scope': 0, // 0 이면 import React 안해도 됨
     'react/function-component-definition': 0,
     'arrow-body-style': 0, // 화살표 함수의 리턴 방식을 제한하지 않음

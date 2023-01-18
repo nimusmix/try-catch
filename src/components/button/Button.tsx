@@ -66,5 +66,4 @@ Button.defaultProps = {
   fontSize: `var(--fonts-body-base)`,
   borderRadius: `var(--borders-radius-base)`,
 };
-
 export default Button;

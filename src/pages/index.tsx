@@ -1,8 +1,43 @@
-import FeedPage from './feed/FeedPage';
-import HomePage from './home/HomePage';
 import LandingPage from './landing/LandingPage';
-import ProfilePage from './profile/ProfilePage';
+import HomePage from './home/HomePage';
 import QnaPage from './qna/QnaPage';
-import SettingPage from './setting/SettingPage';
+import QnaFormPage from './qna/QnaFormPage';
+import QnaDetailPage from './qna/QnaDetailPage';
+import FeedPage from './feed/FeedPage';
+import ChallengesPage from './challenges/ChallengesPage';
+import ChallengesDetailPage from './challenges/ChallengesDetailPage';
+import RoadmapPage from './roadmap/RoadmapPage';
+import RoadmapListPage from './roadmap/RoadmapListPage';
+import RoadmapDetailPage from './roadmap/RoadmapDetailPage';
+import UserProfilePage from './profile/UserProfilePage';
+import CompanyProfilePage from './profile/CompanyProfilePage';
+import ProfileEditPage from './profile/ProfileEditPage';
+import AlertSettingsPage from './setting/AlertSettingsPage';
+import EmailAlertSettingsPage from './setting/EmailAlertSettingsPage';
+import ThemeSettingsPage from './setting/ThemeSettingsPage';
+import AdvancedSettingsPage from './setting/AdvancedSettingsPage';
+import IntroducePage from './setting/IntroducePage';
+import CustomerServicePage from './setting/CustomerServicePage';
 
-export { LandingPage, FeedPage, ProfilePage, QnaPage, SettingPage, HomePage };
+export {
+  LandingPage,
+  HomePage,
+  QnaPage,
+  QnaFormPage,
+  QnaDetailPage,
+  FeedPage,
+  ChallengesPage,
+  ChallengesDetailPage,
+  RoadmapPage,
+  RoadmapListPage,
+  RoadmapDetailPage,
+  UserProfilePage,
+  CompanyProfilePage,
+  ProfileEditPage,
+  AlertSettingsPage,
+  EmailAlertSettingsPage,
+  ThemeSettingsPage,
+  AdvancedSettingsPage,
+  IntroducePage,
+  CustomerServicePage,
+};
