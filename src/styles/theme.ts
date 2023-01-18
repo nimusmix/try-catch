@@ -7,14 +7,14 @@ const darkTheme: DefaultTheme = {
   textColor: 'var(--colors-white-500)',
   textColor300: 'var(--colors-white-300)',
   textColor100: 'var(--colors-white-100)',
+  whiteColor: 'var(--colors-white-500)',
 
   // 시맨틱 컬러
   brandColor: 'var(--colors-brand-500)',
   dangerColor: 'var(--colors-red-500)',
   emphColor: 'var(--colors-emph-500)',
-  warnColor: 'var(--colors-orange-500)',
+  warnColor: 'var(--colors-orange)',
   successColor: 'var(--colors-success-400)',
-  whiteColor: 'var(--colors-white-500)',
 };
 
 const lightTheme: DefaultTheme = {
@@ -24,14 +24,14 @@ const lightTheme: DefaultTheme = {
   textColor: 'var(--colors-black-500)',
   textColor300: 'var(--colors-black-300)',
   textColor100: 'var(--colors-black-100)',
+  whiteColor: 'var(--colors-white-500)',
 
   // 시맨틱 컬러
   brandColor: 'var(--colors-brand-500)',
   dangerColor: 'var(--colors-red-500)',
   emphColor: 'var(--colors-emph-500)',
-  warnColor: 'var(--colors-orange-500)',
+  warnColor: 'var(--colors-orange)',
   successColor: 'var(--colors-success-800)',
-  whiteColor: 'var(--colors-white-500)',
 };
 
 export { darkTheme, lightTheme };
