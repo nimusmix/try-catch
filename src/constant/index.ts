@@ -1,6 +1,4 @@
-// 상수를들 모아놓는 곳
-
-// 예시
+// route paths
 const HOME_PAGE_NAME = 'home';
 const QNA_PAGE_NAME = 'question';
 const FEED_PAGE_NAME = 'feed';
@@ -9,6 +7,9 @@ const ROADMAP_PAGE_NAME = 'roadmap';
 const BOOKMARK_PAGE_NAME = 'bookmark';
 const PROFILE_PAGE_NAME = 'profile';
 const SETTINGS_PAGE_NAME = 'settings';
+
+// toast
+const TOAST_TIMEOUT = 3000;
 
 export {
   HOME_PAGE_NAME,
@@ -19,4 +20,5 @@ export {
   BOOKMARK_PAGE_NAME,
   PROFILE_PAGE_NAME,
   SETTINGS_PAGE_NAME,
+  TOAST_TIMEOUT,
 };

@@ -16,5 +16,7 @@ declare module 'styled-components' {
     warnColor: string;
     successColor: string;
     whiteColor: string;
+
+    isDark: boolean;
   }
 }
