@@ -90,4 +90,6 @@
 --padding-android: 0px 16px;
 --padding-ios: 0px 24px;
 --padding-undefined: 0px 24px; */
+
+  --toolbar-height: 60px;
 }

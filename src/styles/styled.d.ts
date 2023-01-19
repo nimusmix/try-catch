@@ -9,6 +9,7 @@ declare module 'styled-components' {
     textColor300: string;
     textColor100: string;
     borderColor: string;
+    boxShadowLarge: string;
 
     // 시맨틱 컬러
     brandColor: string;

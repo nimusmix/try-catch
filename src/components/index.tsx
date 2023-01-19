@@ -8,20 +8,5 @@ import Paragraph from './font/Paragraph';
 import SubTitle from './font/SubTitle';
 import Title from './font/Title';
 import Input from './input/Input';
-import Li from './list/Li';
-import Ul from './list/Ul';
 
-export {
-  Button,
-  Checkbox,
-  Div,
-  Dropdown,
-  MiniTitle,
-  Paragraph,
-  SubTitle,
-  Title,
-  Input,
-  Li,
-  Ul,
-  TopButton,
-};
+export { Button, Checkbox, Div, Dropdown, MiniTitle, Paragraph, SubTitle, Title, Input, TopButton };

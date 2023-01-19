@@ -3,7 +3,6 @@ import { Button, Checkbox, Div, TopButton } from '../../components';
 import SlideCheckbox from '../../components/checkbox/SlideCheckbox';
 import Modal from '../../components/modal/Modal';
 import TooltipBox from '../../components/tooltip-box/TooltipBox';
-
 import Layout from '../../layout/Layout';
 
 const LandingPage = () => {

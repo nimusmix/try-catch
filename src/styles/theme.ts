@@ -9,6 +9,7 @@ const darkTheme: DefaultTheme = {
   textColor100: 'var(--colors-white-100)',
   whiteColor: 'var(--colors-white-500)',
   borderColor: 'var(--colors-black-100)',
+  boxShadowLarge: 'var(--shadows-brand-xl)',
 
   // 시맨틱 컬러
   brandColor: 'var(--colors-brand-500)',
@@ -23,12 +24,13 @@ const darkTheme: DefaultTheme = {
 const lightTheme: DefaultTheme = {
   // 전역 설정 컬러
   bgColor: 'var(--colors-white-500)',
-  navColor: 'var(--colors-white-400)',
+  navColor: '#ffffff',
   textColor: 'var(--colors-black-500)',
   textColor300: 'var(--colors-black-300)',
   textColor100: 'var(--colors-black-100)',
   whiteColor: 'var(--colors-white-500)',
   borderColor: 'var(--colors-white-100)',
+  boxShadowLarge: 'var(--shadows-black-sm)',
 
   // 시맨틱 컬러
   brandColor: 'var(--colors-brand-500)',
