@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Button, Checkbox, Div, MiniTitle, Paragraph, SubTitle, Title } from '../../components';
+import Modal from '../../components/modal/Modal';
 import Layout from '../../layout/Layout';
 
 const LandingPage = () => {
   const [checked, setChecked] = useState(false);
+  const [modalOpened, setModalOpened] = useState(false);
   return (
     <Layout>
       <Title color="red">123</Title>
@@ -27,6 +29,7 @@ const LandingPage = () => {
       </div>
       <Button>ㅎㅇㅎㅇ버튼임</Button>
       <Div>Div임</Div>
+      <Modal onClose={setModalOpened}>모달 성공 기원..</Modal>
     </Layout>
   );
 };
