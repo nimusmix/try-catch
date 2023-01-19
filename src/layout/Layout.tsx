@@ -8,7 +8,14 @@ export interface ILayoutProps {
 const Main = styled.main`
   background-color: ${({ theme: { bgColor } }) => bgColor};
   max-width: var(--breakpoints-desktop);
+  min-width: var(--breakpoints-desktop);
   margin: 0 auto;
+  padding-top: 3rem;
+  height: 100vh;
+
+  @media (max-width: 768px) {
+    min-width: auto;
+  }
 `;
 
 const Layout = ({ children }: ILayoutProps) => {
