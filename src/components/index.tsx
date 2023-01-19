@@ -8,8 +8,6 @@ import Paragraph from './font/Paragraph';
 import SubTitle from './font/SubTitle';
 import Title from './font/Title';
 import Input from './input/Input';
-import Li from './list/Li';
-import Ul from './list/Ul';
 import Slideshow from './carousel/MainCarousel';
 
 export {
@@ -22,8 +20,6 @@ export {
   SubTitle,
   Title,
   Input,
-  Li,
-  Ul,
   TopButton,
   Slideshow,
 };

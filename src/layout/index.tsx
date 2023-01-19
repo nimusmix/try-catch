@@ -1,3 +1,4 @@
-import Header from './Header';
+import { Header, MemberNavMenu, Navigation, NavMenu, NonMemberNavMenu } from './header';
+import Layout from './Layout';
 
-export { Header };
+export { Header, Navigation, NavMenu, MemberNavMenu, NonMemberNavMenu, Layout };
