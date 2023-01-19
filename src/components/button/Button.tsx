@@ -129,6 +129,10 @@ const Button = ({
 
 Button.defaultProps = {
   designType: 'blueFill',
+  onClick: () => {},
+  fontSize: `var(--fonts-body-base)`,
+  padding: '0.25rem 0.8rem',
+  borderRadius: `var(--borders-radius-base)`,
 };
 
 export default Button;
