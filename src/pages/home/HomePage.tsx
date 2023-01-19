@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, Dropdown, Input, TopButton } from '../../components';
+import { Button, Dropdown, Input, Slideshow, TopButton } from '../../components';
 import Layout from '../../layout/Layout';
 
 const Container = styled.div`
@@ -22,10 +22,16 @@ const Options = [
   { value: 2, text: 'Mail' },
 ];
 
+const colors: { id: number; bgcolor: string }[] = [
+  { id: 0, bgcolor: '#0088FE' },
+  { id: 1, bgcolor: '#00C49F' },
+  { id: 2, bgcolor: '#FFBB28' },
+];
 const HomePage = () => {
   return (
     <Layout>
       HomePage
+      <Slideshow items={colors} />
       <Button designType="greenFill">ㅎㅇㅎㅇ버튼임</Button>
       <Container>
         <Input placeholder="Search..." />

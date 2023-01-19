@@ -10,6 +10,7 @@ import Title from './font/Title';
 import Input from './input/Input';
 import Li from './list/Li';
 import Ul from './list/Ul';
+import Slideshow from './carousel/MainCarousel';
 
 export {
   Button,
@@ -24,4 +25,5 @@ export {
   Li,
   Ul,
   TopButton,
+  Slideshow,
 };
