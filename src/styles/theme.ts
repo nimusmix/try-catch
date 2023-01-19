@@ -8,6 +8,7 @@ const darkTheme: DefaultTheme = {
   textColor300: 'var(--colors-white-300)',
   textColor100: 'var(--colors-white-100)',
   whiteColor: 'var(--colors-white-500)',
+  borderColor: 'var(--colors-black-100)',
 
   // 시맨틱 컬러
   brandColor: 'var(--colors-brand-500)',
@@ -27,6 +28,7 @@ const lightTheme: DefaultTheme = {
   textColor300: 'var(--colors-black-300)',
   textColor100: 'var(--colors-black-100)',
   whiteColor: 'var(--colors-white-500)',
+  borderColor: 'var(--colors-white-100)',
 
   // 시맨틱 컬러
   brandColor: 'var(--colors-brand-500)',

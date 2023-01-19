@@ -130,7 +130,7 @@ Button.defaultProps = {
   designType: 'blueFill',
   onClick: () => {},
   fontSize: `var(--fonts-body-base)`,
-  padding: '0.25rem 0.5rem 0.25rem 0.5rem',
+  padding: '0.25rem 0.8rem',
   borderRadius: `var(--borders-radius-base)`,
 };
 
