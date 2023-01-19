@@ -1,5 +1,5 @@
 const QnaNavbar = () => {
-  return <div>QnaNavbar</div>;
+  return <aside>QnaNavbar</aside>;
 };
 
 export default QnaNavbar;
