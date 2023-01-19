@@ -5,7 +5,8 @@ interface IHeaderProps {
 }
 
 const StyledHeader = styled.header`
-  margin-bottom: 3rem;
+  position: relative;
+  z-index: 10;
 `;
 
 const Header = ({ children }: IHeaderProps) => {
