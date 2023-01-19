@@ -2,6 +2,11 @@ import styled from 'styled-components';
 import MiniTitle from '../font/MiniTitle';
 import Paragraph from '../font/Paragraph';
 
+interface ITooltipBoxProps {
+  title: string;
+  content: string;
+}
+
 const StyledTooltipBox = styled.div`
   position: relative;
   background-color: var(--colors-brand-100);
@@ -28,7 +33,7 @@ const StyledTooltipBox = styled.div`
   }
 `;
 
-const TooltipBox = () => {
+const TooltipBox = ({ title, content }: ITooltipBoxProps) => {
   return (
     <StyledTooltipBox>
       <MiniTitle
@@ -37,11 +42,10 @@ const TooltipBox = () => {
         textAlign="left"
         margin="0 0 0.5rem 0"
       >
-        ❗ 테스트
+        {title}
       </MiniTitle>
       <Paragraph sizeType="base" color="var(--colors-black-100)">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci laborum repellendus
-        officiis ea accusantium dolorum cupiditate quam hic
+        {content}
       </Paragraph>
     </StyledTooltipBox>
   );

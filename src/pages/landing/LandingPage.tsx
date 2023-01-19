@@ -11,7 +11,7 @@ const LandingPage = () => {
   const [modalOpened, setModalOpened] = useState(false);
   return (
     <Layout>
-      <TooltipBox />
+      <TooltipBox title="하이" content="굿굿" />
       <div>
         <Checkbox label="123" checked={checked} onChange={(e) => setChecked(e.target.checked)} />
         <p>CheckBox is {checked ? '체크됨' : '체크안됨'}</p>
