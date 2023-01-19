@@ -21,8 +21,8 @@ const colors: { id: number; bgColor: string; children: React.ReactNode }[] = [
           display: 'flex',
           alignItems: 'center',
           padding: '0 1.25rem 1.875rem 3.75rem',
-          fontSize: 'var(--fonts-desktop-heading-2xl)',
-          lineHeight: 'var(--lineHights-desktop-heading-2xl)',
+          // fontSize: 'var(--fonts-desktop-heading-2xl)',
+          // lineHeight: 'var(--lineHights-desktop-heading-2xl)',
         }}
       >
         트라이 캐치가 분석한 2022 기술 동향레포트
