@@ -9,6 +9,7 @@ import {
   Title,
   TopButton,
 } from '../../components';
+import SlideCheckbox from '../../components/checkbox/SlideCheckbox';
 import Layout from '../../layout/Layout';
 
 const LandingPage = () => {
@@ -32,6 +33,14 @@ const LandingPage = () => {
       </Paragraph>
       <div>
         <Checkbox label="123" checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+        <p>CheckBox is {checked ? '체크됨' : '체크안됨'}</p>
+      </div>
+      <div>
+        <SlideCheckbox
+          label="123"
+          checked={checked}
+          onChange={(e) => setChecked(e.target.checked)}
+        />
         <p>CheckBox is {checked ? '체크됨' : '체크안됨'}</p>
       </div>
       <Button>ㅎㅇㅎㅇ버튼임</Button>
