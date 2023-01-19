@@ -1,6 +1,26 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
+export type TDesignType =
+  | 'blueFill'
+  | 'blueEmpty'
+  | 'skyFill'
+  | 'purpleFill'
+  | 'purpleEmpty'
+  | 'greenFill'
+  | 'greenEmpty'
+  | 'grayFill'
+  | 'grayEmpty';
+
+interface IButtonProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+  designType?: TDesignType;
+  fontSize?: string;
+  padding?: string;
+  borderRadius?: string;
+}
+
 const designList = {
   blueFill: css`
     background-color: var(--colors-brand-500);
@@ -78,26 +98,6 @@ const designList = {
     }
   `,
 };
-
-export type TDesignType =
-  | 'blueFill'
-  | 'blueEmpty'
-  | 'skyFill'
-  | 'purpleFill'
-  | 'purpleEmpty'
-  | 'greenFill'
-  | 'greenEmpty'
-  | 'grayFill'
-  | 'grayEmpty';
-
-interface IButtonProps {
-  children: React.ReactNode;
-  onClick?: () => void;
-  designType?: TDesignType;
-  fontSize?: string;
-  padding?: string;
-  borderRadius?: string;
-}
 
 const StyledButton = styled.button<IButtonProps>`
   ${({ designType }) => designType && designList[designType]};
