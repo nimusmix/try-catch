@@ -1,6 +1,16 @@
 import { useState } from 'react';
-import { Button, Checkbox, Div, MiniTitle, Paragraph, SubTitle, Title } from '../../components';
-import Modal from '../../components/modal/Modal';
+import {
+  Button,
+  Checkbox,
+  Div,
+  MiniTitle,
+  Paragraph,
+  SubTitle,
+  Title,
+  TopButton,
+} from '../../components';
+import SlideCheckbox from '../../components/checkbox/SlideCheckbox';
+
 import Layout from '../../layout/Layout';
 
 const LandingPage = () => {
@@ -27,11 +37,19 @@ const LandingPage = () => {
         <Checkbox label="123" checked={checked} onChange={(e) => setChecked(e.target.checked)} />
         <p>CheckBox is {checked ? '체크됨' : '체크안됨'}</p>
       </div>
-      <Button>ㅎㅇㅎㅇ버튼임</Button>
+      <div>
+        <SlideCheckbox
+          label="123"
+          checked={checked}
+          onChange={(e) => setChecked(e.target.checked)}
+        />
+        <p>CheckBox is {checked ? '체크됨' : '체크안됨'}</p>
+      </div>
+      <Button designType="greenFill">ㅎㅇㅎㅇ버튼임</Button>
       <Div>Div임</Div>
-
       <Button onClick={() => setModalOpened((prev) => !prev)}>모달 버튼</Button>
       {modalOpened && <Modal onClose={setModalOpened}>모달 성공 기원..</Modal>}
+      <TopButton />
     </Layout>
   );
 };

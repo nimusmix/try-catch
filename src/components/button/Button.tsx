@@ -90,18 +90,6 @@ export type TDesignType =
   | 'grayFill'
   | 'grayEmpty';
 
-const StyledButton = styled.button<{
-  designType?: TDesignType;
-  fontSize?: string;
-  padding?: string;
-  borderRadius?: string;
-}>`
-  ${({ designType }) => designType && designList[designType]};
-  font-size: ${({ fontSize }) => fontSize};
-  padding: ${({ padding }) => padding};
-  border-radius: ${({ borderRadius }) => borderRadius};
-`;
-
 interface IButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
@@ -110,6 +98,13 @@ interface IButtonProps {
   padding?: string;
   borderRadius?: string;
 }
+
+const StyledButton = styled.button<IButtonProps>`
+  ${({ designType }) => designType && designList[designType]};
+  font-size: ${({ fontSize }) => fontSize};
+  padding: ${({ padding }) => padding};
+  border-radius: ${({ borderRadius }) => borderRadius};
+`;
 
 const Button = ({
   children,
