@@ -43,7 +43,7 @@ const LandingPage = () => {
         />
         <p>CheckBox is {checked ? '체크됨' : '체크안됨'}</p>
       </div>
-      <Button>ㅎㅇㅎㅇ버튼임</Button>
+      <Button designType="greenFill">ㅎㅇㅎㅇ버튼임</Button>
       <Div>Div임</Div>
       <TopButton />
     </Layout>

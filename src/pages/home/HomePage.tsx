@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { TopButton, Input, Dropdown } from '../../components';
+import { Button, Dropdown, Input, TopButton } from '../../components';
 import Layout from '../../layout/Layout';
 
 const Container = styled.div`
@@ -25,6 +25,7 @@ const HomePage = () => {
   return (
     <Layout>
       HomePage
+      <Button designType="greenFill">ㅎㅇㅎㅇ버튼임</Button>
       <Container>
         <Input />
         <Dropdown items={Options} width="200px" />
