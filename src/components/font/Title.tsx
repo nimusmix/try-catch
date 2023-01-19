@@ -17,6 +17,7 @@ const Title = styled.h1<ITitleProps>`
 
   font-size: var(--fonts-desktop-heading-5xl);
   line-height: var(--lineHights-desktop-heading-5xl);
+  font-weight: 600;
 
   @media (max-width: 768px) {
     font-size: var(--fonts-mobile-heading-4xl);

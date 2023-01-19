@@ -45,5 +45,8 @@ module.exports = {
     'import/no-extraneous-dependencies': 0, // 테스트 또는 개발환경을 구성하는 파일에서는 devDependency 사용을 허용
     'jsx-a11y/no-noninteractive-element-interactions': 0, // 나중에 필요하다고 생각하면 제거
     'import/prefer-default-export': 'warn',
+    'react/prop-types': 'off', // Since we do not use prop-types
+    'react/require-default-props': 'off', // Since we do not use prop-types
+    'react/no-unused-prop-types': 'warn',
   },
 };
