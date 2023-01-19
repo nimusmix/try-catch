@@ -6,6 +6,7 @@ const Container = styled.div`
   width: 500px;
   margin: auto;
   text-align: center;
+  background-color: ${({ theme: { bgColor } }) => bgColor};
 `;
 
 const Box = styled.div`
@@ -27,8 +28,14 @@ const HomePage = () => {
       HomePage
       <Button designType="greenFill">ㅎㅇㅎㅇ버튼임</Button>
       <Container>
-        <Input />
-        <Dropdown items={Options} width="200px" />
+        <Input placeholder="Search..." />
+        <Input
+          placeholder="제목을 입력하세요..."
+          borderRadius="none"
+          border="none; border-bottom:1px solid;"
+          boxShadow="none"
+        />
+        <Dropdown items={Options} width="150px" />
         <Box />
         <Box />
         <Box />
