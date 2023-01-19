@@ -13,8 +13,9 @@ const Select = styled.select<Partial<IDropdownProps>>`
   padding-right: 24px;
   margin: 0;
   border-radius: 0.25rem;
-  background: var(--colors-white-500);
-  color: var(--colors-black-100);
+  border-color: ${({ theme: { borderColor } }) => borderColor};
+  background: ${({ theme: { bgColor } }) => bgColor};
+  color: ${({ theme: { textColor100 } }) => textColor100}; //var(--colors-black-100);
   outline: none;
   display: inline-block;
   appearance: none;
@@ -26,9 +27,10 @@ const Label = styled.label<Partial<IDropdownProps>>`
 
   :after {
     border-bottom: ${({ border }) => border};
+    border-bottom-color: ${({ theme: { borderColor } }) => borderColor};
     content: '>';
     font: 11px 'Consolas', monospace;
-    color: var(--colors-white-100);
+    color: ${({ theme: { borderColor } }) => borderColor};
     -webkit-transform: rotate(90deg);
     -moz-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
@@ -45,7 +47,7 @@ const Label = styled.label<Partial<IDropdownProps>>`
     top: 0px;
     width: 20px;
     height: 20px;
-    background: var(--colors-white-500);
+    background: ${({ theme: { bgColor } }) => bgColor};
     position: absolute;
     pointer-events: none;
     display: block;
@@ -74,7 +76,7 @@ const Dropdown = ({ items, border, width }: IDropdownProps) => {
 };
 
 Dropdown.defaultProps = {
-  border: `1px solid var(--colors-white-100)`,
+  border: `1px solid`,
   width: 'auto',
 };
 
