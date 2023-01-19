@@ -1,5 +1,14 @@
 import { useState } from 'react';
-import { Button, Checkbox, Div, MiniTitle, Paragraph, SubTitle, Title } from '../../components';
+import {
+  Button,
+  Checkbox,
+  Div,
+  MiniTitle,
+  Paragraph,
+  SubTitle,
+  Title,
+  TopButton,
+} from '../../components';
 import Layout from '../../layout/Layout';
 
 const LandingPage = () => {
@@ -27,6 +36,7 @@ const LandingPage = () => {
       </div>
       <Button>ㅎㅇㅎㅇ버튼임</Button>
       <Div>Div임</Div>
+      <TopButton />
     </Layout>
   );
 };

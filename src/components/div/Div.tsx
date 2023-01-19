@@ -1,21 +1,5 @@
 import styled from 'styled-components';
 
-const StyledDiv = styled.div<{
-  width?: string;
-  height?: string;
-  padding?: string;
-  bgColor?: string;
-  border?: string;
-  borderRadius?: string;
-}>`
-  width: ${({ width }) => width};
-  height: ${({ height }) => height};
-  padding: ${({ padding }) => padding};
-  background-color: ${({ bgColor }) => bgColor};
-  border: 0.8px ${({ border }) => border} solid;
-  border-radius: ${({ borderRadius }) => borderRadius};
-`;
-
 interface IDivProps {
   children: React.ReactNode;
   width?: string;
@@ -25,6 +9,15 @@ interface IDivProps {
   border?: string;
   borderRadius?: string;
 }
+
+const StyledDiv = styled.div<IDivProps>`
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  padding: ${({ padding }) => padding};
+  background-color: ${({ bgColor }) => bgColor};
+  border: 0.8px ${({ border }) => border} solid;
+  border-radius: ${({ borderRadius }) => borderRadius};
+`;
 
 const Div = ({ children, width, height, padding, bgColor, border, borderRadius }: IDivProps) => {
   return (
