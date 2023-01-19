@@ -1,3 +1,4 @@
+import React from 'react';
 import styled, { css } from 'styled-components';
 
 const designList = {
@@ -128,10 +129,6 @@ const Button = ({
 
 Button.defaultProps = {
   designType: 'blueFill',
-  onClick: () => {},
-  fontSize: `var(--fonts-body-base)`,
-  padding: '0.25rem 0.5rem 0.25rem 0.5rem',
-  borderRadius: `var(--borders-radius-base)`,
 };
 
 export default Button;
