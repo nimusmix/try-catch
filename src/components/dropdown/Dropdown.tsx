@@ -1,23 +1,31 @@
 import styled from 'styled-components';
 
-const Select = styled.select<{ border?: string }>`
+interface IDropdownProps {
+  items: { value: string | number; text: string }[];
+  border?: string;
+  width?: string;
+}
+
+const Select = styled.select<Partial<IDropdownProps>>`
+  border: ${({ border }) => border};
+  width: ${({ width }) => width};
   padding: 4px;
   padding-right: 24px;
   margin: 0;
   border-radius: 0.25rem;
   background: var(--colors-white-500);
   color: var(--colors-black-100);
-  border: ${({ border }) => border || '1px solid var(--colors-white-100)'};
   outline: none;
   display: inline-block;
   appearance: none;
   cursor: pointer;
 `;
 
-const Label = styled.label<{ border?: string }>`
+const Label = styled.label<Partial<IDropdownProps>>`
   position: relative;
 
   :after {
+    border-bottom: ${({ border }) => border};
     content: '>';
     font: 11px 'Consolas', monospace;
     color: var(--colors-white-100);
@@ -28,7 +36,6 @@ const Label = styled.label<{ border?: string }>`
     right: 8px;
     top: 2px;
     padding: 0 0 2px;
-    border-bottom: ${({ border }) => border || '1px solid var(--colors-white-100)'};
     position: absolute;
     pointer-events: none;
   }
@@ -45,16 +52,11 @@ const Label = styled.label<{ border?: string }>`
   }
 `;
 
-interface IDropdownProps {
-  items: any[];
-  border?: string;
-}
-
 // items.value === 0이면 추후 hidden
-const Dropdown = ({ items, border }: IDropdownProps) => {
+const Dropdown = ({ items, border, width }: IDropdownProps) => {
   return (
     <Label border={border}>
-      <Select border={border}>
+      <Select border={border} width={width}>
         {items.map((item) =>
           item.value === 0 ? (
             <option key={item.value} value={item.value} hidden>
@@ -73,6 +75,7 @@ const Dropdown = ({ items, border }: IDropdownProps) => {
 
 Dropdown.defaultProps = {
   border: `1px solid var(--colors-white-100)`,
+  width: 'auto',
 };
 
 export default Dropdown;
