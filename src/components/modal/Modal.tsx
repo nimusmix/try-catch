@@ -1,24 +1,16 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 
-interface IModalProps {
-  children: React.ReactNode;
-  onClose: any;
-}
-
-interface IBackDropProps {
-  onClose: any;
-}
-
 interface IStyledOverlay {
-  width?: string;
-  height?: string;
-  padding?: string;
-  onClick: React.MouseEventHandler<HTMLDivElement>;
+  children: React.ReactNode;
 }
 
-const StyledBackdrop = styled.div<IBackDropProps>`
+interface IModalProps {
+  onClose: (isClose: boolean) => void;
+}
+
+const StyledBackdrop = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -35,9 +27,10 @@ const StyledOverlay = styled.div<IStyledOverlay>`
   justify-content: center;
   align-items: center;
   background-color: ${({ theme }) => theme.bgColor};
-  width: ${({ width }) => width || '600px'};
-  height: ${({ height }) => height || '400px'};
-  padding: ${({ padding }) => padding || '1rem'};
+  color: ${({ theme: { textColor } }) => textColor};
+  width: 600px;
+  height: 400px;
+  padding: 1rem;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -48,23 +41,15 @@ const StyledOverlay = styled.div<IStyledOverlay>`
   overflow: hidden;
 `;
 
-const Backdrop = ({ onClose }: IBackDropProps) => {
-  return <StyledBackdrop onClick={() => onClose(false)} />;
-};
-
-const Overlay = ({ children, onClose }: IModalProps) => {
-  return <StyledOverlay onClick={() => onClose(false)}>{children}</StyledOverlay>;
-};
-
-const Modal = ({ children, onClose }: IModalProps) => {
+const Modal = ({ children, onClose }: IStyledOverlay & IModalProps) => {
   return (
     <>
       {ReactDOM.createPortal(
-        <Backdrop onClose={onClose} />,
+        <StyledBackdrop onClick={() => onClose(false)} />,
         document.getElementById('backdrop-root') as HTMLElement
       )}
       {ReactDOM.createPortal(
-        <Overlay onClose={onClose}>{children}</Overlay>,
+        <StyledOverlay>{children}</StyledOverlay>,
         document.getElementById('overlay-root') as HTMLElement
       )}
     </>

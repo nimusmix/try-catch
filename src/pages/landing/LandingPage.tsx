@@ -29,7 +29,9 @@ const LandingPage = () => {
       </div>
       <Button>ㅎㅇㅎㅇ버튼임</Button>
       <Div>Div임</Div>
-      <Modal onClose={setModalOpened}>모달 성공 기원..</Modal>
+
+      <Button onClick={() => setModalOpened((prev) => !prev)}>모달 버튼</Button>
+      {modalOpened && <Modal onClose={setModalOpened}>모달 성공 기원..</Modal>}
     </Layout>
   );
 };
