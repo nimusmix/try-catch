@@ -11,7 +11,6 @@ const Main = styled.main`
   min-width: var(--breakpoints-desktop);
   margin: 0 auto;
   padding-top: 3rem;
-  height: 100vh;
 
   @media (max-width: 768px) {
     min-width: auto;
