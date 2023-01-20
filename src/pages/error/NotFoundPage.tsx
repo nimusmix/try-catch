@@ -5,8 +5,10 @@ import { ReactComponent as Bug } from '../../assets/bug.svg';
 import { Button, SubTitle } from '../../components';
 import { darkTheme, lightTheme } from '../../styles/theme';
 import { isDarkState } from '../../recoil';
+import AnimationLoader from '../../components/animation/AnimationLoader';
 
 const Main = styled.main`
+  position: relative;
   background-color: ${({ theme }) => theme.bgColor};
   display: flex;
   flex-direction: column;
@@ -14,6 +16,10 @@ const Main = styled.main`
   align-items: center;
   margin: 0 auto;
   height: 100vh;
+  z-index: 1;
+  text-shadow: ${({ theme: { isDark } }) => {
+    return isDark ? 'var(--colors-brand-500) 1px 0 10px' : 'var(--colors-black-100) 1px 0 10px';
+  }};
 `;
 
 const Span = styled.span`
@@ -28,10 +34,22 @@ const Header = styled.div`
   align-items: center;
 `;
 
+const Back = styled.div`
+  position: absolute;
+  background-color: ${({ theme: { isDark } }) =>
+    isDark ? 'var(--colors-brand-500)' : 'var(--colors-black-300)'};
+  filter: blur(2rem);
+  width: 40px;
+  height: 60px;
+`;
+
 const H3 = styled.h3`
-  color: ${({ theme: isDark }) => (isDark ? 'var(--colors-white-100)' : 'var(--colors-white-200)')};
+  color: ${({ theme: { isDark } }) => {
+    return isDark ? 'var(--colors-white-300)' : 'var(--colors-black-400)';
+  }};
   text-align: center;
   margin-bottom: 2rem;
+  font-weight: 600;
 `;
 
 const ButtonWrapper = styled.div`
@@ -48,9 +66,12 @@ const NotFound = () => {
   return (
     <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
       <Main>
+        <AnimationLoader name="test" path="src/assets/cat-ch-404.json" width="" height="" />
         <Header>
           <Span>4</Span>
+
           <Bug width="55px" height="70px" />
+          <Back />
           <Span>4</Span>
         </Header>
         <SubTitle margin="2rem 0">요청하신 페이지를 찾을 수 없습니다.</SubTitle>
