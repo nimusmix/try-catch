@@ -1,11 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import animationData from '../../assets/cat-ch-404.json';
 
 export interface AnimationLoaderProps {
-  name: string;
-  path: string;
-  width: string;
-  height: string;
+  width?: string;
+  height?: string;
 }
 
 const Container = styled.div`
@@ -17,17 +16,17 @@ const Container = styled.div`
   bottom: 0;
   z-index: -1;
 `;
-const AnimationLoader = ({ name, path }: AnimationLoaderProps) => {
+const AnimationLoader = ({ width, height }: AnimationLoaderProps) => {
   const container = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     import('lottie-web').then((Lottie) => {
       (Lottie as any).loadAnimation({
         container: container.current,
-        path,
-        name,
         renderer: 'svg',
         autoplay: true,
+        loop: true,
+        animationData,
       });
     });
 
@@ -36,7 +35,7 @@ const AnimationLoader = ({ name, path }: AnimationLoaderProps) => {
         (Lottie as any).destroy();
       });
     };
-  }, [path, name]);
+  }, []);
 
   return <Container ref={container} />;
 };

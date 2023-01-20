@@ -1,11 +1,11 @@
 import styled, { ThemeProvider } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { Player } from '@lottiefiles/react-lottie-player';
 import { ReactComponent as Bug } from '../../assets/bug.svg';
 import { Button, SubTitle } from '../../components';
 import { darkTheme, lightTheme } from '../../styles/theme';
 import { isDarkState } from '../../recoil';
+import AnimationLoader from '../../components/animation/AnimationLoader';
 
 const Main = styled.main`
   position: relative;
@@ -66,21 +66,7 @@ const NotFound = () => {
   return (
     <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
       <Main>
-        <Player
-          src="src/assets/cat-ch-404.json"
-          className="player"
-          loop
-          autoplay
-          style={{
-            opacity: 0.4,
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            zIndex: -1,
-          }}
-        />
+        <AnimationLoader />
         <Header>
           <Span>4</Span>
           <Bug width="55px" height="70px" />
