@@ -48,5 +48,6 @@ module.exports = {
     'react/prop-types': 'off', // Since we do not use prop-types
     'react/require-default-props': 'off', // Since we do not use prop-types
     'react/no-unused-prop-types': 'warn',
+    'import/no-cycle': 'warn'
   },
 };
