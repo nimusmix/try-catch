@@ -7,6 +7,7 @@ const ROADMAP_PAGE_NAME = 'roadmap';
 const BOOKMARK_PAGE_NAME = 'bookmark';
 const PROFILE_PAGE_NAME = 'profile';
 const SETTINGS_PAGE_NAME = 'settings';
+const ERROR_PAGE_NAME = 'error';
 
 // toast
 const TOAST_TIMEOUT = 3000;
@@ -20,5 +21,6 @@ export {
   BOOKMARK_PAGE_NAME,
   PROFILE_PAGE_NAME,
   SETTINGS_PAGE_NAME,
+  ERROR_PAGE_NAME,
   TOAST_TIMEOUT,
 };

@@ -1,5 +1,7 @@
+import { Outlet } from 'react-router-dom';
+
 const Error = () => {
-  return <div>Error</div>;
+  return <Outlet />;
 };
 
 export default Error;
