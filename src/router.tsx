@@ -3,6 +3,7 @@ import App from './App';
 import {
   BOOKMARK_PAGE_NAME,
   CHALLENGES_PAGE_NAME,
+  ERROR_PAGE_NAME,
   FEED_PAGE_NAME,
   HOME_PAGE_NAME,
   PROFILE_PAGE_NAME,
@@ -33,13 +34,14 @@ import {
   UserProfilePage,
 } from './pages';
 import { Bookmark, Challenges, Error, Feed, Home, Profile, QnA, Roadmap, Settings } from './routes';
+import NotFound from './pages/error/NotFoundPage';
 
 const router = createBrowserRouter([
   {
     // 랜딩 페이지
     path: '/',
     element: <App />,
-    errorElement: <Error />,
+    errorElement: <NotFound />,
     children: [
       {
         index: true,
@@ -188,6 +190,17 @@ const router = createBrowserRouter([
           {
             path: 'customer-service',
             element: <CustomerServicePage />,
+          },
+        ],
+      },
+      {
+        path: `/${ERROR_PAGE_NAME}`,
+        element: <Error />,
+        children: [
+          {
+            index: true,
+            path: '',
+            element: <NotFound />,
           },
         ],
       },
