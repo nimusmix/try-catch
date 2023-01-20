@@ -4,6 +4,7 @@ export interface ITitleProps {
   margin?: string;
   padding?: string;
   color?: string;
+  fontWeight?: string;
   display?: 'block' | 'inline-block' | 'inline-flex' | 'inline';
   textAlign?: 'left' | 'right' | 'center' | 'justify' | 'inherit';
 }
@@ -17,7 +18,7 @@ const Title = styled.h1<ITitleProps>`
 
   font-size: var(--fonts-desktop-heading-5xl);
   line-height: var(--lineHights-desktop-heading-5xl);
-  font-weight: 600;
+  font-weight: ${({ fontWeight }) => fontWeight || '600'};
 
   @media (max-width: 768px) {
     font-size: var(--fonts-mobile-heading-4xl);

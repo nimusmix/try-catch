@@ -27,7 +27,7 @@ const Item = styled.li`
   height: 40px;
   border-radius: var(--borders-radius-base);
   cursor: pointer;
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
   transition: color, background-color 0.1s ease-in;
 
   &.active,

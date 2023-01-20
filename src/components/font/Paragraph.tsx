@@ -7,6 +7,7 @@ interface IParagraphProps {
   margin?: string;
   padding?: string;
   color?: string;
+  fontWeight?: string;
   display?: 'block' | 'inline-block' | 'inline-flex' | 'inline';
   textAlign?: 'left' | 'right' | 'center' | 'justify' | 'inherit';
 }
@@ -35,10 +36,10 @@ const sizeList = {
 const Paragraph = styled.p<IParagraphProps>`
   display: ${({ display }) => display || 'block'};
   text-align: ${({ textAlign }) => textAlign || 'left'};
-
   margin: ${({ margin }) => margin || 0};
   padding: ${({ padding }) => padding || 0};
   color: ${({ theme: { textColor }, color }) => color || textColor || `var(--colors-black-500)`};
+  font-weight: ${({ fontWeight }) => fontWeight || '400'};
 
   ${({ sizeType }) => sizeType && sizeList[sizeType]}
 `;
