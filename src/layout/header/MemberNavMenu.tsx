@@ -1,4 +1,3 @@
-import React from 'react';
 import { BsBellFill } from 'react-icons/bs';
 import { RxBookmarkFilled } from 'react-icons/rx';
 import { FaUserCircle } from 'react-icons/fa';
