@@ -31,6 +31,7 @@ const NavItem = styled(NavLink)`
   justify-content: center;
   align-items: center;
   color: ${({ theme }) => theme.textColor};
+  font-weight: 500;
   height: 100%;
   width: 80%;
   padding: 0.4rem;
@@ -38,11 +39,12 @@ const NavItem = styled(NavLink)`
   margin-right: 1rem;
   &:hover {
     color: ${({ theme }) => theme.brandColor};
+    font-weight: 600;
   }
   &.active {
     color: ${({ theme }) => theme.brandColor};
     border-bottom: 2px ${({ theme }) => theme.brandColor} solid;
-    // font-weight 추가하기!!
+    font-weight: 600;
   }
 `;
 
