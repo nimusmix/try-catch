@@ -1,7 +1,7 @@
 import { createRef, useState } from 'react';
 import Layout from '../../layout/Layout';
 import { SubTitle } from '../../components';
-import { QnaNavbar, QnaSearchBar } from '../../feature/qna';
+import { QnaNavbar } from '../../feature/qna';
 
 const QnaPage = () => {
   const [activeNavOption, setActiveNavOption] = useState<string | null>('개발');
@@ -26,9 +26,6 @@ const QnaPage = () => {
           handleNavOptionClick={handleNavOptionClick}
         />
       </aside>
-      <main>
-        <QnaSearchBar />
-      </main>
     </Layout>
   );
 };
