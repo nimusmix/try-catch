@@ -8,7 +8,7 @@ interface IDivProps {
   padding?: string;
 }
 
-const StyledDiv = styled.div<Partial<IDivProps>>`
+export const StyledDiv = styled.div<Partial<IDivProps>>`
   width: ${({ width }) => width};
   height: ${({ height }) => height};
   padding: ${({ padding }) => padding || '1rem'};
