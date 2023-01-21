@@ -30,7 +30,7 @@ const Input = styled.input<IInputProps>`
 
   :focus {
     outline: none;
-    box-shadow: ${({ boxShadow }) => boxShadow || 'var(--shadows-black-lg)'};
+    box-shadow: ${({ boxShadow }) => boxShadow || 'none'};
   }
   ::placeholder {
     color: ${({ theme: { borderColor } }) => borderColor};
