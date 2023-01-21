@@ -17,13 +17,14 @@ const SearchIcon = styled.div`
 `;
 
 const StyledSearchBar = styled.div`
-  width: 36.25rem;
+  /* width: 36.25rem; */
+  width: 36.5rem;
   height: 2.5rem;
   border-radius: 0.375rem;
   border-width: 0.0625rem;
   border-color: ${({ theme: { borderColor } }) => borderColor};
   position: relative;
-  margin: 0 auto;
+  margin: 0 auto 0 0;
 `;
 
 const StyledSearch = styled.div`
@@ -60,7 +61,11 @@ const QnaSearchBar = () => {
             ref={ref}
           />
         </StyledSearchBar>
-        <Button fontSize="var(--fonts-mobile-heading-xl)" onClick={handleClick}>
+        <Button
+          fontSize="var(--fonts-mobile-heading-lg)"
+          onClick={handleClick}
+          padding="0.25rem 1.125rem"
+        >
           검색
         </Button>
       </StyledSearch>

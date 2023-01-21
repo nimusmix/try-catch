@@ -30,29 +30,27 @@ const QnaPopularTag = ({ tags }: IQnaPopularTag) => {
   const handleClick = () => {};
   // /search?type=qna&keyword=&page=&size&
   return (
-    <div>
-      <QnaPopularTagWrapper padding="1.25rem 1.625rem">
-        <QnaPopularTagTitle sizeType="xl" textAlign="left">
-          인기 태그
-        </QnaPopularTagTitle>
-        <TagsWrapper>
-          {tags.map(({ id, tagName }: ITag) => (
-            <StyledButton
-              key={id}
-              as="span"
-              designType="grayFill"
-              fontSize="var(--fonts-body-sm)"
-              padding="	0.125rem 0.5rem"
-              borderRadius="var(--borders-radius-base)"
-              style={{ marginBottom: '0.5rem', fontWeight: '500' }}
-              onClick={handleClick}
-            >
-              {tagName}
-            </StyledButton>
-          ))}
-        </TagsWrapper>
-      </QnaPopularTagWrapper>
-    </div>
+    <QnaPopularTagWrapper padding="1.25rem 1.625rem">
+      <QnaPopularTagTitle sizeType="xl" textAlign="left">
+        인기 태그
+      </QnaPopularTagTitle>
+      <TagsWrapper>
+        {tags.map(({ id, tagName }: ITag) => (
+          <StyledButton
+            key={id}
+            as="span"
+            designType="grayFill"
+            fontSize="var(--fonts-body-sm)"
+            padding="	0.125rem 0.5rem"
+            borderRadius="var(--borders-radius-base)"
+            style={{ marginBottom: '0.5rem', fontWeight: '500' }}
+            onClick={handleClick}
+          >
+            {tagName}
+          </StyledButton>
+        ))}
+      </TagsWrapper>
+    </QnaPopularTagWrapper>
   );
 };
 
