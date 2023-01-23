@@ -39,6 +39,10 @@ const QuestionInfoWrapper = styled.div`
   align-items: center;
 `;
 
+const Text = styled(Paragraph)`
+  color: ${({ theme }) => theme.textColor100};
+`;
+
 const ProfileImg = styled.img`
   width: 1.2rem;
   height: 1.2rem;
@@ -105,25 +109,24 @@ const Question = () => {
           </UpperTag>
         )}
       </UpperTagWrapper>
-
       <MiniTitle sizeType="2xl" textAlign="left" margin="1rem 0 0.6rem 0" fontWeight="600">
         {MQuestion.title}
       </MiniTitle>
 
       <QuestionInfoWrapper>
         <ProfileImg src={MQuestion.author.image} />
-        <Paragraph sizeType="sm" margin="0 0.4rem 0 0.4rem">
+        <Text sizeType="sm" margin="0 0.4rem 0 0.4rem">
           {MQuestion.author.username}
-        </Paragraph>
+        </Text>
         <CompanyImg src={MQuestion.author.company} />
-        <Paragraph sizeType="xm" margin="0 0 0 1rem">
+        <Text sizeType="xm" margin="0 0 0 1rem" color="var(--colors-black-100)">
           {elapsedTime(MQuestion.timestamp)}
-        </Paragraph>
+        </Text>
       </QuestionInfoWrapper>
       <Line />
-      <Paragraph sizeType="base" color="var(--colors-black-100)">
+      <Text sizeType="base" color="var(--colors-black-100)">
         {MQuestion.content}
-      </Paragraph>
+      </Text>
     </QuestionDiv>
   );
 };
