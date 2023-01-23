@@ -26,7 +26,9 @@ const TagsWrapper = styled.div`
 `;
 
 const QnaPopularTag = ({ tags }: IQnaPopularTag) => {
-  const handleClick = () => {};
+  const handleClick = () => {
+    console.log('버튼 테스트');
+  };
   // /search?type=qna&keyword=&page=&size&
   return (
     <QnaPopularTagWrapper padding="1.25rem 1.625rem">
