@@ -1,12 +1,10 @@
 import Layout from '../../layout/Layout';
-import { Question } from '../../feature/qna';
 import { Title } from '../../components';
 
 const ChallengesPage = () => {
   return (
     <Layout>
-      <Title>Challenges Page</Title>
-      <Question />
+      <Title>챌린지 메인</Title>
     </Layout>
   );
 };
