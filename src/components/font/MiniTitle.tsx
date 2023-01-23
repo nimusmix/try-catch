@@ -37,7 +37,7 @@ const sizeList = {
 const MiniTitle = styled.h3<IMiniTitleProps>`
   display: ${({ display }) => display || 'block'};
   text-align: ${({ textAlign }) => textAlign || 'center'};
-  font-weight: 600;
+  font-weight: ${({ fontWeight }) => fontWeight || '500'};
   margin: ${({ margin }) => margin || 0};
   padding: ${({ padding }) => padding || 0};
   color: ${({ color, theme: { textColor } }) => color || textColor || `var(--colors-black-500)`};

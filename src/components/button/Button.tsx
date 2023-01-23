@@ -18,6 +18,7 @@ interface IButtonProps {
   designType?: TDesignType;
   fontSize?: string;
   padding?: string;
+  margin?: string;
   borderRadius?: string;
 }
 
@@ -101,9 +102,12 @@ const designList = {
 
 export const StyledButton = styled.button<IButtonProps>`
   ${({ designType }) => designType && designList[designType]};
-  font-size: ${({ fontSize }) => fontSize};
-  padding: ${({ padding }) => padding};
-  border-radius: ${({ borderRadius }) => borderRadius};
+  display: flex;
+  align-items: center;
+  font-size: ${({ fontSize }) => fontSize || 'var(--fonts-body-base)'};
+  padding: ${({ padding }) => padding || '0.25rem 0.8rem'};
+  margin: ${({ margin }) => margin};
+  border-radius: ${({ borderRadius }) => borderRadius || 'var(--borders-radius-base'};
   cursor: pointer;
 `;
 
@@ -113,6 +117,7 @@ const Button = ({
   designType,
   fontSize,
   padding,
+  margin,
   borderRadius,
 }: IButtonProps) => {
   return (
@@ -121,6 +126,7 @@ const Button = ({
       designType={designType}
       fontSize={fontSize}
       padding={padding}
+      margin={margin}
       borderRadius={borderRadius}
     >
       {children}
