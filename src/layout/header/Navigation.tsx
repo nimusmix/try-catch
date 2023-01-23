@@ -37,7 +37,6 @@ export const NavWrapper = styled.div`
 const Navigation = () => {
   const [isDark, setIsDark] = useRecoilState(isDarkState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
-
   return (
     <Header>
       <Nav>
@@ -49,10 +48,13 @@ const Navigation = () => {
             </NavLink>
           </Logo>
           <NavMenu />
+          {/* 임시 버튼 */}
           <button
             type="button"
             style={{ cursor: 'pointer' }}
-            onClick={() => setIsDark((prev: boolean) => !prev)}
+            onClick={() => {
+              return setIsDark((prev: boolean) => !prev);
+            }}
           >
             임시 테마버튼
           </button>

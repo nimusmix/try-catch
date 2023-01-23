@@ -18,6 +18,7 @@ import ThemeSettingsPage from './setting/ThemeSettingsPage';
 import AdvancedSettingsPage from './setting/AdvancedSettingsPage';
 import IntroducePage from './setting/IntroducePage';
 import CustomerServicePage from './setting/CustomerServicePage';
+import NotFoundPage from './error/NotFoundPage';
 
 export {
   LandingPage,
@@ -40,4 +41,5 @@ export {
   AdvancedSettingsPage,
   IntroducePage,
   CustomerServicePage,
+  NotFoundPage,
 };

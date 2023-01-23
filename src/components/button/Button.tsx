@@ -100,7 +100,7 @@ const designList = {
   `,
 };
 
-const StyledButton = styled.button<IButtonProps>`
+export const StyledButton = styled.button<IButtonProps>`
   ${({ designType }) => designType && designList[designType]};
   display: flex;
   align-items: center;
@@ -108,6 +108,7 @@ const StyledButton = styled.button<IButtonProps>`
   padding: ${({ padding }) => padding || '0.25rem 0.8rem'};
   margin: ${({ margin }) => margin};
   border-radius: ${({ borderRadius }) => borderRadius || 'var(--borders-radius-base'};
+  cursor: pointer;
 `;
 
 const Button = ({
@@ -131,6 +132,13 @@ const Button = ({
       {children}
     </StyledButton>
   );
+};
+
+Button.defaultProps = {
+  designType: 'blueFill',
+  fontSize: `var(--fonts-body-base)`,
+  padding: '0.25rem 0.8rem',
+  borderRadius: `var(--borders-radius-base)`,
 };
 
 export default Button;

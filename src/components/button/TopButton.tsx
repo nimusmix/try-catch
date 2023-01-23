@@ -16,7 +16,7 @@ const TopButton = () => {
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
-      if (window.pageYOffset > 300) {
+      if (window.scrollY > 300) {
         setShowButton(true);
       } else {
         setShowButton(false);
@@ -30,6 +30,7 @@ const TopButton = () => {
       top: 0,
       behavior: 'smooth', // for smoothly scrolling
     });
+    // window.location.href = '#root';
   };
 
   return (

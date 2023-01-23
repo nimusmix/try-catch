@@ -26,9 +26,11 @@ const StyledOverlay = styled.div<IStyledOverlay>`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${({ theme }) => theme.bgColor};
+  background-color: ${({ theme: { isDark } }) =>
+    isDark ? 'var(--colors-black-300)' : 'var(--colors-white-500)'};
   color: ${({ theme: { textColor } }) => textColor};
   width: 600px;
+
   height: 400px;
   padding: 1rem;
   top: 50%;
