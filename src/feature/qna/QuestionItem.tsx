@@ -3,8 +3,7 @@ import { useRecoilValue } from 'recoil';
 import { HiOutlineThumbUp } from 'react-icons/hi';
 import { BiComment } from 'react-icons/bi';
 import { AiOutlineEye } from 'react-icons/ai';
-import { MiniTitle, Paragraph } from '../../components';
-import { StyledButton } from '../../components/button/Button';
+import { Button, MiniTitle, Paragraph } from '../../components';
 import { isDarkState } from '../../recoil';
 import { IQuestionItemList, ITag } from './QuestionList';
 
@@ -82,7 +81,7 @@ const QuestionItem = ({
         </MiniTitle>
         <Paragraph
           as="span"
-          sizeType="xm"
+          sizeType="sm"
           color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
         >
           {timestamp}
@@ -101,7 +100,7 @@ const QuestionItem = ({
       <QuestionFooter>
         <TagsWrapper>
           {tags.map(({ id, tagName }: ITag) => (
-            <StyledButton
+            <Button
               key={id}
               as="span"
               designType="blueEmpty"
@@ -111,7 +110,7 @@ const QuestionItem = ({
               borderRadius="var(--borders-radius-base)"
             >
               {tagName}
-            </StyledButton>
+            </Button>
           ))}
         </TagsWrapper>
         <InfoWrapper>

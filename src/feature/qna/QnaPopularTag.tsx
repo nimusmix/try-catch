@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import { MiniTitle, Div } from '../../components';
+import { Button, MiniTitle, Div } from '../../components';
 
-import { StyledButton } from '../../components/button/Button';
 import { ITag } from './QuestionList';
 
 export interface IQnaPopularTag {
@@ -37,7 +36,7 @@ const QnaPopularTag = ({ tags }: IQnaPopularTag) => {
       </QnaPopularTagTitle>
       <TagsWrapper>
         {tags.map(({ id, tagName }: ITag) => (
-          <StyledButton
+          <Button
             key={id}
             as="span"
             designType="grayFill"
@@ -48,7 +47,7 @@ const QnaPopularTag = ({ tags }: IQnaPopularTag) => {
             onClick={handleClick}
           >
             {tagName}
-          </StyledButton>
+          </Button>
         ))}
       </TagsWrapper>
     </QnaPopularTagWrapper>
