@@ -28,6 +28,8 @@ const QuestionDiv = styled(Div)`
   display: flex;
   flex-direction: column;
   justify-content: start;
+  width: 820px;
+  padding: 2rem;
 `;
 
 const UpperWrapper = styled.div`
@@ -55,7 +57,7 @@ const QuestionInfoWrapper = styled.div`
   align-items: center;
 `;
 
-const Text = styled(Paragraph)`
+const SubText = styled(Paragraph)`
   color: ${({ theme }) => theme.textColor100};
 `;
 
@@ -115,7 +117,7 @@ const Question = () => {
   };
 
   return (
-    <QuestionDiv width="820px" padding="2rem">
+    <QuestionDiv>
       <UpperWrapper>
         <UpperTagWrapper>
           {/* 카테고리 */}
@@ -159,23 +161,23 @@ const Question = () => {
 
       <QuestionInfoWrapper>
         <ProfileImg src={MQuestion.author.image} />
-        <Text sizeType="sm" margin="0 0.4rem 0 0.4rem">
+        <SubText sizeType="sm" margin="0 0.2rem 0 0.3rem">
           {MQuestion.author.username}
-        </Text>
+        </SubText>
         <CompanyImg src={MQuestion.author.company} />
-        <Text sizeType="xm" margin="0 0 0 1rem" color="var(--colors-black-100)">
+        <SubText sizeType="xm" margin="0 0 0 1rem">
           {elapsedTime(MQuestion.timestamp)}
-        </Text>
+        </SubText>
       </QuestionInfoWrapper>
+
       <Line />
-      <Text sizeType="base" color="var(--colors-black-100)">
-        {MQuestion.content}
-      </Text>
+
+      <Paragraph sizeType="base">{MQuestion.content}</Paragraph>
 
       <Like>
         {MQuestion.isLiked && <AiFillLike />}
         {MQuestion.isLiked || <AiOutlineLike />}
-        <Text sizeType="xm">{MQuestion.likeCount}</Text>
+        <SubText sizeType="xm">{MQuestion.likeCount}</SubText>
       </Like>
     </QuestionDiv>
   );
