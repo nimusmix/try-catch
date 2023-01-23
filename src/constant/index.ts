@@ -12,6 +12,9 @@ const ERROR_PAGE_NAME = 'error';
 // toast
 const TOAST_TIMEOUT = 3000;
 
+// 캐러셀
+const CAROUSEL_DELAY = 2500;
+
 export {
   HOME_PAGE_NAME,
   QNA_PAGE_NAME,
@@ -23,4 +26,5 @@ export {
   SETTINGS_PAGE_NAME,
   ERROR_PAGE_NAME,
   TOAST_TIMEOUT,
+  CAROUSEL_DELAY,
 };

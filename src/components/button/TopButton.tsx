@@ -24,14 +24,28 @@ const TopButton = () => {
     });
   }, []);
 
-  // This function will scroll the window to the top
+  // // 1. timeout을 줘서 스크롤이 끝난 후 작동하게 하는 방법
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth', // for smoothly scrolling
-    });
-    // window.location.href = '#root';
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth', // for smoothly scrolling
+      });
+    }, 300);
   };
+
+  /**
+   * TODO 나중에 고쳐볼것
+   */
+  // // 2. IntersectionObserver 사용
+  // const scrollToTop = () => {
+  //   setTimeout(() => {
+  //     window.scrollTo({
+  //       top: 0,
+  //       behavior: 'smooth', // for smoothly scrolling
+  //     });
+  //   }, 350);
+  // };
 
   return (
     <div>

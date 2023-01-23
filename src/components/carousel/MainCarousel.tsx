@@ -1,14 +1,20 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { CAROUSEL_DELAY } from '../../constant';
 
+interface IItems {
+  id: number;
+  bgColor: string;
+  children: React.ReactNode;
+}
 interface ICarouselProps {
-  items: { id: number; bgColor: string; children: React.ReactNode }[];
+  items: Array<IItems>;
   active: string;
   bgColor: string;
   transform: string;
 }
 
-const colors: { id: number; bgColor: string; children: React.ReactNode }[] = [
+const colors: Array<IItems> = [
   {
     id: 0,
     bgColor: 'var(--colors-brand-100)',
@@ -32,8 +38,6 @@ const colors: { id: number; bgColor: string; children: React.ReactNode }[] = [
   { id: 1, bgColor: '#EAFDFC', children: <div>트라이 캐치2</div> },
   { id: 2, bgColor: '#EEF1FF', children: <div>트라이 캐치3</div> },
 ];
-
-const delay = 2500;
 
 const SlideshowWrapper = styled.div`
   margin: 0 auto;
@@ -67,7 +71,7 @@ const SlideshowDot = styled.div<Partial<ICarouselProps>>`
   border-radius: var(--borders-radius-round);
 
   cursor: pointer;
-  margin: 15px 7px 0px;
+  margin: 15px 7px 0;
 
   background-color: ${({ active }) =>
     active === 'active' ? 'var(--colors-brand-500)' : 'var(--colors-white-300)'};
@@ -75,25 +79,36 @@ const SlideshowDot = styled.div<Partial<ICarouselProps>>`
 
 const Slideshow = () => {
   const [index, setIndex] = useState(0);
+  const [scroll, setScroll] = useState(false);
+
   const timeoutRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  function resetTimeout() {
+  const resetTimeout = () => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-  }
+  };
 
   useEffect(() => {
-    resetTimeout();
+    const handleScroll = () => {
+      if (window.scrollY >= 300) {
+        setScroll(true);
+        resetTimeout();
+      } else {
+        setScroll(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
     timeoutRef.current = setTimeout(
       () => setIndex((prevIndex) => (prevIndex === colors.length - 1 ? 0 : prevIndex + 1)),
-      delay
+      CAROUSEL_DELAY
     );
-
     return () => {
+      window.removeEventListener('scroll', handleScroll); // clean up
       resetTimeout();
     };
-  }, [index]);
+  }, [index, scroll]);
 
   return (
     <SlideshowWrapper>
