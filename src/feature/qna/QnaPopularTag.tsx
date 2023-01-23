@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { MiniTitle } from '../../components';
 
 import { StyledButton } from '../../components/button/Button';
-import { StyledDiv } from '../../components/div/Div';
+import { Div } from '../../components/div/Div';
 import { ITag } from './QuestionList';
 
 export interface IQnaPopularTag {
