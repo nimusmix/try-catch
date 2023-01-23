@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
 import { Button, Div, Paragraph } from '../../components';
 
 interface IAnswerProps {
@@ -24,6 +25,12 @@ const AnswerDiv = styled(Div)`
   padding: 2rem;
 `;
 
+const UpperWraaper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const AuthorWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -32,7 +39,7 @@ const AuthorWrapper = styled.div`
 const UserInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 0.5rem;
+  margin-left: 0.725rem;
 `;
 
 const UserInfo = styled.div`
@@ -59,6 +66,26 @@ const SubText = styled(Paragraph)`
 
 const FollowButton = styled(Button)``;
 
+const Line = styled.div`
+  margin-top: 1rem;
+  margin-bottom: 1.6rem;
+  border-bottom: 0.8px ${({ theme }) => theme.borderColor} solid;
+`;
+
+const Like = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  margin-left: auto;
+  svg {
+    margin-right: 0.2rem;
+    color: ${({ theme }) => theme.textColor100};
+  }
+  p {
+    margin-top: 0.1rem;
+  }
+`;
+
 const Answer = () => {
   const MAnswer = {
     answerId: 1,
@@ -73,33 +100,40 @@ const Answer = () => {
       '에러 코드만 봤을 때는 뭐뭐가 설치가 안 된 것 같습니다. node_modules에 블라블라 확인 후 없다면 블라블라 설치해주시면 될 것 같습니다. 이것은 목업 데이터입니다. 데이터 받아오고 팔로우 연결이랑 블라블라 해야 합니다.',
     timestamp: 1974183600,
     likeCount: 21,
-    isLiked: false,
+    isLiked: true,
   };
 
   return (
     <AnswerDiv>
-      <AuthorWrapper>
-        <ProfileImg src={MAnswer.author.image} />
-        <UserInfoWrapper>
-          <UserInfo>
-            <Paragraph sizeType="base">{MAnswer.author.username}</Paragraph>
-            <CompanyImg src={MAnswer.author.company} />
-          </UserInfo>
-          {/* 내가 남긴 댓글일 경우 분기 필요 */}
-          <SubText sizeType="xm">
-            {MAnswer.author.isFollowed
-              ? '현재 팔로우하는 사용자입니다.'
-              : '현재 팔로우하지 않는 사용자입니다.'}
-          </SubText>
-        </UserInfoWrapper>
-      </AuthorWrapper>
-      {MAnswer.author.isFollowed && <Button>팔로잉</Button>}
-      {MAnswer.author.isFollowed || (
-        <FollowButton designType="blueEmpty" fontSize="14px">
-          팔로우
-        </FollowButton>
-      )}
+      <UpperWraaper>
+        <AuthorWrapper>
+          <ProfileImg src={MAnswer.author.image} />
+          <UserInfoWrapper>
+            <UserInfo>
+              <Paragraph sizeType="base">{MAnswer.author.username}</Paragraph>
+              <CompanyImg src={MAnswer.author.company} />
+            </UserInfo>
+            <SubText sizeType="xm">작성자가 다니는 회사 이름 받아올 수 있을까</SubText>
+          </UserInfoWrapper>
+        </AuthorWrapper>
+
+        {/* 팔로우 버튼 */}
+        {MAnswer.author.isFollowed && <Button>팔로잉</Button>}
+        {MAnswer.author.isFollowed || (
+          <FollowButton designType="blueEmpty" fontSize="14px">
+            팔로우
+          </FollowButton>
+        )}
+      </UpperWraaper>
+
+      <Line />
+
       <Paragraph sizeType="base">{MAnswer.content}</Paragraph>
+      <Like>
+        {MAnswer.isLiked && <AiFillLike />}
+        {MAnswer.isLiked || <AiOutlineLike />}
+        <SubText sizeType="xm">{MAnswer.likeCount}</SubText>
+      </Like>
     </AnswerDiv>
   );
 };
