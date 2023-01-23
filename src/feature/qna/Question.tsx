@@ -60,8 +60,8 @@ const Text = styled(Paragraph)`
 `;
 
 const ProfileImg = styled.img`
-  width: 1.2rem;
-  height: 1.2rem;
+  width: 1.25rem;
+  height: 1.25rem;
   border-radius: var(--borders-radius-round);
 `;
 
