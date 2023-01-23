@@ -99,6 +99,7 @@ const Answer = () => {
           팔로우
         </FollowButton>
       )}
+      <Paragraph sizeType="base">{MAnswer.content}</Paragraph>
     </AnswerDiv>
   );
 };
