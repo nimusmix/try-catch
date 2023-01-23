@@ -1,15 +1,14 @@
 import styled from 'styled-components';
-import { MiniTitle } from '../../components';
+import { MiniTitle, Div } from '../../components';
 
 import { StyledButton } from '../../components/button/Button';
-import { Div } from '../../components/div/Div';
 import { ITag } from './QuestionList';
 
 export interface IQnaPopularTag {
   tags: ITag[];
 }
 
-const QnaPopularTagWrapper = styled(StyledDiv)`
+const QnaPopularTagWrapper = styled(Div)`
   border-radius: 0.5rem;
 `;
 
