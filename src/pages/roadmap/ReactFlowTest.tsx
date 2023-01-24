@@ -41,10 +41,15 @@ const initialEdges = [{ id: 'a-b', source: 'a', target: 'b', type: 'step' }];
 // 사용자 정의
 const handleStyle = { left: 10 };
 
-const TextUpdaterNode = ({ data: any }) => {
-  const onChange = useCallback((evt: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(evt.target.value);
-  }, []);
+const TextUpdaterNode = ({ data }: any) => {
+  const onChange = useCallback(
+    (evt: React.ChangeEvent<HTMLInputElement>) => {
+      console.log(evt.target.value);
+      // eslint-disable-next-line no-param-reassign
+      data.label = evt.target.value;
+    },
+    [data]
+  );
 
   return (
     <>
