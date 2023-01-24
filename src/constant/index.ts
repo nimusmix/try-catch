@@ -15,6 +15,11 @@ const TOAST_TIMEOUT = 3000;
 // 캐러셀
 const CAROUSEL_DELAY = 2500;
 
+// 태그 인피니티 스크롤(랜딩 페이지)
+const DURATION = 15000;
+const ROWS = 5;
+const TAGS_PER_ROW = 8;
+
 export {
   HOME_PAGE_NAME,
   QNA_PAGE_NAME,
@@ -27,4 +32,7 @@ export {
   ERROR_PAGE_NAME,
   TOAST_TIMEOUT,
   CAROUSEL_DELAY,
+  DURATION,
+  ROWS,
+  TAGS_PER_ROW,
 };
