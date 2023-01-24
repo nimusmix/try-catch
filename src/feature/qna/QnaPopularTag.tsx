@@ -15,6 +15,7 @@ const QnaPopularTagTitle = styled(MiniTitle)`
   font-size: var(--fonts-body-base);
   line-height: var(--lineHights-body-base);
   margin-bottom: 1rem;
+  font-weight: 600;
 `;
 
 const TagsWrapper = styled.div`

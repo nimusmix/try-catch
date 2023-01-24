@@ -1,7 +1,7 @@
 import { createRef, useState } from 'react';
 import Layout from '../../layout/Layout';
 import { SubTitle } from '../../components';
-import { QnaNavbar, QnaPopularTag, QnaSearchBar } from '../../feature/qna';
+import { PopularQna, QnaNavbar, QnaPopularTag, QnaSearchBar } from '../../feature/qna';
 import QuestionList from '../../feature/qna/QuestionList';
 
 const QnaPage = () => {
@@ -46,6 +46,7 @@ const QnaPage = () => {
         </section>
         <aside style={{ margin: '0 1.5rem 0' }}>
           <QnaPopularTag tags={qnaPopularTags} />
+          <PopularQna />
         </aside>
       </section>
     </Layout>
