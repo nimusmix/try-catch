@@ -38,6 +38,8 @@ const SearchBarForm = styled.form`
   position: sticky;
   top: 3rem;
   background: ${({ theme: { bgColor } }) => bgColor};
+  opacity: 0.9;
+  backdrop-filter: blur(30px);
 `;
 
 const QnaSearchBar = () => {

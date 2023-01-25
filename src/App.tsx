@@ -11,7 +11,11 @@ const GlobalStyles = createGlobalStyle`
   #root {
     background-color: ${({ theme: { bgColor } }) => bgColor};
     color: ${({ theme: { textColor } }) => textColor};
-    width: 100vw;
+    min-width: var(--breakpoints-desktop);
+  }
+  
+  body {
+    background-color: ${({ theme: { bgColor } }) => bgColor};
   }
 `;
 

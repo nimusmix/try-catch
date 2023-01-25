@@ -18,8 +18,9 @@ const qnaPopularTags = [
   { id: 9, tagName: 'Aja Aja' },
 ];
 
-export const AsideSection = styled.section`
+export const QuestionPageBody = styled.section`
   display: flex;
+  max-width: var(--breakpoints-desktop);
 `;
 
 const Aside = styled.aside`
@@ -50,7 +51,7 @@ const QnaPage = () => {
           Q&A 게시판에 대한 설명이 들어갈 자리입니다.
         </Paragraph>
       </HeaderImage>
-      <AsideSection>
+      <QuestionPageBody>
         <Aside>
           <QnaNavbar
             ref={navigation}
@@ -66,7 +67,7 @@ const QnaPage = () => {
           <QnaPopularTag tags={qnaPopularTags} />
           <PopularQna />
         </Aside>
-      </AsideSection>
+      </QuestionPageBody>
     </Layout>
   );
 };

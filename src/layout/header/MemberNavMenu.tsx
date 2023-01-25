@@ -13,7 +13,7 @@ const Alert = styled.div``;
 
 const Bookmark = styled(NavLink)``;
 
-const Profile = styled.div`
+const ProfileLi = styled.li`
   display: flex;
   align-items: center;
   padding-right: 2rem;
@@ -44,28 +44,25 @@ const Li = styled.li`
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
   return (
-    <>
-      <Ul>
-        <Li>
-          <Alert>
-            <BsBellFill
-              color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-              size="20"
-            />
-          </Alert>
-        </Li>
+    <Ul>
+      <Li>
+        <Alert>
+          <BsBellFill
+            color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
+            size="20"
+          />
+        </Alert>
+      </Li>
 
-        <Li>
-          <Bookmark to={`/${BOOKMARK_PAGE_NAME}`}>
-            <RxBookmarkFilled
-              color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-              size="24"
-            />
-          </Bookmark>
-        </Li>
-      </Ul>
-
-      <Profile>
+      <Li>
+        <Bookmark to={`/${BOOKMARK_PAGE_NAME}`}>
+          <RxBookmarkFilled
+            color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
+            size="24"
+          />
+        </Bookmark>
+      </Li>
+      <ProfileLi>
         <FaUserCircle
           color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
           size="24"
@@ -77,8 +74,8 @@ const MemberNavMenu = () => {
         >
           username
         </Paragraph>
-      </Profile>
-    </>
+      </ProfileLi>
+    </Ul>
   );
 };
 

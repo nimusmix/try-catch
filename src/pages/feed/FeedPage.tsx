@@ -2,7 +2,7 @@ import { HeaderImage, Layout } from '../../layout';
 import { Paragraph, SubTitle } from '../../components';
 import { header_feed } from '../../assets';
 import { FeedSearchBar, FeedTag } from '../../feature/feed';
-import { AsideSection } from '../qna/QnaPage';
+import { QuestionPageBody as FeedPageBody } from '../qna/QnaPage';
 
 const FeedTags = [
   { id: 1, tagName: 'react' },
@@ -27,7 +27,7 @@ const FeedPage = () => {
           Feed 게시판에 대한 설명이 들어갈 자리입니다.
         </Paragraph>
       </HeaderImage>
-      <AsideSection>
+      <FeedPageBody>
         <aside style={{ margin: '0 1.5rem 0', width: '17.75rem' }}>
           <FeedSearchBar />
           <FeedTag tags={FeedTags} />
@@ -35,7 +35,7 @@ const FeedPage = () => {
         <section style={{ margin: '0 1.5rem 0' }}>
           <div>리스트 아이템</div>
         </section>
-      </AsideSection>
+      </FeedPageBody>
     </Layout>
   );
 };
