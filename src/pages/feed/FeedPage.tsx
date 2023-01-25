@@ -1,7 +1,7 @@
 import { HeaderImage, Layout } from '../../layout';
 import { SubTitle, Paragraph } from '../../components';
 import { header_feed } from '../../assets';
-import { FeedSearchBar, FeedTag } from '../../feature/feed';
+import { FeedList, FeedSearchBar, FeedTag } from '../../feature/feed';
 
 const FeedTags = [
   { id: 1, tagName: 'react' },
@@ -32,7 +32,7 @@ const FeedPage = () => {
           <FeedTag tags={FeedTags} />
         </aside>
         <section style={{ margin: '0 1.5rem 0' }}>
-          <div>리스트 아이템</div>
+          <FeedList />
         </section>
       </section>
     </Layout>
