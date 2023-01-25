@@ -14,11 +14,15 @@ const HeaderImage = styled.div<IHeaderImageProps>`
   background-image: url(${({ image }) => image});
   background-repeat: no-repeat;
   background-size: cover;
-  margin-bottom: 3rem;
+
   margin-left: calc(-50vw + 50%);
 
   @media (max-width: 1200px) {
     margin-left: calc(-600px + 50%);
+  }
+
+  @media (max-width: 768px) {
+    margin: auto;
   }
 `;
 

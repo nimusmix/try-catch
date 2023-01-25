@@ -1,4 +1,5 @@
 import { createRef, useState } from 'react';
+import styled from 'styled-components';
 import { HeaderImage, Layout } from '../../layout';
 import { Paragraph, SubTitle } from '../../components';
 import { PopularQna, QnaNavbar, QnaPopularTag, QnaSearchBar } from '../../feature/qna';
@@ -16,6 +17,18 @@ const qnaPopularTags = [
   { id: 8, tagName: 'Fighting' },
   { id: 9, tagName: 'Aja Aja' },
 ];
+
+export const AsideSection = styled.section`
+  display: flex;
+`;
+
+const Aside = styled.aside`
+  margin: 3rem 1.5rem 0;
+  position: sticky;
+  top: 6rem;
+  left: 0;
+  height: 500px;
+`;
 
 const QnaPage = () => {
   const [activeNavOption, setActiveNavOption] = useState<string | null>('개발');
@@ -37,23 +50,23 @@ const QnaPage = () => {
           Q&A 게시판에 대한 설명이 들어갈 자리입니다.
         </Paragraph>
       </HeaderImage>
-      <section style={{ display: 'flex' }}>
-        <aside style={{ margin: '0 1.5rem 0' }}>
+      <AsideSection>
+        <Aside>
           <QnaNavbar
             ref={navigation}
             currentOption={activeNavOption}
             handleNavOptionClick={handleNavOptionClick}
           />
-        </aside>
+        </Aside>
         <section>
           <QnaSearchBar />
           <QuestionList />
         </section>
-        <aside style={{ margin: '0 1.5rem 0' }}>
+        <Aside>
           <QnaPopularTag tags={qnaPopularTags} />
           <PopularQna />
-        </aside>
-      </section>
+        </Aside>
+      </AsideSection>
     </Layout>
   );
 };

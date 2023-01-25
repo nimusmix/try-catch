@@ -32,16 +32,26 @@ const StyledSearch = styled.div`
   width: 41.25rem;
 `;
 
+const SearchBarForm = styled.form`
+  padding-top: 3rem;
+  margin-bottom: 1.5rem;
+  position: sticky;
+  top: 3rem;
+  background: ${({ theme: { bgColor } }) => bgColor};
+`;
+
 const QnaSearchBar = () => {
   const isDark = useRecoilValue(isDarkState);
   const { register, handleSubmit, resetField } = useForm<ISearchValue>();
 
   const handleClick = () => resetField('data');
-  const onSubmit = handleSubmit(() => {});
+  const onSubmit = handleSubmit(() => {
+    console.log(1);
+  });
   const { name, ref } = register('data');
 
   return (
-    <form onSubmit={onSubmit}>
+    <SearchBarForm onSubmit={onSubmit}>
       <StyledSearch>
         <StyledSearchBar>
           <SearchIcon>
@@ -69,7 +79,7 @@ const QnaSearchBar = () => {
           검색
         </Button>
       </StyledSearch>
-    </form>
+    </SearchBarForm>
   );
 };
 
