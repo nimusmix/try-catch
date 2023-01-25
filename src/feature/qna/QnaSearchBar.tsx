@@ -52,11 +52,11 @@ const QnaSearchBar = () => {
           </SearchIcon>
           <Input
             width="34.25rem"
-            height="2.375rem"
+            height="2.25rem"
             borderRadius="0.375rem"
             border="none"
             placeholder="Search..."
-            style={{ position: 'absolute', left: '1.875rem' }}
+            style={{ position: 'absolute', left: '1.875rem', top: 'calc(50% - 1.125rem)' }}
             name={name}
             ref={ref}
           />
