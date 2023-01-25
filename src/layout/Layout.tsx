@@ -10,7 +10,6 @@ const Main = styled.main`
   max-width: var(--breakpoints-desktop);
   min-width: var(--breakpoints-desktop);
   margin: 0 auto;
-  padding-top: 3rem;
 
   @media (max-width: 768px) {
     min-width: auto;

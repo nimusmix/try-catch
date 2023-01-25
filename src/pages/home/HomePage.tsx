@@ -25,9 +25,7 @@ const Options = [
 const HomePage = () => {
   return (
     <Layout>
-      HomePage
       <Slideshow />
-      <Button designType="greenFill">ㅎㅇㅎㅇ버튼임</Button>
       <Container>
         <Input placeholder="Search..." />
         <Input
@@ -37,8 +35,6 @@ const HomePage = () => {
           boxShadow="none"
         />
         <Dropdown items={Options} width="150px" />
-        <Box />
-        <Box />
         <Box />
         <Box />
         <Box />

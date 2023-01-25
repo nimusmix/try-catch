@@ -16,7 +16,7 @@ const darkTheme: DefaultTheme = {
   dangerColor: 'var(--colors-red-500)',
   emphColor: 'var(--colors-emph-500)',
   warnColor: 'var(--colors-orange)',
-  successColor: 'var(--colors-success-400)',
+  successColor: 'var(--colors-success-800)',
 
   isDark: true,
 };

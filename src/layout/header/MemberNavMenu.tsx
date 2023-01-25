@@ -4,7 +4,7 @@ import { FaUserCircle } from 'react-icons/fa';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { HOME_PAGE_NAME } from '../../constant';
+import { BOOKMARK_PAGE_NAME } from '../../constant';
 import { Ul } from './NavMenu';
 import { Paragraph } from '../../components';
 import { isDarkState } from '../../recoil';
@@ -56,7 +56,7 @@ const MemberNavMenu = () => {
         </Li>
 
         <Li>
-          <Bookmark to={`/${HOME_PAGE_NAME}`}>
+          <Bookmark to={`/${BOOKMARK_PAGE_NAME}`}>
             <RxBookmarkFilled
               color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
               size="24"
