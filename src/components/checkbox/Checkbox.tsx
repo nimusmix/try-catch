@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 export interface ICheckboxProps {
-  label: string;
+  label: string | number;
   checked: boolean;
+  children?: React.ReactNode;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -19,12 +20,12 @@ const StyledLabel = styled.label`
     height: 1.5rem;
     width: 1.5rem;
     background-color: var(--colors-brand-100);
-    border: 2px solid gainsboro;
+    border: 2px solid var(--colors-brand-500);
     border-radius: 0.25rem;
   }
-  &:hover:before {
-    background-color: var(--colors-brand-200);
-  }
+  /* &:hover:before {
+    background-color: transparent;
+  } */
   &:after {
     position: absolute;
     top: 50%;
@@ -47,6 +48,7 @@ const StyledLabel = styled.label`
 
 const StyledInput = styled.input`
   position: absolute;
+  margin-right: 0.5rem;
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
   height: 1px;
@@ -60,17 +62,23 @@ const StyledInput = styled.input`
   }
 `;
 
-const StyledP = styled.p`
-  margin-left: 0.5rem;
-`;
+// const StyledP = styled.p`
+//   margin-left: 0.5rem;
+// `;
 
-const Checkbox = ({ label, onChange, checked }: ICheckboxProps) => {
+const Checkbox = ({ label, checked, children, onChange }: ICheckboxProps) => {
+  const stringLabel = String(label);
+
   return (
     <>
-      <StyledInput type="checkbox" id={label} name={label} checked={checked} onChange={onChange} />
-      <StyledLabel htmlFor={label}>
-        <StyledP>{label}</StyledP>
-      </StyledLabel>
+      <StyledInput
+        type="checkbox"
+        id={stringLabel}
+        name={stringLabel}
+        checked={checked}
+        onChange={onChange}
+      />
+      <StyledLabel htmlFor={stringLabel}>{children}</StyledLabel>
     </>
   );
 };

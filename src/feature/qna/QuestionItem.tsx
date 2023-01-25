@@ -8,7 +8,7 @@ import { isDarkState } from '../../recoil';
 import { IQuestionItemList, ITag } from './QuestionList';
 
 const Wrapper = styled.article`
-  max-width: 660px;
+  max-width: 800px;
   padding: 1rem 2rem;
   border-bottom: 1px solid var(--colors-black-200);
   cursor: pointer;
