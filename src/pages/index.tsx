@@ -1,24 +1,26 @@
-import LandingPage from './landing/LandingPage';
-import HomePage from './home/HomePage';
-import QnaPage from './qna/QnaPage';
-import QnaFormPage from './qna/QnaFormPage';
-import QnaDetailPage from './qna/QnaDetailPage';
-import FeedPage from './feed/FeedPage';
-import ChallengesPage from './challenges/ChallengesPage';
-import ChallengesDetailPage from './challenges/ChallengesDetailPage';
-import RoadmapPage from './roadmap/RoadmapPage';
-import RoadmapListPage from './roadmap/RoadmapListPage';
-import RoadmapDetailPage from './roadmap/RoadmapDetailPage';
-import UserProfilePage from './profile/UserProfilePage';
-import CompanyProfilePage from './profile/CompanyProfilePage';
-import ProfileEditPage from './profile/ProfileEditPage';
-import AlertSettingsPage from './setting/AlertSettingsPage';
-import EmailAlertSettingsPage from './setting/EmailAlertSettingsPage';
-import ThemeSettingsPage from './setting/ThemeSettingsPage';
-import AdvancedSettingsPage from './setting/AdvancedSettingsPage';
-import IntroducePage from './setting/IntroducePage';
-import CustomerServicePage from './setting/CustomerServicePage';
-import NotFoundPage from './error/NotFoundPage';
+import loadable from '@loadable/component';
+
+const LandingPage = loadable(() => import('./landing/LandingPage'));
+const HomePage = loadable(() => import('./home/HomePage'));
+const QnaPage = loadable(() => import('./qna/QnaPage'));
+const QnaFormPage = loadable(() => import('./qna/QnaFormPage'));
+const QnaDetailPage = loadable(() => import('./qna/QnaDetailPage'));
+const FeedPage = loadable(() => import('./feed/FeedPage'));
+const ChallengesPage = loadable(() => import('./challenges/ChallengesPage'));
+const ChallengesDetailPage = loadable(() => import('./challenges/ChallengesDetailPage'));
+const RoadmapPage = loadable(() => import('./roadmap/RoadmapPage'));
+const RoadmapListPage = loadable(() => import('./roadmap/RoadmapListPage'));
+const RoadmapDetailPage = loadable(() => import('./roadmap/RoadmapDetailPage'));
+const UserProfilePage = loadable(() => import('./profile/UserProfilePage'));
+const CompanyProfilePage = loadable(() => import('./profile/CompanyProfilePage'));
+const ProfileEditPage = loadable(() => import('./profile/ProfileEditPage'));
+const AlertSettingsPage = loadable(() => import('./setting/AlertSettingsPage'));
+const EmailAlertSettingsPage = loadable(() => import('./setting/EmailAlertSettingsPage'));
+const ThemeSettingsPage = loadable(() => import('./setting/ThemeSettingsPage'));
+const AdvancedSettingsPage = loadable(() => import('./setting/AdvancedSettingsPage'));
+const IntroducePage = loadable(() => import('./setting/IntroducePage'));
+const CustomerServicePage = loadable(() => import('./setting/CustomerServicePage'));
+const NotFoundPage = loadable(() => import(`./error/NotFoundPage`));
 
 export {
   LandingPage,
