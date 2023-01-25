@@ -1,11 +1,13 @@
-import Error from './Error';
-import Home from './Home';
-import QnA from './QnA';
-import Feed from './Feed';
-import Challenges from './Challenges';
-import Roadmap from './Roadmap';
-import Bookmark from './Bookmark';
-import Profile from './Profile';
-import Settings from './Settings';
+import loadable from '@loadable/component';
+
+const Error = loadable(() => import('./Error'));
+const Home = loadable(() => import('./Home'));
+const QnA = loadable(() => import('./QnA'));
+const Feed = loadable(() => import('./Feed'));
+const Challenges = loadable(() => import('./Challenges'));
+const Roadmap = loadable(() => import('./Roadmap'));
+const Bookmark = loadable(() => import('./Bookmark'));
+const Profile = loadable(() => import('./Profile'));
+const Settings = loadable(() => import('./Settings'));
 
 export { Error, Home, QnA, Feed, Challenges, Roadmap, Bookmark, Profile, Settings };

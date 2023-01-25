@@ -1,4 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
+import React from 'react';
 import App from './App';
 import {
   BOOKMARK_PAGE_NAME,
@@ -11,6 +12,7 @@ import {
   ROADMAP_PAGE_NAME,
   SETTINGS_PAGE_NAME,
 } from './constant';
+
 import {
   AdvancedSettingsPage,
   AlertSettingsPage,
@@ -23,6 +25,7 @@ import {
   HomePage,
   IntroducePage,
   LandingPage,
+  NotFoundPage,
   ProfileEditPage,
   QnaDetailPage,
   QnaFormPage,
@@ -34,14 +37,13 @@ import {
   UserProfilePage,
 } from './pages';
 import { Bookmark, Challenges, Error, Feed, Home, Profile, QnA, Roadmap, Settings } from './routes';
-import NotFound from './pages/error/NotFoundPage';
 
 const router = createBrowserRouter([
   {
     // 랜딩 페이지
     path: '/',
     element: <App />,
-    errorElement: <NotFound />,
+    errorElement: <NotFoundPage />,
     children: [
       {
         index: true,
@@ -200,7 +202,7 @@ const router = createBrowserRouter([
           {
             index: true,
             path: '',
-            element: <NotFound />,
+            element: <NotFoundPage />,
           },
         ],
       },
