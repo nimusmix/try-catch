@@ -1,23 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { QuestionItem } from '../qna';
-import { Checkbox } from '../../components';
-
-export interface ITag {
-  id: number;
-  tagName: string;
-}
-
-export interface IBookmarkQuestionItemList {
-  id: number;
-  title: string;
-  content: string;
-  timestamp: string;
-  viewCount: number;
-  likeCount: number;
-  answerCount: number;
-  tags: ITag[];
-}
+import { Checkbox, Button } from '../../components';
+import { IQuestionItemList } from '../qna/QuestionList';
 
 const questionItemList = [
   {
@@ -67,32 +52,79 @@ const questionItemList = [
   },
 ];
 
+const Wrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+`;
+
 const QuestionItemWrapper = styled.div`
   display: flex;
 `;
 
-const handleSingleCheck = () => {};
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  & :first-child {
+    margin-bottom: 0.5rem;
+  }
+`;
 
-const handleAllCheck = () => {};
+const Btn = styled(Button)<{ checked: boolean }>``;
 
 const BookmarkQuestionList = () => {
-  const [checkedList, setCheckedList] = useState([]);
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-  };
-  return (
-    <>
-      {questionItemList.map((questionItem) => {
-        const isChecked = false;
+  const [checkedItems, setCheckedItems] = useState<number[]>([]);
 
-        return (
-          <QuestionItemWrapper key={questionItem.id}>
-            <Checkbox label="bookmark" checked={isChecked} onChange={onChange} />
-            <QuestionItem {...questionItem} />
-          </QuestionItemWrapper>
-        );
-      })}
-    </>
+  const handleSingleCheck = (checked: boolean, id: number) => {
+    if (checked) {
+      setCheckedItems([...checkedItems, id]);
+    } else {
+      setCheckedItems(checkedItems.filter((el) => el !== id));
+    }
+  };
+
+  const onSingleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleSingleCheck(e.target.checked, Number(e.target.id));
+  };
+
+  const handleAllCheck = (checked: boolean) => {
+    if (!checked) {
+      const allItems: number[] = [];
+      questionItemList.forEach((el) => allItems.push(el.id));
+      setCheckedItems(allItems);
+    } else {
+      setCheckedItems([]);
+    }
+  };
+
+  const onAllCheck = (e: React.MouseEvent<HTMLButtonElement>) => {
+    handleAllCheck((e.target as HTMLInputElement).checked);
+  };
+
+  return (
+    <Wrapper>
+      <div>
+        {questionItemList.map((questionItem) => {
+          const isChecked = !!checkedItems.includes(questionItem.id);
+
+          return (
+            <QuestionItemWrapper key={questionItem.id}>
+              <Checkbox label={questionItem.id} checked={isChecked} onChange={onSingleCheck} />
+              <QuestionItem {...questionItem} />
+            </QuestionItemWrapper>
+          );
+        })}
+      </div>
+      <ButtonWrapper>
+        <Btn
+          designType="blueEmpty"
+          onClick={onAllCheck}
+          checked={checkedItems.length === questionItemList.length}
+        >
+          {checkedItems.length === questionItemList.length ? '전체 해제' : '전체 선택'}
+        </Btn>
+        <Button designType="blueEmpty">선택 삭제</Button>
+      </ButtonWrapper>
+    </Wrapper>
   );
 };
 
