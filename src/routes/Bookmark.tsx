@@ -1,5 +1,5 @@
 import { HeaderImage, Layout } from '../layout';
-import { SubTitle, Paragraph } from '../components';
+import { Paragraph, SubTitle } from '../components';
 import { header_bookmark } from '../assets';
 
 const Bookmark = () => {

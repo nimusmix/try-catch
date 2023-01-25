@@ -24,7 +24,6 @@ const Nav = styled.nav`
   align-items: center;
   justify-content: space-between;
   height: var(--toolbar-height);
-  background-color: ${({ theme: { navColor } }) => navColor};
   box-shadow: ${({ theme: { boxShadowLarge } }) => boxShadowLarge};
 `;
 

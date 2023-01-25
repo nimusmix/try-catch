@@ -1,5 +1,5 @@
 import Layout from '../../layout/Layout';
-import { QnaDetailPopularQna, Question, Answer } from '../../feature/qna';
+import { Answer, QnaDetailPopularQna, Question } from '../../feature/qna';
 import { SubTitle } from '../../components';
 
 const QnaDetailPage = () => {

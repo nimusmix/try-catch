@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, Dropdown, Input, Slideshow, TopButton } from '../../components';
+import { Dropdown, Input, Slideshow } from '../../components';
 import Layout from '../../layout/Layout';
 
 const Container = styled.div`
@@ -40,7 +40,6 @@ const HomePage = () => {
         <Box />
         <Box />
       </Container>
-      <TopButton />
     </Layout>
   );
 };
