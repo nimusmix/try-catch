@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { RxBookmark, RxBookmarkFilled } from 'react-icons/rx';
 import { useState } from 'react';
-import { e } from 'vitest/dist/index-40ebba2b';
 import { ITag } from '../qna/QuestionList';
 import { Button, MiniTitle, Paragraph } from '../../components';
 import { isDarkState } from '../../recoil';
@@ -140,7 +139,7 @@ const FeedListItem = ({
               color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
               style={{ width: '510px' }}
             >
-              {desc}
+              {desc.length > 90 ? `${desc.slice(0, 90)}...` : desc}
             </Paragraph>
           </QuestionBody>
 

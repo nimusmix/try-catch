@@ -1,7 +1,9 @@
+import { createRef, useState } from 'react';
 import { HeaderImage, Layout } from '../../layout';
 import { SubTitle, Paragraph } from '../../components';
 import { header_feed } from '../../assets';
-import { FeedList, FeedSearchBar, FeedTag } from '../../feature/feed';
+import { FeedList, FeedSearchBar, FeedTag, FeedView } from '../../feature/feed';
+import FeedFilter from '../../feature/feed/FeedFilter';
 
 const FeedTags = [
   { id: 1, tagName: 'react' },
@@ -16,6 +18,14 @@ const FeedTags = [
 ];
 
 const FeedPage = () => {
+  const [activeFilterOption, setActiveFilterOption] = useState<string | null>('나의 관심순');
+  const filter = createRef();
+
+  const handleFilterOptionClick = (event: React.MouseEvent<HTMLElement>) => {
+    const target = event.target as Element;
+    const filterOptionName = target.getAttribute('data-name');
+    setActiveFilterOption(filterOptionName);
+  };
   return (
     <Layout>
       <HeaderImage image={header_feed}>
@@ -32,6 +42,14 @@ const FeedPage = () => {
           <FeedTag tags={FeedTags} />
         </aside>
         <section style={{ margin: '0 1.5rem 0' }}>
+          <section style={{ display: 'flex', justifyContent: 'right', marginBottom: '1rem' }}>
+            <FeedFilter
+              ref={filter}
+              currentOption={activeFilterOption}
+              handleFilterOptionClick={handleFilterOptionClick}
+            />
+            <FeedView />
+          </section>
           <FeedList />
         </section>
       </section>
