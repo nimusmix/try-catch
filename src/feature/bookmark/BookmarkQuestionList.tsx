@@ -99,6 +99,13 @@ const BookmarkQuestionList = () => {
     handleAllCheck((e.target as HTMLInputElement).checked);
   };
 
+  const onDelete = () => {
+    // 얘를 DB로 보내면 됨!
+    const newQuestionItemList = questionItemList.filter(
+      (el) => checkedItems.includes(el.id) === false
+    );
+  };
+
   return (
     <Wrapper>
       <div>
@@ -121,7 +128,9 @@ const BookmarkQuestionList = () => {
         >
           {checkedItems.length === questionItemList.length ? '전체 해제' : '전체 선택'}
         </Btn>
-        <Button designType="blueEmpty">선택 삭제</Button>
+        <Button designType="blueEmpty" onClick={onDelete}>
+          선택 삭제
+        </Button>
       </ButtonWrapper>
     </Wrapper>
   );
