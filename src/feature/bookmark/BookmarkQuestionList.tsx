@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { QuestionItem } from '../qna';
 import { Checkbox, Button } from '../../components';
-import { IQuestionItemList } from '../qna/QuestionList';
 
 const questionItemList = [
   {
