@@ -69,11 +69,9 @@ const TagList = () => {
             duration={random(DURATION - 5000, DURATION + 5000)}
             reverse={i % 2}
           >
-            {shuffle(TAGS)
-              .slice(0, TAGS_PER_ROW)
-              .map((tag) => (
-                <Tag text={tag} key={tag} />
-              ))}
+            {shuffle(TAGS, TAGS_PER_ROW).map((tag) => (
+              <Tag text={tag} key={tag} />
+            ))}
           </InfiniteLoopSlider>
         ))}
       </StyledTagList>
