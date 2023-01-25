@@ -114,7 +114,11 @@ const BookmarkQuestionList = () => {
 
           return (
             <QuestionItemWrapper key={questionItem.id}>
-              <Checkbox label={questionItem.id} checked={isChecked} onChange={onSingleCheck} />
+              <Checkbox
+                label={String(questionItem.id)}
+                checked={isChecked}
+                onChange={onSingleCheck}
+              />
               <QuestionItem {...questionItem} />
             </QuestionItemWrapper>
           );
