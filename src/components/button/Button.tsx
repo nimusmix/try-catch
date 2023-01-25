@@ -14,7 +14,7 @@ export type TDesignType =
 
 interface IButtonProps {
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   designType?: TDesignType;
   fontSize?: string;
   padding?: string;

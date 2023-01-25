@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 export interface ICheckboxProps {
-  label: string;
+  label: string | number;
   checked: boolean;
   children?: React.ReactNode;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -67,10 +67,18 @@ const StyledInput = styled.input`
 // `;
 
 const Checkbox = ({ label, checked, children, onChange }: ICheckboxProps) => {
+  const stringLabel = String(label);
+
   return (
     <>
-      <StyledInput type="checkbox" id={label} name={label} checked={checked} onChange={onChange} />
-      <StyledLabel htmlFor={label}>{children}</StyledLabel>
+      <StyledInput
+        type="checkbox"
+        id={stringLabel}
+        name={stringLabel}
+        checked={checked}
+        onChange={onChange}
+      />
+      <StyledLabel htmlFor={stringLabel}>{children}</StyledLabel>
     </>
   );
 };
