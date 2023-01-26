@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { RxBookmark, RxBookmarkFilled } from 'react-icons/rx';
 import { useState } from 'react';
-import { ITag } from '../qna/QuestionList';
+// import { ITag } from '../qna/QuestionList';
 import { Button, MiniTitle, Paragraph } from '../../components';
 import { isDarkState } from '../../recoil';
 
@@ -77,23 +77,20 @@ const FeedThumbnailImg = styled.div<{ image: string }>`
 `;
 
 export interface IFeedListItemProps {
-  title: string;
-  desc: string;
-  company: {
-    name: string;
-    image: string;
-  };
-  publishedDate: string;
-  tags: ITag[];
-  isBookmarked: boolean;
   blogURL: string;
+  companyName: string;
+  content: string;
+  createdAt: string;
+  feedId: string;
+  isBookmarked: boolean;
+  tags: string[];
   thumbnailImage: string;
+  title: string;
 }
 
 const FeedListItem = ({
   title,
-  desc,
-
+  content,
   tags,
   isBookmarked,
   blogURL,
@@ -139,15 +136,15 @@ const FeedListItem = ({
               color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
               style={{ width: '510px' }}
             >
-              {desc.length > 90 ? `${desc.slice(0, 90)}...` : desc}
+              {content.length > 90 ? `${content.slice(0, 90)}...` : content}
             </Paragraph>
           </QuestionBody>
 
           <QuestionFooter>
             <TagsWrapper>
-              {tags.map(({ id, tagName }: ITag) => (
+              {tags.map((tag) => (
                 <Button
-                  key={id}
+                  key={tag}
                   as="span"
                   designType="blueEmpty"
                   color="var(--colors-brand-500)"
@@ -155,7 +152,7 @@ const FeedListItem = ({
                   padding="2px 10px"
                   borderRadius="var(--borders-radius-base)"
                 >
-                  {tagName}
+                  {tag}
                 </Button>
               ))}
             </TagsWrapper>

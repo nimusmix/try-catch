@@ -1,4 +1,6 @@
-import FeedListItem from './FeedListItem';
+import { useQuery } from 'react-query';
+import { axiosSearchList } from '../../utils/api';
+import FeedListItem, { IFeedListItemProps } from './FeedListItem';
 
 const FeedItemList = [
   {
@@ -37,14 +39,27 @@ const FeedItemList = [
   },
 ];
 
+interface IFeedListProps {
+  feedList: IFeedListItemProps[];
+}
+
 const FeedList = () => {
+  const { data, isLoading, isError } = useQuery<IFeedListProps>('feed', () => axiosSearchList());
+
+  if (isLoading || data === undefined) {
+    return <h4>Loading</h4>;
+  }
+  if (isError) {
+    return <h4>Something went wrong !!</h4>;
+  }
+
   return (
-    <>
-      {FeedItemList.map((feedItem, feedIdx) => {
-        const feedIndex = feedIdx;
-        return <FeedListItem key={feedIndex} {...feedItem} />;
+    <div>
+      {data?.feedList.map((feedItem) => {
+        // return <div key={feedItem.feedId}>{feedItem.title}</div>;
+        return <FeedListItem key={feedItem.feedId} {...feedItem} />;
       })}
-    </>
+    </div>
   );
 };
 
