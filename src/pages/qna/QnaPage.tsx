@@ -1,5 +1,7 @@
 import { createRef, useState } from 'react';
 import styled from 'styled-components';
+import { MdOutlineCreate } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 import { HeaderImage, Layout } from '../../layout';
 import { Button, Paragraph, SubTitle } from '../../components';
 import { PopularQna, QnaNavbar, QnaPopularTag, QnaSearchBar } from '../../feature/qna';
@@ -64,14 +66,17 @@ const QnaPage = () => {
           <QuestionList />
         </section>
         <Aside>
-          <Button
-            width="100%"
-            fontSize="var(--fonts-desktop-heading-xl)"
-            padding="0.25rem 1.125rem"
-            margin="0 0 1rem 0"
-          >
-            질문 작성하기
-          </Button>
+          <Link to="form">
+            <Button
+              width="100%"
+              fontSize="var(--fonts-body-base)"
+              padding="0.455rem 1.125rem"
+              margin="0 0 1rem 0"
+            >
+              <MdOutlineCreate />
+              &nbsp;&nbsp;질문 작성하기
+            </Button>
+          </Link>
           <QnaPopularTag tags={qnaPopularTags} />
           <PopularQna />
         </Aside>
