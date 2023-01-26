@@ -2,6 +2,12 @@ import { HeaderImage, Layout } from '../layout';
 import { Paragraph, SubTitle } from '../components';
 import { header_bookmark } from '../assets';
 import BookmarkQuestionList from '../feature/bookmark/BookmarkQuestionList';
+import SideNavbar from '../components/side-navbar/SideNavbar';
+
+const navOptions = [
+  { id: 1, option: '질문' },
+  { id: 2, option: '피드' },
+];
 
 const Bookmark = () => {
   return (
@@ -14,7 +20,7 @@ const Bookmark = () => {
           북마크 게시판에 대한 설명이 들어갈 자리입니다.
         </Paragraph>
       </HeaderImage>
-
+      <SideNavbar navOptions={navOptions} />
       <BookmarkQuestionList />
     </Layout>
   );

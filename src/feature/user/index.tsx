@@ -2,12 +2,12 @@ import {
   Answer,
   AnswerForm,
   PopularQna,
-  QnaNavbar,
   QnaPopularTag,
   QnaSearchBar,
   Question,
   QuestionItem,
   QuestionList,
+  SideNavbar,
 } from '../qna';
 import Avatar from './avatar/Avatar';
 import Profile from './profile/Profile';
@@ -18,7 +18,7 @@ export {
   Answer,
   AnswerForm,
   PopularQna,
-  QnaNavbar,
+  SideNavbar,
   QnaPopularTag,
   QnaSearchBar,
   Question,
