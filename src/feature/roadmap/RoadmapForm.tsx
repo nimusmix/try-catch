@@ -12,11 +12,13 @@ import 'reactflow/dist/style.css';
 import styled from 'styled-components';
 import { Button } from '../../components';
 
-interface IEdges {
+export interface IEdges {
   id: string;
   source: string;
   target: string;
   type: string;
+  markerEnd?: string;
+  style?: string;
 }
 
 const StyledInput = styled.input`
@@ -24,10 +26,8 @@ const StyledInput = styled.input`
   padding: 0.5rem;
   color: ${({ theme }) => theme.textColor};
   background-color: ${({ theme }) => theme.bgColor};
-  /* background-color: var(--colors-brand-200); */
   text-align: center;
   border: 1px var(--colors-brand-500) solid;
-  /* border: none; */
   border-radius: var(--borders-radius-base);
 
   & :focus {
@@ -44,6 +44,7 @@ const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: end;
+  margin-bottom: 3rem;
 `;
 
 const ButtonWrapper = styled.div`
@@ -90,13 +91,13 @@ const TextUpdaterNode = ({ data }: any) => {
 
   return (
     <>
-      <Handle type="target" position={Position.Top} id="t" />
-      <Handle type="target" position={Position.Left} id="l" />
+      {/* <Handle type="target" position={Position.Top} id="t" />
+      <Handle type="target" position={Position.Left} id="l" /> */}
       <div>
         <StyledInput id="text" name="text" onChange={onChange} />
       </div>
-      <Handle type="source" position={Position.Bottom} id="b" />
-      <Handle type="source" position={Position.Right} id="r" />
+      {/* <Handle type="source" position={Position.Bottom} id="b" />
+      <Handle type="source" position={Position.Right} id="r" /> */}
     </>
   );
 };
@@ -140,7 +141,12 @@ const ReactFlowForm = () => {
         <Button onClick={saveData}>저장</Button>
       </ButtonWrapper>
       <FlowWrapper>
-        <ReactFlow defaultNodes={initialNodes} defaultEdges={initialEdges} nodeTypes={nodeTypes}>
+        <ReactFlow
+          defaultNodes={initialNodes}
+          defaultEdges={initialEdges}
+          nodeTypes={nodeTypes}
+          fitView
+        >
           <Background />
         </ReactFlow>
       </FlowWrapper>
