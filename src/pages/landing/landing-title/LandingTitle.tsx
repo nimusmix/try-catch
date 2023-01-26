@@ -6,6 +6,7 @@ const Wrapper = styled.div`
   margin: 3rem 0 5rem;
   align-self: flex-start;
 `;
+
 const LandingTitle = () => {
   return (
     <Wrapper>
