@@ -48,7 +48,7 @@ const initialNodes = [
   },
 ];
 
-const initialEdges = [];
+const initialEdges = [{ id: 'a-b', source: 'a', target: 'b', type: 'step' }];
 
 // 사용자 정의
 const handleLeft = { left: 10 };
