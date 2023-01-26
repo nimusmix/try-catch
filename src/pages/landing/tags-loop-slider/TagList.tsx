@@ -66,7 +66,7 @@ const TagList = () => {
         {[...new Array(ROWS)].map((_, i) => (
           <InfiniteLoopSlider
             key={i}
-            duration={random(DURATION - 5000, DURATION + 5000)}
+            duration={random(DURATION - 15000, DURATION + 10000)}
             reverse={i % 2}
           >
             {shuffle(TAGS, TAGS_PER_ROW).map((tag) => (
