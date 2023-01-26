@@ -73,11 +73,7 @@ const QnaSearchBar = () => {
             ref={ref}
           />
         </StyledSearchBar>
-        <Button
-          fontSize="var(--fonts-mobile-heading-lg)"
-          onClick={handleClick}
-          padding="0.25rem 1.125rem"
-        >
+        <Button fontSize="var(--fonts-body-base)" onClick={handleClick} padding="0.25rem 1.125rem">
           검색
         </Button>
       </StyledSearch>

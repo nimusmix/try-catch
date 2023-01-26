@@ -20,6 +20,7 @@ interface IButtonProps {
   padding?: string;
   margin?: string;
   borderRadius?: string;
+  width?: string;
 }
 
 const designList = {
@@ -102,7 +103,9 @@ const designList = {
 
 const Button = styled.button<IButtonProps>`
   ${({ designType }) => designType && designList[designType]};
-  display: flex;
+  display: inline-flex;
+  width: ${({ width }) => width || ''};
+  justify-content: center;
   align-items: center;
   font-size: ${({ fontSize }) => fontSize || 'var(--fonts-body-base)'};
   padding: ${({ padding }) => padding || '0.25rem 0.8rem'};
