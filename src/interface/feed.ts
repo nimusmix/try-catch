@@ -1,5 +1,5 @@
 export interface ITag {
-  id: number;
+  tagId: number;
   tagName: string;
 }
 
@@ -9,7 +9,7 @@ export interface IFeedItem {
   desc: string;
   companyName: string;
   timestamp: number;
-  tags: ITag[];
+  tags: Array<ITag>;
   isBookmarked: boolean;
   blogURL: string;
   thumbnailImage: string;
