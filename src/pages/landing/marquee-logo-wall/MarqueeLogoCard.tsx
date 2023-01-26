@@ -3,51 +3,83 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import random from '../../../utils/random';
 
-const images1 = [
-  'src/assets/logo/카카오.png',
-  'src/assets/logo/네이버.png',
-  'src/assets/logo/리디.png',
-  'src/assets/logo/당근마켓.png',
-  'src/assets/logo/라이너.png',
-  'src/assets/logo/두나무.png',
-  'src/assets/logo/다노.png',
-  'src/assets/logo/라인.png',
-];
+import {
+  ably,
+  bankSalad,
+  bunjang,
+  carrot,
+  class101,
+  cupang,
+  dano,
+  delicious,
+  dunamu,
+  finda,
+  fitpet,
+  flitto,
+  hyper,
+  joongna,
+  kakao,
+  kakaoBank,
+  kmong,
+  kurly,
+  line,
+  liner,
+  musicow,
+  musinsa,
+  naver,
+  opgg,
+  petner,
+  publy,
+  quota,
+  ridi,
+  snow,
+  socar,
+  soomgo,
+  sparta,
+  spoon,
+  tictoccroc,
+  toss,
+  wadiz,
+  yanolja,
+  zigbang,
+} from '../../../assets';
+
+const images1 = [kakao, naver, ridi, carrot, liner, dunamu, dano, line];
 
 const images2 = [
-  'src/assets/logo/마켓컬리.png',
-  'src/assets/logo/무신사.png',
-  'src/assets/logo/뮤직카우.png',
-  'src/assets/logo/뱅크샐러드.png',
-  'src/assets/logo/번개장터.png',
-  'src/assets/logo/비바리퍼블리카.png',
-  'src/assets/logo/숨고.png',
-  'src/assets/logo/스노우.png',
-  'src/assets/logo/스푼.png',
-  'src/assets/logo/쏘카.png',
-  'src/assets/logo/야놀자.png',
-  'src/assets/logo/에이블리.png',
+  kurly,
+  musinsa,
+  musicow,
+  bankSalad,
+  bunjang,
+  toss,
+  soomgo,
+  snow,
+  spoon,
+  socar,
+  yanolja,
+  ably,
 ];
 
 const images3 = [
-  'src/assets/logo/오피지지.png',
-  'src/assets/logo/와디즈.png',
-  'src/assets/logo/의식주컴퍼니.png',
-  'src/assets/logo/클래스101.png',
-  'src/assets/logo/팀스파르타.png',
-  'src/assets/logo/하이퍼커넥트.png',
-  'src/assets/logo/핏펫.png',
-  'src/assets/logo/핀다.png',
-  'src/assets/logo/플리토.png',
-  'src/assets/logo/펫트너.png',
-  'src/assets/logo/퍼블리.png',
-  'src/assets/logo/쿼타랩.png',
-  'src/assets/logo/크몽.png',
-  'src/assets/logo/중고나라.png',
-  'src/assets/logo/직방.png',
-  'src/assets/logo/째깍악어.png',
-  'src/assets/logo/쿠팡.png',
-  'src/assets/logo/카카오뱅크.png',
+  opgg,
+  wadiz,
+  delicious,
+  class101,
+  sparta,
+  hyper,
+  fitpet,
+  finda,
+  flitto,
+  petner,
+  publy,
+  quota,
+  kmong,
+  joongna,
+  zigbang,
+  tictoccroc,
+  cupang,
+  kakaoBank,
 ];
 
 const slide = keyframes`
@@ -72,11 +104,10 @@ const slide = keyframes`
 
 const MarqueeWrapper = styled.div`
   background: #1697e0;
-  margin: 0 auto;
   min-height: 340px;
   overflow: hidden;
   position: relative;
-  height: 60%;
+  height: 45vh;
   width: 100%;
 `;
 
