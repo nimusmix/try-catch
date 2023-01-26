@@ -103,7 +103,10 @@ const slide = keyframes`
 `;
 
 const MarqueeWrapper = styled.div`
-  background: #1697e0;
+  background: ${({ theme: { isDark } }) =>
+    isDark
+      ? `linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%)`
+      : `linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)`};
   min-height: 340px;
   overflow: hidden;
   position: relative;
