@@ -20,6 +20,7 @@ export interface IQuestion {
 }
 
 export interface IAnswer {
+  answerId: number;
   author: {
     userName: string;
     profileImage?: string;
