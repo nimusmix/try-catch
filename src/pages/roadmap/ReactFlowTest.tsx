@@ -16,7 +16,18 @@ import ReactFlow, {
   useEdges,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
+import styled from 'styled-components';
 import { Button } from '../../components';
+
+const StyledInput = styled.input`
+  width: 160px;
+  padding: 0.5rem;
+  color: ${({ theme }) => theme.textColor};
+  background-color: ${({ theme }) => theme.bgColor};
+  text-align: center;
+  border: 1px ${({ theme }) => theme.borderColor} solid;
+  border-radius: var(--borders-radius-base);
+`;
 
 // 1. 스타일을 가져와야 동작함.
 // 2. 부모 컨테이너는 너비와 높이가 필요함.
@@ -24,22 +35,24 @@ import { Button } from '../../components';
 
 const initialNodes = [
   {
-    id: 'a',
-    position: { x: 0, y: 0 },
-    data: { value: 'Hello' },
+    id: '1',
+    position: { x: 220, y: 50 },
+    data: { value: '1' },
     type: 'textUpdater',
   },
   {
-    id: 'b',
-    position: { x: 100, y: 100 },
-    data: { label: 'World' },
+    id: '2',
+    position: { x: 220, y: 120 },
+    data: { value: '2' },
+    type: 'textUpdater',
   },
 ];
 
-const initialEdges = [{ id: 'a-b', source: 'a', target: 'b', type: 'step' }];
+const initialEdges = [];
 
 // 사용자 정의
-const handleStyle = { left: 10 };
+const handleLeft = { left: 10 };
+const handleRight = { left: 150 };
 
 const TextUpdaterNode = ({ data }: any) => {
   const onChange = useCallback(
@@ -53,21 +66,22 @@ const TextUpdaterNode = ({ data }: any) => {
 
   return (
     <>
-      <Handle type="target" position={Position.Top} />
+      <Handle type="target" position={Position.Top} id="t" />
+      <Handle type="target" position={Position.Left} id="l" />
       <div>
-        <input id="text" name="text" onChange={onChange} style={{ border: '1px solid red' }} />
+        <StyledInput id="text" name="text" onChange={onChange} />
       </div>
-      <Handle type="source" position={Position.Bottom} id="a" />
-      <Handle type="source" position={Position.Bottom} id="b" style={handleStyle} />
+      <Handle type="source" position={Position.Bottom} id="b" />
+      <Handle type="source" position={Position.Right} id="r" />
     </>
   );
 };
 
-let nodeId = 0;
+let nodeId = 2;
 
 const ReactFlowTest = () => {
-  const [nodes, setNodes] = useState(initialNodes);
-  const [edges, setEdges] = useState(initialEdges);
+  // const [nodes, setNodes] = useState(initialNodes);
+  // const [edges, setEdges] = useState(initialEdges);
   const testNodes = useNodes();
   const testEdges = useEdges();
 
@@ -123,7 +137,6 @@ const ReactFlowTest = () => {
         nodeTypes={nodeTypes}
       >
         <Background />
-        <Controls />
       </ReactFlow>
     </div>
   );
