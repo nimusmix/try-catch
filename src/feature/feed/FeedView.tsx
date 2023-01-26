@@ -6,15 +6,20 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
+const IconWrapper = styled.button`
+  margin: 0 0.2rem 0 0.4rem;
+  cursor: pointer;
+`;
+
 const FeedView = () => {
   return (
     <Wrapper>
-      <div style={{ margin: '0 0.2rem 0 0.4rem' }}>
+      <IconWrapper>
         <BsGrid size="16" />
-      </div>
-      <div style={{ margin: '0 0.4rem 0 0.2rem' }}>
+      </IconWrapper>
+      <IconWrapper>
         <BsViewStacked size="16" />
-      </div>
+      </IconWrapper>
     </Wrapper>
   );
 };

@@ -1,7 +1,4 @@
 import FeedListItem from './FeedListItem';
-// import { IFeedListItemProps } from './FeedListItem';
-// import { ReactComponent as FeedItem } from '../../assets/feed_item.svg';
-// import { ReactComponent as FeedItems } from '../../assets/feed_items.svg';
 
 const FeedItemList = [
   {
@@ -47,8 +44,6 @@ const FeedList = () => {
         const feedIndex = feedIdx;
         return <FeedListItem key={feedIndex} {...feedItem} />;
       })}
-      {/* <FeedItem /> */}
-      {/* <FeedItems /> */}
     </>
   );
 };
