@@ -1,15 +1,10 @@
-export interface ITag {
-  tagId: number;
-  tagName: string;
-}
-
 export interface IFeedItem {
   feedId: number;
   title: string;
-  desc: string;
+  content: string;
   companyName: string;
   timestamp: number;
-  tags: Array<ITag>;
+  tags: Array<string>;
   isBookmarked: boolean;
   blogURL: string;
   thumbnailImage: string;
