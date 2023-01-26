@@ -74,7 +74,7 @@ const QnaSearchBar = () => {
           />
         </StyledSearchBar>
         <Button
-          fontSize="var(--fonts-mobile-heading-lg)"
+          fontSize="var(--fonts-desktop-heading-xl)"
           onClick={handleClick}
           padding="0.25rem 1.125rem"
         >
