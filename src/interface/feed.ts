@@ -4,12 +4,11 @@ export interface ITag {
 }
 
 export interface IFeedItem {
-  type: string;
   feedId: number;
   title: string;
   desc: string;
   companyName: string;
-  timestamp: number; // timestamp 긴 버전
+  timestamp: number;
   tags: ITag[];
   isBookmarked: boolean;
   blogURL: string;
