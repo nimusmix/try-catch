@@ -7,10 +7,9 @@ import {
   Question,
   QuestionItem,
   QuestionList,
-  SideNavbar,
-} from '../qna';
-import Avatar from './avatar/Avatar';
-import Profile from './profile/Profile';
+} from './qna';
+import Avatar from './user/avatar/Avatar';
+import Profile from './user/profile/Profile';
 
 export {
   Avatar,
@@ -18,7 +17,6 @@ export {
   Answer,
   AnswerForm,
   PopularQna,
-  SideNavbar,
   QnaPopularTag,
   QnaSearchBar,
   Question,
