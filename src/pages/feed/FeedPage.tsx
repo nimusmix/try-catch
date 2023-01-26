@@ -1,7 +1,8 @@
+import { createRef, useState } from 'react';
 import { HeaderImage, Layout } from '../../layout';
 import { Paragraph, SubTitle } from '../../components';
 import { header_feed } from '../../assets';
-import { FeedSearchBar, FeedTag } from '../../feature/feed';
+import { FeedList, FeedSearchBar, FeedTag, FeedView, FeedFilter } from '../../feature/feed';
 import { QuestionPageBody as FeedPageBody } from '../qna/QnaPage';
 
 const FeedTags = [
@@ -17,6 +18,14 @@ const FeedTags = [
 ];
 
 const FeedPage = () => {
+  const [activeFilterOption, setActiveFilterOption] = useState<string | null>('나의 관심순');
+  const filter = createRef();
+
+  const handleFilterOptionClick = (event: React.MouseEvent<HTMLElement>) => {
+    const target = event.target as Element;
+    const filterOptionName = target.getAttribute('data-name');
+    setActiveFilterOption(filterOptionName);
+  };
   return (
     <Layout>
       <HeaderImage image={header_feed}>
@@ -33,7 +42,15 @@ const FeedPage = () => {
           <FeedTag tags={FeedTags} />
         </aside>
         <section style={{ margin: '0 1.5rem 0' }}>
-          <div>리스트 아이템</div>
+          <section style={{ display: 'flex', justifyContent: 'right', marginBottom: '1rem' }}>
+            <FeedFilter
+              ref={filter}
+              currentOption={activeFilterOption}
+              handleFilterOptionClick={handleFilterOptionClick}
+            />
+            <FeedView />
+          </section>
+          <FeedList />
         </section>
       </FeedPageBody>
     </Layout>
