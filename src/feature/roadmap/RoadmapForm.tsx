@@ -46,7 +46,7 @@ const FormWrapper = styled.div`
   align-items: end;
 `;
 
-const ButtonWrapeer = styled.div`
+const ButtonWrapper = styled.div`
   display: flex;
   margin-bottom: 0.725rem;
   & :first-child {
@@ -135,10 +135,10 @@ const ReactFlowForm = () => {
 
   return (
     <FormWrapper>
-      <ButtonWrapeer>
+      <ButtonWrapper>
         <Button onClick={addNode}>노드 추가</Button>
         <Button onClick={saveData}>저장</Button>
-      </ButtonWrapeer>
+      </ButtonWrapper>
       <FlowWrapper>
         <ReactFlow defaultNodes={initialNodes} defaultEdges={initialEdges} nodeTypes={nodeTypes}>
           <Background />
