@@ -1,12 +1,27 @@
-import { createRef, useState } from 'react';
 import styled from 'styled-components';
 import { MdOutlineCreate } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { HeaderImage, Layout } from '../../layout';
 import { Button, Paragraph, SubTitle } from '../../components';
-import { PopularQna, QnaNavbar, QnaPopularTag, QnaSearchBar } from '../../feature/qna';
+import { PopularQna, QnaPopularTag, QnaSearchBar } from '../../feature/qna';
 import QuestionList from '../../feature/qna/QuestionList';
 import { header_qna } from '../../assets';
+import SideNavbar from '../../components/side-navbar/SideNavbar';
+
+const navOptions = [
+  {
+    id: 1,
+    option: '개발',
+  },
+  {
+    id: 2,
+    option: '커리어',
+  },
+  {
+    id: 3,
+    option: '밸런스 게임',
+  },
+];
 
 const qnaPopularTags = [
   { id: 1, tagName: 'React' },
@@ -34,15 +49,6 @@ const Aside = styled.aside`
 `;
 
 const QnaPage = () => {
-  const [activeNavOption, setActiveNavOption] = useState<string | null>('개발');
-  const navigation = createRef();
-
-  const handleNavOptionClick = (event: React.MouseEvent<HTMLHeadingElement>) => {
-    const target = event.target as Element;
-    const navOptionName = target.getAttribute('data-name');
-    setActiveNavOption(navOptionName);
-  };
-
   return (
     <Layout>
       <HeaderImage image={header_qna}>
@@ -55,11 +61,7 @@ const QnaPage = () => {
       </HeaderImage>
       <QuestionPageBody>
         <Aside>
-          <QnaNavbar
-            ref={navigation}
-            currentOption={activeNavOption}
-            handleNavOptionClick={handleNavOptionClick}
-          />
+          <SideNavbar navOptions={navOptions} />
         </Aside>
         <section>
           <QnaSearchBar />
