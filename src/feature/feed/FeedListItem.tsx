@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { RxBookmark, RxBookmarkFilled } from 'react-icons/rx';
 import { useState } from 'react';
-// import { ITag } from '../qna/QuestionList';
 import { Button, MiniTitle, Paragraph } from '../../components';
 import { isDarkState } from '../../recoil';
 
@@ -18,12 +17,6 @@ const Wrapper = styled.article`
 const ArticleWrapper = styled.article`
   width: 630px;
   padding: 1rem 2rem;
-  /* border-bottom: 1px solid var(--colors-black-200); */
-  /* cursor: pointer; */
-  /* &:hover {
-    background-color: ${({ theme: { isDark } }) =>
-    isDark ? 'var(--colors-black-400)' : 'var(--colors-white-400)'};
-  } */
 `;
 
 const QuestionHeader = styled.div`
@@ -75,6 +68,16 @@ const FeedThumbnailImg = styled.div<{ image: string }>`
   border-radius: var(--borders-radius-base);
   margin: auto 1rem;
 `;
+const CompanyImg = styled.img`
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  margin: auto 8px;
+`;
+
+const BlogTitle = styled.span`
+  display: flex;
+`;
 
 export interface IFeedListItemProps {
   blogURL: string;
@@ -94,6 +97,7 @@ const FeedListItem = ({
   tags,
   isBookmarked,
   blogURL,
+  companyName,
   thumbnailImage,
 }: IFeedListItemProps) => {
   const isDark = useRecoilValue(isDarkState);
@@ -116,13 +120,21 @@ const FeedListItem = ({
         <FeedThumbnailImg image={thumbnailImage} />
         <ArticleWrapper>
           <QuestionHeader>
-            <MiniTitle
-              sizeType="xl"
-              color={isDark ? 'var(--colors-white-500)' : 'var(--colors-dark-500)'}
-              textAlign="left"
-            >
-              {title}
-            </MiniTitle>
+            <BlogTitle>
+              <MiniTitle
+                sizeType="xl"
+                color={isDark ? 'var(--colors-white-500)' : 'var(--colors-dark-500)'}
+                textAlign="left"
+              >
+                {title.length > 36 ? `${title.slice(0, 36)}...` : title}
+              </MiniTitle>
+              <CompanyImg
+                src={
+                  companyName ? `/src/assets/logo/${companyName}.png` : `/src/assets/favicon.ico`
+                }
+                alt={`${companyName}`}
+              />
+            </BlogTitle>
             <Icons onClick={handleClick}>
               {/* 북마크 */}
               {bookMarkIcon && <RxBookmarkFilled size="30" color="var(--colors-brand-500)" />}
