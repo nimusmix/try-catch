@@ -1,11 +1,11 @@
-import { NavLink } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
-import styled from "styled-components";
-import { ReactComponent as LogoDarkTheme } from "../../assets/horizontal_logo_dark_theme.svg";
-import { ReactComponent as LogoLightTheme } from "../../assets/horizontal_logo_light_theme.svg";
-import { HOME_PAGE_NAME } from "../../constant";
-import { isDarkState, isLoggedInState } from "../../recoil";
-import { Header, MemberNavMenu, NavMenu, NonMemberNavMenu } from "../index";
+import { NavLink } from 'react-router-dom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import styled from 'styled-components';
+import { ReactComponent as LogoDarkTheme } from '../../assets/horizontal_logo_dark_theme.svg';
+import { ReactComponent as LogoLightTheme } from '../../assets/horizontal_logo_light_theme.svg';
+import { HOME_PAGE_NAME } from '../../constant';
+import { isDarkState, isLoggedInState } from '../../recoil';
+import { Header, MemberNavMenu, NavMenu, NonMemberNavMenu } from '../index';
 
 const Logo = styled.div`
   display: flex;
@@ -24,7 +24,6 @@ const Nav = styled.nav`
   align-items: center;
   justify-content: space-between;
   height: var(--toolbar-height);
-  background-color: ${({ theme: { navColor } }) => navColor};
   box-shadow: ${({ theme: { boxShadowLarge } }) => boxShadowLarge};
 `;
 
@@ -37,7 +36,6 @@ export const NavWrapper = styled.div`
 const Navigation = () => {
   const [isDark, setIsDark] = useRecoilState(isDarkState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
-
   return (
     <Header>
       <Nav>
@@ -49,10 +47,13 @@ const Navigation = () => {
             </NavLink>
           </Logo>
           <NavMenu />
+          {/* 임시 버튼 */}
           <button
             type="button"
             style={{ cursor: 'pointer' }}
-            onClick={() => setIsDark((prev: boolean) => !prev)}
+            onClick={() => {
+              return setIsDark((prev: boolean) => !prev);
+            }}
           >
             임시 테마버튼
           </button>

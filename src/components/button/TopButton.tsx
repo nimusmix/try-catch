@@ -16,7 +16,7 @@ const TopButton = () => {
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
-      if (window.pageYOffset > 300) {
+      if (window.scrollY > 300) {
         setShowButton(true);
       } else {
         setShowButton(false);
@@ -24,21 +24,36 @@ const TopButton = () => {
     });
   }, []);
 
-  // This function will scroll the window to the top
+  // // 1. timeout을 줘서 스크롤이 끝난 후 작동하게 하는 방법
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth', // for smoothly scrolling
-    });
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth', // for smoothly scrolling
+      });
+    }, 300);
   };
+
+  /**
+   * TODO 나중에 고쳐볼것
+   */
+  // // 2. IntersectionObserver 사용
+  // const scrollToTop = () => {
+  //   setTimeout(() => {
+  //     window.scrollTo({
+  //       top: 0,
+  //       behavior: 'smooth', // for smoothly scrolling
+  //     });
+  //   }, 350);
+  // };
 
   return (
     <div>
       {showButton && (
         <StyledButton onClick={scrollToTop}>
           <svg
-            width="60"
-            height="60"
+            width="50"
+            height="50"
             viewBox="0 0 80 80"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

@@ -1,10 +1,8 @@
-import { BsBellFill } from 'react-icons/bs';
-import { RxBookmarkFilled } from 'react-icons/rx';
-import { FaUserCircle } from 'react-icons/fa';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { HOME_PAGE_NAME } from '../../constant';
+import { IconBookmarkFill, IconBellFill, IconUserCircle } from '../../components/icons/Icons';
+import { BOOKMARK_PAGE_NAME } from '../../constant';
 import { Ul } from './NavMenu';
 import { Paragraph } from '../../components';
 import { isDarkState } from '../../recoil';
@@ -13,7 +11,7 @@ const Alert = styled.div``;
 
 const Bookmark = styled(NavLink)``;
 
-const Profile = styled.div`
+const ProfileLi = styled.li`
   display: flex;
   align-items: center;
   padding-right: 2rem;
@@ -44,29 +42,26 @@ const Li = styled.li`
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
   return (
-    <>
-      <Ul>
-        <Li>
-          <Alert>
-            <BsBellFill
-              color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-              size="20"
-            />
-          </Alert>
-        </Li>
+    <Ul>
+      <Li>
+        <Alert>
+          <IconBellFill
+            color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
+            size="20"
+          />
+        </Alert>
+      </Li>
 
-        <Li>
-          <Bookmark to={`/${HOME_PAGE_NAME}`}>
-            <RxBookmarkFilled
-              color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-              size="24"
-            />
-          </Bookmark>
-        </Li>
-      </Ul>
-
-      <Profile>
-        <FaUserCircle
+      <Li>
+        <Bookmark to={`/${BOOKMARK_PAGE_NAME}`}>
+          <IconBookmarkFill
+            color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
+            size="24"
+          />
+        </Bookmark>
+      </Li>
+      <ProfileLi>
+        <IconUserCircle
           color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
           size="24"
         />
@@ -77,8 +72,8 @@ const MemberNavMenu = () => {
         >
           username
         </Paragraph>
-      </Profile>
-    </>
+      </ProfileLi>
+    </Ul>
   );
 };
 

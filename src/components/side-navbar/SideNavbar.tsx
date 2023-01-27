@@ -1,33 +1,21 @@
-import React, { forwardRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { MiniTitle } from '../../components';
+import { MiniTitle } from '..';
 
-interface INavbarProps {
-  currentOption: string | null;
-  handleNavOptionClick: (e: any) => void;
+interface INavOptions {
+  id: number;
+  option: string;
 }
-
-const navOptions = [
-  {
-    id: 1,
-    option: '개발',
-  },
-  {
-    id: 2,
-    option: '커리어',
-  },
-  {
-    id: 3,
-    option: '밸런스 게임',
-  },
-];
+interface INavbarProps {
+  navOptions: Array<INavOptions>;
+}
 
 const Item = styled.li`
   width: 180px;
   height: 40px;
   border-radius: var(--borders-radius-base);
   cursor: pointer;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   transition: color, background-color 0.1s ease-in;
 
   &.active,
@@ -50,16 +38,24 @@ const Item = styled.li`
       isDark ? 'var(--colors-brand-100)' : 'var(--colors-black-100)'};
   }
 `;
-const QnaNavbar = forwardRef(({ currentOption, handleNavOptionClick }: INavbarProps, ref: any) => {
+
+const SideNavbar = ({ navOptions }: INavbarProps) => {
+  const [activeNavOption, setActiveNavOption] = useState<string | null>(() => navOptions[0].option);
+
+  const handleNavOptionClick = (event: React.MouseEvent<HTMLLIElement>) => {
+    const target = event.target as Element;
+    const navOptionName = target.getAttribute('data-name');
+    setActiveNavOption(navOptionName);
+  };
   return (
-    <nav ref={ref}>
+    <nav>
       <ul>
-        {navOptions.map(({ id, option }) => {
+        {navOptions.map(({ id, option }: INavOptions) => {
           return (
             <Item
               key={id}
               onClick={handleNavOptionClick}
-              className={currentOption === option ? 'active' : ''}
+              className={activeNavOption === option ? 'active' : ''}
             >
               <MiniTitle sizeType="xl" color="var(--colors-black-100)" data-name={option}>
                 {option}
@@ -70,8 +66,6 @@ const QnaNavbar = forwardRef(({ currentOption, handleNavOptionClick }: INavbarPr
       </ul>
     </nav>
   );
-});
+};
 
-QnaNavbar.displayName = 'QnaNavbar';
-
-export default QnaNavbar;
+export default SideNavbar;

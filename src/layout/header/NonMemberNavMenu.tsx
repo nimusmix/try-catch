@@ -1,6 +1,5 @@
-import React from 'react';
-import { FaUserCircle } from 'react-icons/all';
 import { useRecoilValue } from 'recoil';
+import { IconUserCircle } from '../../components/icons/Icons';
 import { isDarkState } from '../../recoil';
 
 const NonMemberNavMenu = () => {
@@ -10,7 +9,7 @@ const NonMemberNavMenu = () => {
     <>
       {/* <Button designType="blueEmpty">회원가입</Button>
             <Button>로그인</Button> */}
-      <FaUserCircle
+      <IconUserCircle
         color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
         size="24"
       />

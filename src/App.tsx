@@ -11,8 +11,11 @@ const GlobalStyles = createGlobalStyle`
   #root {
     background-color: ${({ theme: { bgColor } }) => bgColor};
     color: ${({ theme: { textColor } }) => textColor};
-    //height: 100vh; //배포땐 100vh
-    height: 300vh; // 개발용 height
+    min-width: var(--breakpoints-desktop);
+  }
+  
+  body {
+    background-color: ${({ theme: { bgColor } }) => bgColor};
   }
 `;
 
