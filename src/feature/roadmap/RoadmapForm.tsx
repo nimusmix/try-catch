@@ -7,6 +7,7 @@ import ReactFlow, {
   useReactFlow,
   useNodes,
   useEdges,
+  Edge,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import styled from 'styled-components';
@@ -77,7 +78,7 @@ const initialNodes = [
   },
 ];
 
-const initialEdges: Array<IEdges> = [];
+const initialEdges: Edge<any>[] = [];
 
 // 사용자 정의
 const TextUpdaterNode = ({ data }: any) => {
@@ -91,13 +92,13 @@ const TextUpdaterNode = ({ data }: any) => {
 
   return (
     <>
-      {/* <Handle type="target" position={Position.Top} id="t" />
-      <Handle type="target" position={Position.Left} id="l" /> */}
+      <Handle type="target" position={Position.Top} id="t" />
+      <Handle type="target" position={Position.Left} id="l" />
       <div>
         <StyledInput id="text" name="text" onChange={onChange} />
       </div>
-      {/* <Handle type="source" position={Position.Bottom} id="b" />
-      <Handle type="source" position={Position.Right} id="r" /> */}
+      <Handle type="source" position={Position.Bottom} id="b" />
+      <Handle type="source" position={Position.Right} id="r" />
     </>
   );
 };
@@ -141,12 +142,7 @@ const ReactFlowForm = () => {
         <Button onClick={saveData}>저장</Button>
       </ButtonWrapper>
       <FlowWrapper>
-        <ReactFlow
-          defaultNodes={initialNodes}
-          defaultEdges={initialEdges}
-          nodeTypes={nodeTypes}
-          fitView
-        >
+        <ReactFlow defaultNodes={initialNodes} defaultEdges={initialEdges} nodeTypes={nodeTypes}>
           <Background />
         </ReactFlow>
       </FlowWrapper>
