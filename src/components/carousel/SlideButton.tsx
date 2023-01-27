@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { IoIosArrowForward as ArrowIcon } from 'react-icons/io';
 import { useRecoilValue } from 'recoil';
+import { IconArrow } from '../icons/Icons';
 import { isDarkState } from '../../recoil';
 
 interface ISlideButtonProps {
@@ -28,7 +28,7 @@ export default function SlideButton({ direction, onClick }: ISlideButtonProps) {
   const isDark = useRecoilValue(isDarkState);
   return (
     <BtnSlideControl onClick={onClick} direction={`${direction}`}>
-      <ArrowIcon
+      <IconArrow
         color={!isDark ? 'var(--colors-black-500)' : 'var(--colors-white-500)'}
         size="18"
       />

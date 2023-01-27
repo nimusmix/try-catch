@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { RxBookmark, RxBookmarkFilled } from 'react-icons/rx';
 import { useState } from 'react';
+import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
+import { ITag } from '../qna/QuestionList';
 import { Button, MiniTitle, Paragraph } from '../../components';
 import { isDarkState } from '../../recoil';
 
@@ -137,8 +138,8 @@ const FeedListItem = ({
             </BlogTitle>
             <Icons onClick={handleClick}>
               {/* 북마크 */}
-              {bookMarkIcon && <RxBookmarkFilled size="30" color="var(--colors-brand-500)" />}
-              {bookMarkIcon || <RxBookmark size="30" color="var(--colors-brand-500)" />}
+              {bookMarkIcon && <IconBookmarkFill size="30" color="var(--colors-brand-500)" />}
+              {bookMarkIcon || <IconBookmarkEmpty size="30" color="var(--colors-brand-500)" />}
             </Icons>
           </QuestionHeader>
 

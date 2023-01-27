@@ -1,5 +1,5 @@
-import { BsGrid, BsViewStacked } from 'react-icons/bs';
 import styled from 'styled-components';
+import { IconCard, IconList } from '../../components/icons/Icons';
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,10 +15,10 @@ const FeedView = () => {
   return (
     <Wrapper>
       <IconWrapper>
-        <BsGrid size="16" />
+        <IconCard size="16" />
       </IconWrapper>
       <IconWrapper>
-        <BsViewStacked size="16" />
+        <IconList size="16" />
       </IconWrapper>
     </Wrapper>
   );
