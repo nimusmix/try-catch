@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { useState } from 'react';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
-import { ITag } from '../qna/QuestionList';
 import { Button, MiniTitle, Paragraph } from '../../components';
 import { isDarkState } from '../../recoil';
 
@@ -76,6 +75,10 @@ const CompanyImg = styled.img`
   margin: auto 8px;
 `;
 
+const createImageUrl = (companyName: string) => {
+  return new URL(`/src/assets/logo/${companyName}.png`, import.meta.url).href;
+};
+
 const BlogTitle = styled.span`
   display: flex;
 `;
@@ -131,7 +134,9 @@ const FeedListItem = ({
               </MiniTitle>
               <CompanyImg
                 src={
-                  companyName ? `/src/assets/logo/${companyName}.png` : `/src/assets/favicon.ico`
+                  companyName
+                    ? createImageUrl(companyName)
+                    : new URL(`/src/assets/favicon.ico`, import.meta.url).href
                 }
                 alt={`${companyName}`}
               />
