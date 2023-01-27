@@ -1,4 +1,5 @@
 import { createRef, useState } from 'react';
+import styled from 'styled-components';
 import { HeaderImage, Layout } from '../../layout';
 import { Paragraph, SubTitle } from '../../components';
 import { header_feed } from '../../assets';
@@ -16,6 +17,21 @@ const FeedTags = [
   { id: 8, tagName: 'Fighting' },
   { id: 9, tagName: 'Aja Aja' },
 ];
+
+const Aside = styled.aside`
+  margin: 3rem 1.5rem 0;
+  position: sticky;
+  top: 6rem;
+  left: 0;
+  height: 500px;
+  width: 17.75rem;
+`;
+
+const FilterTop = styled.section`
+  display: flex;
+  justify-content: right;
+  margin-bottom: 1rem;
+`;
 
 const FeedPage = () => {
   const [activeFilterOption, setActiveFilterOption] = useState<string | null>('나의 관심순');
@@ -37,19 +53,19 @@ const FeedPage = () => {
         </Paragraph>
       </HeaderImage>
       <FeedPageBody>
-        <aside style={{ margin: '0 1.5rem 0', width: '17.75rem' }}>
+        <Aside>
           <FeedSearchBar />
           <FeedTag tags={FeedTags} />
-        </aside>
-        <section style={{ margin: '0 1.5rem 0' }}>
-          <section style={{ display: 'flex', justifyContent: 'right', marginBottom: '1rem' }}>
+        </Aside>
+        <section style={{ margin: '3rem 1.5rem 0' }}>
+          <FilterTop>
             <FeedFilter
               ref={filter}
               currentOption={activeFilterOption}
               handleFilterOptionClick={handleFilterOptionClick}
             />
             <FeedView />
-          </section>
+          </FilterTop>
           <FeedList />
         </section>
       </FeedPageBody>
