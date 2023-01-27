@@ -44,7 +44,6 @@ const Aside = styled.aside`
   margin: 3rem 1.5rem 0;
   position: sticky;
   top: 6rem;
-  left: 0;
   height: 500px;
 `;
 

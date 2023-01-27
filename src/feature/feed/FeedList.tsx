@@ -1,10 +1,11 @@
 import { useQuery } from 'react-query';
+import { AxiosError } from 'axios';
 import Skeleton from './FeedItemSkeleton';
 import { axiosFeedSearchList } from '../../utils/api';
 import FeedListItem, { IFeedListItemProps } from './FeedListItem';
 
 interface IFeedListProps {
-  feedList: IFeedListItemProps[];
+  feedList: Array<IFeedListItemProps>;
 }
 
 const FeedList = () => {
@@ -13,7 +14,7 @@ const FeedList = () => {
    * 임시로 vue search 결과를 feed리스트로 보냄
    * 원래는 axiosFeedList() 함수 사용
    */
-  const { data, isLoading, isError } = useQuery<IFeedListProps>('feed', () =>
+  const { data, isLoading, isError } = useQuery<IFeedListProps, AxiosError>('feed', () =>
     axiosFeedSearchList('vue')
   );
 
