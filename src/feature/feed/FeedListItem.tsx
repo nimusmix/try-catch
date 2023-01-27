@@ -18,12 +18,6 @@ const Wrapper = styled.article`
 const ArticleWrapper = styled.article`
   width: 630px;
   padding: 1rem 2rem;
-  /* border-bottom: 1px solid var(--colors-black-200); */
-  /* cursor: pointer; */
-  /* &:hover {
-    background-color: ${({ theme: { isDark } }) =>
-    isDark ? 'var(--colors-black-400)' : 'var(--colors-white-400)'};
-  } */
 `;
 
 const QuestionHeader = styled.div`
@@ -75,28 +69,36 @@ const FeedThumbnailImg = styled.div<{ image: string }>`
   border-radius: var(--borders-radius-base);
   margin: auto 1rem;
 `;
+const CompanyImg = styled.img`
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  margin: auto 8px;
+`;
+
+const BlogTitle = styled.span`
+  display: flex;
+`;
 
 export interface IFeedListItemProps {
-  title: string;
-  desc: string;
-  company: {
-    name: string;
-    image: string;
-  };
-  publishedDate: string;
-  tags: ITag[];
-  isBookmarked: boolean;
   blogURL: string;
+  companyName: string;
+  content: string;
+  createdAt: string;
+  feedId: string;
+  isBookmarked: boolean;
+  tags: string[];
   thumbnailImage: string;
+  title: string;
 }
 
 const FeedListItem = ({
   title,
-  desc,
-
+  content,
   tags,
   isBookmarked,
   blogURL,
+  companyName,
   thumbnailImage,
 }: IFeedListItemProps) => {
   const isDark = useRecoilValue(isDarkState);
@@ -119,13 +121,21 @@ const FeedListItem = ({
         <FeedThumbnailImg image={thumbnailImage} />
         <ArticleWrapper>
           <QuestionHeader>
-            <MiniTitle
-              sizeType="xl"
-              color={isDark ? 'var(--colors-white-500)' : 'var(--colors-dark-500)'}
-              textAlign="left"
-            >
-              {title}
-            </MiniTitle>
+            <BlogTitle>
+              <MiniTitle
+                sizeType="xl"
+                color={isDark ? 'var(--colors-white-500)' : 'var(--colors-dark-500)'}
+                textAlign="left"
+              >
+                {title.length > 36 ? `${title.slice(0, 36)}...` : title}
+              </MiniTitle>
+              <CompanyImg
+                src={
+                  companyName ? `/src/assets/logo/${companyName}.png` : `/src/assets/favicon.ico`
+                }
+                alt={`${companyName}`}
+              />
+            </BlogTitle>
             <Icons onClick={handleClick}>
               {/* 북마크 */}
               {bookMarkIcon && <IconBookmarkFill size="30" color="var(--colors-brand-500)" />}
@@ -139,15 +149,15 @@ const FeedListItem = ({
               color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
               style={{ width: '510px' }}
             >
-              {desc.length > 90 ? `${desc.slice(0, 90)}...` : desc}
+              {content.length > 90 ? `${content.slice(0, 90)}...` : content}
             </Paragraph>
           </QuestionBody>
 
           <QuestionFooter>
             <TagsWrapper>
-              {tags.map(({ id, tagName }: ITag) => (
+              {tags.map((tag) => (
                 <Button
-                  key={id}
+                  key={tag}
                   as="span"
                   designType="blueEmpty"
                   color="var(--colors-brand-500)"
@@ -155,7 +165,7 @@ const FeedListItem = ({
                   padding="2px 10px"
                   borderRadius="var(--borders-radius-base)"
                 >
-                  {tagName}
+                  {tag}
                 </Button>
               ))}
             </TagsWrapper>

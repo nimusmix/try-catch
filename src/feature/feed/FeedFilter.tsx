@@ -18,7 +18,7 @@ const filterOptions = [
   },
   {
     id: 3,
-    option: '인기순',
+    option: '구독',
   },
 ];
 
@@ -30,7 +30,7 @@ const Item = styled.button<{ option: string }>`
   border-color: ${({ theme: { isDark } }) =>
     isDark ? 'var(--colors-brand-100)' : 'var(--colors-black-100)'};
 
-  border-right: ${({ option }) => (option === '인기순' ? 'none' : '0.8px solid')};
+  border-right: ${({ option }) => (option === '구독' ? 'none' : '0.8px solid')};
 
   &.active > h3,
   &:hover > h3 {
@@ -44,6 +44,7 @@ const Item = styled.button<{ option: string }>`
     font-weight: 400;
   }
 `;
+
 const FeedFilter = forwardRef(
   ({ currentOption, handleFilterOptionClick }: IFeedFilterProps, ref: any) => {
     return (

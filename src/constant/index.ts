@@ -16,7 +16,7 @@ const TOAST_TIMEOUT = 3000;
 const CAROUSEL_DELAY = 2500;
 
 // 태그 인피니티 스크롤(랜딩 페이지)
-const DURATION = 15000;
+const DURATION = 35000;
 const ROWS = 5;
 const TAGS_PER_ROW = 8;
 
