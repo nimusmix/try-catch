@@ -90,7 +90,7 @@ export interface IFeedListItemProps {
   createdAt: string;
   feedId: string;
   isBookmarked: boolean;
-  tags: string[];
+  tags: Array<string>;
   thumbnailImage: string;
   title: string;
 }

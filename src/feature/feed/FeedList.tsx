@@ -5,7 +5,7 @@ import { axiosFeedSearchList } from '../../utils/api';
 import FeedListItem, { IFeedListItemProps } from './FeedListItem';
 
 interface IFeedListProps {
-  feedList: IFeedListItemProps[];
+  feedList: Array<IFeedListItemProps>;
 }
 
 const FeedList = () => {
