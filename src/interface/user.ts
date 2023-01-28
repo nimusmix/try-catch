@@ -135,7 +135,8 @@ export interface ISubscriptionList {
 
 export interface IUser {
   userId: number;
-  name: string;
+  userName: string;
+  profileImage?: string;
   companyName?: string;
   subscriptions: Array<ISubscription>;
   subscriptionCount: number;
@@ -143,6 +144,7 @@ export interface IUser {
   followingCount: number;
   followers: Array<ISimpleUserData>;
   followerCount: number;
+  introduction: string;
   tags: Array<string>;
   questions: Array<IQuestion>;
   answers: Array<IAnswer>;
