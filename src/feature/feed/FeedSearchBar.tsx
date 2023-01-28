@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { IoMdSearch } from 'react-icons/io';
 import { useRecoilValue } from 'recoil';
 import { useForm } from 'react-hook-form';
+import { IconSearch } from '../../components/icons/Icons';
 import { Input } from '../../components';
 import { isDarkState } from '../../recoil';
 
@@ -37,7 +37,7 @@ const FeedSearchBar = () => {
     <form onSubmit={onSubmit} style={{ marginBottom: '1rem' }}>
       <StyledSearchBar>
         <SearchIcon onClick={handleClick}>
-          <IoMdSearch
+          <IconSearch
             color={isDark ? 'var(--colors-black-100)' : 'var(--colors-white-100)'}
             size="20"
           />

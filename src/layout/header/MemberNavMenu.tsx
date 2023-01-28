@@ -1,9 +1,7 @@
-import { BsBellFill } from 'react-icons/bs';
-import { RxBookmarkFilled } from 'react-icons/rx';
-import { FaUserCircle } from 'react-icons/fa';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import { IconBookmarkFill, IconBellFill, IconUserCircle } from '../../components/icons/Icons';
 import { BOOKMARK_PAGE_NAME } from '../../constant';
 import { Ul } from './NavMenu';
 import { Paragraph } from '../../components';
@@ -47,7 +45,7 @@ const MemberNavMenu = () => {
     <Ul>
       <Li>
         <Alert>
-          <BsBellFill
+          <IconBellFill
             color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
             size="20"
           />
@@ -56,14 +54,14 @@ const MemberNavMenu = () => {
 
       <Li>
         <Bookmark to={`/${BOOKMARK_PAGE_NAME}`}>
-          <RxBookmarkFilled
+          <IconBookmarkFill
             color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
             size="24"
           />
         </Bookmark>
       </Li>
       <ProfileLi>
-        <FaUserCircle
+        <IconUserCircle
           color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
           size="24"
         />

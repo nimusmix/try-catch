@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { QuestionItem } from '../qna';
-import { Checkbox, Button } from '../../components';
+import { Button, Checkbox } from '../../components';
 
 const questionItemList = [
   {
@@ -71,7 +71,7 @@ const ButtonWrapper = styled.div`
 const Btn = styled(Button)<{ checked: boolean }>``;
 
 const BookmarkQuestionList = () => {
-  const [checkedItems, setCheckedItems] = useState<number[]>([]);
+  const [checkedItems, setCheckedItems] = useState<Array<number>>([]);
 
   const handleSingleCheck = (checked: boolean, id: number) => {
     if (checked) {
@@ -87,7 +87,7 @@ const BookmarkQuestionList = () => {
 
   const handleAllCheck = (checked: boolean) => {
     if (!checked) {
-      const allItems: number[] = [];
+      const allItems: Array<number> = [];
       questionItemList.forEach((el) => allItems.push(el.id));
       setCheckedItems(allItems);
     } else {

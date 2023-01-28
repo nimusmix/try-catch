@@ -1,7 +1,5 @@
-import { TAGS_PER_ROW } from '../constant';
-
-const shuffle = (arr: Array<string>) => {
-  return [...arr].sort(() => Math.random() - Math.random()).slice(0, TAGS_PER_ROW);
+const shuffle = (arr: Array<string>, count: number) => {
+  return [...arr].sort(() => Math.random() - Math.random()).slice(0, count);
 };
 
 export default shuffle;

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
+import { IconLikeEmpty, IconLikeFill } from '../../components/icons/Icons';
 import { Button, Div, Paragraph } from '../../components';
 
 interface IAnswerProps {
@@ -130,8 +130,8 @@ const Answer = () => {
 
       <Paragraph sizeType="base">{MAnswer.content}</Paragraph>
       <Like>
-        {MAnswer.isLiked && <AiFillLike />}
-        {MAnswer.isLiked || <AiOutlineLike />}
+        {MAnswer.isLiked && <IconLikeFill />}
+        {MAnswer.isLiked || <IconLikeEmpty />}
         <SubText sizeType="xm">{MAnswer.likeCount}</SubText>
       </Like>
     </AnswerDiv>

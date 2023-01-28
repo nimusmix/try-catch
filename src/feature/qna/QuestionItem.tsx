@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { HiOutlineThumbUp } from 'react-icons/hi';
-import { BiComment } from 'react-icons/bi';
-import { AiOutlineEye } from 'react-icons/ai';
+import { IconLikeEmpty, IconEye, IconComment } from '../../components/icons/Icons';
 import { Button, MiniTitle, Paragraph } from '../../components';
 import { isDarkState } from '../../recoil';
 import { IQuestionItemList, ITag } from './QuestionList';
@@ -115,15 +113,15 @@ const QuestionItem = ({
         </TagsWrapper>
         <InfoWrapper>
           <Paragraph as="span" sizeType="sm">
-            <AiOutlineEye />
+            <IconEye />
             {viewCount}
           </Paragraph>
           <Paragraph as="span" sizeType="sm">
-            <HiOutlineThumbUp />
+            <IconLikeEmpty />
             {likeCount}
           </Paragraph>
           <Paragraph as="span" sizeType="sm">
-            <BiComment />
+            <IconComment />
             {answerCount}
           </Paragraph>
         </InfoWrapper>

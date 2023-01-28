@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import QuestionItem from './QuestionItem';
 
 export interface ITag {
@@ -206,7 +207,9 @@ const QuestionList = () => {
       {questionItemList.map((questionItem) => {
         return (
           <li key={questionItem.id}>
-            <QuestionItem {...questionItem} />
+            <Link to={`${questionItem.id}`}>
+              <QuestionItem {...questionItem} />
+            </Link>
           </li>
         );
       })}

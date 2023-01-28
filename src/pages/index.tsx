@@ -17,6 +17,7 @@ import RoadmapPage from './roadmap/RoadmapPage';
 const QnaFormPage = loadable(() => import('./qna/QnaFormPage'));
 const QnaDetailPage = loadable(() => import('./qna/QnaDetailPage'));
 const ChallengesDetailPage = loadable(() => import('./challenges/ChallengesDetailPage'));
+const RoadmapFormPage = loadable(() => import('./roadmap/RoadmapFormPage'));
 const RoadmapListPage = loadable(() => import('./roadmap/RoadmapListPage'));
 const RoadmapDetailPage = loadable(() => import('./roadmap/RoadmapDetailPage'));
 const UserProfilePage = loadable(() => import('./profile/UserProfilePage'));
@@ -40,6 +41,7 @@ export {
   ChallengesPage,
   ChallengesDetailPage,
   RoadmapPage,
+  RoadmapFormPage,
   RoadmapListPage,
   RoadmapDetailPage,
   UserProfilePage,

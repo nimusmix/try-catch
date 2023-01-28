@@ -1,7 +1,12 @@
 import styled from 'styled-components';
-import { RxBookmark, RxBookmarkFilled } from 'react-icons/rx';
-import { BsCheckCircleFill, BsShareFill } from 'react-icons/bs';
-import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
+import {
+  IconBookmarkEmpty,
+  IconBookmarkFill,
+  IconLikeEmpty,
+  IconLikeFill,
+  IconCheckCircle,
+  IconShare,
+} from '../../components/icons/Icons';
 import { Button, Div, MiniTitle, Paragraph } from '../../components';
 import elapsedTime from '../../utils/elapsed-time';
 
@@ -139,7 +144,7 @@ const Question = () => {
               margin="0 0 0 0.4rem"
               borderRadius="10px"
             >
-              <BsCheckCircleFill size="14" className="solved-icon" />
+              <IconCheckCircle size="14" className="solved-icon" />
               &nbsp;Catched
             </UpperTag>
           )}
@@ -147,11 +152,13 @@ const Question = () => {
 
         <Icons>
           {/* 북마크 */}
-          {MQuestion.isBookMarked && <RxBookmarkFilled size="20" color="var(--colors-brand-500)" />}
-          {MQuestion.isBookMarked || <RxBookmark size="20" color="var(--colors-brand-500)" />}
+          {MQuestion.isBookMarked && <IconBookmarkFill size="20" color="var(--colors-brand-500)" />}
+          {MQuestion.isBookMarked || (
+            <IconBookmarkEmpty size="20" color="var(--colors-brand-500)" />
+          )}
 
           {/* 공유 */}
-          <BsShareFill size="16" color="var(--colors-brand-500)" />
+          <IconShare size="16" color="var(--colors-brand-500)" />
         </Icons>
       </UpperWrapper>
 
@@ -175,8 +182,8 @@ const Question = () => {
       <Paragraph sizeType="base">{MQuestion.content}</Paragraph>
 
       <Like>
-        {MQuestion.isLiked && <AiFillLike />}
-        {MQuestion.isLiked || <AiOutlineLike />}
+        {MQuestion.isLiked && <IconLikeFill />}
+        {MQuestion.isLiked || <IconLikeEmpty />}
         <SubText sizeType="xm">{MQuestion.likeCount}</SubText>
       </Like>
     </QuestionDiv>

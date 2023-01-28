@@ -9,6 +9,7 @@ import SubTitle from './font/SubTitle';
 import Title from './font/Title';
 import Input from './input/Input';
 import Slideshow from './carousel/MainCarousel';
+import SlideNavbar from './side-navbar/SideNavbar';
 
 export {
   Button,
@@ -22,4 +23,5 @@ export {
   Input,
   TopButton,
   Slideshow,
+  SlideNavbar,
 };

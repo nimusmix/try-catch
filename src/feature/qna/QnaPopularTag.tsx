@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import { Button, MiniTitle, Div } from '../../components';
+import { Button, Div, MiniTitle } from '../../components';
 
 import { ITag } from './QuestionList';
 
 export interface IQnaPopularTag {
-  tags: ITag[];
+  tags: Array<ITag>;
 }
 
 const QnaPopularTagWrapper = styled(Div)`
