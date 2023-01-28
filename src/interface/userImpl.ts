@@ -129,7 +129,7 @@ const companyUser: ICompanyUser = {
 
 const user: IUser = {
   userId: 10,
-  name: '유저 이름',
+  userName: '유저 이름',
   companyName: '회사 이름',
   tags: ['리액트', '자바'],
   subscriptions: [subscription],
@@ -143,4 +143,5 @@ const user: IUser = {
   history: [],
   questions: [question],
   recentFeeds: [feed],
+  introduction: '소개',
 };
