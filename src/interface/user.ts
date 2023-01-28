@@ -137,13 +137,16 @@ export interface IUser {
   userId: number;
   name: string;
   companyName?: string;
+  subscriptions: Array<ISubscription>;
+  subscriptionCount: number;
+  followings: Array<ISimpleUserData>;
+  followingCount: number;
+  followers: Array<ISimpleUserData>;
   followerCount: number;
-  followeeCount: number;
   tags: Array<string>;
   questions: Array<IQuestion>;
   answers: Array<IAnswer>;
   recentFeeds: Array<IFeed>;
   history: [];
-  subscriptions: Array<ISubscription>;
   isFollowed: boolean;
 }
