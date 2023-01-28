@@ -1,7 +1,9 @@
+import { createRef, useState } from 'react';
+import styled from 'styled-components';
 import { HeaderImage, Layout } from '../../layout';
 import { Paragraph, SubTitle } from '../../components';
 import { header_feed } from '../../assets';
-import { FeedSearchBar, FeedTag } from '../../feature/feed';
+import { FeedList, FeedSearchBar, FeedTag, FeedView, FeedFilter } from '../../feature/feed';
 import { QuestionPageBody as FeedPageBody } from '../qna/QnaPage';
 
 const FeedTags = [
@@ -16,7 +18,29 @@ const FeedTags = [
   { id: 9, tagName: 'Aja Aja' },
 ];
 
+const Aside = styled.aside`
+  margin: 3rem 1.5rem 0;
+  position: sticky;
+  top: 6rem;
+  height: 500px;
+  width: 17.75rem;
+`;
+
+const FilterTop = styled.section`
+  display: flex;
+  justify-content: right;
+  margin-bottom: 1rem;
+`;
+
 const FeedPage = () => {
+  const [activeFilterOption, setActiveFilterOption] = useState<string | null>('나의 관심순');
+  const filter = createRef();
+
+  const handleFilterOptionClick = (event: React.MouseEvent<HTMLElement>) => {
+    const target = event.target as Element;
+    const filterOptionName = target.getAttribute('data-name');
+    setActiveFilterOption(filterOptionName);
+  };
   return (
     <Layout>
       <HeaderImage image={header_feed}>
@@ -28,12 +52,20 @@ const FeedPage = () => {
         </Paragraph>
       </HeaderImage>
       <FeedPageBody>
-        <aside style={{ margin: '0 1.5rem 0', width: '17.75rem' }}>
+        <Aside>
           <FeedSearchBar />
           <FeedTag tags={FeedTags} />
-        </aside>
-        <section style={{ margin: '0 1.5rem 0' }}>
-          <div>리스트 아이템</div>
+        </Aside>
+        <section style={{ margin: '3rem 1.5rem 0' }}>
+          <FilterTop>
+            <FeedFilter
+              ref={filter}
+              currentOption={activeFilterOption}
+              handleFilterOptionClick={handleFilterOptionClick}
+            />
+            <FeedView />
+          </FilterTop>
+          <FeedList />
         </section>
       </FeedPageBody>
     </Layout>

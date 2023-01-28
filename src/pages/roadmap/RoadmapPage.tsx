@@ -1,7 +1,7 @@
+import { Link } from 'react-router-dom';
 import { HeaderImage, Layout } from '../../layout';
-import { Paragraph, SubTitle } from '../../components';
+import { Button, Paragraph, SubTitle } from '../../components';
 import { header_roadmap } from '../../assets';
-import Flow from './ReactFlowTest';
 
 const RoadmapPage = () => {
   return (
@@ -14,7 +14,11 @@ const RoadmapPage = () => {
           로드맵 게시판에 대한 설명이 들어갈 자리입니다.
         </Paragraph>
       </HeaderImage>
-      <Flow />
+      <br />
+      <br />
+      <Link to="form">
+        <Button>내 로드맵 생성</Button>
+      </Link>
     </Layout>
   );
 };

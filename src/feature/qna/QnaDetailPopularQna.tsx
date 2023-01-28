@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { Link } from 'react-router-dom';
-import { MiniTitle, Div, Paragraph, Button } from '../../components';
+import { Button, Div, MiniTitle, Paragraph } from '../../components';
 import { isDarkState } from '../../recoil';
 
 interface IQnaDetailPopularQnaProps {
