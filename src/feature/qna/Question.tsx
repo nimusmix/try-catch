@@ -21,6 +21,7 @@ interface IQuestion {
   content: string;
   category: string;
   tags: Array<string>;
+  viewCount: number;
   likeCount: number;
   answerCount: number;
   timestamp: number;
