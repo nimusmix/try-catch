@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://api.try-catch.duckdns.org/v1',
+  baseURL: 'https://beta.api.try-catch.duckdns.org/v1',
 });
 
 export const axiosFeedList = () => api.get(`/feed/list`).then((res) => res.data);
