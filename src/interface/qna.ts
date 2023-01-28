@@ -9,6 +9,7 @@ export interface IQuestion {
   category: string;
   title: string;
   content: string;
+  errorCode: string;
   tags: Array<string>;
   likeCount: number;
   answerCount: number;
