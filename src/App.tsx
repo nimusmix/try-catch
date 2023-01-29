@@ -8,14 +8,19 @@ import { isDarkState } from './recoil';
 import { darkTheme, lightTheme } from './styles/theme';
 
 const GlobalStyles = createGlobalStyle`
+  *{
+    transition: background-color 0.2s ease-in;
+  }
   #root {
     background-color: ${({ theme: { bgColor } }) => bgColor};
     color: ${({ theme: { textColor } }) => textColor};
     min-width: var(--breakpoints-desktop);
+    
   }
   
   body {
     background-color: ${({ theme: { bgColor } }) => bgColor};
+    
   }
 `;
 

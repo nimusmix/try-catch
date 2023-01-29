@@ -1,6 +1,6 @@
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { TopButton } from '../../components';
+import { useInView } from 'react-intersection-observer';
 import Layout from '../../layout/Layout';
 import MarqueeLogoCard from './marquee-logo-wall/MarqueeLogoCard';
 import LandingTitle from './landing-title/LandingTitle';
@@ -23,12 +23,15 @@ const LogoWrapper = styled.div`
 
 const LandingPage = () => {
   const isDark = useRecoilValue(isDarkState);
+
+  const { ref: myRef, inView: myElementIsVisible } = useInView();
+  console.log(myElementIsVisible);
+
   return (
     <Layout>
-      {' '}
       <MarqueeLogoCard />
       <LandingPageBody>
-        <LogoWrapper>
+        <LogoWrapper ref={myRef}>
           {isDark && <LogoDarkTheme width="100%" height="200" />}
           {isDark || <LogoLightTheme width="100%" height="200" />}
         </LogoWrapper>
@@ -38,7 +41,6 @@ const LandingPage = () => {
         <QnASection />
         <LastSection />
       </LandingPageBody>
-      <TopButton />
     </Layout>
   );
 };
