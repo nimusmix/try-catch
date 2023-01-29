@@ -1,7 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import random from '../../../utils/random';
 import {
   ably,
   bankSalad,
@@ -123,7 +122,7 @@ const MarqueeContainer = styled.div`
 
 const MarqueeForeground = styled(MarqueeContainer)`
   margin-top: 3rem;
-  -webkit-animation-duration: 48s;
+  -webkit-animation-duration: 30s;
   width: 300%;
   z-index: 5;
 
@@ -137,7 +136,7 @@ const MarqueeForeground = styled(MarqueeContainer)`
 
 const MarqueeMidground = styled(MarqueeContainer)`
   margin-top: 6rem;
-  -webkit-animation-duration: 68s;
+  -webkit-animation-duration: 40s;
   z-index: 6;
 
   div {
@@ -151,7 +150,7 @@ const MarqueeMidground = styled(MarqueeContainer)`
 const MarqueeBackground = styled(MarqueeContainer)`
   margin-top: 3rem;
   -webkit-animation-delay: 250ms;
-  -webkit-animation-duration: 100s;
+  -webkit-animation-duration: 30s;
   z-index: 0;
 
   div {
@@ -184,16 +183,121 @@ const MarqueeCard = styled.div<{ image: string }>`
   }
 `;
 
-const ForeCard = styled(MarqueeCard)<{ image: string; x: number; y: number }>`
-  transform: translate(${({ x }) => x}px, ${({ y }) => y}px);
+const ForeCard = styled(MarqueeCard)<{ image: string }>`
+  &:nth-child(1) {
+    translate: 1016px 6px;
+  }
+  &:nth-child(2) {
+    translate: 953px -74px;
+  }
+  &:nth-child(3) {
+    translate: 1168px -295px;
+  }
+  &:nth-child(4) {
+    translate: 850px 66px;
+  }
+  &:nth-child(5) {
+    translate: 980px -182px;
+  }
+  &:nth-child(6) {
+    translate: 823px 200px;
+  }
+  &:nth-child(7) {
+    translate: 844px 150px;
+  }
+  &:nth-child(8) {
+    translate: 803px -324px;
+  }
 `;
 
-const MidCard = styled(MarqueeCard)<{ image: string; x: number; y: number }>`
-  transform: translate(${({ x }) => x}px, ${({ y }) => y}px);
+const MidCard = styled(MarqueeCard)<{ image: string }>`
+  &:nth-child(1) {
+    translate: 1216px 112px;
+  }
+  &:nth-child(2) {
+    translate: 1272px -30px;
+  }
+  &:nth-child(3) {
+    translate: 1259px -156px;
+  }
+  &:nth-child(4) {
+    translate: 1364px -243px;
+  }
+  &:nth-child(5) {
+    translate: 1239px -62px;
+  }
+  &:nth-child(6) {
+    translate: 1064px 155px;
+  }
+  &:nth-child(7) {
+    translate: 1369px -90px;
+  }
+  &:nth-child(8) {
+    translate: 1023px -15px;
+  }
+  &:nth-child(9) {
+    translate: 1156px 1px;
+  }
+  &:nth-child(10) {
+    translate: 1336px 50px;
+  }
+  &:nth-child(11) {
+    translate: 1310px -66px;
+  }
+  &:nth-child(12) {
+    translate: 1085px -114px;
+  }
 `;
 
-const BackCard = styled(MarqueeCard)<{ image: string; x: number; y: number }>`
-  transform: translate(${({ x }) => x}px, ${({ y }) => y}px);
+const BackCard = styled(MarqueeCard)<{ image: string }>`
+  &:nth-child(1) {
+    translate: 1476px 382px;
+  }
+  &:nth-child(2) {
+    translate: 1503px -265px;
+  }
+  &:nth-child(3) {
+    translate: 1355px 133px;
+  }
+  &:nth-child(4) {
+    translate: 1583px 298px;
+  }
+  &:nth-child(5) {
+    translate: 1212px -214px;
+  }
+  &:nth-child(6) {
+    translate: 1492px 227px;
+  }
+  &:nth-child(7) {
+    translate: 1103px 5px;
+  }
+  &:nth-child(8) {
+    translate: 1440px 51px;
+  }
+  &:nth-child(9) {
+    translate: 1349px 165px;
+  }
+  &:nth-child(10) {
+    translate: 1340px 295px;
+  }
+  &:nth-child(11) {
+    translate: 1235px -286px;
+  }
+  &:nth-child(12) {
+    translate: 1196px -152px;
+  }
+  &:nth-child(13) {
+    translate: 1279px 241px;
+  }
+  &:nth-child(14) {
+    translate: 1114px -294px;
+  }
+  &:nth-child(15) {
+    translate: 1195px 385px;
+  }
+  &:nth-child(16) {
+    translate: 1557px -226px;
+  }
 `;
 
 const MarqueeLogoCard = () => {
@@ -209,17 +313,17 @@ $(window).resize(function(){
     <MarqueeWrapper>
       <MarqueeForeground>
         {[...new Array(8)].map((_, i) => (
-          <ForeCard key={i} image={images1[i]} x={random(800, 1200)} y={random(-400, 100)} />
+          <ForeCard key={i} image={images1[i]} />
         ))}
       </MarqueeForeground>
       <MarqueeMidground className="animated-marquee-container animated-marquee-middleground">
         {[...new Array(12)].map((_, i) => (
-          <MidCard key={i} image={images2[i]} x={random(1000, 1400)} y={random(-300, 200)} />
+          <MidCard key={i} image={images2[i]} />
         ))}
       </MarqueeMidground>
       <MarqueeBackground className="animated-marquee-container animated-marquee-background">
         {[...new Array(16)].map((_, i) => (
-          <BackCard key={i} image={images3[i]} x={random(1100, 1600)} y={random(-500, 200)} />
+          <BackCard key={i} image={images3[i]} />
         ))}
       </MarqueeBackground>
     </MarqueeWrapper>
