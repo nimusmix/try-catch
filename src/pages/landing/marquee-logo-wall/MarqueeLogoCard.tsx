@@ -122,7 +122,7 @@ const MarqueeContainer = styled.div`
 
 const MarqueeForeground = styled(MarqueeContainer)`
   margin-top: 3rem;
-  -webkit-animation-duration: 30s;
+  -webkit-animation-duration: 40s;
   width: 300%;
   z-index: 5;
 
@@ -136,7 +136,7 @@ const MarqueeForeground = styled(MarqueeContainer)`
 
 const MarqueeMidground = styled(MarqueeContainer)`
   margin-top: 6rem;
-  -webkit-animation-duration: 40s;
+  -webkit-animation-duration: 50s;
   z-index: 6;
 
   div {
@@ -150,7 +150,7 @@ const MarqueeMidground = styled(MarqueeContainer)`
 const MarqueeBackground = styled(MarqueeContainer)`
   margin-top: 3rem;
   -webkit-animation-delay: 250ms;
-  -webkit-animation-duration: 30s;
+  -webkit-animation-duration: 60s;
   z-index: 0;
 
   div {
