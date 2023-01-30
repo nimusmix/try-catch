@@ -18,7 +18,7 @@ const GlobalStyles = createGlobalStyle`
     background-color: ${({ theme: { bgColor } }) => bgColor};
   }
   
-  .result-test *{
+  .markdown-preview *{ 
     all : revert;
   }
 `;
