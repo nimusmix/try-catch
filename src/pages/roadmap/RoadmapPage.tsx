@@ -1,10 +1,19 @@
-import { Link } from 'react-router-dom';
+import { Link, Outlet, useMatch } from 'react-router-dom';
+import styled from 'styled-components';
 import { HeaderImage, Layout } from '../../layout';
 import { Button, Paragraph, SubTitle } from '../../components';
 import { header_roadmap } from '../../assets';
-import RoadmapDetail from '../../feature/roadmap/RoadmapDetail';
+import FERoadmapPage from './FERoadmapPage';
+import BERoadmapPage from './BERoadmapPage';
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
 const RoadmapPage = () => {
+  const roadmapMatch = useMatch('roadmap');
+
   return (
     <Layout>
       <HeaderImage image={header_roadmap}>
@@ -17,10 +26,19 @@ const RoadmapPage = () => {
       </HeaderImage>
       <br />
       <br />
-      <Link to="form">
-        <Button>내 로드맵 생성</Button>
-      </Link>
-      <RoadmapDetail />
+
+      <ButtonWrapper>
+        <Link to="fe">
+          <Button>프론트엔드</Button>
+        </Link>
+        <Link to="be">
+          <Button>백엔드</Button>
+        </Link>
+        <Link to="form">
+          <Button>내 로드맵 생성</Button>
+        </Link>
+      </ButtonWrapper>
+      {roadmapMatch ? <FERoadmapPage /> : <Outlet />}
     </Layout>
   );
 };
