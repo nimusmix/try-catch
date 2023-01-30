@@ -9,7 +9,7 @@ import { ChallengeRank, RecommendChallenge } from '../../feature/challenge';
 
 const ChallengeRecommend = () => {
   return (
-    <div>
+    <div style={{ margin: '0 2rem' }}>
       <MiniTitle sizeType="xl" textAlign="left" padding="1.25rem 0rem 1rem 0rem">
         42good님을 위한 추천 챌린지
       </MiniTitle>
@@ -25,8 +25,7 @@ const ChallengeRankWrapper = () => {
       <MiniTitle sizeType="xl" textAlign="left" padding="1.25rem 0rem 1rem 0rem">
         챌린지 랭킹
       </MiniTitle>
-      <Ranking />
-      {/* <ChallengeRank /> */}
+      {/* <Ranking /> */}
       <ChallengeRank />
     </div>
   );
