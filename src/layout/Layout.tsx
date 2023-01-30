@@ -9,7 +9,6 @@ export interface ILayoutProps {
 
 export const Main = styled.main<{ path: string }>`
   ${({ path }) => path === '/question/form' && 'max-width : 1200px; margin: 0 auto;'}
-export const Main = styled.main`
   background-color: ${({ theme: { bgColor } }) => bgColor};
   display: flex;
   justify-content: center;
