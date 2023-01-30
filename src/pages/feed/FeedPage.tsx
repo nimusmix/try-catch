@@ -1,4 +1,6 @@
 import { createRef, useState } from 'react';
+import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
 import { HeaderImage, Layout } from '../../layout';
 import { Paragraph, SubTitle } from '../../components';
 import { header_feed } from '../../assets';
@@ -17,6 +19,20 @@ const FeedTags = [
   { id: 9, tagName: 'Aja Aja' },
 ];
 
+const Aside = styled.aside`
+  margin: 3rem 1.5rem 0;
+  position: sticky;
+  top: 6rem;
+  height: 500px;
+  width: 17.75rem;
+`;
+
+const FilterTop = styled.section`
+  display: flex;
+  justify-content: right;
+  margin-bottom: 1rem;
+`;
+
 const FeedPage = () => {
   const [activeFilterOption, setActiveFilterOption] = useState<string | null>('나의 관심순');
   const filter = createRef();
@@ -26,6 +42,13 @@ const FeedPage = () => {
     const filterOptionName = target.getAttribute('data-name');
     setActiveFilterOption(filterOptionName);
   };
+
+  const [activeViewOption, setActiveViewOption] = useState<boolean>(true);
+
+  let searchParams = new URLSearchParams(useLocation().search).get('keyword');
+
+  if (!searchParams) searchParams = '';
+
   return (
     <Layout>
       <HeaderImage image={header_feed}>
@@ -37,20 +60,20 @@ const FeedPage = () => {
         </Paragraph>
       </HeaderImage>
       <FeedPageBody>
-        <aside style={{ margin: '0 1.5rem 0', width: '17.75rem' }}>
+        <Aside>
           <FeedSearchBar />
           <FeedTag tags={FeedTags} />
-        </aside>
-        <section style={{ margin: '0 1.5rem 0' }}>
-          <section style={{ display: 'flex', justifyContent: 'right', marginBottom: '1rem' }}>
+        </Aside>
+        <section style={{ margin: '3rem 1.5rem 0' }}>
+          <FilterTop>
             <FeedFilter
               ref={filter}
               currentOption={activeFilterOption}
               handleFilterOptionClick={handleFilterOptionClick}
             />
-            <FeedView />
-          </section>
-          <FeedList />
+            <FeedView setActiveViewOption={setActiveViewOption} />
+          </FilterTop>
+          <FeedList activeViewOption={activeViewOption} keyword={searchParams} />
         </section>
       </FeedPageBody>
     </Layout>

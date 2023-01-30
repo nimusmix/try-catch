@@ -7,16 +7,19 @@ import ReactFlow, {
   useReactFlow,
   useNodes,
   useEdges,
+  Edge,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import styled from 'styled-components';
 import { Button } from '../../components';
 
-interface IEdges {
+export interface IEdges {
   id: string;
   source: string;
   target: string;
   type: string;
+  markerEnd?: string;
+  style?: string;
 }
 
 const StyledInput = styled.input`
@@ -24,26 +27,16 @@ const StyledInput = styled.input`
   padding: 0.5rem;
   color: ${({ theme }) => theme.textColor};
   background-color: ${({ theme }) => theme.bgColor};
-  /* background-color: var(--colors-brand-200); */
   text-align: center;
   border: 1px var(--colors-brand-500) solid;
-  /* border: none; */
   border-radius: var(--borders-radius-base);
-
-  & :focus {
-    outline: none;
-    border: none;
-  }
-  & :active {
-    outline: none;
-    border: none;
-  }
 `;
 
 const FormWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: end;
+  margin-bottom: 3rem;
 `;
 
 const ButtonWrapper = styled.div`
@@ -76,7 +69,7 @@ const initialNodes = [
   },
 ];
 
-const initialEdges: Array<IEdges> = [];
+const initialEdges: Edge<any>[] = [];
 
 // 사용자 정의
 const TextUpdaterNode = ({ data }: any) => {
@@ -127,7 +120,8 @@ const ReactFlowForm = () => {
   }, [reactFlowInstance]);
 
   const saveData = () => {
-    console.log(newNodes);
+    console.log(JSON.stringify(newNodes));
+    console.log(JSON.stringify(newEdges));
     console.log(newEdges);
   };
 

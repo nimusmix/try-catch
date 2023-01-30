@@ -38,7 +38,7 @@ const initialNodes = [
     id: '1',
     position: { x: 220, y: 50 },
     data: { value: '1' },
-    type: 'textUpdater',
+    type: 'default',
   },
   {
     id: '2',
@@ -51,9 +51,6 @@ const initialNodes = [
 const initialEdges = [{ id: 'a-b', source: 'a', target: 'b', type: 'step' }];
 
 // 사용자 정의
-const handleLeft = { left: 10 };
-const handleRight = { left: 150 };
-
 const TextUpdaterNode = ({ data }: any) => {
   const onChange = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) => {

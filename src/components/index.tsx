@@ -2,6 +2,7 @@ import Button from './button/Button';
 import TopButton from './button/TopButton';
 import Checkbox from './checkbox/Checkbox';
 import Div from './div/Div';
+import Card from './div/Card';
 import Dropdown from './dropdown/Dropdown';
 import MiniTitle from './font/MiniTitle';
 import Paragraph from './font/Paragraph';
@@ -10,6 +11,7 @@ import Title from './font/Title';
 import Input from './input/Input';
 import Slideshow from './carousel/MainCarousel';
 import SlideNavbar from './side-navbar/SideNavbar';
+import Modal from './modal/Modal';
 
 export {
   Button,
@@ -24,4 +26,6 @@ export {
   TopButton,
   Slideshow,
   SlideNavbar,
+  Card,
+  Modal,
 };

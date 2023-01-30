@@ -3,7 +3,7 @@ import { Button } from '../../components';
 import { ITag } from '../qna/QuestionList';
 
 interface IFeedPopularTag {
-  tags: ITag[];
+  tags: Array<ITag>;
 }
 
 const TagsWrapper = styled.div`

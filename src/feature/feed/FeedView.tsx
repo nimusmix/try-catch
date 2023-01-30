@@ -1,5 +1,6 @@
-import { BsGrid, BsViewStacked } from 'react-icons/bs';
 import styled from 'styled-components';
+import React, { Dispatch, SetStateAction } from 'react';
+import { IconCard, IconList } from '../../components/icons/Icons';
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,14 +12,18 @@ const IconWrapper = styled.button`
   cursor: pointer;
 `;
 
-const FeedView = () => {
+interface FeedViewProps {
+  setActiveViewOption: Dispatch<SetStateAction<boolean>>;
+}
+
+const FeedView = ({ setActiveViewOption }: FeedViewProps) => {
   return (
     <Wrapper>
-      <IconWrapper>
-        <BsGrid size="16" />
+      <IconWrapper onClick={() => setActiveViewOption(true)}>
+        <IconCard size="16" />
       </IconWrapper>
-      <IconWrapper>
-        <BsViewStacked size="16" />
+      <IconWrapper onClick={() => setActiveViewOption(false)}>
+        <IconList size="16" />
       </IconWrapper>
     </Wrapper>
   );

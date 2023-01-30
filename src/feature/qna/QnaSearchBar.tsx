@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { IoMdSearch } from 'react-icons/io';
 import { useRecoilValue } from 'recoil';
 import { useForm } from 'react-hook-form';
+import { IconSearch } from '../../components/icons/Icons';
 import { Button, Input } from '../../components';
 import { isDarkState } from '../../recoil';
 
@@ -57,7 +57,7 @@ const QnaSearchBar = () => {
       <StyledSearch>
         <StyledSearchBar>
           <SearchIcon>
-            <IoMdSearch
+            <IconSearch
               color={isDark ? 'var(--colors-black-100)' : 'var(--colors-white-100)'}
               size="20"
             />

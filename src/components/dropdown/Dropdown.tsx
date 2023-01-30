@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 interface IDropdownProps {
-  items: { value: string | number; text: string }[];
+  items: Array<{ value: string | number; text: string }>;
   border?: string;
   width?: string;
 }
