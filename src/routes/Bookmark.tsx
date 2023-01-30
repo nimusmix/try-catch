@@ -13,14 +13,14 @@ const navOptions = [
 
 const BookmarkWrapper = styled.div`
   display: flex;
-  margin: 3rem 0;
 
-  nav {
-    margin-right: 2rem;
-  }
   button {
     margin-left: 1rem;
   }
+`;
+
+const ContentWrapper = styled.div`
+  margin-top: 3rem;
 `;
 
 const Bookmark = () => {
@@ -39,7 +39,9 @@ const Bookmark = () => {
         <Aside>
           <SideNavbar navOptions={navOptions} />
         </Aside>
-        <BookmarkQuestionList />
+        <ContentWrapper>
+          <BookmarkQuestionList />
+        </ContentWrapper>
       </BookmarkWrapper>
     </Layout>
   );
