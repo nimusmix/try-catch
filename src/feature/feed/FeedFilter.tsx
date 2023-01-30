@@ -23,8 +23,8 @@ const filterOptions = [
 ];
 
 const Item = styled.button<{ option: string }>`
-  padding: 0rem 0.8rem;
-  transition: color, background-color 0.1s ease-in;
+  padding: 0 0.8rem;
+  //transition: color, background-color 0.1s ease-in;
   border-right: 0.8px solid;
   align-items: center;
   border-color: ${({ theme: { isDark } }) =>

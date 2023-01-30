@@ -4,6 +4,7 @@ import { Paragraph, SubTitle } from '../components';
 import { header_bookmark } from '../assets';
 import BookmarkQuestionList from '../feature/bookmark/BookmarkQuestionList';
 import SideNavbar from '../components/side-navbar/SideNavbar';
+import { Aside } from '../pages/qna/QnaPage';
 
 const navOptions = [
   { id: 1, option: '질문' },
@@ -35,7 +36,9 @@ const Bookmark = () => {
       </HeaderImage>
 
       <BookmarkWrapper>
-        <SideNavbar navOptions={navOptions} />
+        <Aside>
+          <SideNavbar navOptions={navOptions} />
+        </Aside>
         <BookmarkQuestionList />
       </BookmarkWrapper>
     </Layout>
