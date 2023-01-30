@@ -6,7 +6,6 @@ export const ModalWrapper = styled.div`
   flex-direction: column;
   width: 420px;
   height: 380px;
-  overflow-y: auto;
 `;
 
 export const NavWrapper = styled.div`
@@ -37,6 +36,7 @@ export const NavItem = styled.div<{ toggle?: boolean }>`
 
 export const ItemWrapper = styled.div`
   margin-top: 3rem;
+  overflow-y: auto;
 `;
 
 const SubscriptionPage = () => {
@@ -55,6 +55,18 @@ const SubscriptionPage = () => {
         </Link>
       </NavWrapper>
       <ItemWrapper>
+        <p>사람</p>
+        <p>사람</p>
+        <p>사람</p>
+        <p>사람</p>
+        <p>사람</p>
+        <p>사람</p>
+        <p>사람</p>
+        <p>사람</p>
+        <p>사람</p>
+        <p>사람</p>
+        <p>사람</p>
+        <p>사람</p>
         <p>사람</p>
         <p>사람</p>
         <p>사람</p>
