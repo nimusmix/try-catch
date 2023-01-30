@@ -21,6 +21,10 @@ const GlobalStyles = createGlobalStyle`
   body {
     background-color: ${({ theme: { bgColor } }) => bgColor};
   }
+  
+  .markdown-preview *{ 
+    all : revert;
+  }
 `;
 
 const queryClient = new QueryClient();
