@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import ReactFlow, { Controls, Background } from 'reactflow';
 import 'reactflow/dist/style.css';
 import styled from 'styled-components';
+import { DetailWrapper } from './FERoadmapPage';
 
 interface INode {
   width: number;
@@ -604,12 +605,6 @@ const edges = [
     selected: false,
   },
 ];
-
-const DetailWrapper = styled.div`
-  width: 800px;
-  height: 1000px;
-  border: 1px solid red;
-`;
 
 const Content = styled.div`
   width: 160px;

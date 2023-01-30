@@ -414,10 +414,9 @@ const edges = [
   },
 ];
 
-const DetailWrapper = styled.div`
-  width: 900px;
+export const DetailWrapper = styled.div`
+  width: 942px;
   height: 800px;
-  border: 1px solid red;
 `;
 
 const Content = styled.div`
