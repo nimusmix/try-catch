@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useMatch } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import { MiniTitle, Paragraph, Button, Modal } from '../../../components';
 import { SubscriptionPage, FollowingPage, FollowersPage } from '../../../pages';
@@ -80,9 +80,9 @@ const MUser = {
 
 const ProfileBio = () => {
   const [isModalOpened, setIsModalOpened] = useState(false);
-  const subscriptionMatch = useMatch('profile/:username/subscription');
-  const followingMatch = useMatch('profile/:username/following');
-  const followersMatch = useMatch('profile/:username/followers');
+  // const subscriptionMatch = useMatch('profile/:username/subscription');
+  // const followingMatch = useMatch('profile/:username/following');
+  // const followersMatch = useMatch('profile/:username/followers');
   const modalClick = (e: React.MouseEvent<HTMLElement>) => {
     setIsModalOpened(true);
   };
@@ -155,9 +155,10 @@ const ProfileBio = () => {
       {/* 모달 */}
       {isModalOpened ? (
         <Modal width="420px" height="380px" onClose={setIsModalOpened}>
-          {subscriptionMatch && <SubscriptionPage />}
+          {/* {subscriptionMatch && <SubscriptionPage />}
           {followingMatch && <FollowingPage />}
-          {followersMatch && <FollowersPage />}
+          {followersMatch && <FollowersPage />} */}
+          <Outlet />
         </Modal>
       ) : null}
 

@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import ReactFlow, { Controls, Background } from 'reactflow';
 import 'reactflow/dist/style.css';
 import styled from 'styled-components';
+import { Button } from '../../components';
 
 interface INode {
   width: number;
@@ -119,9 +120,6 @@ const nodes = [
     position: { x: 120, y: 450 },
     data: { label: 'React' },
     type: 'default',
-    positionAbsolute: { x: 16.85822613398716, y: 664.8817484075089 },
-    selected: false,
-    dragging: false,
   },
   {
     width: 160,
@@ -130,9 +128,6 @@ const nodes = [
     position: { x: 520, y: 450 },
     data: { label: 'Vue' },
     type: 'default',
-    positionAbsolute: { x: 316.3063809564427, y: 664.3321790682464 },
-    selected: false,
-    dragging: false,
   },
   {
     width: 160,
@@ -366,7 +361,7 @@ const edges = [
     sourceHandle: 'b',
     target: '1-2',
     targetHandle: 't',
-    id: 'reactflow__edge-1b-2t',
+    id: 'reactflow__edge-1-1b-1-2t',
     selected: false,
   },
   {
@@ -374,7 +369,7 @@ const edges = [
     sourceHandle: 'b',
     target: '1-3',
     targetHandle: 't',
-    id: 'reactflow__edge-1b-2t',
+    id: 'reactflow__edge-1-2b-1-3t',
     selected: false,
   },
   {
@@ -382,7 +377,7 @@ const edges = [
     sourceHandle: 'b',
     target: '3-2',
     targetHandle: 't',
-    id: 'reactflow__edge-1b-2t',
+    id: 'reactflow__edge-3-1b-3-2t',
     selected: false,
   },
   {
@@ -390,7 +385,7 @@ const edges = [
     sourceHandle: 'b',
     target: '3-3',
     targetHandle: 't',
-    id: 'reactflow__edge-1b-2t',
+    id: 'reactflow__edge-3-2b-3-3t',
     selected: false,
   },
   {
@@ -398,7 +393,7 @@ const edges = [
     sourceHandle: 'b',
     target: '4-2',
     targetHandle: 't',
-    id: 'reactflow__edge-1b-2t',
+    id: 'reactflow__edge-4-1b-4-2t',
     selected: false,
   },
   {
@@ -406,7 +401,7 @@ const edges = [
     sourceHandle: 'b',
     target: '4-3',
     targetHandle: 't',
-    id: 'reactflow__edge-1b-2t',
+    id: 'reactflow__edge-4-2b-4-3t',
     selected: false,
   },
   {
@@ -414,15 +409,14 @@ const edges = [
     sourceHandle: 'b',
     target: '5-2',
     targetHandle: 't',
-    id: 'reactflow__edge-1b-2t',
+    id: 'reactflow__edge-5-1b-5-2t',
     selected: false,
   },
 ];
 
-const DetailWrapper = styled.div`
-  width: 1200px;
-  height: 1000px;
-  border: 1px solid red;
+export const DetailWrapper = styled.div`
+  width: 942px;
+  height: 800px;
 `;
 
 const Content = styled.div`
@@ -451,7 +445,7 @@ const Subject = styled.div`
 // eslint-disable-next-line react-hooks/rules-of-hooks
 // const nodeTypes = useMemo(() => ({ content: ContentNode }), []);
 
-const RoadmapDetail = () => {
+const FERoadmap = () => {
   return (
     <DetailWrapper>
       <ReactFlow nodes={nodes} edges={edges} fitView />
@@ -459,4 +453,4 @@ const RoadmapDetail = () => {
   );
 };
 
-export default RoadmapDetail;
+export default FERoadmap;

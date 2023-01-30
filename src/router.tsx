@@ -39,6 +39,8 @@ import {
   SubscriptionPage,
   FollowingPage,
   FollowersPage,
+  FERoadmapPage,
+  BERoadmapPage,
 } from './pages';
 import { Bookmark, Challenges, Error, Feed, Home, Profile, QnA, Roadmap, Settings } from './routes';
 
@@ -125,9 +127,19 @@ const router = createBrowserRouter([
         element: <Roadmap />,
         children: [
           {
-            index: true,
             path: '',
             element: <RoadmapPage />,
+            children: [
+              {
+                index: true,
+                path: 'fe',
+                element: <FERoadmapPage />,
+              },
+              {
+                path: 'be',
+                element: <BERoadmapPage />,
+              },
+            ],
           },
           {
             path: 'form',

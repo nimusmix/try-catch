@@ -6,9 +6,9 @@ import { isDarkState } from '../../recoil';
 import { IQuestionItemList, ITag } from './QuestionList';
 
 const Wrapper = styled.article`
-  max-width: 800px;
+  max-width: 848px;
   padding: 1rem 2rem;
-  border-bottom: 1px solid var(--colors-black-200);
+  border-bottom: 1px solid ${({ theme }) => theme.borderColor};
   cursor: pointer;
   &:hover {
     background-color: ${({ theme: { isDark } }) =>
