@@ -11,6 +11,7 @@ import Title from './font/Title';
 import Input from './input/Input';
 import Slideshow from './carousel/MainCarousel';
 import SlideNavbar from './side-navbar/SideNavbar';
+import Modal from './modal/Modal';
 
 export {
   Button,
@@ -26,4 +27,5 @@ export {
   Slideshow,
   SlideNavbar,
   Card,
+  Modal,
 };

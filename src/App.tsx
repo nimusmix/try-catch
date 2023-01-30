@@ -20,7 +20,6 @@ const GlobalStyles = createGlobalStyle`
   
   body {
     background-color: ${({ theme: { bgColor } }) => bgColor};
-    
   }
 `;
 
