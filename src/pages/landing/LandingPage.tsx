@@ -21,6 +21,12 @@ const LogoWrapper = styled.div`
   align-self: flex-start;
 `;
 
+const DDiv = styled.div`
+  background-image: url('../../assets/logo/당근마켓.png');
+  width: 300px;
+  height: 222px;
+`;
+
 const LandingPage = () => {
   const isDark = useRecoilValue(isDarkState);
 
@@ -30,6 +36,7 @@ const LandingPage = () => {
   return (
     <Layout>
       <MarqueeLogoCard />
+      <DDiv />
       <LandingPageBody>
         <LogoWrapper ref={myRef}>
           {isDark && <LogoDarkTheme width="100%" height="200" />}
