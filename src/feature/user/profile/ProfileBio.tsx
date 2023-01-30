@@ -1,5 +1,8 @@
+import React, { useState } from 'react';
+import { Link, useMatch } from 'react-router-dom';
 import styled from 'styled-components';
-import { MiniTitle, Paragraph, Button } from '../../../components';
+import { MiniTitle, Paragraph, Button, Modal } from '../../../components';
+import { SubscriptionPage, FollowingPage, FollowersPage } from '../../../pages';
 
 const BioWrapper = styled.div`
   display: flex;
@@ -76,6 +79,14 @@ const MUser = {
 };
 
 const ProfileBio = () => {
+  const [isModalOpened, setIsModalOpened] = useState(false);
+  const subscriptionMatch = useMatch('profile/:username/subscription');
+  const followingMatch = useMatch('profile/:username/following');
+  const followersMatch = useMatch('profile/:username/followers');
+  const modalClick = (e: React.MouseEvent<HTMLElement>) => {
+    setIsModalOpened(true);
+  };
+
   const createImageUrl = (companyName: string) => {
     return new URL(`/src/assets/logo/${companyName}.png`, import.meta.url).href;
   };
@@ -90,30 +101,36 @@ const ProfileBio = () => {
             <MiniTitle sizeType="3xl">{MUser.userName}</MiniTitle>
           </div>
           <div>
-            <Wrapper>
-              <Paragraph sizeType="lg">구독</Paragraph>
-              <Paragraph sizeType="lg" fontWeight="600">
-                {MUser.subscriptionCount}
-              </Paragraph>
-            </Wrapper>
+            <Link to="subscription">
+              <Wrapper onClick={modalClick}>
+                <Paragraph sizeType="lg">구독</Paragraph>
+                <Paragraph sizeType="lg" fontWeight="600">
+                  {MUser.subscriptionCount}
+                </Paragraph>
+              </Wrapper>
+            </Link>
 
-            <Wrapper>
-              <Paragraph sizeType="lg">팔로잉</Paragraph>
-              <Paragraph sizeType="lg" fontWeight="600">
-                {MUser.followingCount}
-              </Paragraph>
-            </Wrapper>
+            <Link to="following">
+              <Wrapper onClick={modalClick}>
+                <Paragraph sizeType="lg">팔로잉</Paragraph>
+                <Paragraph sizeType="lg" fontWeight="600">
+                  {MUser.followingCount}
+                </Paragraph>
+              </Wrapper>
+            </Link>
 
-            <Wrapper>
-              <Paragraph sizeType="lg">팔로워</Paragraph>
-              <Paragraph sizeType="lg" fontWeight="600">
-                {MUser.followerCount}
-              </Paragraph>
-            </Wrapper>
+            <Link to="followers">
+              <Wrapper onClick={modalClick}>
+                <Paragraph sizeType="lg">팔로워</Paragraph>
+                <Paragraph sizeType="lg" fontWeight="600">
+                  {MUser.followerCount}
+                </Paragraph>
+              </Wrapper>
+            </Link>
           </div>
           <div>
             {MUser.tags.map((tag) => (
-              <Tag key="tag" designType="skyFill">
+              <Tag key={tag} designType="skyFill">
                 {tag}
               </Tag>
             ))}
@@ -134,6 +151,16 @@ const ProfileBio = () => {
           </Button>
         )}
       </BioWrapper>
+
+      {/* 모달 */}
+      {isModalOpened ? (
+        <Modal width="420px" height="380px" onClose={setIsModalOpened}>
+          {subscriptionMatch && <SubscriptionPage />}
+          {followingMatch && <FollowingPage />}
+          {followersMatch && <FollowersPage />}
+        </Modal>
+      ) : null}
+
       <Introduction>
         <Paragraph sizeType="lg">{MUser.introduction}</Paragraph>
       </Introduction>
