@@ -1,10 +1,13 @@
 import { useQuery } from 'react-query';
 import { AxiosError } from 'axios';
-import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import Skeleton from './FeedItemSkeleton';
-import { axiosFeedSearchList } from '../../utils/api';
+import { axiosFeedList, axiosFeedSearchList } from '../../utils/api';
 import FeedListItem, { IFeedListItemProps } from './FeedListItem';
 import FeedCardItem from './FeedCardItem';
+import FeedCardSkeleton from './FeedCardSkeleton';
+import { MiniTitle, Paragraph } from '../../components';
+import { ReactComponent as Bug } from '../../assets/bug.svg';
 
 interface IFeedListProps {
   feedList: Array<IFeedListItemProps>;
@@ -139,19 +142,46 @@ const ExCardFedd = {
 
 interface IFeedList {
   activeViewOption: boolean;
+  keyword: string;
 }
 
-const FeedList = ({ activeViewOption }: IFeedList) => {
+const FeedListWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: 52.875rem;
+`;
+
+const FeedList = ({ activeViewOption, keyword }: IFeedList) => {
   /**
    * TODO
    * 임시로 vue search 결과를 feed리스트로 보냄
    * 원래는 axiosFeedList() 함수 사용
    */
-  const { data, isLoading, isError } = useQuery<IFeedListProps, AxiosError>('feed', () =>
-    axiosFeedSearchList('vue')
+
+  const { data, isLoading, isError } = useQuery<IFeedListProps, AxiosError>(
+    ['feed', keyword],
+    () => {
+      if (keyword) {
+        return axiosFeedSearchList(keyword);
+      }
+      return axiosFeedList();
+    }
+    // { enabled: !!keyword }
   );
 
   if (isLoading || data === undefined) {
+    if (activeViewOption)
+      return (
+        <FeedListWrapper>
+          <FeedCardSkeleton />
+          <FeedCardSkeleton />
+          <FeedCardSkeleton />
+          <FeedCardSkeleton />
+          <FeedCardSkeleton />
+          <FeedCardSkeleton />
+        </FeedListWrapper>
+      );
     return (
       <>
         <Skeleton />
@@ -165,15 +195,44 @@ const FeedList = ({ activeViewOption }: IFeedList) => {
     return <h4>Something went wrong !!</h4>;
   }
 
+  if (data?.feedList.length === 0) {
+    return (
+      <FeedListWrapper
+        style={{
+          justifyContent: 'center',
+          alignContent: 'center',
+          flexDirection: 'column',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignContent: 'center',
+            marginBottom: '1rem',
+          }}
+        >
+          <Bug width="55px" height="70px" />
+        </div>
+        <MiniTitle sizeType="xl" textAlign="center">
+          <strong>{keyword}</strong>에 해당하는 검색 결과가 없습니다
+        </MiniTitle>
+        <Paragraph sizeType="base" textAlign="center">
+          검색어의 철자가 정확한지 확인해 주세요.
+          <br />
+          비슷한 다른 검색어를 입력해보세요.
+        </Paragraph>
+      </FeedListWrapper>
+    );
+  }
+
   return (
-    <div
-      style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start', width: '846px' }}
-    >
+    <FeedListWrapper>
       {data?.feedList.map((feedItem) => {
         if (activeViewOption) return <FeedCardItem key={feedItem.feedId} {...feedItem} />;
         return <FeedListItem key={feedItem.feedId} {...feedItem} />;
       })}
-    </div>
+    </FeedListWrapper>
   );
 };
 
