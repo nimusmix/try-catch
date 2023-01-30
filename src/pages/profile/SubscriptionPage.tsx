@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 export const ModalWrapper = styled.div`
   display: flex;
@@ -40,16 +40,17 @@ export const ItemWrapper = styled.div`
 `;
 
 const SubscriptionPage = () => {
+  const { username } = useParams();
   return (
     <ModalWrapper>
       <NavWrapper>
-        <Link to="/profile/:username/subscription">
+        <Link to={`/profile/${username}/subscription`}>
           <NavItem toggle>구독</NavItem>
         </Link>
-        <Link to="/profile/:username/following">
+        <Link to={`/profile/${username}/following`}>
           <NavItem>팔로잉</NavItem>
         </Link>
-        <Link to="/profile/:username/followers">
+        <Link to={`/profile/${username}/followers`}>
           <NavItem>팔로워</NavItem>
         </Link>
       </NavWrapper>

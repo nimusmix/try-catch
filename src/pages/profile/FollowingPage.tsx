@@ -1,17 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { ModalWrapper, NavWrapper, NavItem, ItemWrapper } from './SubscriptionPage';
 
 const FollowingPage = () => {
+  const { username } = useParams();
   return (
     <ModalWrapper>
       <NavWrapper>
-        <Link to="/profile/:username/subscription">
+        <Link to={`/profile/${username}/subscription`}>
           <NavItem>구독</NavItem>
         </Link>
-        <Link to="/profile/:username/following">
+        <Link to={`/profile/${username}/following`}>
           <NavItem toggle>팔로잉</NavItem>
         </Link>
-        <Link to="/profile/:username/followers">
+        <Link to={`/profile/${username}/followers`}>
           <NavItem>팔로워</NavItem>
         </Link>
       </NavWrapper>
