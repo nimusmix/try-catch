@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { HeaderImage, Layout } from '../../layout';
 import { Button, Paragraph, SubTitle } from '../../components';
 import { header_roadmap } from '../../assets';
+import RoadmapDetail from '../../feature/roadmap/RoadmapDetail';
 
 const RoadmapPage = () => {
   return (
@@ -19,6 +20,7 @@ const RoadmapPage = () => {
       <Link to="form">
         <Button>내 로드맵 생성</Button>
       </Link>
+      <RoadmapDetail />
     </Layout>
   );
 };

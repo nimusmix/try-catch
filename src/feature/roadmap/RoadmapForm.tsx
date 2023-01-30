@@ -30,15 +30,6 @@ const StyledInput = styled.input`
   text-align: center;
   border: 1px var(--colors-brand-500) solid;
   border-radius: var(--borders-radius-base);
-
-  & :focus {
-    outline: none;
-    border: none;
-  }
-  & :active {
-    outline: none;
-    border: none;
-  }
 `;
 
 const FormWrapper = styled.div`
@@ -129,7 +120,8 @@ const ReactFlowForm = () => {
   }, [reactFlowInstance]);
 
   const saveData = () => {
-    console.log(newNodes);
+    console.log(JSON.stringify(newNodes));
+    console.log(JSON.stringify(newEdges));
     console.log(newEdges);
   };
 
