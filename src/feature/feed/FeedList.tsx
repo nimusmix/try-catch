@@ -1,10 +1,10 @@
 import { useQuery } from 'react-query';
 import { AxiosError } from 'axios';
-import { useEffect, useState } from 'react';
 import Skeleton from './FeedItemSkeleton';
-import { axiosFeedSearchList } from '../../utils/api';
+import { axiosFeedList, axiosFeedSearchList } from '../../utils/api';
 import FeedListItem, { IFeedListItemProps } from './FeedListItem';
 import FeedCardItem from './FeedCardItem';
+import FeedCardSkeleton from './FeedCardSkeleton';
 
 interface IFeedListProps {
   feedList: Array<IFeedListItemProps>;
@@ -139,19 +139,46 @@ const ExCardFedd = {
 
 interface IFeedList {
   activeViewOption: boolean;
+  keyword: string;
 }
 
-const FeedList = ({ activeViewOption }: IFeedList) => {
+const FeedList = ({ activeViewOption, keyword }: IFeedList) => {
   /**
    * TODO
    * 임시로 vue search 결과를 feed리스트로 보냄
    * 원래는 axiosFeedList() 함수 사용
    */
-  const { data, isLoading, isError } = useQuery<IFeedListProps, AxiosError>('feed', () =>
-    axiosFeedSearchList('vue')
+
+  const { data, isLoading, isError } = useQuery<IFeedListProps, AxiosError>(
+    ['feed', keyword],
+    () => {
+      if (keyword) {
+        return axiosFeedSearchList(keyword);
+      }
+      return axiosFeedList();
+    }
+    // { enabled: !!keyword }
   );
 
   if (isLoading || data === undefined) {
+    if (activeViewOption)
+      return (
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'flex-start',
+            width: '846px',
+          }}
+        >
+          <FeedCardSkeleton />
+          <FeedCardSkeleton />
+          <FeedCardSkeleton />
+          <FeedCardSkeleton />
+          <FeedCardSkeleton />
+          <FeedCardSkeleton />
+        </div>
+      );
     return (
       <>
         <Skeleton />

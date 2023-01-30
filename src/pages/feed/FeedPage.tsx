@@ -1,5 +1,6 @@
 import { createRef, useState } from 'react';
 import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
 import { HeaderImage, Layout } from '../../layout';
 import { Paragraph, SubTitle } from '../../components';
 import { header_feed } from '../../assets';
@@ -44,6 +45,10 @@ const FeedPage = () => {
 
   const [activeViewOption, setActiveViewOption] = useState<boolean>(true);
 
+  let searchParams = new URLSearchParams(useLocation().search).get('keyword');
+
+  if (!searchParams) searchParams = '';
+
   return (
     <Layout>
       <HeaderImage image={header_feed}>
@@ -68,7 +73,7 @@ const FeedPage = () => {
             />
             <FeedView setActiveViewOption={setActiveViewOption} />
           </FilterTop>
-          <FeedList activeViewOption={activeViewOption} />
+          <FeedList activeViewOption={activeViewOption} keyword={searchParams} />
         </section>
       </FeedPageBody>
     </Layout>
