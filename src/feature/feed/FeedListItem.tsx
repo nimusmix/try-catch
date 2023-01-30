@@ -19,18 +19,18 @@ const ArticleWrapper = styled.article`
   padding: 1rem 2rem;
 `;
 
-const QuestionHeader = styled.div`
+const FeedHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 0.6rem 0 0.5rem;
 `;
 
-const QuestionBody = styled.div`
+const FeedBody = styled.div`
   margin-bottom: 0.75rem;
 `;
 
-const QuestionFooter = styled.div`
+const FeedFooter = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -123,7 +123,7 @@ const FeedListItem = ({
       <Wrapper>
         <FeedThumbnailImg image={thumbnailImage} />
         <ArticleWrapper>
-          <QuestionHeader>
+          <FeedHeader>
             <BlogTitle>
               <MiniTitle
                 sizeType="xl"
@@ -146,9 +146,9 @@ const FeedListItem = ({
               {bookMarkIcon && <IconBookmarkFill size="30" color="var(--colors-brand-500)" />}
               {bookMarkIcon || <IconBookmarkEmpty size="30" color="var(--colors-brand-500)" />}
             </Icons>
-          </QuestionHeader>
+          </FeedHeader>
 
-          <QuestionBody>
+          <FeedBody>
             <Paragraph
               sizeType="base"
               color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
@@ -156,9 +156,9 @@ const FeedListItem = ({
             >
               {content.length > 90 ? `${content.slice(0, 90)}...` : content}
             </Paragraph>
-          </QuestionBody>
+          </FeedBody>
 
-          <QuestionFooter>
+          <FeedFooter>
             <TagsWrapper>
               {tags.map((tag) => (
                 <Button
@@ -174,7 +174,7 @@ const FeedListItem = ({
                 </Button>
               ))}
             </TagsWrapper>
-          </QuestionFooter>
+          </FeedFooter>
         </ArticleWrapper>
       </Wrapper>
     </a>

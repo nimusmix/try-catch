@@ -41,6 +41,9 @@ const FeedPage = () => {
     const filterOptionName = target.getAttribute('data-name');
     setActiveFilterOption(filterOptionName);
   };
+
+  const [activeViewOption, setActiveViewOption] = useState<boolean>(true);
+
   return (
     <Layout>
       <HeaderImage image={header_feed}>
@@ -63,9 +66,9 @@ const FeedPage = () => {
               currentOption={activeFilterOption}
               handleFilterOptionClick={handleFilterOptionClick}
             />
-            <FeedView />
+            <FeedView setActiveViewOption={setActiveViewOption} />
           </FilterTop>
-          <FeedList />
+          <FeedList activeViewOption={activeViewOption} />
         </section>
       </FeedPageBody>
     </Layout>
