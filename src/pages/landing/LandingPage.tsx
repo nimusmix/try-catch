@@ -22,7 +22,7 @@ const LogoWrapper = styled.div`
 `;
 
 const DDiv = styled.div`
-  background-image: url('../../assets/logo/dangnn.png');
+  background-image: url('../../assets/logo/daagn.png');
   width: 300px;
   height: 222px;
 `;
