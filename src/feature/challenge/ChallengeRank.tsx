@@ -54,7 +54,7 @@ const ChallengeRank = () => {
   };
 
   return (
-    <Div width="330px" style={{ marginTop: '1rem' }}>
+    <Div width="330px">
       <ul>
         <li>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>

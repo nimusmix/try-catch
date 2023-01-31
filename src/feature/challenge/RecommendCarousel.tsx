@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
-import { useRecoilValue } from 'recoil';
+import { Link } from 'react-router-dom';
 import SlideButton from '../../components/carousel/SlideButton';
 import { Button, MiniTitle, Paragraph } from '../../components';
-import { isDarkState } from '../../recoil';
 import { Slider, SliderList, SliderTrack, SliderItemDiv } from '../../components/carousel/Slider';
 
 const SliderArea = styled.div`
@@ -26,13 +25,13 @@ const SliderItem = styled.div`
 `;
 
 interface ICardCarouselProps {
+  challengeId: number;
   title: string;
   content: Array<string>;
   buttonContent: string;
 }
 
-const Card = ({ title, content, buttonContent }: Partial<ICardCarouselProps>) => {
-  const isDark = useRecoilValue(isDarkState);
+const Card = ({ challengeId, title, content, buttonContent }: Partial<ICardCarouselProps>) => {
   return (
     <SliderItemDiv>
       <MiniTitle
@@ -75,7 +74,9 @@ const Card = ({ title, content, buttonContent }: Partial<ICardCarouselProps>) =>
           bottom: '1rem',
         }}
       >
-        <Button fontSize="var(--fonts-body-xm)">{buttonContent}</Button>
+        <Link to={`${challengeId}`}>
+          <Button fontSize="var(--fonts-body-xm)">{buttonContent}</Button>
+        </Link>
       </div>
     </SliderItemDiv>
   );
@@ -100,37 +101,37 @@ const useInterval = (callback: () => void, delay: number | null) => {
 };
 const items = [
   {
-    id: 1,
+    challengeId: 1,
     title: '1월 챌린지',
     content: ['질문 5분 이내 답변', ' 피드 5개 이상 읽기'],
     buttonContent: '챌린지 시작',
   },
   {
-    id: 2,
+    challengeId: 2,
     title: '1월 챌린지2',
     content: ['질문 5분 이내 답변', ' 피드 5개 이상 읽기'],
     buttonContent: '챌린지 시작',
   },
   {
-    id: 3,
+    challengeId: 3,
     title: '1월 챌린지3',
     content: ['질문 5분 이내 답변', ' 피드 5개 이상 읽기'],
     buttonContent: '챌린지 시작',
   },
   {
-    id: 4,
+    challengeId: 4,
     title: '1월 챌린지4',
     content: ['질문 5분 이내 답변', ' 피드 5개 이상 읽기'],
     buttonContent: '챌린지 시작',
   },
   {
-    id: 5,
+    challengeId: 5,
     title: '1월 챌린지5',
     content: ['질문 5분 이내 답변', ' 피드 5개 이상 읽기'],
     buttonContent: '챌린지 시작',
   },
   {
-    id: 6,
+    challengeId: 6,
     title: '1월 챌린지6',
     content: ['질문 5분 이내 답변', ' 피드 5개 이상 읽기'],
     buttonContent: '챌린지 시작',

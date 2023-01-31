@@ -3,7 +3,6 @@ import { Div } from '../../components';
 import RecommendCarousel from './RecommendCarousel';
 
 const RecommendChallengeWrapper = styled(Div)`
-  margin-top: 1rem;
   border-radius: var(--borders-radius-base);
   overflow: hidden;
 `;
