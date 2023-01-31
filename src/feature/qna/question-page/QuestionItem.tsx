@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { IconLikeEmpty, IconEye, IconComment } from '../../components/icons/Icons';
-import { Button, MiniTitle, Paragraph } from '../../components';
-import { isDarkState } from '../../recoil';
-import { IQuestion } from '../../interface/qna';
-import elapsedTime from '../../utils/elapsed-time';
+import { IconComment, IconEye, IconLikeEmpty } from '../../../components/icons/Icons';
+import { Button, MiniTitle, Paragraph } from '../../../components';
+import { isDarkState } from '../../../recoil';
+import { IQuestion } from '../../../interface/qna';
+import elapsedTime from '../../../utils/elapsed-time';
 
 const Wrapper = styled.article`
   max-width: 848px;

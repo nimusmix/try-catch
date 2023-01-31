@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { useLocation } from 'react-router-dom';
 import Navigation from './header/Navigation';
 import { TopButton } from '../components';
 
@@ -7,7 +6,7 @@ export interface ILayoutProps {
   children: React.ReactNode;
 }
 
-export const Main = styled.main<{ path: string }>`
+export const Main = styled.main`
   background-color: ${({ theme: { bgColor } }) => bgColor};
   display: flex;
   justify-content: center;
@@ -16,12 +15,10 @@ export const Main = styled.main<{ path: string }>`
 `;
 
 const Layout = ({ children }: ILayoutProps) => {
-  const { pathname } = useLocation();
-
   return (
     <>
       <Navigation />
-      <Main path={pathname}>{children}</Main>
+      <Main>{children}</Main>
       <TopButton />
     </>
   );

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, Div, MiniTitle } from '../../components';
+import { Button, Div, MiniTitle } from '../../../components';
 
 export interface IQnaPopularTag {
   tags: Array<string>;

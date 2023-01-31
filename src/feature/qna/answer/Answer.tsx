@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { IconLikeEmpty, IconLikeFill } from '../../components/icons/Icons';
-import { Button, Div, Paragraph } from '../../components';
+import { IconLikeEmpty, IconLikeFill } from '../../../components/icons/Icons';
+import { Button, Div, Paragraph } from '../../../components';
 
 interface IAnswerProps {
   answerId: number;

@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { useForm } from 'react-hook-form';
-import { IconSearch } from '../../components/icons/Icons';
-import { Button, Input } from '../../components';
-import { isDarkState } from '../../recoil';
+import { IconSearch } from '../../../components/icons/Icons';
+import { Button, Input } from '../../../components';
+import { isDarkState } from '../../../recoil';
 
 interface ISearchValue {
   data: string;
