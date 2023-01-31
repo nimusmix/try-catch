@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { MiniTitle, Div } from '../../components';
-import StyledSlider from '../../components/carousel/Slider';
+import { Div, MiniTitle } from '../../../components';
+import StyledSlider from '../../../components/carousel/Slider';
 
 const PopularQnaWrapper = styled(Div)`
   margin-top: 1rem;
