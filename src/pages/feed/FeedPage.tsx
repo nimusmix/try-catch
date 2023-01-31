@@ -4,7 +4,14 @@ import { useLocation } from 'react-router-dom';
 import { HeaderImage, Layout } from '../../layout';
 import { Paragraph, SubTitle } from '../../components';
 import { header_feed } from '../../assets';
-import { FeedList, FeedSearchBar, FeedTag, FeedView, FeedFilter } from '../../feature/feed';
+import {
+  FeedList,
+  FeedSearchBar,
+  FeedTag,
+  FeedView,
+  FeedFilter,
+  CompanyRecommend,
+} from '../../feature/feed';
 import { QuestionPageBody as FeedPageBody } from '../qna/QnaPage';
 
 const FeedTags = [
@@ -63,6 +70,7 @@ const FeedPage = () => {
         <Aside>
           <FeedSearchBar />
           <FeedTag tags={FeedTags} />
+          <CompanyRecommend />
         </Aside>
         <section style={{ margin: '3rem 1.5rem 0' }}>
           <FilterTop>

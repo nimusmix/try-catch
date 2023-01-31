@@ -5,5 +5,15 @@ import FeedSearchBar from './FeedSearchBar';
 import FeedTag from './FeedTag';
 import FeedView from './FeedView';
 import FeedFilter from './FeedFilter';
+import CompanyRecommend from './CompanyRecommend';
 
-export { FeedCardItem, FeedList, FeedListItem, FeedSearchBar, FeedTag, FeedView, FeedFilter };
+export {
+  FeedCardItem,
+  FeedList,
+  FeedListItem,
+  FeedSearchBar,
+  FeedTag,
+  FeedView,
+  FeedFilter,
+  CompanyRecommend,
+};
