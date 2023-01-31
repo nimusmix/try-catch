@@ -24,15 +24,15 @@ const navOptions = [
 ];
 
 const qnaPopularTags = [
-  { id: 1, tagName: 'React' },
-  { id: 2, tagName: 'Recoil' },
-  { id: 3, tagName: 'Docker' },
-  { id: 4, tagName: 'JPA' },
-  { id: 5, tagName: 'Spring' },
-  { id: 6, tagName: 'AWS' },
-  { id: 7, tagName: 'PJT' },
-  { id: 8, tagName: 'Fighting' },
-  { id: 9, tagName: 'Aja Aja' },
+  'react',
+  'recoil',
+  'docker',
+  'JPA',
+  'spring',
+  'AWS',
+  'PJT',
+  'Fighting',
+  'Aja Aja',
 ];
 
 export const QuestionPageBody = styled.section`

@@ -8,15 +8,15 @@ import { FeedList, FeedSearchBar, FeedTag, FeedView, FeedFilter } from '../../fe
 import { QuestionPageBody as FeedPageBody } from '../qna/QnaPage';
 
 const FeedTags = [
-  { id: 1, tagName: 'react' },
-  { id: 2, tagName: 'recoil' },
-  { id: 3, tagName: 'docker' },
-  { id: 4, tagName: 'JPA' },
-  { id: 5, tagName: 'spring' },
-  { id: 6, tagName: 'AWS' },
-  { id: 7, tagName: 'PJT' },
-  { id: 8, tagName: 'Fighting' },
-  { id: 9, tagName: 'Aja Aja' },
+  'react',
+  'recoil',
+  'docker',
+  'JPA',
+  'spring',
+  'AWS',
+  'PJT',
+  'Fighting',
+  'Aja Aja',
 ];
 
 const Aside = styled.aside`
