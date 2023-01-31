@@ -22,7 +22,7 @@ const nodes = [
     height: 42,
     id: '1',
     position: { x: 300, y: 50 },
-    data: { value: '1', label: 'Rust' },
+    data: { label: 'Rust' },
     type: 'default',
   },
   {
@@ -30,7 +30,7 @@ const nodes = [
     height: 42,
     id: '2',
     position: { x: 300, y: 100 },
-    data: { value: '2', label: 'Go' },
+    data: { label: 'Go' },
     type: 'default',
   },
   {
@@ -549,85 +549,37 @@ const nodes = [
 
 const edges = [
   {
-    source: '1-1',
+    source: '1',
     sourceHandle: 'b',
-    target: '1-2',
-    targetHandle: 't',
-    id: 'reactflow__edge-1b-2t',
-    selected: false,
-  },
-  {
-    source: '1-2',
-    sourceHandle: 'b',
-    target: '1-3',
-    targetHandle: 't',
-    id: 'reactflow__edge-1b-2t',
-    selected: false,
-  },
-  {
-    source: '3-1',
-    sourceHandle: 'b',
-    target: '3-2',
-    targetHandle: 't',
-    id: 'reactflow__edge-1b-2t',
-    selected: false,
-  },
-  {
-    source: '3-2',
-    sourceHandle: 'b',
-    target: '3-3',
-    targetHandle: 't',
-    id: 'reactflow__edge-1b-2t',
-    selected: false,
-  },
-  {
-    source: '4-1',
-    sourceHandle: 'b',
-    target: '4-2',
-    targetHandle: 't',
-    id: 'reactflow__edge-1b-2t',
-    selected: false,
-  },
-  {
-    source: '4-2',
-    sourceHandle: 'b',
-    target: '4-3',
-    targetHandle: 't',
-    id: 'reactflow__edge-1b-2t',
-    selected: false,
-  },
-  {
-    source: '5-1',
-    sourceHandle: 'b',
-    target: '5-2',
+    target: '2',
     targetHandle: 't',
     id: 'reactflow__edge-1b-2t',
     selected: false,
   },
 ];
 
-const Content = styled.div`
-  width: 160px;
-  height: 42px;
-  padding: 0.5rem;
-  color: ${({ theme }) => theme.textColor};
-  background-color: ${({ theme }) => theme.bgColor};
-  text-align: center;
-  border: 1px var(--colors-brand-500) solid;
-  border-radius: var(--borders-radius-base);
-`;
+// const Content = styled.div`
+//   width: 160px;
+//   height: 42px;
+//   padding: 0.5rem;
+//   color: ${({ theme }) => theme.textColor};
+//   background-color: ${({ theme }) => theme.bgColor};
+//   text-align: center;
+//   border: 1px var(--colors-brand-500) solid;
+//   border-radius: var(--borders-radius-base);
+// `;
 
 // const ContentNode = ({ data: any }) => {
 //   return <Content>{data.label}</Content>;
 // };
 
-const Subject = styled.div`
-  width: 160px;
-  height: 42px;
-  padding: 0.5rem;
-  color: ${({ theme }) => theme.textColor};
-  text-align: center;
-`;
+// const Subject = styled.div`
+//   width: 160px;
+//   height: 42px;
+//   padding: 0.5rem;
+//   color: ${({ theme }) => theme.textColor};
+//   text-align: center;
+// `;
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
 // const nodeTypes = useMemo(() => ({ content: ContentNode }), []);

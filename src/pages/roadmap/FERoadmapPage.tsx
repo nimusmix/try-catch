@@ -22,7 +22,7 @@ const nodes = [
     height: 42,
     id: '1-1',
     position: { x: 520, y: 50 },
-    data: { value: '1', label: 'HTML' },
+    data: { label: 'HTML' },
     type: 'default',
   },
   {
@@ -30,7 +30,7 @@ const nodes = [
     height: 42,
     id: '1-2',
     position: { x: 520, y: 100 },
-    data: { value: '2', label: 'CSS' },
+    data: { label: 'CSS' },
     type: 'default',
   },
   {
