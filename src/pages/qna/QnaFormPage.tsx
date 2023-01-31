@@ -7,6 +7,21 @@ const Section = styled.section`
   width: 100%;
   max-width: var(--breakpoints-desktop);
 `;
+
+const QnaFormHeader = styled.div``;
+
+const QnaFormBody = styled.div``;
+
+const QnaFormTitleSection = styled.div``;
+
+const QnaFormQuestionSection = styled.div``;
+
+const QnaFormErrorCodeSection = styled.div``;
+
+const QnaFormTagSection = styled.div``;
+
+const QnaFormFooter = styled.div``;
+
 const QnaFormPage = () => {
   return (
     <Layout>
