@@ -21,8 +21,8 @@ import { tooltip } from '@milkdown/plugin-tooltip';
 import { defaultConfig, menu, menuPlugin } from '@milkdown/plugin-menu';
 import { gfm } from '@milkdown/preset-gfm';
 import styled from 'styled-components';
-import { prism, prismPlugin } from '@milkdown/plugin-prism';
-import { refractor } from 'refractor';
+import { prismPlugin } from '@milkdown/plugin-prism';
+import { refractor } from 'refractor/lib/common';
 
 const Wrapper = styled.div<{
   width?: string;
@@ -93,7 +93,7 @@ const Wrapper = styled.div<{
   }
 
   .slash-dropdown,
-  .code-fence_selector-list,
+  .milkdown-t2w0b6 .code-fence_selector-list,
   .milkdown-emoji-filter {
     min-height: 15rem;
     background: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-200)')};

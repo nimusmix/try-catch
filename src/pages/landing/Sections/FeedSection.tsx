@@ -88,7 +88,7 @@ const FeedSection = () => {
         />
         <FeedCard
           title="Feed 제목"
-          company="당근마켓"
+          company="dangnn"
           content="내용 요약... Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error eum ex
               optio quidem ullam vitae voluptas"
           tags={[

@@ -7,7 +7,7 @@ import header_bookmark from './header/header_bookmark.png';
 import kakao from './logo/카카오.png';
 import naver from './logo/네이버.png';
 import ridi from './logo/리디.png';
-import carrot from './logo/당근마켓.png';
+import carrot from './logo/dangnn.png';
 import liner from './logo/라이너.png';
 import dunamu from './logo/두나무.png';
 import dano from './logo/다노.png';
