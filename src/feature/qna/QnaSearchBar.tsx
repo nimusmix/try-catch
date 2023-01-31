@@ -34,7 +34,7 @@ const StyledSearch = styled.div`
 
 const SearchBarForm = styled.form`
   padding-top: 3rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.25rem;
   position: sticky;
   top: 3rem;
   background: ${({ theme: { bgColor } }) => bgColor};

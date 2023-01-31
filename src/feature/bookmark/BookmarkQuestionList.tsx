@@ -14,10 +14,7 @@ const questionItemList = [
     viewCount: 12,
     likeCount: 12,
     answerCount: 12,
-    tags: [
-      { id: 1, tagName: 'react' },
-      { id: 2, tagName: 'react-hook-form' },
-    ],
+    tags: ['react', '4242'],
   },
   {
     id: 2,
@@ -29,10 +26,7 @@ const questionItemList = [
     viewCount: 12,
     likeCount: 12,
     answerCount: 12,
-    tags: [
-      { id: 1, tagName: 'react' },
-      { id: 2, tagName: 'react-hook-form' },
-    ],
+    tags: ['react', '4242'],
   },
   {
     id: 3,
@@ -44,10 +38,7 @@ const questionItemList = [
     viewCount: 12,
     likeCount: 12,
     answerCount: 12,
-    tags: [
-      { id: 1, tagName: 'react' },
-      { id: 2, tagName: 'react-hook-form' },
-    ],
+    tags: ['react', '4242'],
   },
 ];
 
@@ -58,7 +49,6 @@ const Wrapper = styled.div`
 
 const QuestionItemWrapper = styled.div`
   display: flex;
-  border-bottom: 1px solid ${({ theme }) => theme.borderColor};
 `;
 
 const ButtonWrapper = styled.div`

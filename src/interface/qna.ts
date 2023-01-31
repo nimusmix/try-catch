@@ -1,6 +1,21 @@
+export interface IAnswer {
+  answerId: number;
+  author: {
+    userId: number;
+    userName: string;
+    profileImage?: string;
+    companyName?: string;
+    isFollowed: boolean;
+  };
+  content: string;
+  timestamp: number;
+  likeCount: number;
+  isLiked: boolean;
+}
 export interface IQuestion {
   questionId: number;
   author: {
+    userId: number;
     userName: string;
     profileImage?: string;
     companyName?: string;
@@ -13,24 +28,12 @@ export interface IQuestion {
   tags: Array<string>;
   likeCount: number;
   answerCount: number;
+  viewCount: number;
   timestamp: number;
   isLiked: boolean;
   isSolved: boolean;
   isBookmarked: boolean;
   answers: Array<IAnswer>;
-}
-
-export interface IAnswer {
-  answerId: number;
-  author: {
-    userName: string;
-    profileImage?: string;
-    companyName?: string;
-    isFollowed: boolean;
-  };
-  content: string;
-  likeCount: number;
-  isLiked: boolean;
 }
 
 export interface ISearchedData {
