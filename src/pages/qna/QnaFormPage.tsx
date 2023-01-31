@@ -72,7 +72,8 @@ const Section = styled.section`
   }
 
   .slash-dropdown,
-  .code-fence_selector-list {
+  .code-fence_selector-list,
+  .milkdown-emoji-filter {
     min-height: 15rem;
     background: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-200)')};
     border: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-200)')};
@@ -81,6 +82,11 @@ const Section = styled.section`
     .code-fence_selector-list-item {
       color: ${({ theme: { textColor } }) => textColor};
     }
+  }
+
+  .milkdown-emoji-filter {
+    min-height: 8rem;
+    max-height: 8rem;
   }
 
   .block-menu {
