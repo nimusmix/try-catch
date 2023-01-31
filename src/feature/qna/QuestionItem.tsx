@@ -3,11 +3,12 @@ import { useRecoilValue } from 'recoil';
 import { IconLikeEmpty, IconEye, IconComment } from '../../components/icons/Icons';
 import { Button, MiniTitle, Paragraph } from '../../components';
 import { isDarkState } from '../../recoil';
-import { IQuestionItemList, ITag } from './QuestionList';
+import { IQuestion } from '../../interface/qna';
+import elapsedTime from '../../utils/elapsed-time';
 
 const Wrapper = styled.article`
   max-width: 848px;
-  padding: 1rem 2rem;
+  padding: 2rem 2.25rem 1rem;
   border-bottom: 1px solid ${({ theme }) => theme.borderColor};
   cursor: pointer;
   &:hover {
@@ -20,11 +21,21 @@ const QuestionHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0.6rem 0 0.5rem;
 `;
 
 const QuestionBody = styled.div`
-  margin-bottom: 0.75rem;
+  margin: 0.5rem 0 0.5rem;
+
+  p {
+    /* display: inline-block; */
+    display: -webkit-box;
+    max-height: 50px;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
 `;
 
 const QuestionFooter = styled.div`
@@ -58,15 +69,17 @@ const InfoWrapper = styled.div`
 `;
 
 const QuestionItem = ({
+  category,
   title,
-  timestamp,
   content,
+  timestamp,
   viewCount,
   likeCount,
   answerCount,
   tags,
-}: IQuestionItemList) => {
+}: Partial<IQuestion>) => {
   const isDark = useRecoilValue(isDarkState);
+
   return (
     <Wrapper>
       <QuestionHeader>
@@ -82,7 +95,7 @@ const QuestionItem = ({
           sizeType="sm"
           color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
         >
-          {timestamp}
+          {timestamp ? elapsedTime(timestamp) : null}
         </Paragraph>
       </QuestionHeader>
 
@@ -97,17 +110,24 @@ const QuestionItem = ({
 
       <QuestionFooter>
         <TagsWrapper>
-          {tags.map(({ id, tagName }: ITag) => (
+          <Button
+            as="span"
+            designType="purpleFill"
+            fontSize="var(--fonts-body-xm)"
+            padding="2.2px 10px"
+          >
+            {category}
+          </Button>
+          {tags?.map((tag) => (
             <Button
-              key={id}
+              key={tag}
               as="span"
               designType="blueEmpty"
-              color="var(--colors-brand-500)"
               fontSize="var(--fonts-body-xm)"
               padding="2px 10px"
               borderRadius="var(--borders-radius-base)"
             >
-              {tagName}
+              {tag}
             </Button>
           ))}
         </TagsWrapper>

@@ -1,13 +1,15 @@
+import { IAnswer, IQuestion } from './qna';
+
 /**
  * /user/{userID}/list
  * follower or followee
  */
 export interface ISimpleUserData {
-  id: number; // 고유값
+  userId: number; // 고유값
   userName: string;
-  image?: string;
+  profileImage?: string;
   companyName?: string;
-  isFollow: boolean;
+  isFollowed: boolean;
 }
 
 /**
@@ -18,18 +20,18 @@ export interface ISimpleUserData {
 /**
  * /user/{userId}/answer/list
  */
-export interface IAnswer {
-  author: ISimpleUserData;
-  answerId: number;
-  answerContent: string;
-  timestamp: number;
-  likeCount: number;
-  isLiked: boolean;
-}
+// export interface IAnswer {
+//   author: ISimpleUserData;
+//   answerId: number;
+//   answerContent: string;
+//   timestamp: number;
+//   likeCount: number;
+//   isLiked: boolean;
+// }
 
-export interface IAnswerList {
-  answers: Array<IAnswer>;
-}
+// export interface IAnswerList {
+//   answers: Array<IAnswer>;
+// }
 
 export interface IUserAnswer extends Omit<IAnswer, 'author'> {
   questionId: number;
@@ -45,25 +47,25 @@ export interface IUserAnswerList {
  * /user/{userId}/question/list
  */
 
-export interface IQuestion {
-  questionId: number;
-  author: ISimpleUserData;
-  category: string;
-  title: string;
-  content: string;
-  tags: Array<string>;
-  likeCount: number;
-  answerCount: number;
-  timestamp: number;
-  isLiked: boolean;
-  isSolved: boolean;
-  isBookmarked: boolean;
-  answers?: Array<IAnswer>;
-}
+// export interface IQuestion {
+//   questionId: number;
+//   author: ISimpleUserData;
+//   category: string;
+//   title: string;
+//   content: string;
+//   tags: Array<string>;
+//   likeCount: number;
+//   answerCount: number;
+//   timestamp: number;
+//   isLiked: boolean;
+//   isSolved: boolean;
+//   isBookmarked: boolean;
+//   answers?: Array<IAnswer>;
+// }
 
-export interface IQuestionList {
-  questions: Array<IQuestion>;
-}
+// export interface IQuestionList {
+//   questions: Array<IQuestion>;
+// }
 
 /**
  * /user/{userId}/history
