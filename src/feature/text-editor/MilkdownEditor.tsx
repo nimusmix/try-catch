@@ -21,6 +21,8 @@ import { tooltip } from '@milkdown/plugin-tooltip';
 import { defaultConfig, menu, menuPlugin } from '@milkdown/plugin-menu';
 import { gfm } from '@milkdown/preset-gfm';
 import styled from 'styled-components';
+import { prism, prismPlugin } from '@milkdown/plugin-prism';
+import { refractor } from 'refractor';
 
 const Wrapper = styled.div<{
   width?: string;
@@ -250,6 +252,11 @@ const MilkdownEditor = ({ width }: { width: string }) => {
         .use(emoji)
         .use(cursor)
         .use(tooltip)
+        .use(
+          prismPlugin({
+            configureRefractor: () => refractor,
+          })
+        )
         .use(
           menu.configure(menuPlugin, {
             config: defaultConfig.map((section) => {
