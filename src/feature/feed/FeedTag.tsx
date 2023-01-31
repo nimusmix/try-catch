@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 import { Button } from '../../components';
-import { ITag } from '../qna/QuestionList';
 
 interface IFeedPopularTag {
-  tags: Array<ITag>;
+  tags: Array<string>;
 }
 
 const TagsWrapper = styled.div`
@@ -18,9 +17,9 @@ const FeedTag = ({ tags }: IFeedPopularTag) => {
   // /search?type=feed&keyword=&page=&size&
   return (
     <TagsWrapper>
-      {tags.map(({ id, tagName }: ITag) => (
+      {tags.map((tag) => (
         <Button
-          key={id}
+          key={tag}
           as="span"
           designType="blueEmpty"
           color="var(--colors-brand-500)"
@@ -30,7 +29,7 @@ const FeedTag = ({ tags }: IFeedPopularTag) => {
           style={{ marginBottom: '0.5rem' }}
           onClick={handleClick}
         >
-          {tagName}
+          {tag}
         </Button>
       ))}
     </TagsWrapper>
