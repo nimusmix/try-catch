@@ -5,6 +5,7 @@ import StyledSlider from '../../components/carousel/Slider';
 const PopularQnaWrapper = styled(Div)`
   margin-top: 1rem;
   border-radius: var(--borders-radius-base);
+  overflow: hidden;
 `;
 
 const PopularQnaTitle = styled(MiniTitle)`
