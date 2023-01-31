@@ -93,16 +93,23 @@ const Wrapper = styled.div<{
   }
 
   .slash-dropdown,
-  .milkdown-t2w0b6 .code-fence_selector-list,
   .milkdown-emoji-filter {
     min-height: 15rem;
-    background: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-200)')};
-    border: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-200)')};
+    background-color: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-200)')};
 
-    .slash-dropdown-item span,
-    .code-fence_selector-list-item {
+    .slash-dropdown-item span {
       color: ${({ theme: { textColor } }) => textColor};
     }
+  }
+
+  .code-fence_selector-list {
+    background-color: ${({ theme: { isDark } }) =>
+      isDark ? '' : 'var(--colors-brand-200) !important;'};
+    border: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-200)')};
+  }
+
+  .code-fence_selector-list-item {
+    color: ${({ theme: { textColor } }) => textColor};
   }
 
   .milkdown-emoji-filter {
