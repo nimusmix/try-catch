@@ -8,16 +8,11 @@ export interface ILayoutProps {
 }
 
 export const Main = styled.main<{ path: string }>`
-  ${({ path }) => path === '/question/form' && 'max-width : 1200px; margin: 0 auto;'}
   background-color: ${({ theme: { bgColor } }) => bgColor};
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
-  .milkdown-menu-wrapper {
-    width: 1200px;
-  }
 `;
 
 const Layout = ({ children }: ILayoutProps) => {

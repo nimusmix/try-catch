@@ -17,7 +17,6 @@ import { block } from '@milkdown/plugin-block';
 import { emoji } from '@milkdown/plugin-emoji';
 import { listener, listenerCtx } from '@milkdown/plugin-listener';
 import { cursor } from '@milkdown/plugin-cursor';
-import { prism, prismPlugin } from '@milkdown/plugin-prism';
 import { tooltip } from '@milkdown/plugin-tooltip';
 import { defaultConfig, menu, menuPlugin } from '@milkdown/plugin-menu';
 import { gfm } from '@milkdown/preset-gfm';
@@ -110,7 +109,6 @@ const MilkdownEditor = () => {
         .use(block)
         .use(emoji)
         .use(cursor)
-        .use(prism)
         .use(tooltip)
         .use(
           menu.configure(menuPlugin, {
