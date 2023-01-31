@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { Helmet } from 'react-helmet-async';
 import { HeaderImage, Layout } from '../layout';
 import { Paragraph, SubTitle } from '../components';
 import { header_bookmark } from '../assets';
@@ -29,6 +30,9 @@ const Bookmark = () => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>트라이캐치 | 북마크</title>
+      </Helmet>
       <HeaderImage image={header_bookmark}>
         <SubTitle color="var(--colors-black-500)" margin="0 0 0.2rem 0">
           북마크

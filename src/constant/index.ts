@@ -1,3 +1,6 @@
+// API URL
+const { VITE_API_URL: API_URL } = import.meta.env;
+
 // route paths
 const HOME_PAGE_NAME = 'home';
 const QNA_PAGE_NAME = 'question';
@@ -21,6 +24,7 @@ const ROWS = 5;
 const TAGS_PER_ROW = 8;
 
 export {
+  API_URL,
   HOME_PAGE_NAME,
   QNA_PAGE_NAME,
   FEED_PAGE_NAME,
