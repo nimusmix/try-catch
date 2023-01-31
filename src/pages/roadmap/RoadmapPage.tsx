@@ -9,7 +9,7 @@ import FERoadmapPage from './FERoadmapPage';
 
 const navOptions = [
   { id: 1, option: '공통' },
-  { id: 1, option: '커스텀' },
+  { id: 2, option: '커스텀' },
 ];
 
 const RoadmapWrapper = styled.div`
