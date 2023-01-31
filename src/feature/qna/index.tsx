@@ -7,6 +7,12 @@ import Question from './Question';
 import QuestionItem from './question-page/QuestionItem';
 import QuestionList from './question-page/QuestionList';
 import QnaDetailPopularQna from './QnaDetailPopularQna';
+import QnaFormBody from './question-form/QnaFormBody';
+import QnaFormHeader from './question-form/QnaFormHeader';
+import QnaFormTitleSection from './question-form/QnaFormTitleSection';
+import QnaFormContentSection from './question-form/QnaFormContentSection';
+import QnaFormErrorCodeSection from './question-form/QnaFormErrorCodeSection';
+import QnaFormTagSection from './question-form/QnaFormTagSection';
 
 export {
   Answer,
@@ -18,4 +24,10 @@ export {
   QuestionItem,
   QuestionList,
   QnaDetailPopularQna,
+  QnaFormTagSection,
+  QnaFormHeader,
+  QnaFormBody,
+  QnaFormTitleSection,
+  QnaFormContentSection,
+  QnaFormErrorCodeSection,
 };
