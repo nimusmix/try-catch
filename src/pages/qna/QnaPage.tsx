@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import { MdOutlineCreate } from 'react-icons/md';
 import { Link } from 'react-router-dom';
@@ -48,6 +49,8 @@ export const Aside = styled.aside`
 `;
 
 const QnaPage = () => {
+  const [activeCategory, setActiveCategory] = useState('개발');
+
   return (
     <Layout>
       <HeaderImage image={header_qna}>
@@ -60,11 +63,11 @@ const QnaPage = () => {
       </HeaderImage>
       <QuestionPageBody>
         <Aside>
-          <SideNavbar navOptions={navOptions} />
+          <SideNavbar navOptions={navOptions} changeOption={setActiveCategory} />
         </Aside>
         <section>
           <QnaSearchBar />
-          <QuestionList />
+          <QuestionList activeCategory={activeCategory} />
         </section>
         <Aside>
           <Link to="form">

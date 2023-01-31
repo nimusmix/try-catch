@@ -4,14 +4,18 @@ import QuestionItem from './QuestionItem';
 import { axiosQuestionList } from '../../utils/api';
 import { IQuestion } from '../../interface/qna';
 
-const QuestionList = () => {
-  const { isLoading, data: questionItemList } = useQuery<Array<IQuestion>>(
-    ['questionItemList'],
-    () => axiosQuestionList()
+const QuestionList = ({ activeCategory }: { activeCategory: string }) => {
+  const { isLoading, data: questionList } = useQuery<Array<IQuestion>>(['questionList'], () =>
+    axiosQuestionList()
   );
+
+  const filteredQuestionList = questionList?.filter(
+    (question) => question.category === activeCategory
+  );
+
   return (
     <ul>
-      {questionItemList?.map((question) => {
+      {filteredQuestionList?.map((question) => {
         return (
           <li key={question.questionId}>
             <Link to={`${question.questionId}`}>
