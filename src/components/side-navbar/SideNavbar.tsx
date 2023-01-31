@@ -8,6 +8,7 @@ interface INavOptions {
 }
 interface INavbarProps {
   navOptions: Array<INavOptions>;
+  changeOption: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const Item = styled.li`
@@ -39,14 +40,16 @@ const Item = styled.li`
   }
 `;
 
-const SideNavbar = ({ navOptions }: INavbarProps) => {
+const SideNavbar = ({ navOptions, changeOption }: INavbarProps) => {
   const [activeNavOption, setActiveNavOption] = useState<string | null>(() => navOptions[0].option);
 
   const handleNavOptionClick = (event: React.MouseEvent<HTMLLIElement>) => {
     const target = event.target as Element;
     const navOptionName = target.getAttribute('data-name');
     setActiveNavOption(navOptionName);
+    changeOption(`${navOptionName}`);
   };
+
   return (
     <nav>
       <ul>
