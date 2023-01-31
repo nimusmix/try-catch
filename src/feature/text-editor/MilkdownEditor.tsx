@@ -141,7 +141,7 @@ const Wrapper = styled.div<{
   }
 
   .milkdown .editor .code-fence pre {
-    background-color: ${({ theme: { isDark } }) => (isDark ? '' : '#f7f8ff')};
+    background-color: ${({ theme: { isDark } }) => (isDark ? '' : '#dae1f3')};
     color: ${({ theme: { textColor } }) => textColor};
   }
   .code-fence {
