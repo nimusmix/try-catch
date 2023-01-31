@@ -8,7 +8,7 @@ interface INavOptions {
 }
 interface INavbarProps {
   navOptions: Array<INavOptions>;
-  changeOption?: React.Dispatch<React.SetStateAction<string>>;
+  changeOption: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const Item = styled.li`

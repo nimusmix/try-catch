@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import { HeaderImage, Layout } from '../layout';
 import { Paragraph, SubTitle } from '../components';
@@ -24,6 +25,8 @@ const ContentWrapper = styled.div`
 `;
 
 const Bookmark = () => {
+  const [activeCategory, setActiveCategory] = useState('질문');
+
   return (
     <Layout>
       <HeaderImage image={header_bookmark}>
@@ -37,7 +40,7 @@ const Bookmark = () => {
 
       <BookmarkWrapper>
         <Aside>
-          <SideNavbar navOptions={navOptions} />
+          <SideNavbar navOptions={navOptions} changeOption={setActiveCategory} />
         </Aside>
         <ContentWrapper>
           <BookmarkQuestionList />

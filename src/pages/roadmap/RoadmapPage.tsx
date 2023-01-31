@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, Outlet, useMatch } from 'react-router-dom';
 import styled from 'styled-components';
 import { HeaderImage, Layout } from '../../layout';
@@ -28,6 +29,7 @@ const ButtonWrapper = styled.div`
 `;
 
 const RoadmapPage = () => {
+  const [activeCategory, setActiveCategory] = useState('공통');
   const roadmapMatch = useMatch('roadmap');
   const BEMatch = useMatch('roadmap/be');
 
@@ -44,7 +46,7 @@ const RoadmapPage = () => {
 
       <RoadmapWrapper>
         <Aside>
-          <SideNavbar navOptions={navOptions} />
+          <SideNavbar navOptions={navOptions} changeOption={setActiveCategory} />
         </Aside>
 
         <ContentWrapper>
