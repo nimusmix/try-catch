@@ -2,6 +2,7 @@ import { IoIosArrowForward as IconArrow, IoMdSearch as IconSearch } from 'react-
 import {
   RxBookmark as IconBookmarkEmpty,
   RxBookmarkFilled as IconBookmarkFill,
+  RxCross2 as IconX,
 } from 'react-icons/rx';
 import {
   BsBellFill as IconBellFill,
@@ -37,4 +38,5 @@ export {
   IconUserCircle,
   IconQuestion,
   IconFeed,
+  IconX,
 };
