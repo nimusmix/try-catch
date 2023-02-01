@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign,consistent-return */
-import React, { useState } from 'react';
+import React, { ForwardedRef, forwardRef, useState } from 'react';
 import { Editor, rootCtx, themeManagerCtx } from '@milkdown/core';
 import { nord } from '@milkdown/theme-nord';
 import { ReactEditor, useEditor } from '@milkdown/react';
@@ -102,6 +102,10 @@ const Wrapper = styled.div<{
     }
   }
 
+  .slash-dropdown {
+    min-height: 8rem;
+  }
+
   .code-fence_selector-list {
     background-color: ${({ theme: { isDark } }) =>
       isDark ? '' : 'var(--colors-brand-200) !important;'};
@@ -141,7 +145,7 @@ const Wrapper = styled.div<{
   }
 
   .milkdown .editor .code-fence pre {
-    background-color: ${({ theme: { isDark } }) => (isDark ? '' : '#f7f8ff')};
+    background-color: ${({ theme: { isDark } }) => (isDark ? '' : '#dae1f3')};
     color: ${({ theme: { textColor } }) => textColor};
   }
   .code-fence {
@@ -170,9 +174,8 @@ const Wrapper = styled.div<{
     }
   }
 `;
-const MilkdownEditor = ({ width }: { width: string }) => {
+const MilkdownEditor = ({ width }: { width: string }, ref: ForwardedRef<any>) => {
   const [output, setOutput] = useState('');
-
   const { editor } = useEditor(
     (root) =>
       Editor.make()
@@ -296,10 +299,10 @@ const MilkdownEditor = ({ width }: { width: string }) => {
   );
 
   return (
-    <Wrapper width={width}>
+    <Wrapper width={width} ref={ref}>
       <ReactEditor editor={editor} />
     </Wrapper>
   );
 };
 
-export default MilkdownEditor;
+export default forwardRef(MilkdownEditor);

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { HeaderImage, Layout } from '../../layout';
 import { Button, Paragraph, SubTitle } from '../../components';
 import { PopularQna, QnaPopularTag, QnaSearchBar } from '../../feature/qna';
-import QuestionList from '../../feature/qna/QuestionList';
+import QuestionList from '../../feature/qna/question-page/QuestionList';
 import { header_qna } from '../../assets';
 import SideNavbar from '../../components/side-navbar/SideNavbar';
 

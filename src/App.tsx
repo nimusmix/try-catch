@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-
+import { HelmetProvider } from 'react-helmet-async';
 import { Outlet } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
@@ -32,13 +32,15 @@ const queryClient = new QueryClient();
 function App() {
   const isDark = useRecoilValue(isDarkState);
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-        <GlobalStyles />
-        <Outlet />
-        <ReactQueryDevtools initialIsOpen={false} />
-      </ThemeProvider>
-    </QueryClientProvider>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+          <GlobalStyles />
+          <Outlet />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </ThemeProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 }
 

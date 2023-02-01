@@ -58,7 +58,7 @@ const FeedSection = () => {
       <div className="card-container">
         <FeedCard
           title="Feed 제목"
-          company="네이버"
+          company="naver"
           content="내용 요약... Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error eum ex
               optio quidem ullam vitae voluptas"
           tags={[
@@ -68,7 +68,7 @@ const FeedSection = () => {
         />
         <FeedCard
           title="Feed 제목"
-          company="카카오"
+          company="kakao"
           content="내용 요약... Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error eum ex
               optio quidem ullam vitae voluptas"
           tags={[
@@ -78,7 +78,7 @@ const FeedSection = () => {
         />
         <FeedCard
           title="Feed 제목"
-          company="카카오"
+          company="kakao"
           content="내용 요약... Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error eum ex
               optio quidem ullam vitae voluptas"
           tags={[
@@ -88,7 +88,7 @@ const FeedSection = () => {
         />
         <FeedCard
           title="Feed 제목"
-          company="dangnn"
+          company="daangn"
           content="내용 요약... Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error eum ex
               optio quidem ullam vitae voluptas"
           tags={[

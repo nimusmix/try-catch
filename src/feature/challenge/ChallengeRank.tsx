@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Paragraph, MiniTitle, Div, Button } from '../../components';
+import { Button, Div, MiniTitle, Paragraph } from '../../components';
 import getImageUrl from '../../utils/getImageUrl';
 
 interface IChallengeUser {
@@ -49,7 +49,7 @@ const ChallengeRank = () => {
     author: {
       username: '42good23423',
       image: 'https://avatars.githubusercontent.com/u/109320569?v=4',
-      companyName: '카카오',
+      companyName: 'kakao',
     },
   };
 
