@@ -7,7 +7,7 @@ type IUseTooltip = [
   (value: ((prevState: boolean) => boolean) | boolean) => void
 ];
 
-const useTooltip = (ref: RefObject<any>): IUseTooltip => {
+const useTooltip = (ref: RefObject<HTMLElement>): IUseTooltip => {
   const [isFocus, setIsFocus] = useState<boolean>(false);
   const [isBlur, setIsBlur] = useState<boolean>(false);
   const onFocusHandler = () => {
@@ -21,7 +21,6 @@ const useTooltip = (ref: RefObject<any>): IUseTooltip => {
   };
   useEffect(() => {
     if (ref?.current) {
-      console.log(ref.current);
       ref.current.addEventListener('focusin', onFocusHandler);
       ref.current.addEventListener('focusout', onBlurHandler);
     }

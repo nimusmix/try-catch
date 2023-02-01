@@ -3,14 +3,17 @@ import QnaFormTitleSection from './QnaFormTitleSection';
 import QnaFormContentSection from './QnaFormContentSection';
 import QnaFormErrorCodeSection from './QnaFormErrorCodeSection';
 import QnaFormTagSection from './QnaFormTagSection';
+import QuestionProvider from '../../../context/QnaContext';
 
 const QnaFormBody = () => {
   return (
     <div>
-      <QnaFormTitleSection />
-      <QnaFormContentSection />
-      <QnaFormErrorCodeSection />
-      <QnaFormTagSection />
+      <QuestionProvider>
+        <QnaFormTitleSection />
+        <QnaFormContentSection />
+        <QnaFormErrorCodeSection />
+        <QnaFormTagSection />
+      </QuestionProvider>
     </div>
   );
 };

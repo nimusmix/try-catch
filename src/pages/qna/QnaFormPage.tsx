@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { createContext } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useRecoilValue } from 'recoil';
 import Layout from '../../layout/Layout';
@@ -29,13 +29,15 @@ const QnaFormFooter = styled.div`
 `;
 
 const TooltipAside = styled.aside`
+  position: relative;
   width: 100%;
-  background: red;
 `;
 
-const QuestionContext = createContext({});
-
-// TODO 02.01 context로 데이터 모으기
+/*
+ * TODO
+ *  1. style - 드랍박스 수정하고 input도 수정
+ *  2. 작성되나 나중에 테스트
+ * */
 const QnaFormPage = () => {
   const isDark = useRecoilValue(isDarkState);
 
@@ -51,18 +53,16 @@ const QnaFormPage = () => {
         )}
       </Helmet>
       <Layout>
-        <QuestionContext.Provider value="todo">
-          <QnaFormContainer>
-            <Section>
-              <QnaFormHeader />
-              <QnaFormBody />
-              <QnaFormFooter>
-                <Button>완료</Button>
-              </QnaFormFooter>
-            </Section>
-            <TooltipAside />
-          </QnaFormContainer>
-        </QuestionContext.Provider>
+        <QnaFormContainer>
+          <Section>
+            <QnaFormHeader />
+            <QnaFormBody />
+            <QnaFormFooter>
+              <Button>완료</Button>
+            </QnaFormFooter>
+          </Section>
+          <TooltipAside />
+        </QnaFormContainer>
       </Layout>
     </>
   );

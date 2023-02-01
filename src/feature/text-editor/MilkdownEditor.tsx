@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign,consistent-return */
-import React, { ForwardedRef, forwardRef, useState } from 'react';
+import React, { ForwardedRef, forwardRef } from 'react';
 import { Editor, rootCtx, themeManagerCtx } from '@milkdown/core';
 import { nord } from '@milkdown/theme-nord';
 import { ReactEditor, useEditor } from '@milkdown/react';
@@ -174,15 +174,17 @@ const Wrapper = styled.div<{
     }
   }
 `;
-const MilkdownEditor = ({ width }: { width: string }, ref: ForwardedRef<any>) => {
-  const [output, setOutput] = useState('');
+const MilkdownEditor = (
+  { width, setState }: { width: string; setState: (value: string) => void },
+  ref: ForwardedRef<any>
+) => {
   const { editor } = useEditor(
     (root) =>
       Editor.make()
         .config((ctx) => {
           ctx.set(rootCtx, root);
           ctx.get(listenerCtx).markdownUpdated((ctx, markdown) => {
-            setOutput(markdown);
+            setState(markdown);
           });
         })
         .use(nord)
