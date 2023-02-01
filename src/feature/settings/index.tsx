@@ -1,3 +1,3 @@
-import SettingNav from './SettingNav';
+import SettingsLayout from './SettingsLayout';
 
-export { SettingNav };
+export { SettingsLayout };

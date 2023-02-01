@@ -1,7 +1,7 @@
-import Layout from '../../layout/Layout';
+import { SettingsBody } from './ThemeSettingsPage';
 
 const AdvancedSettingsPage = () => {
-  return <Layout>AdvancedSettingsPage</Layout>;
+  return <SettingsBody>AdvancedSettingsPage</SettingsBody>;
 };
 
 export default AdvancedSettingsPage;
