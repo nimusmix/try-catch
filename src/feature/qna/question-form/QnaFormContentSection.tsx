@@ -2,8 +2,8 @@ import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { MiniTitle, Paragraph } from '../../../components';
 import MilkdownEditor from '../../text-editor/MilkdownEditor';
-import useQuestionDispatch from '../../../hooks/useQuestionDispatch';
 import useTooltip from '../../../hooks/useTooltip';
+import { useQuestionDispatch } from '../../../context/QnaContext';
 
 const Wrapper = styled.div`
   position: relative;

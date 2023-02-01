@@ -24,6 +24,9 @@ import styled from 'styled-components';
 import { prismPlugin } from '@milkdown/plugin-prism';
 import { refractor } from 'refractor/lib/common';
 
+/*
+ * TODO image 추가 부분 css 수정
+ * */
 const Wrapper = styled.div<{
   width?: string;
 }>`

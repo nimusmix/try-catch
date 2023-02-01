@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, useReducer } from 'react';
+import React, { createContext, Dispatch, useContext, useReducer } from 'react';
 
 // state 타입
 interface IState {
@@ -73,6 +73,18 @@ const QuestionProvider = ({ children }: { children: React.ReactNode }) => {
       </QuestionDispatchContext.Provider>
     </QuestionStateContext.Provider>
   );
+};
+
+export const useQuestionState = () => {
+  const state = useContext(QuestionStateContext);
+  if (!state) throw new Error('Cannot find QuestionProvider'); // 유효하지 않을땐 에러를 발생
+  return state;
+};
+
+export const useQuestionDispatch = () => {
+  const state = useContext(QuestionDispatchContext);
+  if (!state) throw new Error('Cannot find QuestionProvider'); // 유효하지 않을땐 에러를 발생
+  return state;
 };
 
 export default QuestionProvider;

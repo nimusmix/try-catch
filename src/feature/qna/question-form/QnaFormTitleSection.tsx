@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Dropdown, Input, Paragraph } from '../../../components';
-import useQuestionDispatch from '../../../hooks/useQuestionDispatch';
-import useQuestionState from '../../../hooks/useQuestionState';
-import { Tooltip } from './QnaFormContentSection';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Dropdown, Input, Paragraph } from "../../../components";
+import { Tooltip } from "./QnaFormContentSection";
+import { useQuestionDispatch, useQuestionState } from "../../../context/QnaContext";
 
 const Wrapper = styled.div`
   position: relative;
