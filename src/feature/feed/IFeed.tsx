@@ -1,4 +1,4 @@
-export interface IFeedItem {
+export interface IFeedItemProps {
   feedId: string; // 피드 고유 아이디
   title: string; // 피드 제목
   summary: string; // 피드 요약 ( 300자 내외 )
@@ -11,6 +11,6 @@ export interface IFeedItem {
   isBookmarked: boolean; // 북마크 여부
 }
 
-export interface IFeedList {
-  feedList: Array<IFeedItem>;
+export interface IFeedListProps {
+  feedList: Array<IFeedItemProps>;
 }
