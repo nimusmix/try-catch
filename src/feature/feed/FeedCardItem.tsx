@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import { Button, Card, MiniTitle, Paragraph } from '../../components';
 import getImageUrl from '../../utils/getImageUrl';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
-
-import { IFeedListItemProps } from './FeedListItem';
+import { IFeedItemProps } from './IFeed';
 
 const Icons = styled.button`
   position: absolute;
@@ -89,7 +88,7 @@ const FeedCardItem = ({
   url,
   isBookmarked,
   thumbnailImage,
-}: IFeedListItemProps) => {
+}: IFeedItemProps) => {
   const [bookMarkIcon, setBookMarkIcon] = useState(isBookmarked);
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setBookMarkIcon(!bookMarkIcon);

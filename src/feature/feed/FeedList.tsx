@@ -3,15 +3,12 @@ import { AxiosError } from 'axios';
 import styled from 'styled-components';
 import Skeleton from './FeedItemSkeleton';
 import { axiosFeedList, axiosFeedSearchList } from '../../utils/api';
-import FeedListItem, { IFeedListItemProps } from './FeedListItem';
+import FeedListItem from './FeedListItem';
 import FeedCardItem from './FeedCardItem';
 import FeedCardSkeleton from './FeedCardSkeleton';
 import { MiniTitle, Paragraph } from '../../components';
 import { ReactComponent as Bug } from '../../assets/bug.svg';
-
-interface IFeedListProps {
-  feedList: Array<IFeedListItemProps>;
-}
+import { IFeedListProps } from './IFeed';
 
 interface IFeedList {
   activeViewOption: boolean;
