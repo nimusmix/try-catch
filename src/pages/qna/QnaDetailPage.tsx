@@ -1,16 +1,25 @@
+import { useQuery } from 'react-query';
+import { useParams } from 'react-router';
 import Layout from '../../layout/Layout';
 import { Answer, QnaDetailPopularQna, Question } from '../../feature/qna';
-import { SubTitle } from '../../components';
+import { IQuestion } from '../../interface/qna';
+import { axiosQuestionDetail } from '../../utils/api';
 
 const QnaDetailPage = () => {
+  const { questionId } = useParams();
+  const { isLoading, data: questionDetail } = useQuery<IQuestion>(['question'], () =>
+    axiosQuestionDetail(Number(questionId))
+  );
+
   return (
     <Layout>
       <section style={{ marginBottom: '3rem' }} />
       <section style={{ display: 'flex' }}>
         <section style={{ margin: '0 4rem 0 1.5rem' }}>
-          <Question />
+          {questionDetail && <Question question={questionDetail} />}
           <br />
-          <Answer />
+          {questionDetail &&
+            questionDetail.answers.map((ans) => <Answer key={ans.answerId} answer={ans} />)}
         </section>
         <aside style={{ margin: '0' }}>
           <QnaDetailPopularQna />
