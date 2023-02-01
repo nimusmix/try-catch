@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import QuestionItem from './QuestionItem';
-import { axiosQuestionList } from '../../../utils/api';
+import { getQuestionList } from '../../../utils/api';
 import { IQuestion } from '../../../interface/qna';
 
 const QuestionList = ({ activeCategory }: { activeCategory: string }) => {
   const { isLoading, data: questionList } = useQuery<Array<IQuestion>>(['questionList'], () =>
-    axiosQuestionList()
+    getQuestionList()
   );
 
   const filteredQuestionList = questionList?.filter(

@@ -3,12 +3,12 @@ import { useParams } from 'react-router';
 import Layout from '../../layout/Layout';
 import { Answer, QnaDetailPopularQna, Question } from '../../feature/qna';
 import { IQuestion } from '../../interface/qna';
-import { axiosQuestionDetail } from '../../utils/api';
+import { getQuestionDetail } from '../../utils/api';
 
 const QnaDetailPage = () => {
   const { questionId } = useParams();
   const { isLoading, data: questionDetail } = useQuery<IQuestion>(['question'], () =>
-    axiosQuestionDetail(Number(questionId))
+    getQuestionDetail(Number(questionId))
   );
 
   return (

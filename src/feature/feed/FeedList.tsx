@@ -2,7 +2,7 @@ import { useQuery } from 'react-query';
 import { AxiosError } from 'axios';
 import styled from 'styled-components';
 import Skeleton from './FeedItemSkeleton';
-import { axiosFeedList, axiosFeedSearchList } from '../../utils/api';
+import { getFeedList, getFeedSearchList } from '../../utils/api';
 import FeedListItem, { IFeedListItemProps } from './FeedListItem';
 import FeedCardItem from './FeedCardItem';
 import FeedCardSkeleton from './FeedCardSkeleton';
@@ -29,16 +29,16 @@ const FeedList = ({ activeViewOption, keyword }: IFeedList) => {
   /**
    * TODO
    * 임시로 vue search 결과를 feed리스트로 보냄
-   * 원래는 axiosFeedList() 함수 사용
+   * 원래는 getFeedList() 함수 사용
    */
 
   const { data, isLoading, isError } = useQuery<IFeedListProps, AxiosError>(
     ['feed', keyword],
     () => {
       if (keyword) {
-        return axiosFeedSearchList(keyword);
+        return getFeedSearchList(keyword);
       }
-      return axiosFeedList();
+      return getFeedList();
     }
     // { enabled: !!keyword }
   );
