@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { IconLikeEmpty, IconLikeFill } from '../../components/icons/Icons';
-import { Button, Div, Paragraph } from '../../components';
-import { IAnswer } from '../../interface/qna';
-import getImageUrl from '../../utils/getImageUrl';
+import { IconLikeEmpty, IconLikeFill } from '../../../components/icons/Icons';
+import { Button, Div, Paragraph } from '../../../components';
+import { IAnswer } from '../../../interface/qna';
+import getImageUrl from '../../../utils/getImageUrl';
 
 const AnswerDiv = styled(Div)`
   display: flex;
@@ -12,7 +12,7 @@ const AnswerDiv = styled(Div)`
   padding: 2rem;
 `;
 
-const UpperWraaper = styled.div`
+const UpperWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -76,7 +76,7 @@ const Like = styled.div`
 const Answer = ({ answer }: { answer: IAnswer }) => {
   return (
     <AnswerDiv>
-      <UpperWraaper>
+      <UpperWrapper>
         <AuthorWrapper>
           <ProfileImg src={answer.author.profileImage} />
           <UserInfoWrapper>
@@ -102,7 +102,7 @@ const Answer = ({ answer }: { answer: IAnswer }) => {
             팔로우
           </FollowButton>
         )}
-      </UpperWraaper>
+      </UpperWrapper>
 
       <Line />
 
