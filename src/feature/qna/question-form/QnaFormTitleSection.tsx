@@ -30,7 +30,14 @@ const QnaFormTitleSection = () => {
           { text: '밸런스 게임', value: '밸런스 게임' },
         ]}
       />
-      <Input placeholder="제목을 입력해 주세요" ref={titleInputRef} />
+      <Input
+        placeholder="제목을 입력해 주세요"
+        ref={titleInputRef}
+        width="100%"
+        padding="0 0.5rem"
+        height="2.5rem"
+      />
+
       <TitleTooltip isVisible={isTitleFocus}>제목 토글테스트</TitleTooltip>
     </Wrapper>
   );
