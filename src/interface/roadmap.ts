@@ -11,3 +11,15 @@ export interface IRoadmap {
   nodes: string;
   edges: string;
 }
+
+export interface IRoadmapList {
+  author: {
+    userId: number;
+    userName: string;
+    profileImage?: string;
+    companyName?: string;
+    isFollowed: boolean;
+  };
+  title: string;
+  tag: string;
+}
