@@ -84,23 +84,24 @@ const BlogTitle = styled.span`
 `;
 
 export interface IFeedListItemProps {
-  blogURL: string;
-  companyName: string;
-  content: string;
-  createdAt: string;
-  feedId: string;
-  isBookmarked: boolean;
-  tags: Array<string>;
-  thumbnailImage: string;
-  title: string;
+  feedId: string; // 피드 고유 아이디
+  title: string; // 피드 제목
+  summary: string; // 피드 요약 ( 300자 내외 )
+  companyName: string; // 회사 이름
+  createdAt: string; // 피드 생성일 yyyy-MM-dd
+  url: string; // 피드 URL
+  thumbnailImage: string; // 썸네일 이미지 URL
+  tags: Array<string>; // 크롤링 시 수집한 태그
+  keywords: Array<string>; // 인공지능 모델을 통해 추출한 태그
+  isBookmarked: boolean; // 북마크 여부
 }
 
 const FeedListItem = ({
   title,
-  content,
+  summary,
   tags,
   isBookmarked,
-  blogURL,
+  url,
   companyName,
   thumbnailImage,
 }: IFeedListItemProps) => {
@@ -119,7 +120,7 @@ const FeedListItem = ({
   };
 
   return (
-    <a href={`${blogURL}`} target="_blank" rel="noreferrer" style={{ zIndex: '1' }}>
+    <a href={`${url}`} target="_blank" rel="noreferrer" style={{ zIndex: '1' }}>
       <Wrapper>
         <FeedThumbnailImg image={thumbnailImage} />
         <ArticleWrapper>
@@ -154,7 +155,7 @@ const FeedListItem = ({
               color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
               style={{ width: '510px' }}
             >
-              {content.length > 90 ? `${content.slice(0, 90)}...` : content}
+              {summary.length > 90 ? `${summary.slice(0, 90)}...` : summary}
             </Paragraph>
           </FeedBody>
 

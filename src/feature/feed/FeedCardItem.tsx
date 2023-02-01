@@ -4,15 +4,7 @@ import { Button, Card, MiniTitle, Paragraph } from '../../components';
 import getImageUrl from '../../utils/getImageUrl';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
 
-interface IFeedCard {
-  title: string;
-  content: string;
-  companyName: string;
-  tags: Array<string>;
-  blogURL: string;
-  isBookmarked: boolean;
-  thumbnailImage: string;
-}
+import { IFeedListItemProps } from './FeedListItem';
 
 const Icons = styled.button`
   position: absolute;
@@ -91,13 +83,13 @@ const FeedThumbnailImgChild = styled.div<{ image: string }>`
 
 const FeedCardItem = ({
   title,
-  content,
+  summary,
   companyName,
   tags,
-  blogURL,
+  url,
   isBookmarked,
   thumbnailImage,
-}: IFeedCard) => {
+}: IFeedListItemProps) => {
   const [bookMarkIcon, setBookMarkIcon] = useState(isBookmarked);
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setBookMarkIcon(!bookMarkIcon);
@@ -116,7 +108,7 @@ const FeedCardItem = ({
       // height="21.875rem"
       as="a"
       style={{ margin: '0.5rem 0rem 1rem 0.7rem', padding: '1rem 1.5rem' }}
-      href={`${blogURL}`}
+      href={`${url}`}
       target="_blank"
       rel="noreferrer"
     >
@@ -145,7 +137,7 @@ const FeedCardItem = ({
       </CardHeader>
       <CardBody>
         <Paragraph sizeType="base" textAlign="left">
-          {content.length > 30 ? `${content.slice(0, 30)}...` : content}
+          {summary.length > 30 ? `${summary.slice(0, 30)}...` : summary}
         </Paragraph>
       </CardBody>
       <CardFooter>
