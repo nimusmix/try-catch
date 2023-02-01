@@ -11,7 +11,7 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import styled from 'styled-components';
-import { Button } from '../../components';
+import { Button, MiniTitle, Input } from '../../components';
 
 export interface IEdges {
   id: string;
@@ -32,19 +32,29 @@ const StyledInput = styled.input`
   border-radius: var(--borders-radius-base);
 `;
 
-const FormWrapper = styled.div`
+const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: end;
-  margin-bottom: 3rem;
+  align-items: flex-start;
+  margin-top: 1rem;
+  margin-bottom: 2.75rem;
+  h3 {
+    margin-bottom: 0.5rem;
+  }
 `;
 
-const ButtonWrapper = styled.div`
+const InfoInput = styled(Input)`
+  border: none;
+  border-bottom: 1px ${({ theme }) => theme.borderColor} solid;
+  border-radius: 0;
+  padding: 0.25rem;
+`;
+
+const RoadmapTitleWrapper = styled.div`
   display: flex;
-  margin-bottom: 0.725rem;
-  & :first-child {
-    margin-right: 0.725rem;
-  }
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 0.75rem;
 `;
 
 const FlowWrapper = styled.div`
@@ -52,6 +62,7 @@ const FlowWrapper = styled.div`
   height: 600px;
   border: 1px ${({ theme }) => theme.borderColor} solid;
   border-radius: var(--borders-radius-base);
+  margin-bottom: 2.25rem;
 `;
 
 const initialNodes = [
@@ -128,17 +139,40 @@ const ReactFlowForm = () => {
   const nodeTypes = useMemo(() => ({ textUpdater: TextUpdaterNode }), []);
 
   return (
-    <FormWrapper>
-      <ButtonWrapper>
-        <Button onClick={addNode}>노드 추가</Button>
-        <Button onClick={saveData}>저장</Button>
-      </ButtonWrapper>
+    <>
+      <InputWrapper>
+        <MiniTitle sizeType="2xl" fontWeight="600">
+          제목
+        </MiniTitle>
+        <InfoInput />
+      </InputWrapper>
+
+      <RoadmapTitleWrapper>
+        <MiniTitle sizeType="2xl" fontWeight="600">
+          로드맵
+        </MiniTitle>
+        <Button onClick={addNode} borderRadius="var(--borders-radius-lg)">
+          노드 추가
+        </Button>
+      </RoadmapTitleWrapper>
+
       <FlowWrapper>
         <ReactFlow defaultNodes={initialNodes} defaultEdges={initialEdges} nodeTypes={nodeTypes}>
           <Background />
         </ReactFlow>
       </FlowWrapper>
-    </FormWrapper>
+
+      <InputWrapper>
+        <MiniTitle sizeType="2xl" fontWeight="600">
+          태그
+        </MiniTitle>
+        <InfoInput width="100px" />
+      </InputWrapper>
+
+      <Button onClick={saveData} borderRadius="var(--borders-radius-lg)">
+        저장
+      </Button>
+    </>
   );
 };
 
