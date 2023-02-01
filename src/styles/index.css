@@ -1,2 +1,8 @@
 @import url("./reset.css");
 @import url("./variable.css");
+
+.test {
+    background-image: url("../assets/logo/naver.png");
+    width: 100px;
+    height: 100px;
+}

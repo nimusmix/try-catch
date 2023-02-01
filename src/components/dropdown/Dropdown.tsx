@@ -1,9 +1,11 @@
 import styled from 'styled-components';
+import React from 'react';
 
 interface IDropdownProps {
   items: Array<{ value: string | number; text: string }>;
   border?: string;
   width?: string;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const Select = styled.select<Partial<IDropdownProps>>`
@@ -55,10 +57,10 @@ const Label = styled.label<Partial<IDropdownProps>>`
 `;
 
 // items.value === 0이면 추후 hidden
-const Dropdown = ({ items, border, width }: IDropdownProps) => {
+const Dropdown = ({ items, border, width, onChange }: IDropdownProps) => {
   return (
     <Label border={border}>
-      <Select border={border} width={width}>
+      <Select border={border} width={width} onChange={onChange}>
         {items.map((item) =>
           item.value === 0 ? (
             <option key={item.value} value={item.value} hidden>

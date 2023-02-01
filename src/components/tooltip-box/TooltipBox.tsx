@@ -7,7 +7,7 @@ interface ITooltipBoxProps {
   content: string;
 }
 
-const StyledTooltipBox = styled.div`
+export const StyledTooltipBox = styled.div`
   position: relative;
   background-color: var(--colors-brand-100);
   padding: 2rem 2.5rem;

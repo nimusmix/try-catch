@@ -1,9 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Dropdown, Input } from '../../../components';
-import useTooltip from '../../../hooks/useTooltip';
+import { Dropdown, Input, Paragraph } from '../../../components';
+import useQuestionDispatch from '../../../hooks/useQuestionDispatch';
+import useQuestionState from '../../../hooks/useQuestionState';
+import { Tooltip } from './QnaFormContentSection';
 
 const Wrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
 
@@ -12,15 +15,23 @@ const Wrapper = styled.div`
   }
 `;
 
-const TitleTooltip = styled.div<{ isVisible: boolean }>`
-  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
-  width: 100px;
-  height: 100px;
-  background-color: blue;
-`;
 const QnaFormTitleSection = () => {
-  const titleInputRef = useRef<HTMLInputElement>(null);
-  const [isTitleFocus, isTitleBlur] = useTooltip(titleInputRef);
+  const [isTitleFocus, setIsTitleFocus] = useState(false);
+  const { title } = useQuestionState();
+
+  const dispatch = useQuestionDispatch();
+
+  const setCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    dispatch({ type: 'SET_CATEGORY', category: e.target.value });
+  };
+  const setTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch({ type: 'SET_TITLE', title: e.target.value });
+  };
+
+  const TitleTooltip = styled(Tooltip)`
+    translate: 110% -20px;
+  `;
+
   return (
     <Wrapper>
       <Dropdown
@@ -29,16 +40,27 @@ const QnaFormTitleSection = () => {
           { text: '커리어', value: '커리어' },
           { text: '밸런스 게임', value: '밸런스 게임' },
         ]}
+        onChange={setCategory}
       />
       <Input
         placeholder="제목을 입력해 주세요"
-        ref={titleInputRef}
         width="100%"
         padding="0 0.5rem"
         height="2.5rem"
+        value={title}
+        onChange={setTitle}
+        onFocus={() => setIsTitleFocus(true)}
+        onBlur={() => setIsTitleFocus(false)}
       />
-
-      <TitleTooltip isVisible={isTitleFocus}>제목 토글테스트</TitleTooltip>
+      {isTitleFocus && (
+        <TitleTooltip>
+          <Paragraph sizeType="base">💡 질문 내용 작성 가이드</Paragraph>
+          <Paragraph sizeType="base">
+            어떤 상황에서 문제가 발생했는지 구체적으로 작성해 주세요. 현재 사용하는 소프트웨어의
+            버전 정보까지 포함하시면 더욱 좋은 답변을 받을 수 있습니다.
+          </Paragraph>
+        </TitleTooltip>
+      )}
     </Wrapper>
   );
 };
