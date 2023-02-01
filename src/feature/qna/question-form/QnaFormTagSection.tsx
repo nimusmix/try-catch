@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Input, MiniTitle } from '../../../components';
+import { MiniTitle } from '../../../components';
 import useQuestionDispatch from '../../../hooks/useQuestionDispatch';
 import useQuestionState from '../../../hooks/useQuestionState';
+import TagsInput from '../../hashtag-input/TagsInput';
 
 const Wrapper = styled.div`
   span {
@@ -13,25 +14,28 @@ const Wrapper = styled.div`
   margin-bottom: 1.5rem;
 `;
 const QnaFormTagSection = () => {
-  const dispatch = useQuestionDispatch();
   const { tags } = useQuestionState();
+  const dispatch = useQuestionDispatch();
 
-  const setTags = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch({ type: 'SET_TAGS', tags: e.target.value.split(',') });
+  const addTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.currentTarget.value !== '') {
+      const newTag = e.currentTarget.value;
+      dispatch({ type: 'SET_TAGS', tags: [...tags, newTag] });
+      e.currentTarget.value = '';
+    }
   };
+
+  const removeTag = (indexToRemove: number) => {
+    const newTags = [...tags.filter((_: string, index: number) => index !== indexToRemove)];
+    dispatch({ type: 'SET_TAGS', tags: newTags });
+  };
+
   return (
     <Wrapper>
       <MiniTitle sizeType="xl" textAlign="left">
         태그 <span>(최대 10개)</span>
       </MiniTitle>
-      <Input
-        placeholder="태그 입력"
-        width="100%"
-        padding="0 0.5rem"
-        height="2.5rem"
-        value={tags.join(',')}
-        onChange={setTags}
-      />
+      <TagsInput addTag={addTag} removeTag={removeTag} tags={tags} />
     </Wrapper>
   );
 };

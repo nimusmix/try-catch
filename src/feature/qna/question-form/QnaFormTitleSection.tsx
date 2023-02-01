@@ -15,6 +15,10 @@ const Wrapper = styled.div`
   }
 `;
 
+const TitleTooltip = styled(Tooltip)`
+  translate: 110% -20px;
+`;
+
 const QnaFormTitleSection = () => {
   const [isTitleFocus, setIsTitleFocus] = useState(false);
   const { title } = useQuestionState();
@@ -27,10 +31,6 @@ const QnaFormTitleSection = () => {
   const setTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({ type: 'SET_TITLE', title: e.target.value });
   };
-
-  const TitleTooltip = styled(Tooltip)`
-    translate: 110% -20px;
-  `;
 
   return (
     <Wrapper>
