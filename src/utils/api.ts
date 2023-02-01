@@ -10,3 +10,5 @@ export const axiosFeedSearchList = (keyword: string) =>
   api.get(`/feed/search?content=${keyword}`).then((res) => res.data);
 
 export const axiosQuestionList = () => api.get('/question').then((res) => res.data);
+export const axiosQuestionDetail = (id: number) =>
+  api.get(`/question/${id}`).then((res) => res.data);

@@ -1,21 +1,8 @@
 import styled from 'styled-components';
 import { IconLikeEmpty, IconLikeFill } from '../../../components/icons/Icons';
 import { Button, Div, Paragraph } from '../../../components';
-
-interface IAnswerProps {
-  answerId: number;
-  questionId: number;
-  author: {
-    username: string;
-    image?: string;
-    company?: string;
-    isFollowed: boolean;
-  };
-  content: string;
-  timestamp: number;
-  likeCount: number;
-  isLiked: boolean;
-}
+import { IAnswer } from '../../../interface/qna';
+import getImageUrl from '../../../utils/getImageUrl';
 
 const AnswerDiv = styled(Div)`
   display: flex;
@@ -25,7 +12,7 @@ const AnswerDiv = styled(Div)`
   padding: 2rem;
 `;
 
-const UpperWraaper = styled.div`
+const UpperWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -86,53 +73,44 @@ const Like = styled.div`
   }
 `;
 
-const Answer = () => {
-  const MAnswer = {
-    answerId: 1,
-    questionId: 1,
-    author: {
-      username: '42good',
-      image: 'https://avatars.githubusercontent.com/u/109320569?v=4',
-      company: 'https://avatars.githubusercontent.com/u/109320569?v=4',
-      isFollowed: false,
-    },
-    content:
-      '에러 코드만 봤을 때는 뭐뭐가 설치가 안 된 것 같습니다. node_modules에 블라블라 확인 후 없다면 블라블라 설치해주시면 될 것 같습니다. 이것은 목업 데이터입니다. 데이터 받아오고 팔로우 연결이랑 블라블라 해야 합니다.',
-    timestamp: 1974183600,
-    likeCount: 21,
-    isLiked: true,
-  };
-
+const Answer = ({ answer }: { answer: IAnswer }) => {
   return (
     <AnswerDiv>
-      <UpperWraaper>
+      <UpperWrapper>
         <AuthorWrapper>
-          <ProfileImg src={MAnswer.author.image} />
+          <ProfileImg src={answer.author.profileImage} />
           <UserInfoWrapper>
             <UserInfo>
-              <Paragraph sizeType="base">{MAnswer.author.username}</Paragraph>
-              <CompanyImg src={MAnswer.author.company} />
+              <Paragraph sizeType="base">{answer.author.userName}</Paragraph>
+              <CompanyImg
+                src={
+                  answer.author.companyName
+                    ? getImageUrl(answer.author.companyName, 'logo')
+                    : new URL(`/src/assets/favicon.ico`, import.meta.url).href
+                }
+                alt={answer.author.companyName}
+              />
             </UserInfo>
-            <SubText sizeType="xm">작성자가 다니는 회사 이름 받아올 수 있을까</SubText>
+            <SubText sizeType="xm">{answer.author.companyName}</SubText>
           </UserInfoWrapper>
         </AuthorWrapper>
 
         {/* 팔로우 버튼 */}
-        {MAnswer.author.isFollowed && <Button>팔로잉</Button>}
-        {MAnswer.author.isFollowed || (
+        {answer.author.isFollowed && <Button>팔로잉</Button>}
+        {answer.author.isFollowed || (
           <FollowButton designType="blueEmpty" fontSize="14px">
             팔로우
           </FollowButton>
         )}
-      </UpperWraaper>
+      </UpperWrapper>
 
       <Line />
 
-      <Paragraph sizeType="base">{MAnswer.content}</Paragraph>
+      <Paragraph sizeType="base">{answer.content}</Paragraph>
       <Like>
-        {MAnswer.isLiked && <IconLikeFill />}
-        {MAnswer.isLiked || <IconLikeEmpty />}
-        <SubText sizeType="xm">{MAnswer.likeCount}</SubText>
+        {answer.isLiked && <IconLikeFill />}
+        {answer.isLiked || <IconLikeEmpty />}
+        <SubText sizeType="xm">{answer.likeCount}</SubText>
       </Like>
     </AnswerDiv>
   );
