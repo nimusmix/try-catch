@@ -14,4 +14,5 @@ export interface IFeedItemProps {
 
 export interface IFeedListProps {
   feedList: Array<IFeedItemProps>;
+  nextPage: string;
 }

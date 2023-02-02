@@ -1,7 +1,9 @@
-import { useQuery } from 'react-query';
+import { useQuery, useInfiniteQuery } from 'react-query';
 import { AxiosError } from 'axios';
 import styled from 'styled-components';
 import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+
 import Skeleton from './FeedItemSkeleton';
 import { getFeedSearchList } from '../../utils/api';
 import { IFeedSearch } from '../../interface/feed';
@@ -78,11 +80,26 @@ const FeedList = ({
    * getFeedSearch()로 변경해야함
    */
 
+  const { ref, inView } = useInView();
+
   const paramSort = activeFilterOption === '최신순' ? 'date' : 'user';
 
-  const { data, isLoading, isError } = useQuery<IFeedListProps, AxiosError>(
+  const {
+    status,
+    data,
+    isLoading,
+    isError,
+    error,
+    isFetching,
+    isFetchingNextPage,
+    isFetchingPreviousPage,
+    fetchNextPage,
+    fetchPreviousPage,
+    hasNextPage,
+    hasPreviousPage,
+  } = useInfiniteQuery<IFeedListProps, AxiosError>(
     ['feed', keyword, paramSort],
-    () => {
+    async ({ pageParam = 0 }) => {
       const params: IFeedSearch = {
         query: keyword,
         sort: paramSort,
@@ -90,20 +107,48 @@ const FeedList = ({
         advanced,
         publishDateStart: null,
         publishDateEnd: null,
-        page: 0,
-        size: 10,
+        page: pageParam,
+        size: 9,
       };
       return getFeedSearchList(params);
+    },
+    {
+      keepPreviousData: true,
+      getNextPageParam: (lastPage) => lastPage.nextPage,
     }
   );
 
   useEffect(() => {
-    if (!isLoading && data?.feedList && data?.feedList.length !== 0) {
-      const tagListLen = data?.feedList.length > 10 ? 10 : data?.feedList.length;
+    if (inView) {
+      fetchNextPage();
+      console.log('새페이지');
+    }
+  }, [inView, fetchNextPage]);
+
+  // const { data, isLoading, isError } = useQuery<IFeedListProps, AxiosError>(
+  //   ['feed', keyword, paramSort],
+  //   () => {
+  //     const params: IFeedSearch = {
+  //       query: keyword,
+  //       sort: paramSort,
+  //       subscribe,
+  //       advanced,
+  //       publishDateStart: null,
+  //       publishDateEnd: null,
+  //       page: 0,
+  //       size: 10,
+  //     };
+  //     return getFeedSearchList(params);
+  //   }
+  // );
+
+  useEffect(() => {
+    if (!isLoading && data?.pages && data?.pages[0].feedList.length !== 0) {
+      const tagListLen = data?.pages[0].feedList.length > 10 ? 10 : data?.pages[0].feedList.length;
       const tagListSet = new Set<string>();
 
       for (let i = 0; i < tagListLen; i += 1) {
-        data?.feedList[i].keywords.forEach((element: string) => {
+        data?.pages[0].feedList[i].keywords.forEach((element: string) => {
           tagListSet.add(element);
         });
       }
@@ -120,7 +165,7 @@ const FeedList = ({
         getData(newTagListSlice);
       }
     }
-  }, [getData, isLoading, data?.feedList, tagListProps]);
+  }, [getData, isLoading, data?.pages, tagListProps]);
 
   /** TODO  최상위 10개 데이터에 대한 키워드 15개 뽑기
    * 추후 keyword 개수 많은 순으로 count 해서 보내주기
@@ -153,9 +198,9 @@ const FeedList = ({
         </>
       )}
       {isError && <h2>에러입니다.</h2>}
-      {data?.feedList.length === 0 && <NonSearchResult keyword={keyword} />}
-      <FeedListWrapper>
-        {data?.feedList.map((feedItem) => {
+      {data?.pages[0].feedList.length === 0 && <NonSearchResult keyword={keyword} />}
+
+      {/*   {data?.feedList.map((feedItem) => {
           if (activeViewOption)
             return (
               <FeedCardItem
@@ -171,8 +216,32 @@ const FeedList = ({
               checkedItemsProps={checkedItemsProps}
             />
           );
-        })}
-      </FeedListWrapper>
+        })} */}
+      {data?.pages.map((page, index) => {
+        const pageIdx = `${page} ${index}`;
+        return (
+          <FeedListWrapper key={pageIdx}>
+            {page.feedList.map((feedItem) => {
+              if (activeViewOption)
+                return (
+                  <FeedCardItem
+                    key={feedItem.feedId}
+                    {...feedItem}
+                    checkedItemsProps={checkedItemsProps}
+                  />
+                );
+              return (
+                <FeedListItem
+                  key={feedItem.feedId}
+                  {...feedItem}
+                  checkedItemsProps={checkedItemsProps}
+                />
+              );
+            })}
+            {isFetchingNextPage ? <div>Loading</div> : <div ref={ref} />}
+          </FeedListWrapper>
+        );
+      })}
     </div>
   );
 };
