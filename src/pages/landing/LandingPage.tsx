@@ -1,6 +1,7 @@
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { useInView } from 'react-intersection-observer';
+import { useEffect } from 'react';
 import Layout from '../../layout/Layout';
 import MarqueeLogoCard from './marquee-logo-wall/MarqueeLogoCard';
 import LandingTitle from './landing-title/LandingTitle';
@@ -25,14 +26,15 @@ const LandingPage = () => {
   // 로그인 토큰 저장
   const setAccToken = useSetRecoilState(accToken);
   const setRefToken = useSetRecoilState(refToken);
-
-  if (window.location.search) {
-    const params = new URLSearchParams(window.location.search);
-    const acc = params.get('acc');
-    const ref = params.get('ref');
-    setAccToken(String(acc));
-    setRefToken(String(ref));
-  }
+  useEffect(() => {
+    if (window.location.search) {
+      const params = new URLSearchParams(window.location.search);
+      const acc = params.get('acc');
+      const ref = params.get('ref');
+      setAccToken(String(acc));
+      setRefToken(String(ref));
+    }
+  }, [setAccToken, setRefToken]);
 
   const isDark = useRecoilValue(isDarkState);
   const { ref: myRef, inView: myElementIsVisible } = useInView();
