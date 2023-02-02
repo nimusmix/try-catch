@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import QuestionItem from './QuestionItem';
 
-import { IQuestion } from '../../../interface/qna';
 import { getQuestionList } from '../../../apis/qna/qna';
+import { IQuestion } from '../../../apis/qna/qna-type';
 
 const QuestionList = ({ activeCategory }: { activeCategory: string }) => {
   const { isLoading, data: questionList } = useQuery<Array<IQuestion>>(['questionList'], () =>
