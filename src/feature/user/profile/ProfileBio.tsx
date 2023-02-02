@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import { Link, Outlet, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { getUserId } from '../../../apis/profile/profile';
 import { MiniTitle, Paragraph, Button, Modal } from '../../../components';
-import { SubscriptionPage, FollowingPage, FollowersPage } from '../../../pages';
 
 const BioWrapper = styled.div`
   display: flex;
@@ -80,12 +81,12 @@ const MUser = {
 
 const ProfileBio = () => {
   const [isModalOpened, setIsModalOpened] = useState(false);
-  // const subscriptionMatch = useMatch('profile/:username/subscription');
-  // const followingMatch = useMatch('profile/:username/following');
-  // const followersMatch = useMatch('profile/:username/followers');
   const modalClick = (e: React.MouseEvent<HTMLElement>) => {
     setIsModalOpened(true);
   };
+  const { userName } = useParams();
+  const { data: userId } = useQuery<number>(['userId'], () => getUserId(userName!));
+  // const { data: user } = useQuery
 
   const createImageUrl = (companyName: string) => {
     return new URL(`/src/assets/logo/${companyName}.png`, import.meta.url).href;
@@ -155,9 +156,6 @@ const ProfileBio = () => {
       {/* 모달 */}
       {isModalOpened ? (
         <Modal width="420px" height="380px" onClose={setIsModalOpened}>
-          {/* {subscriptionMatch && <SubscriptionPage />}
-          {followingMatch && <FollowingPage />}
-          {followersMatch && <FollowersPage />} */}
           <Outlet />
         </Modal>
       ) : null}

@@ -33,8 +33,8 @@ const LandingPage = () => {
       const params = new URLSearchParams(window.location.search);
       const acc = params.get('acc');
       const ref = params.get('ref');
-      setAccToken(String(acc));
-      setRefToken(String(ref));
+      setAccToken(acc!);
+      setRefToken(ref!);
       setIsLoggedIn(true);
     }
   }, [setAccToken, setRefToken, setIsLoggedIn]);
