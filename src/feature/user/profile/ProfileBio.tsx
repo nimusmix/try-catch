@@ -68,7 +68,7 @@ const ProfileBio = () => {
   const { userName } = useParams();
   const { data: userId } = useQuery<number>(['userId'], () => getUserId(userName!));
   const { data: user } = useQuery<IUserDetail>(['userDetail'], () => getUserDetail(userId!));
-
+  console.log(user);
   const createImageUrl = (companyName: string) => {
     return new URL(`/src/assets/logo/${companyName}.png`, import.meta.url).href;
   };
