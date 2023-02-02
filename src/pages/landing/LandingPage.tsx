@@ -1,12 +1,13 @@
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { useInView } from 'react-intersection-observer';
+import { URLSearchParams } from 'url';
 import Layout from '../../layout/Layout';
 import MarqueeLogoCard from './marquee-logo-wall/MarqueeLogoCard';
 import LandingTitle from './landing-title/LandingTitle';
 import { ReactComponent as LogoDarkTheme } from '../../assets/vertical_logo_dark_theme.svg';
 import { ReactComponent as LogoLightTheme } from '../../assets/vertical_logo_light_theme.svg';
-import { isDarkState } from '../../recoil';
+import { accToken, refToken, isDarkState } from '../../recoil';
 import { QuestionPageBody } from '../qna/QnaPage';
 import IntroSection from './Sections/IntroSection';
 import QnASection from './Sections/QnASection';
@@ -22,6 +23,18 @@ const LogoWrapper = styled.div`
 `;
 
 const LandingPage = () => {
+  // 로그인 토큰 저장
+  const setAccToken = useSetRecoilState(accToken);
+  const setRefToken = useSetRecoilState(refToken);
+
+  if (window.location.search) {
+    const params = new URLSearchParams(window.location.search);
+    const acc = params.get('acc');
+    const ref = params.get('ref');
+    setAccToken(String(acc));
+    setRefToken(String(ref));
+  }
+
   const isDark = useRecoilValue(isDarkState);
   const { ref: myRef, inView: myElementIsVisible } = useInView();
 
