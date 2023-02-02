@@ -44,7 +44,8 @@ const Li = styled.li`
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
   const token = useRecoilValue(accToken).split('.')[1];
-  console.log(window.atob(token));
+  const acc = window.atob(token);
+  console.log(typeof acc);
   const { data: userName } = useQuery(['userName'], () => getName());
 
   return (
