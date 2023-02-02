@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { setupInterceptorsTo, tokenInterceptor } from './interceptors';
+import { setupInterceptorsTo, TokenInterceptor } from './interceptors';
 import { API_URL } from '../constant';
 
 const BASE_URL = `https://${API_URL}/v1`;
@@ -17,7 +17,7 @@ const axiosAuthApi = (url: string, options: AxiosRequestConfig = {}) => {
     ...options,
   });
   // 토큰 주입
-  tokenInterceptor(instance);
+  TokenInterceptor(instance);
   return setupInterceptorsTo(instance);
 };
 

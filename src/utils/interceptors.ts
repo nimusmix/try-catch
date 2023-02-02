@@ -13,12 +13,12 @@ import { logOnDev } from './logging';
 // const TOKEN =
 //   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnaG9fOVJjeTc1TUFoTEppQXhEUW8xRzFEWjVFdVlsMHhlM2xYcHpHIiwiaWQiOiIxNCIsImlhdCI6MTY3NTMxODA0MiwiZXhwIjoxNjc1MzYxMjQyfQ.FxHi_4zP6DUh3nb21X6mDog72cWGMfz8h586TMtBb1U';
 
-const tokenInterceptor = (instance: AxiosInstance) => {
+const TokenInterceptor = (instance: AxiosInstance) => {
+  const token = useRecoilValue(accToken); // 저장된 acc토큰 접근
   instance.interceptors.request.use(
     (config) => {
       const axiosConfig = config;
       // const token = getItem('jwt_token')
-      const token = useRecoilValue(accToken); // 저장된 acc토큰 접근
       axiosConfig.headers = new AxiosHeaders({
         Authorization: token,
       });
@@ -66,4 +66,4 @@ const setupInterceptorsTo = (axiosInstance: AxiosInstance): AxiosInstance => {
   return axiosInstance;
 };
 
-export { tokenInterceptor, setupInterceptorsTo };
+export { TokenInterceptor, setupInterceptorsTo };
