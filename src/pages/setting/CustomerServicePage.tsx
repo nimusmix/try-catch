@@ -1,7 +1,7 @@
-import Layout from '../../layout/Layout';
+import { SettingsBody } from './ThemeSettingsPage';
 
 const CustomerServicePage = () => {
-  return <Layout>CustomerServicePage</Layout>;
+  return <SettingsBody>CustomerServicePage</SettingsBody>;
 };
 
 export default CustomerServicePage;

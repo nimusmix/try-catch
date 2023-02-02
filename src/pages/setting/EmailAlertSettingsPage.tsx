@@ -1,7 +1,7 @@
-import Layout from '../../layout/Layout';
+import { SettingsBody } from './ThemeSettingsPage';
 
 const EmailAlertSettingsPage = () => {
-  return <Layout>EmailAlertSettingsPage</Layout>;
+  return <SettingsBody>EmailAlertSettingsPage</SettingsBody>;
 };
 
 export default EmailAlertSettingsPage;

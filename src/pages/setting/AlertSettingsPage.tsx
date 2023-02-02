@@ -1,7 +1,7 @@
-import Layout from '../../layout/Layout';
+import { SettingsBody } from './ThemeSettingsPage';
 
 const AlertSettingsPage = () => {
-  return <Layout>AlertSettingsPage</Layout>;
+  return <SettingsBody>AlertSettingsPage</SettingsBody>;
 };
 
 export default AlertSettingsPage;

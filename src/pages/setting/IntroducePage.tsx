@@ -1,7 +1,7 @@
-import Layout from '../../layout/Layout';
+import { SettingsBody } from './ThemeSettingsPage';
 
 const IntroducePage = () => {
-  return <Layout>IntroducePage</Layout>;
+  return <SettingsBody>IntroducePage</SettingsBody>;
 };
 
 export default IntroducePage;
