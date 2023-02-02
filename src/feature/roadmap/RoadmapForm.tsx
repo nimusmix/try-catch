@@ -1,4 +1,7 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import ReactFlow, {
   Handle,
   Position,
@@ -12,6 +15,22 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 import styled from 'styled-components';
 import { Button, MiniTitle, Input } from '../../components';
+import { postRoadmap } from '../../utils/api';
+
+export interface INode {
+  width: string;
+  height: string;
+  id: string;
+  position: { x: number; y: number };
+  data: {
+    value: string;
+    label: string;
+  };
+  type: string;
+  positionAbsolute: string;
+  selected: boolean;
+  dragging: boolean;
+}
 
 export interface IEdges {
   id: string;
@@ -108,43 +127,65 @@ const TextUpdaterNode = ({ data }: any) => {
 let nodeId = 3;
 
 const ReactFlowForm = () => {
+  const {
+    register,
+    handleSubmit,
+    // formState: { errors },
+  } = useForm();
+
   const newNodes = useNodes();
   const newEdges = useEdges();
 
   const reactFlowInstance = useReactFlow();
 
-  const addNode = useCallback(() => {
-    nodeId += 1;
-    const id = `${nodeId}`;
-    const newNode = {
-      id,
-      position: {
-        x: Math.random() * 500,
-        y: Math.random() * 500,
-      },
-      data: {
-        label: `Node ${id}`,
-      },
-      type: 'textUpdater',
-    };
-    reactFlowInstance.addNodes(newNode);
-  }, [reactFlowInstance]);
+  const addNode = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
 
-  const saveData = () => {
-    console.log(JSON.stringify(newNodes));
-    console.log(JSON.stringify(newEdges));
-    console.log(newEdges);
+      nodeId += 1;
+      const id = `${nodeId}`;
+      const newNode = {
+        id,
+        position: {
+          x: Math.random() * 500,
+          y: Math.random() * 500,
+        },
+        data: {
+          label: `Node ${id}`,
+        },
+        type: 'textUpdater',
+      };
+      reactFlowInstance.addNodes(newNode);
+    },
+    [reactFlowInstance]
+  );
+
+  const navi = useNavigate();
+  const saveRoadmap = useMutation(postRoadmap, {
+    onSuccess: (data) => navi(`/roadmap/${data.data.author.userName}`),
+    onError: (error) => console.log(error),
+  });
+
+  const saveData = (data: any) => {
+    const rstNodes = newNodes.map((node) => Object.assign(node, { type: 'output' }));
+    const roadmap = {
+      title: data.title,
+      tag: data.tag,
+      nodes: JSON.stringify(rstNodes),
+      edges: JSON.stringify(newEdges),
+    };
+    saveRoadmap.mutate(roadmap);
   };
 
   const nodeTypes = useMemo(() => ({ textUpdater: TextUpdaterNode }), []);
 
   return (
-    <>
+    <form onSubmit={handleSubmit(saveData)}>
       <InputWrapper>
         <MiniTitle sizeType="2xl" fontWeight="600">
           제목
         </MiniTitle>
-        <InfoInput />
+        <InfoInput {...register('title', { required: '제목은 필수 항목입니다.' })} />
       </InputWrapper>
 
       <RoadmapTitleWrapper>
@@ -166,13 +207,11 @@ const ReactFlowForm = () => {
         <MiniTitle sizeType="2xl" fontWeight="600">
           태그
         </MiniTitle>
-        <InfoInput width="100px" />
+        <InfoInput width="100px" {...register('tag', { required: '태그는 필수 항목입니다.' })} />
       </InputWrapper>
 
-      <Button onClick={saveData} borderRadius="var(--borders-radius-lg)">
-        저장
-      </Button>
-    </>
+      <Button borderRadius="var(--borders-radius-lg)">저장</Button>
+    </form>
   );
 };
 
