@@ -36,6 +36,11 @@ const LandingPage = () => {
     }
   }, [setAccToken, setRefToken]);
 
+  const testAccToken = useRecoilValue(accToken);
+  const testRefToken = useRecoilValue(refToken);
+  console.log(testAccToken);
+  console.log(testRefToken);
+
   const isDark = useRecoilValue(isDarkState);
   const { ref: myRef, inView: myElementIsVisible } = useInView();
 
