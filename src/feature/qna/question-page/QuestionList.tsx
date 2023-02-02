@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import QuestionItem from './QuestionItem';
 
 import { IQuestion } from '../../../interface/qna';
-import { getQuestionList } from '../../../apis/feed/feed-type';
+import { getQuestionList } from '../../../apis/qna/qna';
 
 const QuestionList = ({ activeCategory }: { activeCategory: string }) => {
   const { isLoading, data: questionList } = useQuery<Array<IQuestion>>(['questionList'], () =>
