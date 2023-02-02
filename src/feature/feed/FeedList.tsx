@@ -2,13 +2,13 @@ import { useQuery } from 'react-query';
 import { AxiosError } from 'axios';
 import styled from 'styled-components';
 import Skeleton from './FeedItemSkeleton';
-import { getFeedList, getFeedSearchList } from '../../utils/api';
 import FeedListItem from './FeedListItem';
 import FeedCardItem from './FeedCardItem';
 import FeedCardSkeleton from './FeedCardSkeleton';
 import { MiniTitle, Paragraph } from '../../components';
 import { ReactComponent as Bug } from '../../assets/bug.svg';
 import { IFeedListProps } from './IFeed';
+import { getFeedList, getFeedSearchList } from '../../apis/feed/feed';
 
 interface IFeedList {
   activeViewOption: boolean;

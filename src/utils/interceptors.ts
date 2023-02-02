@@ -9,7 +9,7 @@ import {
 import { logOnDev } from './logging';
 
 const TOKEN =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnaG9fSzVWWkJOMlZVMlVDem9WUEhqdDRSeVNNVHZuenBvMDE1TkV5IiwiaWQiOiIyIiwiaWF0IjoxNjc1MjMwMzQyLCJleHAiOjE2NzUyNzM1NDJ9.8dSMPWQrkV_1edhNdSjJ6PXRO1RegXEpONQJ4LcesoA';
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnaG9fOVJjeTc1TUFoTEppQXhEUW8xRzFEWjVFdVlsMHhlM2xYcHpHIiwiaWQiOiIxNCIsImlhdCI6MTY3NTMxODA0MiwiZXhwIjoxNjc1MzYxMjQyfQ.FxHi_4zP6DUh3nb21X6mDog72cWGMfz8h586TMtBb1U';
 
 const tokenInterceptor = (instance: AxiosInstance) => {
   instance.interceptors.request.use(
@@ -30,12 +30,14 @@ const tokenInterceptor = (instance: AxiosInstance) => {
 const onRequest = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
   logOnDev.info(`%c[::request::${config.method}${config.url}------]`, 'color: #229910');
   logOnDev.dir(config);
+  logOnDev.log('', '');
   return config;
 };
 
 const onRequestError = (error: AxiosError): Promise<AxiosError> => {
   logOnDev.error(`[::request error::${error.config?.method}${error.config?.url}------]`);
   logOnDev.dir(error);
+  logOnDev.log('', '');
   return Promise.reject(error);
 };
 
@@ -45,12 +47,14 @@ const onResponse = (response: AxiosResponse): AxiosResponse => {
     'color: #13ce29'
   );
   logOnDev.dir(response);
+  logOnDev.log('', '');
   return response;
 };
 
 const onResponseError = (error: AxiosError): Promise<AxiosError> => {
   logOnDev.error(`[::response error::${error.config?.method}${error.config?.url}------]`);
   logOnDev.dir(error);
+  logOnDev.log('', '');
   return Promise.reject(error);
 };
 
