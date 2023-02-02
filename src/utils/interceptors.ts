@@ -25,14 +25,19 @@ const tokenInterceptor = (instance: AxiosInstance) => {
 };
 
 const onRequest = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-  logOnDev.info(`%c[::request::${config.method}${config.url}------]`, 'color: #229910');
+  logOnDev.info(
+    `🙏 %c[API] ${config.method?.toUpperCase()} ${config.url} | [::request::]`,
+    'color: #229910'
+  );
   logOnDev.dir(config);
   logOnDev.log('', '');
   return config;
 };
 
 const onRequestError = (error: AxiosError): Promise<AxiosError> => {
-  logOnDev.error(`[::request error::${error.config?.method}${error.config?.url}------]`);
+  logOnDev.error(
+    `💥 [API] ${error.config?.method?.toUpperCase()} ${error.config?.url} | [::request error::]`
+  );
   logOnDev.dir(error);
   logOnDev.log('', '');
   return Promise.reject(error);
@@ -40,7 +45,9 @@ const onRequestError = (error: AxiosError): Promise<AxiosError> => {
 
 const onResponse = (response: AxiosResponse): AxiosResponse => {
   logOnDev.info(
-    `%c [::response::${response.config.method}${response.config.url}------]`,
+    `👌 %c [API] ${response.config.method?.toUpperCase()} ${response.config.url} | [::response::] ${
+      response.status
+    }`,
     'color: #13ce29'
   );
   logOnDev.dir(response);
@@ -49,7 +56,9 @@ const onResponse = (response: AxiosResponse): AxiosResponse => {
 };
 
 const onResponseError = (error: AxiosError): Promise<AxiosError> => {
-  logOnDev.error(`[::response error::${error.config?.method}${error.config?.url}------]`);
+  logOnDev.error(
+    `💥 [API] ${error.config?.method?.toUpperCase()} ${error.config?.url} | [::response error::]`
+  );
   logOnDev.dir(error);
   logOnDev.log('', '');
   return Promise.reject(error);

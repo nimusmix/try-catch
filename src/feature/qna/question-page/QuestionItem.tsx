@@ -3,8 +3,8 @@ import { useRecoilValue } from 'recoil';
 import { IconComment, IconEye, IconLikeEmpty } from '../../../components/icons/Icons';
 import { Button, MiniTitle, Paragraph } from '../../../components';
 import { isDarkState } from '../../../recoil';
-import { IQuestion } from '../../../interface/qna';
 import elapsedTime from '../../../utils/elapsed-time';
+import { IQuestion } from '../../../apis/qna/qna-type';
 
 const Wrapper = styled.article`
   max-width: 848px;
@@ -68,6 +68,13 @@ const InfoWrapper = styled.div`
   }
 `;
 
+const toKorean = (category: string | undefined) => {
+  if (category === 'DEV') {
+    return '개발';
+  }
+  return '커리어';
+};
+
 const QuestionItem = ({
   category,
   title,
@@ -77,6 +84,7 @@ const QuestionItem = ({
   likeCount,
   answerCount,
   tags,
+  ...rest
 }: Partial<IQuestion>) => {
   const isDark = useRecoilValue(isDarkState);
 
@@ -116,7 +124,7 @@ const QuestionItem = ({
             fontSize="var(--fonts-body-xm)"
             padding="2.2px 10px"
           >
-            {category}
+            {toKorean(category)}
           </Button>
           {tags?.map((tag) => (
             <Button

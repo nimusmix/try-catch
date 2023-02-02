@@ -1,21 +1,30 @@
 import styled from 'styled-components';
 import { IconLikeEmpty, IconLikeFill } from '../../../components/icons/Icons';
-import { Button, Div, Paragraph } from '../../../components';
+import { Button, Paragraph } from '../../../components';
 import { IAnswer } from '../../../interface/qna';
 import getImageUrl from '../../../utils/getImageUrl';
 
-const AnswerDiv = styled(Div)`
+const AnswerItem = styled.li`
   display: flex;
   flex-direction: column;
   justify-content: start;
-  width: 820px;
-  padding: 2rem;
+  width: 100%;
+  background-color: ${({ theme: { isDark } }) => (isDark ? 'rgba(46, 52, 64, 1)' : '#f7f8ff')};
+  border: ${({ theme: { isDark } }) => (isDark ? '' : '1px solid var(--colors-brand-200)')};
+  border-radius: var(--borders-radius-base);
+  margin-bottom: 2rem;
+  padding: 0;
+  overflow: hidden;
 `;
 
 const UpperWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: ${({ theme: { isDark } }) =>
+    isDark ? 'rgba(36, 42, 54, 1)' : 'var(--colors-brand-200)'};
+  height: 100%;
+  padding: 1rem;
 `;
 
 const AuthorWrapper = styled.div`
@@ -34,10 +43,15 @@ const UserInfo = styled.div`
   align-items: center;
 `;
 
+const ImageWrapper = styled.span`
+  box-shadow: rgba(67, 71, 85, 0.27) 0 0 0.25rem, rgba(90, 125, 188, 0.05) 0 0.25rem 1rem;
+  border-radius: var(--borders-radius-round);
+  overflow: hidden;
+`;
+
 const ProfileImg = styled.img`
   width: 2.5rem;
   height: 2.5rem;
-  border-radius: var(--borders-radius-round);
 `;
 
 const CompanyImg = styled.img`
@@ -54,9 +68,9 @@ const SubText = styled(Paragraph)`
 const FollowButton = styled(Button)``;
 
 const Line = styled.div`
-  margin-top: 1rem;
   margin-bottom: 1.6rem;
-  border-bottom: 0.8px ${({ theme }) => theme.borderColor} solid;
+  border-bottom: 0.8px
+    ${({ theme: { isDark } }) => (isDark ? 'var(--colors-black-100)' : 'rgb(182, 202,229)')} solid;
 `;
 
 const Like = styled.div`
@@ -73,12 +87,19 @@ const Like = styled.div`
   }
 `;
 
+const AnswerBody = styled.div`
+  display: flex;
+  padding: 1rem 2rem;
+`;
+
 const Answer = ({ answer }: { answer: IAnswer }) => {
   return (
-    <AnswerDiv>
+    <AnswerItem>
       <UpperWrapper>
         <AuthorWrapper>
-          <ProfileImg src={answer.author.profileImage} />
+          <ImageWrapper>
+            <ProfileImg src={answer.author.profileImage} />
+          </ImageWrapper>
           <UserInfoWrapper>
             <UserInfo>
               <Paragraph sizeType="base">{answer.author.userName}</Paragraph>
@@ -105,14 +126,15 @@ const Answer = ({ answer }: { answer: IAnswer }) => {
       </UpperWrapper>
 
       <Line />
-
-      <Paragraph sizeType="base">{answer.content}</Paragraph>
-      <Like>
-        {answer.isLiked && <IconLikeFill />}
-        {answer.isLiked || <IconLikeEmpty />}
-        <SubText sizeType="xm">{answer.likeCount}</SubText>
-      </Like>
-    </AnswerDiv>
+      <AnswerBody>
+        <Paragraph sizeType="base">{answer.content}</Paragraph>
+        <Like>
+          {answer.isLiked && <IconLikeFill />}
+          {answer.isLiked || <IconLikeEmpty />}
+          <SubText sizeType="xm">{answer.likeCount}</SubText>
+        </Like>
+      </AnswerBody>
+    </AnswerItem>
   );
 };
 
