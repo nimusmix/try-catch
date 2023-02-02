@@ -1,7 +1,6 @@
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { useInView } from 'react-intersection-observer';
-import { URLSearchParams } from 'url';
 import Layout from '../../layout/Layout';
 import MarqueeLogoCard from './marquee-logo-wall/MarqueeLogoCard';
 import LandingTitle from './landing-title/LandingTitle';
