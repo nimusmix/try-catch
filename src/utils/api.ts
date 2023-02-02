@@ -70,3 +70,6 @@ export const postRoadmap = (data: IRoadmap) =>
     },
     data,
   });
+
+export const getRoadmapDetail = (roadmapId: string) =>
+  api.get(`/roadmap/${roadmapId}`).then((res) => res.data);

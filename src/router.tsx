@@ -150,7 +150,7 @@ const router = createBrowserRouter([
             element: <RoadmapListPage />,
           },
           {
-            path: ':roadmapId',
+            path: ':userName',
             element: <RoadmapDetailPage />,
           },
         ],
@@ -168,7 +168,7 @@ const router = createBrowserRouter([
         element: <Profile />,
         children: [
           {
-            path: ':username',
+            path: ':userName',
             element: <UserProfilePage />,
             children: [
               {
@@ -186,7 +186,7 @@ const router = createBrowserRouter([
             ],
           },
           {
-            path: ':companyname',
+            path: ':companyName',
             element: <CompanyProfilePage />,
           },
           {
