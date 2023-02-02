@@ -1,7 +1,7 @@
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { useInView } from 'react-intersection-observer';
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import Layout from '../../layout/Layout';
 import MarqueeLogoCard from './marquee-logo-wall/MarqueeLogoCard';
 import LandingTitle from './landing-title/LandingTitle';
@@ -23,24 +23,26 @@ const LogoWrapper = styled.div`
 `;
 
 const LandingPage = () => {
+  const isDark = useRecoilValue(isDarkState);
+  const { ref: myRef, inView: myElementIsVisible } = useInView();
+
   // 로그인 토큰 저장
   const setAccToken = useSetRecoilState(accToken);
   const setRefToken = useSetRecoilState(refToken);
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
 
-  useEffect(() => {
-    if (window.location.search) {
-      const params = new URLSearchParams(window.location.search);
-      const acc = params.get('acc');
-      const ref = params.get('ref');
-      setAccToken(acc!);
-      setRefToken(ref!);
-      setIsLoggedIn(true);
-    }
-  }, [setAccToken, setRefToken, setIsLoggedIn]);
-
-  const isDark = useRecoilValue(isDarkState);
-  const { ref: myRef, inView: myElementIsVisible } = useInView();
+  // useEffect(() => {
+  if (window.location.search) {
+    const params = new URLSearchParams(window.location.search);
+    const acc = params.get('acc');
+    const ref = params.get('ref');
+    console.log(acc);
+    console.log(ref);
+    setAccToken(acc!);
+    setRefToken(ref!);
+    setIsLoggedIn(true);
+  }
+  // }, [setAccToken, setRefToken, setIsLoggedIn]);
 
   return (
     <Layout>
