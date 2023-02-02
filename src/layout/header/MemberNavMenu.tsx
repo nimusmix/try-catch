@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { useQuery } from 'react-query';
 import { IconBookmarkFill, IconBellFill, IconUserCircle } from '../../components/icons/Icons';
@@ -7,7 +7,7 @@ import { BOOKMARK_PAGE_NAME } from '../../constant';
 import { Ul } from './NavMenu';
 import { Paragraph } from '../../components';
 import { accToken, isDarkState } from '../../recoil';
-import { getName } from '../../apis/auth/auth';
+import { getImage, getName } from '../../apis/auth/auth';
 
 const Alert = styled.div``;
 
@@ -41,12 +41,18 @@ const Li = styled.li`
   }
 `;
 
+const Img = styled.img`
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+`;
+
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
   const token = useRecoilValue(accToken).split('.')[1];
   const userId = JSON.parse(window.atob(token)).id;
-  console.log(userId);
   const { data: userName } = useQuery(['userName'], () => getName());
+  const { data: profileImg } = useQuery(['profileImg'], () => getImage(userId));
 
   return (
     <Ul>
@@ -67,19 +73,24 @@ const MemberNavMenu = () => {
           />
         </Bookmark>
       </Li>
-      <ProfileLi>
-        <IconUserCircle
-          color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-          size="24"
-        />
-        <Paragraph
-          as="span"
-          sizeType="base"
-          color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-        >
-          username
-        </Paragraph>
-      </ProfileLi>
+      <Link to={`/profile/${userName}`}>
+        <ProfileLi>
+          {profileImg && <Img src={profileImg} />}
+          {profileImg || (
+            <IconUserCircle
+              color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
+              size="24"
+            />
+          )}
+          <Paragraph
+            as="span"
+            sizeType="base"
+            color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
+          >
+            {userName}
+          </Paragraph>
+        </ProfileLi>
+      </Link>
     </Ul>
   );
 };
