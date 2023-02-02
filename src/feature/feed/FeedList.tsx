@@ -20,6 +20,7 @@ interface IFeedList {
   tagListProps: Array<string>;
   getData: (data: Array<string>) => void;
   activeFilterOption: string;
+  checkedItemsProps: Array<number>;
 }
 
 const FeedListWrapper = styled.div`
@@ -69,6 +70,7 @@ const FeedList = ({
   tagListProps,
   getData,
   activeFilterOption,
+  checkedItemsProps,
 }: IFeedList) => {
   /**
    * TODO
@@ -155,8 +157,21 @@ const FeedList = ({
       {data?.feedList.length === 0 && <NonSearchResult keyword={keyword} />}
       <FeedListWrapper>
         {data?.feedList.map((feedItem) => {
-          if (activeViewOption) return <FeedCardItem key={feedItem.feedId} {...feedItem} />;
-          return <FeedListItem key={feedItem.feedId} {...feedItem} />;
+          if (activeViewOption)
+            return (
+              <FeedCardItem
+                key={feedItem.feedId}
+                {...feedItem}
+                checkedItemsProps={checkedItemsProps}
+              />
+            );
+          return (
+            <FeedListItem
+              key={feedItem.feedId}
+              {...feedItem}
+              checkedItemsProps={checkedItemsProps}
+            />
+          );
         })}
       </FeedListWrapper>
     </div>

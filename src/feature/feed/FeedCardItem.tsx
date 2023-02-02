@@ -83,6 +83,7 @@ const FeedCardItem = ({
   isBookmarked,
   thumbnailImage,
   keywords,
+  checkedItemsProps,
 }: IFeedItemProps) => {
   const [bookMarkIcon, setBookMarkIcon] = useState(isBookmarked);
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -135,7 +136,7 @@ const FeedCardItem = ({
         </Paragraph>
       </CardBody>
       <CardFooter>
-        <FeedTag tags={tags.length === 0 ? keywords : tags} />
+        <FeedTag checkedItems={checkedItemsProps} tags={tags.length === 0 ? keywords : tags} />
       </CardFooter>
     </Card>
   );

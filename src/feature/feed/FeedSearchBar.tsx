@@ -27,7 +27,7 @@ const StyledSearchBar = styled.div`
   margin: 0 auto 0 0;
 `;
 
-interface IFeedSearchBarProps {
+export interface IFeedSearchBarProps {
   checkedItems: Array<number>;
 }
 

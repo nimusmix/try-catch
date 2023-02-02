@@ -40,10 +40,9 @@ const filterOptions = [
 
 const FeedPage = () => {
   const [activeFilterOption, setActiveFilterOption] = useState('최신순');
-
   const [activeViewOption, setActiveViewOption] = useState<boolean>(true);
-
   const [tagListProps, setTagListProps] = useState<Array<string>>([]);
+  const [checkedItemsProps, setCheckedItemsProps] = useState<Array<number>>([]);
 
   const keyword = new URLSearchParams(useLocation().search).get('keyword') || '';
   const subscribe = new URLSearchParams(useLocation().search).get('subscribe') === 'true';
@@ -51,6 +50,11 @@ const FeedPage = () => {
 
   const getData = (data: Array<string>) => {
     setTagListProps(data);
+  };
+
+  const getCheckData = (data: Array<number>) => {
+    setCheckedItemsProps(data);
+    console.log(`ck${checkedItemsProps}`);
   };
 
   return (
@@ -65,7 +69,7 @@ const FeedPage = () => {
       </HeaderImage>
       <FeedPageBody>
         <Aside>
-          <FeedSearchSide tagListProps={tagListProps} />
+          <FeedSearchSide tagListProps={tagListProps} getCheckData={getCheckData} />
           <CompanyRecommend />
         </Aside>
         <section style={{ margin: '3rem 1.5rem 0' }}>
@@ -81,6 +85,7 @@ const FeedPage = () => {
             getData={getData}
             activeFilterOption={activeFilterOption}
             tagListProps={tagListProps}
+            checkedItemsProps={checkedItemsProps}
           />
         </section>
       </FeedPageBody>

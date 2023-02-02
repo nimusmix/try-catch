@@ -30,16 +30,19 @@ const CheckboxWrapper = styled.label`
 `;
 interface FeedSearchProps {
   tagListProps: Array<string>;
+  getCheckData: (data: Array<number>) => void;
 }
 
-const FeedSearchSide = ({ tagListProps }: FeedSearchProps) => {
+const FeedSearchSide = ({ tagListProps, getCheckData }: FeedSearchProps) => {
   const [checkedItems, setCheckedItems] = useState<Array<number>>([]);
 
   const handleSingleCheck = (checked: boolean, id: number) => {
     if (checked) {
       setCheckedItems([...checkedItems, id]);
+      getCheckData([...checkedItems, id]);
     } else {
       setCheckedItems(checkedItems.filter((el) => el !== id));
+      getCheckData(checkedItems.filter((el) => el !== id));
     }
   };
   const onSingleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,7 +72,7 @@ const FeedSearchSide = ({ tagListProps }: FeedSearchProps) => {
       </SearchFilterWrapper>
 
       <FeedSearchBar checkedItems={checkedItems} />
-      <FeedTag tags={tagListProps} />
+      <FeedTag tags={tagListProps} checkedItems={checkedItems} />
     </>
   );
 };
