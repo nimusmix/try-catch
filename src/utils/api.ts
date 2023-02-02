@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { tokenize } from 'prismjs';
 import { API_URL } from '../constant';
+import { IData } from '../feature/roadmap/RoadmapForm';
 
 const BASE_URL = `https://${API_URL}/v1`;
 
@@ -10,7 +10,7 @@ const api = axios.create({
 
 // 임시 토큰
 const token =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnaG9fSzVWWkJOMlZVMlVDem9WUEhqdDRSeVNNVHZuenBvMDE1TkV5IiwiaWQiOiIyIiwiaWF0IjoxNjc1MjMwMzQyLCJleHAiOjE2NzUyNzM1NDJ9.8dSMPWQrkV_1edhNdSjJ6PXRO1RegXEpONQJ4LcesoA';
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnaG9fTVBwbXpkeXhobFEzcHJKYjdpRHR4YVJ4OHpHM2l3M0VJSEIyIiwiaWQiOiIyIiwiaWF0IjoxNjc1MzAyNDIzLCJleHAiOjE2NzUzNDU2MjN9.psq773s_cftHNmSvLZYtZV7aU4wAd3bqEk5p9XRg28g';
 
 // axios({
 //   method: 'get',
@@ -33,11 +33,12 @@ export const getFeedSearchList = (keyword: string) =>
   api.get(`/feed/search?content=${keyword}`).then((res) => res.data);
 
 // 로드맵
-export const postRoadmap = () =>
+export const postRoadmap = (data: IData) =>
   axios({
     method: 'post',
     url: `${BASE_URL}/roadmap/`,
     headers: {
       Authorization: token,
     },
-  }).then((res) => res.data);
+    data,
+  });
