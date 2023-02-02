@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query';
 import { AxiosError } from 'axios';
 import styled from 'styled-components';
+import { useEffect } from 'react';
 import Skeleton from './FeedItemSkeleton';
 import { getFeedSearchList } from '../../utils/api';
 import { IFeedSearch } from '../../interface/feed';
@@ -77,8 +78,6 @@ const FeedList = ({
    * getFeedSearch()로 변경해야함
    */
 
-  // const [tagList, setTagList] = useRecoilState(tagListState);
-
   const paramSort = activeFilterOption === '최신순' ? 'date' : 'user';
 
   const { data, isLoading, isError } = useQuery<IFeedListProps, AxiosError>(
@@ -98,30 +97,30 @@ const FeedList = ({
     }
   );
 
-  let newTagList: Array<string> = [];
-  let tagListLen = 10;
-  let checkChange = false;
+  useEffect(() => {
+    if (!isLoading && data?.feedList && data?.feedList.length !== 0) {
+      const tagListLen = data?.feedList.length > 10 ? 10 : data?.feedList.length;
+      const tagListSet = new Set<string>();
 
-  if (!isLoading && data?.feedList && data?.feedList.length !== 0) {
-    tagListLen = data?.feedList.length > 10 ? 10 : data?.feedList.length;
-    const tagListSet = new Set<string>();
+      for (let i = 0; i < tagListLen; i += 1) {
+        data?.feedList[i].keywords.forEach((element: string) => {
+          tagListSet.add(element);
+        });
+      }
+      const newTagList = [...tagListSet];
+      const newTagListSlice = newTagList.slice(0, tagListLen + 1);
 
-    for (let i = 0; i < tagListLen; i += 1) {
-      data?.feedList[i].keywords.forEach((element: string) => {
-        tagListSet.add(element);
-      });
+      // setNewTagListSlice(newTagList.slice(0, tagListLen + 1));
+
+      const checkChange =
+        newTagListSlice.every((item) => tagListProps.includes(item)) &&
+        tagListProps.every((item) => newTagListSlice.includes(item));
+
+      if (!checkChange) {
+        getData(newTagListSlice);
+      }
     }
-    newTagList = [...tagListSet];
-    const newTagListSlice = newTagList.slice(0, tagListLen + 1);
-
-    checkChange =
-      newTagListSlice.every((item) => tagListProps.includes(item)) &&
-      tagListProps.every((item) => newTagListSlice.includes(item));
-
-    if (!checkChange) {
-      getData(newTagListSlice);
-    }
-  }
+  }, [getData, isLoading, data?.feedList, tagListProps]);
 
   /** TODO  최상위 10개 데이터에 대한 키워드 15개 뽑기
    * 추후 keyword 개수 많은 순으로 count 해서 보내주기
