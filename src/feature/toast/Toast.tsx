@@ -13,7 +13,7 @@ const ToastWrapper = styled.div`
   top: 16px;
   left: 50%;
   translate: -50%;
-  z-index: 1;
+  z-index: 1001;
   pointer-events: all;
   position: absolute;
   animation: slideDown ${TOAST_TIMEOUT}ms forwards, fade-out ${TOAST_TIMEOUT}ms ease-out;
