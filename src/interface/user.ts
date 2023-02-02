@@ -135,22 +135,22 @@ export interface ISubscriptionList {
  * /user/{userId}
  */
 
-export interface IUser {
+export interface IUserDetail {
   userId: number;
   userName: string;
-  profileImage?: string;
+  profileImg?: string;
   companyName?: string;
-  subscriptions: Array<ISubscription>;
+  // subscriptions: Array<ISubscription>;
   subscriptionCount: number;
-  followings: Array<ISimpleUserData>;
+  // followings: Array<ISimpleUserData>;
   followingCount: number;
-  followers: Array<ISimpleUserData>;
+  // followers: Array<ISimpleUserData>;
   followerCount: number;
   introduction: string;
   tags: Array<string>;
-  questions: Array<IQuestion>;
-  answers: Array<IAnswer>;
-  recentFeeds: Array<IFeed>;
-  history: [];
+  // questions: Array<IQuestion>;
+  // answers: Array<IAnswer>;
+  // recentFeeds: Array<IFeed>;
+  // history: [];
   isFollowed: boolean;
 }
