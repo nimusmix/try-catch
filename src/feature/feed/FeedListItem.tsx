@@ -42,6 +42,7 @@ const TagsWrapper = styled.div`
   & > span {
     display: inline-block;
     margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 `;
 
@@ -88,6 +89,7 @@ const FeedListItem = ({
   title,
   summary,
   tags,
+  keywords,
   isBookmarked,
   url,
   companyName,
@@ -149,19 +151,40 @@ const FeedListItem = ({
 
           <FeedFooter>
             <TagsWrapper>
-              {tags.map((tag) => (
-                <Button
-                  key={tag}
-                  as="span"
-                  designType="blueEmpty"
-                  color="var(--colors-brand-500)"
-                  fontSize="var(--fonts-body-xm)"
-                  padding="2px 10px"
-                  borderRadius="var(--borders-radius-base)"
-                >
-                  {tag}
-                </Button>
-              ))}
+              {tags &&
+                tags.map((tag, index) => {
+                  const tagIdx = `${tag}-${index}`;
+                  return (
+                    <Button
+                      key={tagIdx}
+                      as="span"
+                      designType="blueEmpty"
+                      color="var(--colors-brand-500)"
+                      fontSize="var(--fonts-body-xm)"
+                      padding="2px 10px"
+                      borderRadius="var(--borders-radius-base)"
+                    >
+                      {tag}
+                    </Button>
+                  );
+                })}
+              {tags.length === 0 &&
+                keywords.map((tag, index) => {
+                  const tagIdx = `${tag}-${index}`;
+                  return (
+                    <Button
+                      key={tagIdx}
+                      as="span"
+                      designType="blueEmpty"
+                      color="var(--colors-brand-500)"
+                      fontSize="var(--fonts-body-xm)"
+                      padding="2px 10px"
+                      borderRadius="var(--borders-radius-base)"
+                    >
+                      {tag}
+                    </Button>
+                  );
+                })}
             </TagsWrapper>
           </FeedFooter>
         </ArticleWrapper>

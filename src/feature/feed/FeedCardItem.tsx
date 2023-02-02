@@ -51,6 +51,7 @@ const TagsWrapper = styled.div`
   & > span {
     display: inline-block;
     margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 `;
 
@@ -88,6 +89,7 @@ const FeedCardItem = ({
   url,
   isBookmarked,
   thumbnailImage,
+  keywords,
 }: IFeedItemProps) => {
   const [bookMarkIcon, setBookMarkIcon] = useState(isBookmarked);
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -141,19 +143,40 @@ const FeedCardItem = ({
       </CardBody>
       <CardFooter>
         <TagsWrapper>
-          {tags.map((tagName) => (
-            <Button
-              key={tagName}
-              as="span"
-              designType="blueEmpty"
-              color="var(--colors-brand-500)"
-              fontSize="var(--fonts-body-xm)"
-              padding="2px 10px"
-              borderRadius="var(--borders-radius-base)"
-            >
-              {tagName}
-            </Button>
-          ))}
+          {tags &&
+            tags.map((tag, index) => {
+              const tagIdx = `${tag}-${index}`;
+              return (
+                <Button
+                  key={tagIdx}
+                  as="span"
+                  designType="blueEmpty"
+                  color="var(--colors-brand-500)"
+                  fontSize="var(--fonts-body-xm)"
+                  padding="2px 10px"
+                  borderRadius="var(--borders-radius-base)"
+                >
+                  {tag}
+                </Button>
+              );
+            })}
+          {tags.length === 0 &&
+            keywords.map((tag, index) => {
+              const tagIdx = `${tag}-${index}`;
+              return (
+                <Button
+                  key={tagIdx}
+                  as="span"
+                  designType="blueEmpty"
+                  color="var(--colors-brand-500)"
+                  fontSize="var(--fonts-body-xm)"
+                  padding="2px 10px"
+                  borderRadius="var(--borders-radius-base)"
+                >
+                  {tag}
+                </Button>
+              );
+            })}
         </TagsWrapper>
       </CardFooter>
     </Card>
