@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import Skeleton from './FeedItemSkeleton';
-import { getFeedSearchList } from '../../utils/api';
 import { IFeedSearch } from '../../interface/feed';
 import FeedListItem from './FeedListItem';
 import FeedCardItem from './FeedCardItem';
