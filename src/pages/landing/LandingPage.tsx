@@ -1,7 +1,6 @@
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { useInView } from 'react-intersection-observer';
-// import { useEffect } from 'react';
 import Layout from '../../layout/Layout';
 import MarqueeLogoCard from './marquee-logo-wall/MarqueeLogoCard';
 import LandingTitle from './landing-title/LandingTitle';
@@ -31,18 +30,14 @@ const LandingPage = () => {
   const setRefToken = useSetRecoilState(refToken);
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
 
-  // useEffect(() => {
   if (window.location.search) {
     const params = new URLSearchParams(window.location.search);
     const acc = params.get('acc');
     const ref = params.get('ref');
-    console.log(acc);
-    console.log(ref);
     setAccToken(acc!);
     setRefToken(ref!);
     setIsLoggedIn(true);
   }
-  // }, [setAccToken, setRefToken, setIsLoggedIn]);
 
   return (
     <Layout>
