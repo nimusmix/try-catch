@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 import Layout from '../../layout/Layout';
 import { Answer, QnaDetailPopularQna, Question } from '../../feature/qna';
 import { IQuestion } from '../../interface/qna';
-import { getQuestionDetail } from '../../utils/api';
+import { getQuestionDetail } from '../../apis/feed/feed-type';
 
 const QnaDetailPage = () => {
   const { questionId } = useParams();

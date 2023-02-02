@@ -19,7 +19,7 @@ export interface IQuestion {
     userName: string;
     profileImage?: string;
     companyName?: string;
-    isFollwed?: boolean;
+    isFollowed?: boolean;
   };
   category: string;
   title: string;

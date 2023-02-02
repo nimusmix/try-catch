@@ -2,12 +2,14 @@ import styled from 'styled-components';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useRecoilValue } from 'recoil';
+import { useMutation } from 'react-query';
 import Layout from '../../layout/Layout';
 import { isDarkState } from '../../recoil';
 import { Button } from '../../components';
 import QnaFormHeader from '../../feature/qna/question-form/QnaFormHeader';
 import QnaFormBody from '../../feature/qna/question-form/QnaFormBody';
 import { useQuestionState } from '../../context/QnaContext';
+import { postQuestion } from '../../apis/feed/feed-type';
 
 const QnaFormContainer = styled.div`
   display: flex;
@@ -36,13 +38,20 @@ const TooltipAside = styled.aside`
 
 /*
  * TODO
- *  1. style - 드랍박스 수정하고 input도 수정
- *  2. 작성되나 나중에 테스트
+ *  Loading 시 처리
  * */
 const QnaFormPage = () => {
   const isDark = useRecoilValue(isDarkState);
   const state = useQuestionState();
-  // console.log('content', isContentFocus);
+  const { mutate: addQuestion, isSuccess } = useMutation(postQuestion(state));
+
+  const onClickAddQuestion = () => {
+    addQuestion();
+    if (isSuccess) {
+      console.log('qna 페이지로 이동');
+    }
+  };
+
   return (
     <>
       <Helmet>
@@ -59,13 +68,7 @@ const QnaFormPage = () => {
             <QnaFormHeader />
             <QnaFormBody />
             <QnaFormFooter>
-              <Button
-                onClick={() => {
-                  console.log(state);
-                }}
-              >
-                완료
-              </Button>
+              <Button onClick={onClickAddQuestion}>완료</Button>
             </QnaFormFooter>
           </Section>
           <TooltipAside />
