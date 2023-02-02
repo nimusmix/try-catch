@@ -2,7 +2,7 @@ import React, { createContext, Dispatch, useContext, useReducer } from 'react';
 
 // state 타입
 interface IState {
-  category: '개발' | '커리어' | '밸런스 게임';
+  category: 'DEV' | 'CAREER';
   title: string;
   content: string;
   errorCode: string;
@@ -29,7 +29,7 @@ const reducer = (state: IState, action: Action): IState => {
     case 'SET_CATEGORY':
       return {
         ...state,
-        category: action.category as '개발' | '커리어' | '밸런스 게임',
+        category: action.category as 'DEV' | 'CAREER',
       };
     case 'SET_TITLE':
       return {
@@ -59,7 +59,7 @@ const reducer = (state: IState, action: Action): IState => {
 
 const QuestionProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, {
-    category: '개발',
+    category: 'DEV',
     title: '',
     content: '',
     errorCode: '',
