@@ -51,8 +51,10 @@ const FeedFilter = ({ filterOptions, changeOption }: IFeedFilterProps) => {
     // 비로그인 상태
     if (!isLoggedIn) {
       /** TODO 비로그인 상태일 때 토스트 생성 */
-      setActiveFilterOption(filterOptionName);
-      changeOption(`${filterOptionName}`);
+      if (filterOptionName === '최신순') {
+        setActiveFilterOption(filterOptionName);
+        changeOption(`${filterOptionName}`);
+      }
     } else {
       // 로그인 상태
       setActiveFilterOption(filterOptionName);
