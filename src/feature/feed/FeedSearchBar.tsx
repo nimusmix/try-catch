@@ -27,7 +27,11 @@ const StyledSearchBar = styled.div`
   margin: 0 auto 0 0;
 `;
 
-const FeedSearchBar = () => {
+interface IFeedSearchBarProps {
+  checkedItems: Array<number>;
+}
+
+const FeedSearchBar = ({ checkedItems }: IFeedSearchBarProps) => {
   const isDark = useRecoilValue(isDarkState);
   const { register, handleSubmit } = useForm<ISearchValue>();
 
@@ -35,8 +39,11 @@ const FeedSearchBar = () => {
 
   // const handleClick = () => resetField('keyword');
   // const onSubmit = handleSubmit(() => {});
+
+  const subscribe = checkedItems.includes(1);
+  const advanced = checkedItems.includes(2);
   const onValid = (data: ISearchValue) => {
-    navigate(`/feed?keyword=${data.keyword}`);
+    navigate(`/feed?keyword=${data.keyword}&subscribe=${subscribe}&advanced=${advanced}`);
   };
   return (
     <form onSubmit={handleSubmit(onValid)} style={{ marginBottom: '1rem' }}>

@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { API_URL } from '../constant';
 import { setupInterceptorsTo, tokenInterceptor } from './intercetors';
+import { IFeedSearch } from '../interface/feed';
 
 // 상수
 const BASE_URL = `https://${API_URL}/v1`;
@@ -57,8 +58,9 @@ export const postQuestion = (data: any) => {
 export const getFeedList = () => {
   return api.get(`/feed/list`).then((res) => res.data);
 };
-export const getFeedSearchList = (keyword: string) =>
-  api.get(`/feed/search?content=${keyword}`).then((res) => res.data);
+export const getFeedSearchList = async (params: IFeedSearch) => {
+  return api.get(`/feed/search`, { params }).then((res) => res.data);
+};
 
 // 로드맵
 export const postRoadmap = (data: IRoadmap) =>

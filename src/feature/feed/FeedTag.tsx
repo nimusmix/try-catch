@@ -15,6 +15,7 @@ const TagsWrapper = styled.div`
 const FeedTag = ({ tags }: IFeedPopularTag) => {
   const handleClick = () => {};
   // /search?type=feed&keyword=&page=&size&
+
   return (
     <TagsWrapper>
       {tags.map((tag) => (

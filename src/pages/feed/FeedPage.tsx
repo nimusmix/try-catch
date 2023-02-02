@@ -6,25 +6,12 @@ import { Paragraph, SubTitle } from '../../components';
 import { header_feed } from '../../assets';
 import {
   FeedList,
-  FeedSearchBar,
-  FeedTag,
+  FeedSearchSide,
   FeedView,
   FeedFilter,
   CompanyRecommend,
 } from '../../feature/feed';
 import { QuestionPageBody as FeedPageBody } from '../qna/QnaPage';
-
-const FeedTags = [
-  'react',
-  'recoil',
-  'docker',
-  'JPA',
-  'spring',
-  'AWS',
-  'PJT',
-  'Fighting',
-  'Aja Aja',
-];
 
 const Aside = styled.aside`
   margin: 3rem 1.5rem 0;
@@ -56,9 +43,15 @@ const FeedPage = () => {
 
   const [activeViewOption, setActiveViewOption] = useState<boolean>(true);
 
-  let searchParams = new URLSearchParams(useLocation().search).get('keyword');
+  const [tagListProps, setTagListProps] = useState<Array<string>>([]);
 
-  if (!searchParams) searchParams = '';
+  const keyword = new URLSearchParams(useLocation().search).get('keyword') || '';
+  const subscribe = new URLSearchParams(useLocation().search).get('subscribe') === 'true';
+  const advanced = new URLSearchParams(useLocation().search).get('advanced') === 'true';
+
+  const getData = (data: Array<string>) => {
+    setTagListProps(data);
+  };
 
   return (
     <Layout>
@@ -72,8 +65,7 @@ const FeedPage = () => {
       </HeaderImage>
       <FeedPageBody>
         <Aside>
-          <FeedSearchBar />
-          <FeedTag tags={FeedTags} />
+          <FeedSearchSide tagListProps={tagListProps} />
           <CompanyRecommend />
         </Aside>
         <section style={{ margin: '3rem 1.5rem 0' }}>
@@ -81,7 +73,15 @@ const FeedPage = () => {
             <FeedFilter filterOptions={filterOptions} changeOption={setActiveFilterOption} />
             <FeedView setActiveViewOption={setActiveViewOption} />
           </FilterTop>
-          <FeedList activeViewOption={activeViewOption} keyword={searchParams} />
+          <FeedList
+            activeViewOption={activeViewOption}
+            keyword={keyword}
+            subscribe={subscribe}
+            advanced={advanced}
+            getData={getData}
+            activeFilterOption={activeFilterOption}
+            tagListProps={tagListProps}
+          />
         </section>
       </FeedPageBody>
     </Layout>

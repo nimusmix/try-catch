@@ -45,15 +45,16 @@ const FeedFilter = ({ filterOptions, changeOption }: IFeedFilterProps) => {
   );
 
   const handleFilterOptionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const target = event.target as Element;
+    const filterOptionName = target.getAttribute('data-name');
+
     // 비로그인 상태
     if (!isLoggedIn) {
-      console.log('비로그인 상태');
-      // 비로그인 상태일 때 토스트 생성
+      /** TODO 비로그인 상태일 때 토스트 생성 */
+      setActiveFilterOption(filterOptionName);
+      changeOption(`${filterOptionName}`);
     } else {
       // 로그인 상태
-      const target = event.target as Element;
-      const filterOptionName = target.getAttribute('data-name');
-      // console.log(filterOptionName);
       setActiveFilterOption(filterOptionName);
       changeOption(`${filterOptionName}`);
     }
