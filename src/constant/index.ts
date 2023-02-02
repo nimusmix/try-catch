@@ -1,5 +1,6 @@
 // API URL
 const { VITE_API_URL: API_URL } = import.meta.env;
+const BASE_URL = `https://${API_URL}/v1`;
 
 // route paths
 const HOME_PAGE_NAME = 'home';
@@ -39,4 +40,5 @@ export {
   DURATION,
   ROWS,
   TAGS_PER_ROW,
+  BASE_URL,
 };
