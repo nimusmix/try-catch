@@ -9,7 +9,7 @@ import { Button } from '../../components';
 import QnaFormHeader from '../../feature/qna/question-form/QnaFormHeader';
 import QnaFormBody from '../../feature/qna/question-form/QnaFormBody';
 import { useQuestionState } from '../../context/QnaContext';
-import { postQuestion } from '../../apis/feed/feed-type';
+import { postQuestion } from '../../apis/qna/qna';
 
 const QnaFormContainer = styled.div`
   display: flex;
