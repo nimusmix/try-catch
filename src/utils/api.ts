@@ -47,7 +47,7 @@ export const getQuestionList = () => {
   return api.get('/question').then((res) => res.data);
 };
 export const getQuestionDetail = (id: number) => {
-  api.get(`/question/${id}`).then((res) => res.data);
+  return api.get(`/question/${id}`).then((res) => res.data);
 };
 
 export const postQuestion = (data: any) => {

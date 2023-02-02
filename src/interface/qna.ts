@@ -21,7 +21,7 @@ export interface IQuestion {
     companyName?: string;
     isFollwed?: boolean;
   };
-  category: string;
+  categoryName: string;
   title: string;
   content: string;
   errorCode: string;
