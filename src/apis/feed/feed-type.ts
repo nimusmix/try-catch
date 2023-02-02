@@ -1,15 +1,12 @@
-// Q&A
-import { api, authApi } from '../../utils/axios-instance';
-
-export const getQuestionList = () => {
-  return api.get('/question').then((res) => res.data);
-};
-export const getQuestionDetail = (id: number) => {
-  return api.get(`/question/${id}`).then((res) => res.data);
-};
-
-// TODO : data 타입 지정
-export const postQuestion = (data: any) => () => {
-  // eslint-disable-next-line no-param-reassign
-  return authApi.post('/question', data).then((res) => res.data);
-};
+export interface IFeedItem {
+  feedId: string; // 피드 고유 아이디
+  title: string; // 피드 제목
+  summary: string; // 피드 요약 ( 300자 내외 )
+  companyName: string; // 회사 이름
+  createdAt: string; // 피드 생성일 yyyy-MM-dd
+  url: string; // 피드 URL
+  thumbnailImage: string; // 썸네일 이미지 URL
+  tags: Array<string>; // 크롤링 시 수집한 태그
+  keywords: Array<string>; // 인공지능 모델을 통해 추출한 태그
+  isBookmarked: boolean; // 북마크 여부
+}

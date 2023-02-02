@@ -1,6 +1,8 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { setupInterceptorsTo, tokenInterceptor } from './interceptors';
-import { BASE_URL } from '../constant';
+import { API_URL } from '../constant';
+
+const BASE_URL = `https://${API_URL}/v1`;
 
 // 토큰이 필요없는 axios
 const axiosApi = (url: string, options: AxiosRequestConfig = {}) => {
