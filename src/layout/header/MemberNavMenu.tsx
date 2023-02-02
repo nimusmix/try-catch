@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import { useQuery } from 'react-query';
 import { IconBookmarkFill, IconBellFill, IconUserCircle } from '../../components/icons/Icons';
 import { BOOKMARK_PAGE_NAME } from '../../constant';
 import { Ul } from './NavMenu';
 import { Paragraph } from '../../components';
-import { isDarkState } from '../../recoil';
+import { accToken, isDarkState } from '../../recoil';
+import { getName } from '../../apis/auth/auth';
 
 const Alert = styled.div``;
 
@@ -41,6 +43,10 @@ const Li = styled.li`
 
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
+  const acc = useRecoilValue(accToken);
+  console.log(window.atob(acc));
+  const { data: userName } = useQuery(['userName'], () => getName());
+
   return (
     <Ul>
       <Li>
