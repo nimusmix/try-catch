@@ -9,6 +9,7 @@ const TagsWrapper = styled.div`
   & > span {
     display: inline-block;
     margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 `;
 
@@ -18,21 +19,24 @@ const FeedTag = ({ tags }: IFeedPopularTag) => {
 
   return (
     <TagsWrapper>
-      {tags.map((tag) => (
-        <Button
-          key={tag}
-          as="span"
-          designType="blueEmpty"
-          color="var(--colors-brand-500)"
-          fontSize="var(--fonts-body-xm)"
-          padding="0.125rem 0.5rem"
-          borderRadius="var(--borders-radius-base)"
-          style={{ marginBottom: '0.5rem' }}
-          onClick={handleClick}
-        >
-          {tag}
-        </Button>
-      ))}
+      {tags &&
+        tags.map((tag, index) => {
+          const tagIdx = `${tag}-${index}`;
+          return (
+            <Button
+              key={tagIdx}
+              as="span"
+              designType="blueEmpty"
+              color="var(--colors-brand-500)"
+              fontSize="var(--fonts-body-xm)"
+              padding="0.125rem 0.5rem"
+              borderRadius="var(--borders-radius-base)"
+              onClick={handleClick}
+            >
+              {tag}
+            </Button>
+          );
+        })}
     </TagsWrapper>
   );
 };

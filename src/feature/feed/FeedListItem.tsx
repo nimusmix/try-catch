@@ -2,9 +2,10 @@ import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { useState } from 'react';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
-import { Button, MiniTitle, Paragraph } from '../../components';
+import { MiniTitle, Paragraph } from '../../components';
 import { isDarkState } from '../../recoil';
 import { IFeedItemProps } from './IFeed';
+import FeedTag from './FeedTag';
 
 const Wrapper = styled.article`
   display: flex;
@@ -36,14 +37,6 @@ const FeedFooter = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
-`;
-
-const TagsWrapper = styled.div`
-  & > span {
-    display: inline-block;
-    margin-right: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
 `;
 
 const Icons = styled.button`
@@ -150,42 +143,7 @@ const FeedListItem = ({
           </FeedBody>
 
           <FeedFooter>
-            <TagsWrapper>
-              {tags &&
-                tags.map((tag, index) => {
-                  const tagIdx = `${tag}-${index}`;
-                  return (
-                    <Button
-                      key={tagIdx}
-                      as="span"
-                      designType="blueEmpty"
-                      color="var(--colors-brand-500)"
-                      fontSize="var(--fonts-body-xm)"
-                      padding="2px 10px"
-                      borderRadius="var(--borders-radius-base)"
-                    >
-                      {tag}
-                    </Button>
-                  );
-                })}
-              {tags.length === 0 &&
-                keywords.map((tag, index) => {
-                  const tagIdx = `${tag}-${index}`;
-                  return (
-                    <Button
-                      key={tagIdx}
-                      as="span"
-                      designType="blueEmpty"
-                      color="var(--colors-brand-500)"
-                      fontSize="var(--fonts-body-xm)"
-                      padding="2px 10px"
-                      borderRadius="var(--borders-radius-base)"
-                    >
-                      {tag}
-                    </Button>
-                  );
-                })}
-            </TagsWrapper>
+            <FeedTag tags={tags.length === 0 ? keywords : tags} />
           </FeedFooter>
         </ArticleWrapper>
       </Wrapper>

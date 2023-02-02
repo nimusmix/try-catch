@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Card, MiniTitle, Paragraph } from '../../components';
+import { Card, MiniTitle, Paragraph } from '../../components';
 import getImageUrl from '../../utils/getImageUrl';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
 import { IFeedItemProps } from './IFeed';
+import FeedTag from './FeedTag';
 
 const Icons = styled.button`
   position: absolute;
@@ -45,14 +46,6 @@ const CardFooter = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
-`;
-
-const TagsWrapper = styled.div`
-  & > span {
-    display: inline-block;
-    margin-right: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
 `;
 
 const FeedThumbnailImg = styled.div`
@@ -142,42 +135,7 @@ const FeedCardItem = ({
         </Paragraph>
       </CardBody>
       <CardFooter>
-        <TagsWrapper>
-          {tags &&
-            tags.map((tag, index) => {
-              const tagIdx = `${tag}-${index}`;
-              return (
-                <Button
-                  key={tagIdx}
-                  as="span"
-                  designType="blueEmpty"
-                  color="var(--colors-brand-500)"
-                  fontSize="var(--fonts-body-xm)"
-                  padding="2px 10px"
-                  borderRadius="var(--borders-radius-base)"
-                >
-                  {tag}
-                </Button>
-              );
-            })}
-          {tags.length === 0 &&
-            keywords.map((tag, index) => {
-              const tagIdx = `${tag}-${index}`;
-              return (
-                <Button
-                  key={tagIdx}
-                  as="span"
-                  designType="blueEmpty"
-                  color="var(--colors-brand-500)"
-                  fontSize="var(--fonts-body-xm)"
-                  padding="2px 10px"
-                  borderRadius="var(--borders-radius-base)"
-                >
-                  {tag}
-                </Button>
-              );
-            })}
-        </TagsWrapper>
+        <FeedTag tags={tags.length === 0 ? keywords : tags} />
       </CardFooter>
     </Card>
   );
