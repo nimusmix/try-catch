@@ -7,7 +7,7 @@ const Feed = () => {
       <Helmet>
         <title>트라이캐치 | 피드</title>
       </Helmet>
-      <Outlet />;
+      <Outlet />
     </>
   );
 };

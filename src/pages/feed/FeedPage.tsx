@@ -1,4 +1,4 @@
-import { createRef, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
 import { HeaderImage, Layout } from '../../layout';
@@ -40,15 +40,19 @@ const FilterTop = styled.section`
   margin-bottom: 1rem;
 `;
 
-const FeedPage = () => {
-  const [activeFilterOption, setActiveFilterOption] = useState<string | null>('나의 관심순');
-  const filter = createRef();
+const filterOptions = [
+  {
+    id: 1,
+    option: '나의 관심순',
+  },
+  {
+    id: 2,
+    option: '최신순',
+  },
+];
 
-  const handleFilterOptionClick = (event: React.MouseEvent<HTMLElement>) => {
-    const target = event.target as Element;
-    const filterOptionName = target.getAttribute('data-name');
-    setActiveFilterOption(filterOptionName);
-  };
+const FeedPage = () => {
+  const [activeFilterOption, setActiveFilterOption] = useState('최신순');
 
   const [activeViewOption, setActiveViewOption] = useState<boolean>(true);
 
@@ -74,11 +78,7 @@ const FeedPage = () => {
         </Aside>
         <section style={{ margin: '3rem 1.5rem 0' }}>
           <FilterTop>
-            <FeedFilter
-              ref={filter}
-              currentOption={activeFilterOption}
-              handleFilterOptionClick={handleFilterOptionClick}
-            />
+            <FeedFilter filterOptions={filterOptions} changeOption={setActiveFilterOption} />
             <FeedView setActiveViewOption={setActiveViewOption} />
           </FilterTop>
           <FeedList activeViewOption={activeViewOption} keyword={searchParams} />
