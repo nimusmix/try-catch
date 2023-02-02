@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { API_URL } from '../constant';
-import { IData } from '../feature/roadmap/RoadmapForm';
 
 const BASE_URL = `https://${API_URL}/v1`;
 
@@ -20,6 +19,13 @@ const token =
 //   }
 // })
 
+export interface IRoadmap {
+  title: string;
+  tag: string;
+  nodes: string;
+  edges: string;
+}
+
 // 로그인
 // export const getLogin () => api.get('/auth/login').then((res) => )
 
@@ -33,7 +39,7 @@ export const getFeedSearchList = (keyword: string) =>
   api.get(`/feed/search?content=${keyword}`).then((res) => res.data);
 
 // 로드맵
-export const postRoadmap = (data: IData) =>
+export const postRoadmap = (data: IRoadmap) =>
   axios({
     method: 'post',
     url: `${BASE_URL}/roadmap/`,
