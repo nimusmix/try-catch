@@ -7,7 +7,7 @@ import MarqueeLogoCard from './marquee-logo-wall/MarqueeLogoCard';
 import LandingTitle from './landing-title/LandingTitle';
 import { ReactComponent as LogoDarkTheme } from '../../assets/vertical_logo_dark_theme.svg';
 import { ReactComponent as LogoLightTheme } from '../../assets/vertical_logo_light_theme.svg';
-import { accToken, refToken, isDarkState } from '../../recoil';
+import { accToken, refToken, isDarkState, isLoggedInState } from '../../recoil';
 import { QuestionPageBody } from '../qna/QnaPage';
 import IntroSection from './Sections/IntroSection';
 import QnASection from './Sections/QnASection';
@@ -26,6 +26,8 @@ const LandingPage = () => {
   // 로그인 토큰 저장
   const setAccToken = useSetRecoilState(accToken);
   const setRefToken = useSetRecoilState(refToken);
+  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+
   useEffect(() => {
     if (window.location.search) {
       const params = new URLSearchParams(window.location.search);
@@ -33,13 +35,9 @@ const LandingPage = () => {
       const ref = params.get('ref');
       setAccToken(String(acc));
       setRefToken(String(ref));
+      setIsLoggedIn(true);
     }
-  }, [setAccToken, setRefToken]);
-
-  const testAccToken = useRecoilValue(accToken);
-  const testRefToken = useRecoilValue(refToken);
-  console.log(testAccToken);
-  console.log(testRefToken);
+  }, [setAccToken, setRefToken, setIsLoggedIn]);
 
   const isDark = useRecoilValue(isDarkState);
   const { ref: myRef, inView: myElementIsVisible } = useInView();
