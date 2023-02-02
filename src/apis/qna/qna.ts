@@ -1,15 +1,19 @@
 // Q&A
+import { AxiosResponse } from 'axios';
 import { api, authApi } from '../../utils/axios-instance';
+import { IPostQuestion, IQuestion } from './qna-type';
 
 export const getQuestionList = () => {
-  return api.get('/question').then((res) => res.data);
-};
-export const getQuestionDetail = (id: number) => {
-  return api.get(`/question/${id}`).then((res) => res.data);
+  return api.get('/question').then((res: AxiosResponse<Array<IQuestion>>) => res.data);
 };
 
-// TODO : data 타입 지정
-export const postQuestion = (data: any) => () => {
-  // eslint-disable-next-line no-param-reassign
-  return authApi.post('/question', data).then((res) => res.data);
+export const getQuestQuestionList = () => {
+  return api.get('/question/quest').then((res: AxiosResponse<Array<IQuestion>>) => res.data);
+};
+export const getQuestionDetail = (id: string) => () => {
+  return api.get(`/question/${id}`).then((res: AxiosResponse<IQuestion>) => res.data);
+};
+
+export const postQuestion = (data: IPostQuestion) => () => {
+  return authApi.post('/question', data).then((res: AxiosResponse) => res.data);
 };

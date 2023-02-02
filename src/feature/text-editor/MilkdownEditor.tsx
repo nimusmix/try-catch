@@ -1,6 +1,12 @@
 /* eslint-disable no-param-reassign,consistent-return */
 import React, { ForwardedRef, forwardRef } from 'react';
-import { Editor, rootCtx, themeManagerCtx } from '@milkdown/core';
+import {
+  defaultValueCtx,
+  Editor,
+  editorViewOptionsCtx,
+  rootCtx,
+  themeManagerCtx,
+} from '@milkdown/core';
 import { nord } from '@milkdown/theme-nord';
 import { ReactEditor, useEditor } from '@milkdown/react';
 import { commonmark } from '@milkdown/preset-commonmark';
@@ -33,11 +39,15 @@ const Wrapper = styled.div<{
   width: ${({ width }) => width || '100%'};
   .milkdown-menu-wrapper {
     width: 100%;
-    border: ${({ theme: { isDark } }) => (isDark ? '' : '1px solid var(--colors-brand-200)')};
+    border: ${({ theme: { isDark } }) =>
+      isDark ? '1px var(--colors-black-100) solid' : '1px solid var(--colors-brand-200)'};
+    border-radius: var(--borders-radius-lg);
+    overflow: hidden;
 
     .milkdown-menu,
     .menu-selector-list {
-      background-color: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-200)')};
+      background-color: ${({ theme: { isDark } }) =>
+        isDark ? 'rgba(36, 42, 54, 1)' : 'var(--colors-brand-200)'};
       border: ${({ theme: { isDark } }) => (isDark ? '' : '1px solid var(--colors-brand-200)')};
 
       .button {
@@ -178,17 +188,31 @@ const Wrapper = styled.div<{
   }
 `;
 const MilkdownEditor = (
-  { width, setState }: { width: string; setState: (value: string) => void },
+  {
+    width,
+    setState,
+    editable = true,
+    data = '',
+  }: { width: string; setState?: (value: string) => void; editable?: boolean; data?: string },
   ref: ForwardedRef<any>
 ) => {
   const { editor } = useEditor(
     (root) =>
       Editor.make()
         .config((ctx) => {
+          ctx.update(editorViewOptionsCtx, (prev) => ({
+            ...prev,
+            editable: () => editable as boolean,
+          }));
           ctx.set(rootCtx, root);
-          ctx.get(listenerCtx).markdownUpdated((ctx, markdown) => {
-            setState(markdown);
-          });
+          if (setState) {
+            ctx.get(listenerCtx).markdownUpdated((ctx, markdown) => {
+              setState(markdown);
+            });
+          }
+          if (data) {
+            ctx.set(defaultValueCtx, data);
+          }
         })
         .use(nord)
         .use(commonmark)
