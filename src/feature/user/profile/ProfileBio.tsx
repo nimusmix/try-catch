@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import { Link, Outlet, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { getUserDetail, getUserId } from '../../../apis/profile/profile';
 import { MiniTitle, Paragraph, Button, Modal } from '../../../components';
-import { SubscriptionPage, FollowingPage, FollowersPage } from '../../../pages';
+import { IUserDetail } from '../../../interface/user';
 
 const BioWrapper = styled.div`
   display: flex;
@@ -58,34 +60,16 @@ const Introduction = styled.div`
   padding: 3rem 0;
 `;
 
-const MUser = {
-  userId: 1,
-  userName: 'nimusmix',
-  profileImage: 'https://avatars.githubusercontent.com/u/109320569?v=4',
-  companyName: '지바이크',
-  subscriptions: [],
-  subscriptionCount: 0,
-  followings: [],
-  followingCount: 0,
-  followers: [],
-  followerCount: 0,
-  introduction: '싸피 2학기 공통 프로젝트 진행 중입니다. 아주 대단한 프로젝트예요.',
-  tags: ['React', 'TypeScript'],
-  questions: [],
-  answers: [],
-  recentFeeds: [],
-  history: [],
-  isFollowed: false,
-};
-
 const ProfileBio = () => {
   const [isModalOpened, setIsModalOpened] = useState(false);
-  // const subscriptionMatch = useMatch('profile/:username/subscription');
-  // const followingMatch = useMatch('profile/:username/following');
-  // const followersMatch = useMatch('profile/:username/followers');
   const modalClick = (e: React.MouseEvent<HTMLElement>) => {
     setIsModalOpened(true);
   };
+  const { userName } = useParams();
+  const { data: userId } = useQuery<number>(['userId'], () => getUserId(userName!));
+  const { data: user } = useQuery<IUserDetail>(['userDetail'], () => getUserDetail(userId!), {
+    enabled: !!userId,
+  });
 
   const createImageUrl = (companyName: string) => {
     return new URL(`/src/assets/logo/${companyName}.png`, import.meta.url).href;
@@ -95,17 +79,17 @@ const ProfileBio = () => {
     <>
       <BioWrapper>
         <InfoWrapper>
-          <ProfileImg src={MUser.profileImage} />
+          <ProfileImg src={user?.profileImg} />
           <div>
-            {MUser.companyName && <CompanyImg src={createImageUrl(MUser.companyName)} />}
-            <MiniTitle sizeType="3xl">{MUser.userName}</MiniTitle>
+            {user?.companyName && <CompanyImg src={createImageUrl(user.companyName)} />}
+            <MiniTitle sizeType="3xl">{user?.userName}</MiniTitle>
           </div>
           <div>
             <Link to="subscription">
               <Wrapper onClick={modalClick}>
                 <Paragraph sizeType="lg">구독</Paragraph>
                 <Paragraph sizeType="lg" fontWeight="600">
-                  {MUser.subscriptionCount}
+                  {user?.subscriptionCount}
                 </Paragraph>
               </Wrapper>
             </Link>
@@ -114,7 +98,7 @@ const ProfileBio = () => {
               <Wrapper onClick={modalClick}>
                 <Paragraph sizeType="lg">팔로잉</Paragraph>
                 <Paragraph sizeType="lg" fontWeight="600">
-                  {MUser.followingCount}
+                  {user?.followingCount}
                 </Paragraph>
               </Wrapper>
             </Link>
@@ -123,25 +107,25 @@ const ProfileBio = () => {
               <Wrapper onClick={modalClick}>
                 <Paragraph sizeType="lg">팔로워</Paragraph>
                 <Paragraph sizeType="lg" fontWeight="600">
-                  {MUser.followerCount}
+                  {user?.followerCount}
                 </Paragraph>
               </Wrapper>
             </Link>
           </div>
           <div>
-            {MUser.tags.map((tag) => (
+            {user?.tags.map((tag) => (
               <Tag key={tag} designType="skyFill">
                 {tag}
               </Tag>
             ))}
           </div>
         </InfoWrapper>
-        {MUser.isFollowed && (
+        {user?.isFollowed && (
           <Button padding="0.25rem 1rem" borderRadius="var(--borders-radius-lg)">
             팔로잉
           </Button>
         )}
-        {MUser.isFollowed || (
+        {user?.isFollowed || (
           <Button
             designType="blueEmpty"
             padding="0.25rem 1rem"
@@ -155,15 +139,12 @@ const ProfileBio = () => {
       {/* 모달 */}
       {isModalOpened ? (
         <Modal width="420px" height="380px" onClose={setIsModalOpened}>
-          {/* {subscriptionMatch && <SubscriptionPage />}
-          {followingMatch && <FollowingPage />}
-          {followersMatch && <FollowersPage />} */}
           <Outlet />
         </Modal>
       ) : null}
 
       <Introduction>
-        <Paragraph sizeType="lg">{MUser.introduction}</Paragraph>
+        <Paragraph sizeType="lg">{user?.introduction}</Paragraph>
       </Introduction>
     </>
   );

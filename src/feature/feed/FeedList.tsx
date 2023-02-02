@@ -13,6 +13,7 @@ import FeedCardSkeleton from './FeedCardSkeleton';
 import { MiniTitle, Paragraph } from '../../components';
 import { ReactComponent as Bug } from '../../assets/bug.svg';
 import { IFeedListProps } from './IFeed';
+import { getFeedList, getFeedSearchList } from '../../apis/feed/feed';
 
 interface IFeedList {
   activeViewOption: boolean;

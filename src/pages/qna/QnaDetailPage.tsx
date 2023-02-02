@@ -1,30 +1,60 @@
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router';
+import styled from 'styled-components';
+import React from 'react';
 import Layout from '../../layout/Layout';
 import { Answer, QnaDetailPopularQna, Question } from '../../feature/qna';
-import { IQuestion } from '../../interface/qna';
-import { getQuestionDetail } from '../../utils/api';
+import { getQuestionDetail } from '../../apis/qna/qna';
+import { IQuestion } from '../../apis/qna/qna-type';
+import { AnswerForm } from '../../feature';
+
+const QnaDetailWrapper = styled.section`
+  margin-top: 3rem;
+  max-width: var(--breakpoints-desktop);
+  display: flex;
+`;
+
+const QnaDetailMain = styled.section`
+  width: 70%;
+  margin-right: 2rem;
+
+  ul {
+    margin-bottom: 10rem;
+  }
+`;
+
+const Aside = styled.aside`
+  position: sticky;
+  top: 7rem;
+  height: 500px;
+`;
 
 const QnaDetailPage = () => {
-  const { questionId } = useParams();
-  const { isLoading, data: questionDetail } = useQuery<IQuestion>(['question'], () =>
-    getQuestionDetail(Number(questionId))
+  const { questionId } = useParams<string>();
+  const { isLoading, data: questionDetail } = useQuery<IQuestion>(
+    ['question'],
+    getQuestionDetail(questionId as string)
   );
 
   return (
     <Layout>
-      <section style={{ marginBottom: '3rem' }} />
-      <section style={{ display: 'flex' }}>
-        <section style={{ margin: '0 4rem 0 1.5rem' }}>
-          {questionDetail && <Question question={questionDetail} />}
-          <br />
-          {questionDetail &&
-            questionDetail.answers.map((ans) => <Answer key={ans.answerId} answer={ans} />)}
-        </section>
-        <aside style={{ margin: '0' }}>
+      <QnaDetailWrapper>
+        <QnaDetailMain>
+          {isLoading && 'Loading...'}
+          {questionDetail && <Question {...questionDetail} />}
+
+          <AnswerForm questionId={questionId as string} />
+          <ul>
+            {questionDetail &&
+              questionDetail.answers.map((answer) => (
+                <Answer key={answer.answerId} answer={answer} />
+              ))}
+          </ul>
+        </QnaDetailMain>
+        <Aside>
           <QnaDetailPopularQna />
-        </aside>
-      </section>
+        </Aside>
+      </QnaDetailWrapper>
     </Layout>
   );
 };

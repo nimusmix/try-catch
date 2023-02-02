@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-concat */
 import {
   AxiosError,
   AxiosHeaders,
@@ -6,17 +5,15 @@ import {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
+/* eslint-disable no-useless-concat */
 import { logOnDev } from './logging';
-
-const TOKEN =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnaG9fSzVWWkJOMlZVMlVDem9WUEhqdDRSeVNNVHZuenBvMDE1TkV5IiwiaWQiOiIyIiwiaWF0IjoxNjc1MjMwMzQyLCJleHAiOjE2NzUyNzM1NDJ9.8dSMPWQrkV_1edhNdSjJ6PXRO1RegXEpONQJ4LcesoA';
 
 const tokenInterceptor = (instance: AxiosInstance) => {
   instance.interceptors.request.use(
     (config) => {
       const axiosConfig = config;
       // const token = getItem('jwt_token')
-      const token = TOKEN; // 지금은 고정된 토큰 값을 쓰지만 나중엔 다른데서 얻어와야함
+      const token = JSON.parse(window.localStorage.getItem('recoil-persist')!).accToken;
       axiosConfig.headers = new AxiosHeaders({
         Authorization: token,
       });
@@ -28,29 +25,42 @@ const tokenInterceptor = (instance: AxiosInstance) => {
 };
 
 const onRequest = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-  logOnDev.info(`%c[::request::${config.method}${config.url}------]`, 'color: #229910');
+  logOnDev.info(
+    `🙏 %c[API] ${config.method?.toUpperCase()} ${config.url} | [::request::]`,
+    'color: #229910'
+  );
   logOnDev.dir(config);
+  logOnDev.log('', '');
   return config;
 };
 
 const onRequestError = (error: AxiosError): Promise<AxiosError> => {
-  logOnDev.error(`[::request error::${error.config?.method}${error.config?.url}------]`);
+  logOnDev.error(
+    `💥 [API] ${error.config?.method?.toUpperCase()} ${error.config?.url} | [::request error::]`
+  );
   logOnDev.dir(error);
+  logOnDev.log('', '');
   return Promise.reject(error);
 };
 
 const onResponse = (response: AxiosResponse): AxiosResponse => {
   logOnDev.info(
-    `%c [::response::${response.config.method}${response.config.url}------]`,
+    `👌 %c [API] ${response.config.method?.toUpperCase()} ${response.config.url} | [::response::] ${
+      response.status
+    }`,
     'color: #13ce29'
   );
   logOnDev.dir(response);
+  logOnDev.log('', '');
   return response;
 };
 
 const onResponseError = (error: AxiosError): Promise<AxiosError> => {
-  logOnDev.error(`[::response error::${error.config?.method}${error.config?.url}------]`);
+  logOnDev.error(
+    `💥 [API] ${error.config?.method?.toUpperCase()} ${error.config?.url} | [::response error::]`
+  );
   logOnDev.dir(error);
+  logOnDev.log('', '');
   return Promise.reject(error);
 };
 
