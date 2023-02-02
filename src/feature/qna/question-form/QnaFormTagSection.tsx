@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { MiniTitle } from '../../../components';
-import TagsInput from '../../hashtag-input/TagsInput';
 import { useQuestionDispatch, useQuestionState } from '../../../context/QnaContext';
+import TagsInput from '../../hashtag-input/TagsInput';
 
 const Wrapper = styled.div`
   span {

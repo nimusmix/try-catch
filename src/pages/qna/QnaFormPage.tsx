@@ -7,6 +7,7 @@ import { isDarkState } from '../../recoil';
 import { Button } from '../../components';
 import QnaFormHeader from '../../feature/qna/question-form/QnaFormHeader';
 import QnaFormBody from '../../feature/qna/question-form/QnaFormBody';
+import { useQuestionState } from '../../context/QnaContext';
 
 const QnaFormContainer = styled.div`
   display: flex;
@@ -40,7 +41,7 @@ const TooltipAside = styled.aside`
  * */
 const QnaFormPage = () => {
   const isDark = useRecoilValue(isDarkState);
-
+  const state = useQuestionState();
   // console.log('content', isContentFocus);
   return (
     <>
@@ -58,7 +59,13 @@ const QnaFormPage = () => {
             <QnaFormHeader />
             <QnaFormBody />
             <QnaFormFooter>
-              <Button>완료</Button>
+              <Button
+                onClick={() => {
+                  console.log(state);
+                }}
+              >
+                완료
+              </Button>
             </QnaFormFooter>
           </Section>
           <TooltipAside />

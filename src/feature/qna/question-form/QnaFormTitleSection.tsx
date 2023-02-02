@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { Dropdown, Input, Paragraph } from "../../../components";
-import { Tooltip } from "./QnaFormContentSection";
-import { useQuestionDispatch, useQuestionState } from "../../../context/QnaContext";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { Dropdown, Input, Paragraph } from '../../../components';
+import { Tooltip } from './QnaFormContentSection';
+import { useQuestionDispatch, useQuestionState } from '../../../context/QnaContext';
 
 const Wrapper = styled.div`
   position: relative;
@@ -35,9 +35,8 @@ const QnaFormTitleSection = () => {
     <Wrapper>
       <Dropdown
         items={[
-          { text: '개발', value: '개발' },
-          { text: '커리어', value: '커리어' },
-          { text: '밸런스 게임', value: '밸런스 게임' },
+          { text: '개발', value: 'DEV' },
+          { text: '커리어', value: 'CAREER' },
         ]}
         onChange={setCategory}
       />

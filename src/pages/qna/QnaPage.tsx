@@ -49,7 +49,7 @@ export const Aside = styled.aside`
 `;
 
 const QnaPage = () => {
-  const [activeCategory, setActiveCategory] = useState('개발');
+  const [activeCategory, setActiveCategory] = useState('DEV');
 
   return (
     <Layout>

@@ -1,23 +1,36 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { API_URL } from '../constant';
+import { setupInterceptorsTo, tokenInterceptor } from './intercetors';
 
+// 상수
 const BASE_URL = `https://${API_URL}/v1`;
 
-const api = axios.create({
-  baseURL: `https://${API_URL}/v1`,
-});
-
 // 임시 토큰
-const token =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnaG9fTVBwbXpkeXhobFEzcHJKYjdpRHR4YVJ4OHpHM2l3M0VJSEIyIiwiaWQiOiIyIiwiaWF0IjoxNjc1MzAyNDIzLCJleHAiOjE2NzUzNDU2MjN9.psq773s_cftHNmSvLZYtZV7aU4wAd3bqEk5p9XRg28g';
+const TOKEN =
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnaG9fSzVWWkJOMlZVMlVDem9WUEhqdDRSeVNNVHZuenBvMDE1TkV5IiwiaWQiOiIyIiwiaWF0IjoxNjc1MjMwMzQyLCJleHAiOjE2NzUyNzM1NDJ9.8dSMPWQrkV_1edhNdSjJ6PXRO1RegXEpONQJ4LcesoA';
 
-// axios({
-//   method: 'get',
-//   url: BASE_URL + '/question',
-//   headers: {
-//     Authorization: token,
-//   }
-// })
+// 토큰이 필요없는 axios
+const axiosApi = (url: string, options: AxiosRequestConfig = {}) => {
+  const instance = axios.create({ baseURL: url, ...options });
+  return setupInterceptorsTo(instance);
+};
+
+// 토큰이 필요한 axios
+const axiosAuthApi = (url: string, options: AxiosRequestConfig = {}) => {
+  const instance = axios.create({
+    baseURL: url,
+    ...options,
+  });
+  // 토큰 주입
+  tokenInterceptor(instance);
+  return setupInterceptorsTo(instance);
+};
+
+// 토큰이 필요없는 axios 요청
+const api = axiosApi(BASE_URL);
+
+// 토큰이 필요한 axios 요청
+const authApi = axiosAuthApi(BASE_URL);
 
 export interface IRoadmap {
   title: string;
@@ -30,11 +43,20 @@ export interface IRoadmap {
 // export const getLogin () => api.get('/auth/login').then((res) => )
 
 // Q&A
-export const getQuestionList = () => api.get('/question').then((res) => res.data);
-export const getQuestionDetail = (id: number) => api.get(`/question/${id}`).then((res) => res.data);
+export const getQuestionList = () => {
+  return api.get('/question').then((res) => res.data);
+};
+export const getQuestionDetail = (id: number) => {
+  api.get(`/question/${id}`).then((res) => res.data);
+};
 
+export const postQuestion = (data: any) => {
+  return authApi.post<{ title: string }>('/question').then((res) => res.data);
+};
 // 피드
-export const getFeedList = () => api.get(`/feed/list`).then((res) => res.data);
+export const getFeedList = () => {
+  return api.get(`/feed/list`).then((res) => res.data);
+};
 export const getFeedSearchList = (keyword: string) =>
   api.get(`/feed/search?content=${keyword}`).then((res) => res.data);
 
@@ -44,7 +66,7 @@ export const postRoadmap = (data: IRoadmap) =>
     method: 'post',
     url: `${BASE_URL}/roadmap/`,
     headers: {
-      Authorization: token,
+      Authorization: TOKEN,
     },
     data,
   });
