@@ -8,6 +8,7 @@ import { Ul } from './NavMenu';
 import { Paragraph } from '../../components';
 import { accToken, isDarkState } from '../../recoil';
 import { getImage, getName } from '../../apis/auth/auth';
+import tokenDecode from '../../utils/tokenDecode';
 
 const Alert = styled.div``;
 
@@ -50,8 +51,9 @@ const Img = styled.img`
 
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
-  const token = useRecoilValue(accToken).split('.')[1];
-  const userId = JSON.parse(window.atob(token)).id;
+  // const token = useRecoilValue(accToken).split('.')[1];
+  // const userId = JSON.parse(window.atob(token)).id;
+  const userId = tokenDecode('id');
   const { data: userName } = useQuery(['userName'], () => getName());
   const { data: profileImg } = useQuery(['profileImg'], () => getImage(userId));
 
