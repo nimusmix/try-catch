@@ -8,20 +8,14 @@ import {
 /* eslint-disable no-useless-concat */
 import { logOnDev } from './logging';
 
-const getItem = (key: string) => {
-  console.log(window.localStorage.getItem('recoil-persist'));
-};
-
 const tokenInterceptor = (instance: AxiosInstance) => {
   instance.interceptors.request.use(
     (config) => {
       const axiosConfig = config;
       // const token = getItem('jwt_token')
-      getItem('accToken');
-      logOnDev.log(config);
-      // const token = JSON.parse(window.localStorage.getItem('recoil-persist')!)?.accToken;
+      const token = JSON.parse(window.localStorage.getItem('recoil-persist')!)?.accToken;
       axiosConfig.headers = new AxiosHeaders({
-        Authorization: 123,
+        Authorization: token,
       });
       return axiosConfig;
     },
