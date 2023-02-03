@@ -5,6 +5,7 @@ import getImageUrl from '../../utils/getImageUrl';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
 import { IFeedItemProps } from './IFeed';
 import FeedTag from './FeedTag';
+import { COMPANY } from '../../constant/company';
 
 const Icons = styled.button`
   position: absolute;
@@ -120,11 +121,7 @@ const FeedCardItem = ({
           {title.length > 22 ? `${title.slice(0, 22)}...` : title}
         </MiniTitle>
         <img
-          src={
-            companyName
-              ? getImageUrl(companyName, 'logo')
-              : new URL(`/src/assets/favicon.ico`, import.meta.url).href
-          }
+          src={companyName && getImageUrl(COMPANY[companyName], 'logo', 'png')}
           style={{ maxHeight: '45px' }}
           alt={companyName}
         />
