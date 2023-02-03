@@ -1,9 +1,7 @@
-import { useQuery, useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 import { AxiosError } from 'axios';
 import styled from 'styled-components';
 import { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
-
 import Skeleton from './FeedItemSkeleton';
 import { IFeedSearch } from '../../interface/feed';
 import FeedListItem from './FeedListItem';
@@ -64,6 +62,30 @@ const NonSearchResult = ({ keyword }: Partial<IFeedList>) => {
   );
 };
 
+const FeedCardSkeletons = () => {
+  return (
+    <FeedListWrapper>
+      <FeedCardSkeleton />
+      <FeedCardSkeleton />
+      <FeedCardSkeleton />
+      <FeedCardSkeleton />
+      <FeedCardSkeleton />
+      <FeedCardSkeleton />
+    </FeedListWrapper>
+  );
+};
+
+const Skeletons = () => {
+  return (
+    <>
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+      <Skeleton />
+    </>
+  );
+};
+
 const FeedList = ({
   activeViewOption,
   keyword,
@@ -80,24 +102,12 @@ const FeedList = ({
    * getFeedSearch()로 변경해야함
    */
 
-  const { ref, inView } = useInView();
-
   const paramSort = activeFilterOption === '최신순' ? 'date' : 'user';
 
-  const {
-    status,
-    data,
-    isLoading,
-    isError,
-    error,
-    isFetching,
-    isFetchingNextPage,
-    isFetchingPreviousPage,
-    fetchNextPage,
-    fetchPreviousPage,
-    hasNextPage,
-    hasPreviousPage,
-  } = useInfiniteQuery<IFeedListProps, AxiosError>(
+  const { status, data, isLoading, isError, isFetchingNextPage, fetchNextPage } = useInfiniteQuery<
+    IFeedListProps,
+    AxiosError
+  >(
     ['feed', keyword, paramSort, subscribe, advanced],
     async ({ pageParam = 0 }) => {
       const params: IFeedSearch = {
@@ -120,28 +130,15 @@ const FeedList = ({
   );
 
   useEffect(() => {
-    if (inView) {
-      fetchNextPage();
-      console.log('새페이지');
-    }
-  }, [inView, fetchNextPage]);
-
-  // const { data, isLoading, isError } = useQuery<IFeedListProps, AxiosError>(
-  //   ['feed', keyword, paramSort],
-  //   () => {
-  //     const params: IFeedSearch = {
-  //       query: keyword,
-  //       sort: paramSort,
-  //       subscribe,
-  //       advanced,
-  //       publishDateStart: null,
-  //       publishDateEnd: null,
-  //       page: 0,
-  //       size: 10,
-  //     };
-  //     return getFeedSearchList(params);
-  //   }
-  // );
+    const handleScroll = () => {
+      const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
+      if (scrollTop + clientHeight >= scrollHeight - 60) {
+        fetchNextPage();
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [fetchNextPage]);
 
   useEffect(() => {
     if (!isLoading && data?.pages && data?.pages[0].feedList.length !== 0) {
@@ -180,44 +177,10 @@ const FeedList = ({
 
   return (
     <div>
-      {isLoading && activeViewOption && (
-        <FeedListWrapper>
-          <FeedCardSkeleton />
-          <FeedCardSkeleton />
-          <FeedCardSkeleton />
-          <FeedCardSkeleton />
-          <FeedCardSkeleton />
-          <FeedCardSkeleton />
-        </FeedListWrapper>
-      )}
-      {isLoading && !activeViewOption && (
-        <>
-          <Skeleton />
-          <Skeleton />
-          <Skeleton />
-          <Skeleton />
-        </>
-      )}
+      {isLoading && activeViewOption && <FeedCardSkeletons />}
+      {isLoading && !activeViewOption && <Skeletons />}
       {isError && <h2>에러입니다.</h2>}
       {data?.pages[0].feedList.length === 0 && <NonSearchResult keyword={keyword} />}
-
-      {/*   {data?.feedList.map((feedItem) => {
-          if (activeViewOption)
-            return (
-              <FeedCardItem
-                key={feedItem.feedId}
-                {...feedItem}
-                checkedItemsProps={checkedItemsProps}
-              />
-            );
-          return (
-            <FeedListItem
-              key={feedItem.feedId}
-              {...feedItem}
-              checkedItemsProps={checkedItemsProps}
-            />
-          );
-        })} */}
       {data?.pages.map((page, index) => {
         const pageIdx = `${page} ${index}`;
         return (
@@ -239,7 +202,10 @@ const FeedList = ({
                 />
               );
             })}
-            {isFetchingNextPage ? <div>Loading</div> : <div ref={ref} />}
+            {isFetchingNextPage && page.feedList.length === 0 && activeViewOption && (
+              <FeedCardSkeletons />
+            )}
+            {isFetchingNextPage && page.feedList.length === 0 && !activeViewOption && <Skeletons />}
           </FeedListWrapper>
         );
       })}
