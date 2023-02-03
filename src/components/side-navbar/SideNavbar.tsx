@@ -5,7 +5,7 @@ import { MiniTitle } from '..';
 interface INavOptions {
   id: number;
   option: string;
-  value: string;
+  value?: string;
 }
 interface INavbarProps {
   navOptions: Array<INavOptions>;
