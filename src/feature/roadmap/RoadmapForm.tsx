@@ -7,7 +7,6 @@ import ReactFlow, {
   Edge,
   Handle,
   Position,
-  ReactFlowProvider,
   useEdges,
   useNodes,
   useReactFlow,
@@ -16,30 +15,6 @@ import 'reactflow/dist/style.css';
 import styled from 'styled-components';
 import { Button, Input, MiniTitle } from '../../components';
 import { postRoadmap } from '../../apis/roadmap/roadmap';
-
-export interface INode {
-  width: string;
-  height: string;
-  id: string;
-  position: { x: number; y: number };
-  data: {
-    value: string;
-    label: string;
-  };
-  type: string;
-  positionAbsolute: { x: number; y: number };
-  selected: boolean;
-  dragging: boolean;
-}
-
-export interface IEdges {
-  id: string;
-  source: string;
-  target: string;
-  type: string;
-  markerEnd?: string;
-  style?: string;
-}
 
 const StyledInput = styled.input`
   width: 160px;
