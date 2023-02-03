@@ -53,8 +53,6 @@ const MemberNavMenu = () => {
   const userId = JSON.parse(window.atob(token)).id;
   const { data: userName } = useQuery(['userName'], () => getName());
   const { data: profileImg } = useQuery(['profileImg'], () => getImage(userId));
-  console.log(userName);
-  console.log(profileImg);
 
   return (
     <Ul>
@@ -77,13 +75,13 @@ const MemberNavMenu = () => {
       </Li>
       <Link to={`/profile/${userName}`}>
         <ProfileLi>
-          {/* {profileImg && <Img src={profileImg} />}
+          {profileImg && <Img src={profileImg} />}
           {profileImg || (
             <IconUserCircle
               color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
               size="24"
             />
-          )} */}
+          )}
           <Paragraph
             as="span"
             sizeType="base"
