@@ -5,11 +5,11 @@ import { HeaderImage, Layout } from '../../layout';
 import { Paragraph, SubTitle } from '../../components';
 import { header_feed } from '../../assets';
 import {
+  CompanyRecommend,
+  FeedFilter,
   FeedList,
   FeedSearchSide,
   FeedView,
-  FeedFilter,
-  CompanyRecommend,
 } from '../../feature/feed';
 import { QuestionPageBody as FeedPageBody } from '../qna/QnaPage';
 

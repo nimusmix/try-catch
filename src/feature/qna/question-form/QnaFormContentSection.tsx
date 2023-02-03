@@ -19,7 +19,7 @@ export const Tooltip = styled.div`
   position: absolute;
   background-color: var(--colors-brand-100);
   padding: 2rem 2.5rem;
-  width: 300px;
+  width: 400px;
   right: 0;
   translate: 110% 80px;
   z-index: 1000;

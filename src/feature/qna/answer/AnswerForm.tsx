@@ -14,8 +14,14 @@ const Wrapper = styled.div`
   }
   margin-bottom: 3rem;
 
-  button.submit {
-    translate: 0 -1rem;
+  .milkdown-menu-wrapper {
+    border-radius: 12px 12px 0 0;
+  }
+  .milkdown {
+    border-radius: 0;
+  }
+
+  button {
     border-radius: 0 0 0.5rem 0.5rem;
   }
 `;
