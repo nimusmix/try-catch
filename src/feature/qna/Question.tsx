@@ -12,6 +12,7 @@ import {
 import getImageUrl from '../../utils/getImageUrl';
 import elapsedTime from '../../utils/elapsed-time';
 import MilkdownEditor from '../text-editor/MilkdownEditor';
+import { COMPANY } from '../../constant/company';
 
 const QuestionDiv = styled(Div)`
   overflow: hidden;
@@ -183,11 +184,7 @@ const Question = ({
             {author.userName}
           </SubText>
           <CompanyImg
-            src={
-              author.companyName
-                ? getImageUrl(author.companyName, 'logo')
-                : new URL(`/src/assets/favicon.ico`, import.meta.url).href
-            }
+            src={author.companyName && getImageUrl(COMPANY[author.companyName], 'logo', 'png')}
             alt={author.companyName}
           />
           <SubText sizeType="xm" margin="0 0 0 1rem">

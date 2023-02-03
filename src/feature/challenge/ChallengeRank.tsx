@@ -68,9 +68,7 @@ const ChallengeRank = () => {
               </UserName>
               <CompanyImg
                 src={
-                  MUser.author.companyName
-                    ? getImageUrl(MUser.author.companyName, 'logo')
-                    : new URL(`/src/assets/favicon.ico`, import.meta.url).href
+                  MUser.author.companyName && getImageUrl(MUser.author.companyName, 'logo', 'png')
                 }
                 alt={MUser.author.companyName}
               />
@@ -94,9 +92,7 @@ const ChallengeRank = () => {
               </UserName>
               <CompanyImg
                 src={
-                  MUser.author.companyName
-                    ? getImageUrl(MUser.author.companyName, 'logo')
-                    : new URL(`/src/assets/favicon.ico`, import.meta.url).href
+                  MUser.author.companyName && getImageUrl(MUser.author.companyName, 'logo', 'png')
                 }
                 alt={MUser.author.companyName}
               />
@@ -120,9 +116,7 @@ const ChallengeRank = () => {
               </UserName>
               <CompanyImg
                 src={
-                  MUser.author.companyName
-                    ? getImageUrl(MUser.author.companyName, 'logo')
-                    : new URL(`/src/assets/favicon.ico`, import.meta.url).href
+                  MUser.author.companyName && getImageUrl(MUser.author.companyName, 'logo', 'png')
                 }
                 alt={MUser.author.companyName}
               />
