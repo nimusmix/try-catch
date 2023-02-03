@@ -4,7 +4,6 @@ import { Button } from '../../components';
 
 interface IFeedPopularTag {
   tags: Array<string>;
-  checkedItems: Array<number>;
 }
 
 const TagsWrapper = styled.div`
@@ -16,17 +15,14 @@ const TagsWrapper = styled.div`
   }
 `;
 
-const FeedTag = ({ tags, checkedItems }: IFeedPopularTag) => {
+const FeedTag = ({ tags }: IFeedPopularTag) => {
   const navigate = useNavigate();
 
   const handleClick = (e: React.MouseEvent<HTMLSpanElement>) => {
     const tagName: string = e.currentTarget.innerText;
 
     console.log(tagName);
-    const subscribe = checkedItems.includes(1);
-    const advanced = checkedItems.includes(2);
-
-    navigate(`/feed?keyword=${tagName}&subscribe=${subscribe}&advanced=${advanced}`);
+    navigate(`/feed?keyword=${tagName}`);
     e.preventDefault();
   };
   // /search?type=feed&keyword=&page=&size&

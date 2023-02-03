@@ -45,8 +45,8 @@ const FeedPage = () => {
   const [checkedItemsProps, setCheckedItemsProps] = useState<Array<number>>([]);
 
   const keyword = new URLSearchParams(useLocation().search).get('keyword') || '';
-  const subscribe = new URLSearchParams(useLocation().search).get('subscribe') === 'true';
-  const advanced = new URLSearchParams(useLocation().search).get('advanced') === 'true';
+  const subscribe = checkedItemsProps.includes(1);
+  const advanced = checkedItemsProps.includes(2);
 
   const getData = (data: Array<string>) => {
     setTagListProps(data);
@@ -54,7 +54,6 @@ const FeedPage = () => {
 
   const getCheckData = (data: Array<number>) => {
     setCheckedItemsProps(data);
-    console.log(`ck${checkedItemsProps}`);
   };
 
   return (

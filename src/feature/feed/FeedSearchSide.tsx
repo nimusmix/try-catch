@@ -99,7 +99,6 @@ const FeedSearchSide = ({ tagListProps, getCheckData }: FeedSearchProps) => {
   `
     );
 
-  // console.log(checkedItems);
   return (
     <>
       <SearchFilterWrapper>
@@ -121,8 +120,8 @@ const FeedSearchSide = ({ tagListProps, getCheckData }: FeedSearchProps) => {
         })}
       </SearchFilterWrapper>
 
-      <FeedSearchBar checkedItems={checkedItems} />
-      <FeedTag tags={tagListProps} checkedItems={checkedItems} />
+      <FeedSearchBar />
+      <FeedTag tags={tagListProps} />
     </>
   );
 };

@@ -12,7 +12,7 @@ import FeedCardSkeleton from './FeedCardSkeleton';
 import { MiniTitle, Paragraph } from '../../components';
 import { ReactComponent as Bug } from '../../assets/bug.svg';
 import { IFeedListProps } from './IFeed';
-import { getFeedList, getFeedSearchList } from '../../apis/feed/feed';
+import { getFeedSearchList } from '../../apis/feed/feed';
 
 interface IFeedList {
   activeViewOption: boolean;
@@ -98,7 +98,7 @@ const FeedList = ({
     hasNextPage,
     hasPreviousPage,
   } = useInfiniteQuery<IFeedListProps, AxiosError>(
-    ['feed', keyword, paramSort],
+    ['feed', keyword, paramSort, subscribe, advanced],
     async ({ pageParam = 0 }) => {
       const params: IFeedSearch = {
         query: keyword,
@@ -110,6 +110,7 @@ const FeedList = ({
         page: pageParam,
         size: 9,
       };
+
       return getFeedSearchList(params);
     },
     {
