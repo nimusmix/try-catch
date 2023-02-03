@@ -27,7 +27,7 @@ export interface INode {
     label: string;
   };
   type: string;
-  positionAbsolute: string;
+  positionAbsolute: { x: number; y: number };
   selected: boolean;
   dragging: boolean;
 }
@@ -167,11 +167,11 @@ const RoadmapForm = () => {
   });
 
   const saveData = (data: any) => {
-    const rstNodes = newNodes.map((node) => Object.assign(node, { type: 'output' }));
+    // const rstNodes = newNodes.map((node) => Object.assign(node, { type: 'output' }));
     const roadmap = {
       title: data.title,
       tag: data.tag,
-      nodes: JSON.stringify(rstNodes),
+      nodes: JSON.stringify(newNodes),
       edges: JSON.stringify(newEdges),
     };
     saveRoadmap.mutate(roadmap);
