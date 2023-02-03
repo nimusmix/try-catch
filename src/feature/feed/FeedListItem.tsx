@@ -87,7 +87,6 @@ const FeedListItem = ({
   url,
   companyName,
   thumbnailImage,
-  checkedItemsProps,
 }: IFeedItemProps) => {
   const isDark = useRecoilValue(isDarkState);
   const [bookMarkIcon, setBookMarkIcon] = useState(isBookmarked);
@@ -144,7 +143,7 @@ const FeedListItem = ({
           </FeedBody>
 
           <FeedFooter>
-            <FeedTag checkedItems={checkedItemsProps} tags={tags.length === 0 ? keywords : tags} />
+            <FeedTag tags={tags.length === 0 ? keywords : tags} />
           </FeedFooter>
         </ArticleWrapper>
       </Wrapper>
