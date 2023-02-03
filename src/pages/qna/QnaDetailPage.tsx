@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
-import React from 'react';
+import React, { useState } from 'react';
 import Layout from '../../layout/Layout';
 import { Answer, QnaDetailPopularQna, Question } from '../../feature/qna';
 import { getQuestionDetail } from '../../apis/qna/qna';
@@ -36,6 +36,8 @@ const QnaDetailPage = () => {
     getQuestionDetail(questionId as string)
   );
 
+  const [questionInput, setQuestionInput] = useState('');
+
   return (
     <Layout>
       <QnaDetailWrapper>
@@ -47,7 +49,7 @@ const QnaDetailPage = () => {
           <ul>
             {questionDetail &&
               questionDetail.answers.map((answer) => (
-                <Answer key={answer.answerId} answer={answer} />
+                <Answer key={answer.answerId} answer={answer} setQuestionInput={setQuestionInput} />
               ))}
           </ul>
         </QnaDetailMain>

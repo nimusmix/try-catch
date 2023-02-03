@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { IconLikeEmpty, IconLikeFill } from '../../../components/icons/Icons';
+import { Dispatch, SetStateAction } from 'react';
+import { IconLikeEmpty, IconLikeFill, IconReply } from '../../../components/icons/Icons';
 import { Button, Paragraph } from '../../../components';
 import { IAnswer } from '../../../interface/qna';
 import getImageUrl from '../../../utils/getImageUrl';
@@ -26,6 +27,10 @@ const UpperWrapper = styled.div`
     isDark ? 'rgba(36, 42, 54, 1)' : 'var(--colors-brand-200)'};
   height: 100%;
   padding: 1rem;
+
+  svg {
+    align-self: baseline;
+  }
 `;
 
 const AuthorWrapper = styled.div`
@@ -60,13 +65,17 @@ const CompanyImg = styled.img`
   height: 14px;
   border-radius: 4px;
   margin-left: 0.2rem;
+  margin-right: 1rem;
 `;
 
 const SubText = styled(Paragraph)`
   color: ${({ theme }) => theme.textColor100};
 `;
 
-const FollowButton = styled(Button)``;
+const FollowButton = styled(Button)`
+  padding: 0.1rem 0.25rem;
+  font-size: var(--fonts-body-sm);
+`;
 
 const Line = styled.div`
   margin-bottom: 1.6rem;
@@ -93,7 +102,25 @@ const AnswerBody = styled.div`
   padding: 1rem 2rem;
 `;
 
-const Answer = ({ answer }: { answer: IAnswer }) => {
+const ReplyIconWrapper = styled.span`
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const Answer = ({
+  answer,
+  setQuestionInput,
+}: {
+  answer: IAnswer;
+  setQuestionInput: Dispatch<SetStateAction<string>>;
+}) => {
   return (
     <AnswerItem>
       <UpperWrapper>
@@ -111,18 +138,24 @@ const Answer = ({ answer }: { answer: IAnswer }) => {
                 }
                 alt={answer.author.companyName}
               />
+              {/* 팔로우 버튼 */}
+              {answer.author.isFollowed && <Button>팔로잉</Button>}
+              {answer.author.isFollowed || (
+                <FollowButton designType="blueEmpty" fontSize="14px">
+                  팔로우
+                </FollowButton>
+              )}
             </UserInfo>
-            <SubText sizeType="xm">{answer.author.companyName}</SubText>
+            <SubText sizeType="xm">
+              {answer.author.companyName === 'default'
+                ? '지나가는 개발자'
+                : answer.author.companyName}
+            </SubText>
           </UserInfoWrapper>
         </AuthorWrapper>
-
-        {/* 팔로우 버튼 */}
-        {answer.author.isFollowed && <Button>팔로잉</Button>}
-        {answer.author.isFollowed || (
-          <FollowButton designType="blueEmpty" fontSize="14px">
-            팔로우
-          </FollowButton>
-        )}
+        <ReplyIconWrapper onClick={() => console.log(answer.author.userName)}>
+          <IconReply />
+        </ReplyIconWrapper>
       </UpperWrapper>
 
       <Line />

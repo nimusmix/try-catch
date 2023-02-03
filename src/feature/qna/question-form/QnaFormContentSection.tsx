@@ -24,6 +24,10 @@ export const Tooltip = styled.div`
   translate: 110% 80px;
   z-index: 1000;
   border-radius: var(--borders-radius-base);
+
+  & > p:first-child {
+    margin-bottom: 0.5rem;
+  }
 `;
 
 const QnaFormContentSection = () => {

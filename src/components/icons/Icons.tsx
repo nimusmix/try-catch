@@ -4,9 +4,11 @@ import {
   RxBookmarkFilled as IconBookmarkFill,
   RxCross2 as IconX,
 } from 'react-icons/rx';
+
 import {
   BsBellFill as IconBellFill,
   BsCheckCircleFill as IconCheckCircle,
+  BsFillReplyFill as IconReply,
   BsGrid as IconCard,
   BsShareFill as IconShare,
   BsViewStacked as IconList,
@@ -39,4 +41,5 @@ export {
   IconQuestion,
   IconFeed,
   IconX,
+  IconReply,
 };

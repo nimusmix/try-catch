@@ -4,7 +4,7 @@ import { api, authApi } from '../../utils/axios-instance';
 import { IPostQuestion, IQuestion } from './qna-type';
 
 export const getQuestionList = () => {
-  return api.get('/question').then((res: AxiosResponse<Array<IQuestion>>) => res.data);
+  return api.get('/question?category=DEV').then((res: AxiosResponse<Array<IQuestion>>) => res.data);
 };
 
 export const getQuestQuestionList = () => {

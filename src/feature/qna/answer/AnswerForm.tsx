@@ -16,9 +16,9 @@ const Wrapper = styled.div`
 
   .milkdown-menu-wrapper {
     border-radius: 12px 12px 0 0;
-  }
-  .milkdown {
-    border-radius: 0;
+    .milkdown {
+      border-radius: 0;
+    }
   }
 
   button {

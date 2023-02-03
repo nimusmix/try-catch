@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { IconComment, IconEye, IconLikeEmpty } from '../../../components/icons/Icons';
 import { Button, MiniTitle, Paragraph } from '../../../components';
 import { isDarkState } from '../../../recoil';
@@ -25,7 +27,8 @@ const QuestionHeader = styled.div`
 
 const QuestionBody = styled.div`
   margin: 0.5rem 0 0.5rem;
-
+  max-height: 100px;
+  overflow: hidden;
   p {
     /* display: inline-block; */
     display: -webkit-box;
@@ -108,12 +111,7 @@ const QuestionItem = ({
       </QuestionHeader>
 
       <QuestionBody>
-        <Paragraph
-          sizeType="base"
-          color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-        >
-          {content}
-        </Paragraph>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{content!}</ReactMarkdown>
       </QuestionBody>
 
       <QuestionFooter>
@@ -126,18 +124,21 @@ const QuestionItem = ({
           >
             {toKorean(category)}
           </Button>
-          {tags?.map((tag) => (
-            <Button
-              key={tag}
-              as="span"
-              designType="blueEmpty"
-              fontSize="var(--fonts-body-xm)"
-              padding="2px 10px"
-              borderRadius="var(--borders-radius-base)"
-            >
-              {tag}
-            </Button>
-          ))}
+          {tags?.map((tag) => {
+            if (tag === '') return null;
+            return (
+              <Button
+                key={tag}
+                as="span"
+                designType="blueEmpty"
+                fontSize="var(--fonts-body-xm)"
+                padding="2px 10px"
+                borderRadius="var(--borders-radius-base)"
+              >
+                {tag}
+              </Button>
+            );
+          })}
         </TagsWrapper>
         <InfoWrapper>
           <Paragraph as="span" sizeType="sm">

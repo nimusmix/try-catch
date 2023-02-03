@@ -102,11 +102,12 @@ const QuestionBody = styled.div`
 
   .milkdown {
     background-color: ${({ theme: { isDark } }) =>
-      isDark ? 'var(--colors-brand-100)' : 'var(--colors-brand-100)'};
+      isDark ? 'var(--colors-black-300)' : 'var(--colors-brand-100)'};
     color: ${({ theme: { textColor } }) => textColor};
     box-shadow: none;
     border-radius: var(--borders-radius-base);
   }
+
   .milkdown .editor {
     & > * {
       margin: 0.5rem 0;

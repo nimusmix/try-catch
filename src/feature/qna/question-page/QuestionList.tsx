@@ -10,6 +10,7 @@ const QuestionList = ({ activeCategory }: { activeCategory: string }) => {
     getQuestionList()
   );
 
+  console.log(activeCategory);
   const filteredQuestionList = questionList?.filter(
     (question) => question.category === activeCategory
   );
