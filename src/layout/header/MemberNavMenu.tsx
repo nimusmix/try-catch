@@ -75,8 +75,9 @@ const MemberNavMenu = () => {
       </Li>
       <Link to={`/profile/${userName}`}>
         <ProfileLi>
-          {profileImg && <Img src={profileImg} />}
-          {profileImg || (
+          {profileImg ? (
+            <Img src={profileImg} />
+          ) : (
             <IconUserCircle
               color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
               size="24"
