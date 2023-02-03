@@ -7,7 +7,6 @@ import ReactFlow, {
   Edge,
   Handle,
   Position,
-  ReactFlowProvider,
   useEdges,
   useNodes,
   useReactFlow,
@@ -16,30 +15,6 @@ import 'reactflow/dist/style.css';
 import styled from 'styled-components';
 import { Button, Input, MiniTitle } from '../../components';
 import { postRoadmap } from '../../apis/roadmap/roadmap';
-
-export interface INode {
-  width: string;
-  height: string;
-  id: string;
-  position: { x: number; y: number };
-  data: {
-    value: string;
-    label: string;
-  };
-  type: string;
-  positionAbsolute: string;
-  selected: boolean;
-  dragging: boolean;
-}
-
-export interface IEdges {
-  id: string;
-  source: string;
-  target: string;
-  type: string;
-  markerEnd?: string;
-  style?: string;
-}
 
 const StyledInput = styled.input`
   width: 160px;
@@ -167,11 +142,11 @@ const RoadmapForm = () => {
   });
 
   const saveData = (data: any) => {
-    const rstNodes = newNodes.map((node) => Object.assign(node, { type: 'output' }));
+    // const rstNodes = newNodes.map((node) => Object.assign(node, { type: 'output' }));
     const roadmap = {
       title: data.title,
       tag: data.tag,
-      nodes: JSON.stringify(rstNodes),
+      nodes: JSON.stringify(newNodes),
       edges: JSON.stringify(newEdges),
     };
     saveRoadmap.mutate(roadmap);

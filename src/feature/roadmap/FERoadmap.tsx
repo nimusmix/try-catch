@@ -3,18 +3,6 @@ import ReactFlow, { Controls, Background } from 'reactflow';
 import 'reactflow/dist/style.css';
 import styled from 'styled-components';
 
-interface INode {
-  width: number;
-  height: number;
-  id: string;
-  position: { x: number; y: number };
-  data: { value: string; label: string };
-  type: string;
-  positionAbsolute: { x: number; y: number };
-  selected: boolean;
-  dragging: boolean;
-}
-
 const nodes = [
   {
     width: 160,
