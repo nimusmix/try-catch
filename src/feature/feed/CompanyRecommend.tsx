@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Button, Div, MiniTitle, Paragraph } from '../../components';
 import getImageUrl from '../../utils/getImageUrl';
+import { COMPANY } from '../../constant/company';
 
 interface ICompanyRecommend {
   companyNameEn: string;
@@ -49,11 +50,7 @@ const CompanyItem = ({ companyNameEn, companyNameKo }: ICompanyRecommend) => {
     <CompanyItemWrapper>
       <CompanyWrapper>
         <CompanyImg
-          src={
-            companyNameEn
-              ? getImageUrl(companyNameEn, 'logo')
-              : new URL(`/src/assets/favicon.ico`, import.meta.url).href
-          }
+          src={companyNameEn && getImageUrl(COMPANY[companyNameKo], 'logo', 'png')}
           alt={companyNameEn}
         />
         <CompanyName sizeType="sm" margin="0 0.2rem 0 0.3rem">

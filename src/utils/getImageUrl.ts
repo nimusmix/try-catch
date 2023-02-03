@@ -1,16 +1,27 @@
 type PathType = '' | 'root' | 'logo' | 'landing' | 'header';
-const getImageUrl = (name: string, path: PathType) => {
+type ExtensionType = 'png' | 'ico' | 'svg' | 'jpg' | 'jpeg';
+const getImageUrl = (name: string, path: PathType, extension: ExtensionType) => {
+  const defaultImage = new URL(`../assets/favicon.ico`, import.meta.url).href;
+  let url;
   switch (path) {
     case 'root':
-      return new URL(`../assets/${name}.png`, import.meta.url).href;
+      url = new URL(`../assets/${name}.${extension}`, import.meta.url);
+      if (url.pathname === '/undefined') return defaultImage;
+      return url.href;
     case 'header':
-      return new URL(`../assets/header/${name}.png`, import.meta.url).href;
+      url = new URL(`../assets/header/${name}.${extension}`, import.meta.url);
+      if (url.pathname === '/undefined') return defaultImage;
+      return url.href;
     case 'landing':
-      return new URL(`../assets/landing/${name}.png`, import.meta.url).href;
+      url = new URL(`../assets/landing/${name}.${extension}`, import.meta.url);
+      if (url.pathname === '/undefined') return defaultImage;
+      return url.href;
     case 'logo':
-      return new URL(`../assets/logo/${name}.png`, import.meta.url).href;
+      url = new URL(`../assets/logo/${name}.${extension}`, import.meta.url);
+      if (url.pathname === '/undefined') return defaultImage;
+      return url.href;
     default:
-      return new URL(`../assets/${name}.png`, import.meta.url).href;
+      return new URL(`../assets/${name}.${extension}`, import.meta.url).href;
   }
 };
 
