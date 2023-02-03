@@ -1,5 +1,5 @@
 interface ILogOnDev {
-  log: (message: string, color?: string) => void;
+  log: (message: any, color?: string) => void;
   info: (message: string, color?: string) => void;
   error: (message: string) => void;
   warn: (message: string) => void;
