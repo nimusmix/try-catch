@@ -9,11 +9,7 @@ import {
 import { logOnDev } from './logging';
 
 const getItem = (key: string) => {
-  if (JSON.parse(window.localStorage.getItem('recoil-persist')!)[key]) {
-    console.log(JSON.parse(window.localStorage.getItem('recoil-persist')!)[key]);
-  } else {
-    console.log('토큰 없어');
-  }
+  console.log(window.localStorage.getItem('recoil-persist'));
 };
 
 const tokenInterceptor = (instance: AxiosInstance) => {
