@@ -3,6 +3,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useRecoilValue } from 'recoil';
 import { useMutation } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../../layout/Layout';
 import { isDarkState } from '../../recoil';
 import { Button } from '../../components';
@@ -10,6 +11,7 @@ import QnaFormHeader from '../../feature/qna/question-form/QnaFormHeader';
 import QnaFormBody from '../../feature/qna/question-form/QnaFormBody';
 import { useQuestionState } from '../../context/QnaContext';
 import { postQuestion } from '../../apis/qna/qna';
+import { logOnDev } from '../../utils/logging';
 
 const QnaFormContainer = styled.div`
   display: flex;
@@ -42,13 +44,23 @@ const TooltipAside = styled.aside`
  * */
 const QnaFormPage = () => {
   const isDark = useRecoilValue(isDarkState);
-  const state = useQuestionState();
-  const { mutate: addQuestion, isSuccess } = useMutation(postQuestion(state));
+  const { content, category, errorCode, title, tags } = useQuestionState();
+  const { mutate: addQuestion, isSuccess } = useMutation(
+    postQuestion({ content, category, errorCode, title, tags })
+  );
+  const navigate = useNavigate();
 
   const onClickAddQuestion = () => {
+    if (!category.trim() || !title.trim() || !content.trim() || !errorCode.trim()) {
+      logOnDev.log(category);
+      logOnDev.log(title);
+      logOnDev.log(content);
+      logOnDev.log(errorCode);
+      alert('필수 목록이 비어있음');
+    }
     addQuestion();
     if (isSuccess) {
-      console.log('qna 페이지로 이동');
+      navigate('/question', { replace: true });
     }
   };
 

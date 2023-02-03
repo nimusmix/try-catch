@@ -15,10 +15,19 @@ type Action =
   | { type: 'SET_TITLE'; title: string }
   | { type: 'SET_CONTENT'; content: string }
   | { type: 'SET_ERROR_CODE'; errorCode: string }
-  | { type: 'SET_TAGS'; tags: Array<string> };
+  | { type: 'SET_TAGS'; tags: Array<string> }
+  | { type: 'RESET' };
 
 // 디스패치를 위한 타입
 type QuestionDispatch = Dispatch<Action>;
+
+const initialState: IState = {
+  category: 'DEV',
+  title: '',
+  content: '',
+  errorCode: '',
+  tags: [],
+};
 
 // context 생성
 export const QuestionStateContext = createContext<IState | null>(null);
@@ -51,20 +60,16 @@ const reducer = (state: IState, action: Action): IState => {
         ...state,
         tags: [...action.tags],
       };
+    case 'RESET':
+      return initialState;
 
     default:
-      return state;
+      throw new Error(`Unhandled action type`);
   }
 };
 
 const QuestionProvider = ({ children }: { children: React.ReactNode }) => {
-  const [state, dispatch] = useReducer(reducer, {
-    category: 'DEV',
-    title: '',
-    content: '',
-    errorCode: '',
-    tags: [],
-  });
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
     <QuestionStateContext.Provider value={state}>

@@ -16,6 +16,7 @@ const Wrapper = styled.div`
 
 const TitleTooltip = styled(Tooltip)`
   translate: 110% -20px;
+  width: 400px;
 `;
 
 const QnaFormTitleSection = () => {
@@ -52,10 +53,9 @@ const QnaFormTitleSection = () => {
       />
       {isTitleFocus && (
         <TitleTooltip>
-          <Paragraph sizeType="base">💡 질문 내용 작성 가이드</Paragraph>
+          <Paragraph sizeType="base">💡 제목 작성 가이드</Paragraph>
           <Paragraph sizeType="base">
-            어떤 상황에서 문제가 발생했는지 구체적으로 작성해 주세요. 현재 사용하는 소프트웨어의
-            버전 정보까지 포함하시면 더욱 좋은 답변을 받을 수 있습니다.
+            다른 사람이 제목만 보고 내용을 파악할 수 있을 만큼 구체적으로 작성해 주세요.
           </Paragraph>
         </TitleTooltip>
       )}
