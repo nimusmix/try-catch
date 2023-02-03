@@ -18,10 +18,6 @@ const Wrapper = styled.div`
     translate: 0 -1rem;
     border-radius: 0 0 0.5rem 0.5rem;
   }
-
-  .milkdown {
-    border-radius: var(--borders-radius-base);
-  }
 `;
 const AnswerForm = ({ questionId }: { questionId: string }) => {
   const [answerInput, setAnswerInput] = useState('');
