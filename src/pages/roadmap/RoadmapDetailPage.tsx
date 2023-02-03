@@ -46,7 +46,7 @@ const RoadmapDetailPage = () => {
   );
 
   if (isLoading) {
-    return 'loading';
+    return <Paragraph sizeType="base">Loading...</Paragraph>;
   }
 
   return (
