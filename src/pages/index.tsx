@@ -33,8 +33,6 @@ const NotFoundPage = loadable(() => import(`./error/NotFoundPage`));
 const SubscriptionPage = loadable(() => import('./profile/SubscriptionPage'));
 const FollowingPage = loadable(() => import('./profile/FollowingPage'));
 const FollowersPage = loadable(() => import('./profile/FollowersPage'));
-const FERoadmapPage = loadable(() => import('./roadmap/FERoadmapPage'));
-const BERoadmapPage = loadable(() => import('./roadmap/BERoadmapPage'));
 
 export {
   LandingPage,
@@ -62,6 +60,4 @@ export {
   SubscriptionPage,
   FollowingPage,
   FollowersPage,
-  FERoadmapPage,
-  BERoadmapPage,
 };

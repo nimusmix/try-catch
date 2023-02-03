@@ -6,3 +6,5 @@ export const postRoadmap = (data: IRoadmap) => authApi.post('/roadmap', data);
 
 export const getRoadmapDetail = (roadmapId: string) =>
   api.get(`/roadmap/${roadmapId}`).then((res) => res.data);
+
+export const getRoadmapList = () => api.get('/roadmap/list').then((res) => res.data);

@@ -18,6 +18,7 @@ const ItemWrapper = styled(Div)`
   align-items: center;
   width: 500px;
   padding: 1.5rem 2rem;
+  margin: 1rem;
 `;
 
 const Img = styled.img`
@@ -60,7 +61,7 @@ const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
         <Paragraph sizeType="lg" fontWeight="500">
           {roadmap.author.userName}
         </Paragraph>
-        <Paragraph sizeType="sm">{roadmap.author.companyName}</Paragraph>
+        <Paragraph sizeType="sm">{roadmap.author.companyName || '미인증'}</Paragraph>
         <Line />
         <MiniTitle sizeType="xl" fontWeight="600">
           {roadmap.title}

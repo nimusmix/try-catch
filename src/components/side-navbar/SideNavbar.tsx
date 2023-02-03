@@ -9,6 +9,7 @@ interface INavOptions {
 interface INavbarProps {
   navOptions: Array<INavOptions>;
   changeOption: React.Dispatch<React.SetStateAction<string>>;
+  activeIdx?: number;
 }
 
 const Item = styled.li`
@@ -40,8 +41,10 @@ const Item = styled.li`
   }
 `;
 
-const SideNavbar = ({ navOptions, changeOption }: INavbarProps) => {
-  const [activeNavOption, setActiveNavOption] = useState<string | null>(() => navOptions[0].option);
+const SideNavbar = ({ navOptions, changeOption, activeIdx = 0 }: INavbarProps) => {
+  const [activeNavOption, setActiveNavOption] = useState<string | null>(
+    () => navOptions[activeIdx].option
+  );
 
   const handleNavOptionClick = (event: React.MouseEvent<HTMLLIElement>) => {
     const target = event.target as Element;

@@ -1,8 +1,7 @@
 import { useMemo } from 'react';
 import ReactFlow, { Controls, Background } from 'reactflow';
 import 'reactflow/dist/style.css';
-import styled from 'styled-components';
-import { DetailWrapper } from './FERoadmapPage';
+import { DetailWrapper } from './FERoadmap';
 
 interface INode {
   width: number;
