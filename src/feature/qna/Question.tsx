@@ -103,7 +103,7 @@ const QuestionBody = styled.div`
   .milkdown {
     background-color: ${({ theme: { isDark } }) =>
       isDark ? 'var(--colors-brand-100)' : 'var(--colors-brand-100)'};
-    color : ${({ theme: { textColor } }) => textColor}
+    color: ${({ theme: { textColor } }) => textColor};
     box-shadow: none;
     border-radius: var(--borders-radius-base);
   }
