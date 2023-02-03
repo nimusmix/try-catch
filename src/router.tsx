@@ -36,6 +36,9 @@ import {
   RoadmapPage,
   ThemeSettingsPage,
   UserProfilePage,
+  SubscriptionPage,
+  FollowingPage,
+  FollowersPage,
 } from './pages';
 import { Bookmark, Challenges, Error, Feed, Home, Profile, QnA, Roadmap, Settings } from './routes';
 
@@ -122,7 +125,6 @@ const router = createBrowserRouter([
         element: <Roadmap />,
         children: [
           {
-            index: true,
             path: '',
             element: <RoadmapPage />,
           },
@@ -135,7 +137,7 @@ const router = createBrowserRouter([
             element: <RoadmapListPage />,
           },
           {
-            path: ':roadmapId',
+            path: ':userName',
             element: <RoadmapDetailPage />,
           },
         ],
@@ -153,12 +155,25 @@ const router = createBrowserRouter([
         element: <Profile />,
         children: [
           {
-            index: true,
-            path: ':username',
+            path: ':userName',
             element: <UserProfilePage />,
+            children: [
+              {
+                path: 'subscription',
+                element: <SubscriptionPage />,
+              },
+              {
+                path: 'following',
+                element: <FollowingPage />,
+              },
+              {
+                path: 'followers',
+                element: <FollowersPage />,
+              },
+            ],
           },
           {
-            path: ':companyname',
+            path: ':companyName',
             element: <CompanyProfilePage />,
           },
           {

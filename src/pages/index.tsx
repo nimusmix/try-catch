@@ -30,6 +30,9 @@ const AdvancedSettingsPage = loadable(() => import('./setting/AdvancedSettingsPa
 const IntroducePage = loadable(() => import('./setting/IntroducePage'));
 const CustomerServicePage = loadable(() => import('./setting/CustomerServicePage'));
 const NotFoundPage = loadable(() => import(`./error/NotFoundPage`));
+const SubscriptionPage = loadable(() => import('./profile/SubscriptionPage'));
+const FollowingPage = loadable(() => import('./profile/FollowingPage'));
+const FollowersPage = loadable(() => import('./profile/FollowersPage'));
 
 export {
   LandingPage,
@@ -54,4 +57,7 @@ export {
   IntroducePage,
   CustomerServicePage,
   NotFoundPage,
+  SubscriptionPage,
+  FollowingPage,
+  FollowersPage,
 };

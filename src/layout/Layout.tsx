@@ -6,7 +6,7 @@ export interface ILayoutProps {
   children: React.ReactNode;
 }
 
-const Main = styled.main`
+export const Main = styled.main`
   background-color: ${({ theme: { bgColor } }) => bgColor};
   display: flex;
   justify-content: center;

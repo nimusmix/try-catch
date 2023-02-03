@@ -6,27 +6,27 @@ import MiniTitle from '../font/MiniTitle';
 import Paragraph from '../font/Paragraph';
 import { isDarkState } from '../../recoil';
 
-const SliderArea = styled.div`
+export const SliderArea = styled.div`
   position: relative;
   overflow: hidden;
   height: auto;
   max-width: 18rem;
 `;
 
-const Slider = styled.div`
+export const Slider = styled.div`
   position: relative;
   display: block;
   box-sizing: border-box;
 `;
 
-const SliderList = styled.div`
+export const SliderList = styled.div`
   position: relative;
   overflow: hidden;
   display: block;
   margin: 0;
 `;
 
-const SliderTrack = styled.div`
+export const SliderTrack = styled.div`
   position: relative;
   left: 50%;
   top: 0;
@@ -36,7 +36,7 @@ const SliderTrack = styled.div`
   width: fit-content;
 `;
 
-const SliderItem = styled.div`
+export const SliderItem = styled.div`
   position: relative;
   height: 100%;
   padding: 0 2.25rem;
@@ -44,7 +44,7 @@ const SliderItem = styled.div`
   width: 17.5rem;
 `;
 
-const SliderItemDiv = styled.div`
+export const SliderItemDiv = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 7.5rem;

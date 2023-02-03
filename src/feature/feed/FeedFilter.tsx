@@ -1,36 +1,28 @@
-import { forwardRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { MiniTitle } from '../../components';
+import { isLoggedInState, toastState } from '../../recoil';
+import Toast from '../toast/Toast';
 
+interface IFeedFilterOptions {
+  id: number;
+  option: string;
+}
 interface IFeedFilterProps {
-  currentOption: string | null;
-  handleFilterOptionClick: (e: React.MouseEvent<HTMLElement>) => void;
+  filterOptions: Array<IFeedFilterOptions>;
+  changeOption: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const filterOptions = [
-  {
-    id: 1,
-    option: '나의 관심순',
-  },
-  {
-    id: 2,
-    option: '최신순',
-  },
-  {
-    id: 3,
-    option: '구독',
-  },
-];
-
 const Item = styled.button<{ option: string }>`
-  padding: 0rem 0.8rem;
-  transition: color, background-color 0.1s ease-in;
+  padding: 0 0.8rem;
+  //transition: color, background-color 0.1s ease-in;
   border-right: 0.8px solid;
   align-items: center;
   border-color: ${({ theme: { isDark } }) =>
     isDark ? 'var(--colors-brand-100)' : 'var(--colors-black-100)'};
 
-  border-right: ${({ option }) => (option === '구독' ? 'none' : '0.8px solid')};
+  border-right: ${({ option }) => (option === '최신순' ? 'none' : '0.8px solid')};
 
   &.active > h3,
   &:hover > h3 {
@@ -45,37 +37,57 @@ const Item = styled.button<{ option: string }>`
   }
 `;
 
-const FeedFilter = forwardRef(
-  ({ currentOption, handleFilterOptionClick }: IFeedFilterProps, ref: any) => {
-    return (
-      <div ref={ref}>
-        {filterOptions.map(({ id, option }) => {
-          return (
-            <Item
-              key={id}
-              onClick={handleFilterOptionClick}
-              className={currentOption === option ? 'active' : ''}
-              option={option}
-            >
-              <MiniTitle
-                sizeType="xl"
-                color="var(--colors-black-100)"
-                data-name={option}
-                style={{
-                  fontSize: 'var(--fonts-body-base)',
-                  lineHeight: 'var(--fonts-body-base)',
-                }}
-              >
-                {option}
-              </MiniTitle>
-            </Item>
-          );
-        })}
-      </div>
-    );
-  }
-);
+const FeedFilter = ({ filterOptions, changeOption }: IFeedFilterProps) => {
+  const isLoggedIn = useRecoilValue(isLoggedInState);
 
-FeedFilter.displayName = 'FeedFilter';
+  const [activeFilterOption, setActiveFilterOption] = useState<string | null>(
+    () => filterOptions[1].option
+  );
+
+  const handleFilterOptionClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const target = event.target as Element;
+    const filterOptionName = target.getAttribute('data-name');
+
+    // 비로그인 상태
+    if (!isLoggedIn) {
+      /** TODO 비로그인 상태일 때 토스트 생성 */
+      if (filterOptionName === '최신순') {
+        setActiveFilterOption(filterOptionName);
+        changeOption(`${filterOptionName}`);
+      }
+    } else {
+      // 로그인 상태
+      setActiveFilterOption(filterOptionName);
+      changeOption(`${filterOptionName}`);
+    }
+  };
+
+  return (
+    <>
+      {filterOptions.map(({ id, option }: IFeedFilterOptions) => {
+        return (
+          <Item
+            key={id}
+            onClick={handleFilterOptionClick}
+            className={activeFilterOption === option ? 'active' : ''}
+            option={option}
+          >
+            <MiniTitle
+              sizeType="xl"
+              color="var(--colors-black-100)"
+              data-name={option}
+              style={{
+                fontSize: 'var(--fonts-body-base)',
+                lineHeight: 'var(--fonts-body-base)',
+              }}
+            >
+              {option}
+            </MiniTitle>
+          </Item>
+        );
+      })}
+    </>
+  );
+};
 
 export default FeedFilter;

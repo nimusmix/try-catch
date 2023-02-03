@@ -1,10 +1,11 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import { MdOutlineCreate } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { HeaderImage, Layout } from '../../layout';
 import { Button, Paragraph, SubTitle } from '../../components';
 import { PopularQna, QnaPopularTag, QnaSearchBar } from '../../feature/qna';
-import QuestionList from '../../feature/qna/QuestionList';
+import QuestionList from '../../feature/qna/question-page/QuestionList';
 import { header_qna } from '../../assets';
 import SideNavbar from '../../components/side-navbar/SideNavbar';
 
@@ -12,27 +13,30 @@ const navOptions = [
   {
     id: 1,
     option: '개발',
+    value: 'DEV',
   },
   {
     id: 2,
     option: '커리어',
+    value: 'CAREER',
   },
   {
     id: 3,
     option: '밸런스 게임',
+    value: 'BALANCE',
   },
 ];
 
 const qnaPopularTags = [
-  { id: 1, tagName: 'React' },
-  { id: 2, tagName: 'Recoil' },
-  { id: 3, tagName: 'Docker' },
-  { id: 4, tagName: 'JPA' },
-  { id: 5, tagName: 'Spring' },
-  { id: 6, tagName: 'AWS' },
-  { id: 7, tagName: 'PJT' },
-  { id: 8, tagName: 'Fighting' },
-  { id: 9, tagName: 'Aja Aja' },
+  'react',
+  'recoil',
+  'docker',
+  'JPA',
+  'spring',
+  'AWS',
+  'PJT',
+  'Fighting',
+  'Aja Aja',
 ];
 
 export const QuestionPageBody = styled.section`
@@ -40,15 +44,18 @@ export const QuestionPageBody = styled.section`
   max-width: var(--breakpoints-desktop);
 `;
 
-const Aside = styled.aside`
+export const Aside = styled.aside`
   margin: 3rem 1.5rem 0;
   position: sticky;
   top: 6rem;
-  left: 0;
   height: 500px;
 `;
 
 const QnaPage = () => {
+  const [activeCategory, setActiveCategory] = useState('DEV');
+
+  console.log(activeCategory);
+
   return (
     <Layout>
       <HeaderImage image={header_qna}>
@@ -61,11 +68,11 @@ const QnaPage = () => {
       </HeaderImage>
       <QuestionPageBody>
         <Aside>
-          <SideNavbar navOptions={navOptions} />
+          <SideNavbar navOptions={navOptions} changeOption={setActiveCategory} />
         </Aside>
         <section>
           <QnaSearchBar />
-          <QuestionList />
+          <QuestionList activeCategory={activeCategory} />
         </section>
         <Aside>
           <Link to="form">

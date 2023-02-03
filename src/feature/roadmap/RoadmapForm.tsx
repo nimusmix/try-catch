@@ -1,26 +1,20 @@
 import React, { useCallback, useMemo } from 'react';
+import { useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import ReactFlow, {
+  Background,
+  Edge,
   Handle,
   Position,
-  Background,
-  ReactFlowProvider,
-  useReactFlow,
-  useNodes,
   useEdges,
-  Edge,
+  useNodes,
+  useReactFlow,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import styled from 'styled-components';
-import { Button } from '../../components';
-
-export interface IEdges {
-  id: string;
-  source: string;
-  target: string;
-  type: string;
-  markerEnd?: string;
-  style?: string;
-}
+import { Button, Input, MiniTitle } from '../../components';
+import { postRoadmap } from '../../apis/roadmap/roadmap';
 
 const StyledInput = styled.input`
   width: 160px;
@@ -30,30 +24,31 @@ const StyledInput = styled.input`
   text-align: center;
   border: 1px var(--colors-brand-500) solid;
   border-radius: var(--borders-radius-base);
-
-  & :focus {
-    outline: none;
-    border: none;
-  }
-  & :active {
-    outline: none;
-    border: none;
-  }
 `;
 
-const FormWrapper = styled.div`
+const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: end;
-  margin-bottom: 3rem;
+  align-items: flex-start;
+  margin-top: 1rem;
+  margin-bottom: 2.75rem;
+  h3 {
+    margin-bottom: 0.5rem;
+  }
 `;
 
-const ButtonWrapper = styled.div`
+const InfoInput = styled(Input)`
+  border: none;
+  border-bottom: 1px ${({ theme }) => theme.borderColor} solid;
+  border-radius: 0;
+  padding: 0.25rem;
+`;
+
+const RoadmapTitleWrapper = styled.div`
   display: flex;
-  margin-bottom: 0.725rem;
-  & :first-child {
-    margin-right: 0.725rem;
-  }
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 0.75rem;
 `;
 
 const FlowWrapper = styled.div`
@@ -61,6 +56,7 @@ const FlowWrapper = styled.div`
   height: 600px;
   border: 1px ${({ theme }) => theme.borderColor} solid;
   border-radius: var(--borders-radius-base);
+  margin-bottom: 2.25rem;
 `;
 
 const initialNodes = [
@@ -105,56 +101,92 @@ const TextUpdaterNode = ({ data }: any) => {
 
 let nodeId = 3;
 
-const ReactFlowForm = () => {
+const RoadmapForm = () => {
+  const {
+    register,
+    handleSubmit,
+    // formState: { errors },
+  } = useForm();
+
   const newNodes = useNodes();
   const newEdges = useEdges();
 
   const reactFlowInstance = useReactFlow();
 
-  const addNode = useCallback(() => {
-    nodeId += 1;
-    const id = `${nodeId}`;
-    const newNode = {
-      id,
-      position: {
-        x: Math.random() * 500,
-        y: Math.random() * 500,
-      },
-      data: {
-        label: `Node ${id}`,
-      },
-      type: 'textUpdater',
-    };
-    reactFlowInstance.addNodes(newNode);
-  }, [reactFlowInstance]);
+  const addNode = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
 
-  const saveData = () => {
-    console.log(newNodes);
-    console.log(newEdges);
+      nodeId += 1;
+      const id = `${nodeId}`;
+      const newNode = {
+        id,
+        position: {
+          x: Math.random() * 500,
+          y: Math.random() * 500,
+        },
+        data: {
+          label: `Node ${id}`,
+        },
+        type: 'textUpdater',
+      };
+      reactFlowInstance.addNodes(newNode);
+    },
+    [reactFlowInstance]
+  );
+
+  const navi = useNavigate();
+  const saveRoadmap = useMutation(postRoadmap, {
+    onSuccess: (data) => navi(`/roadmap/${data.data.author.userName}`),
+    onError: (error) => console.log(error),
+  });
+
+  const saveData = (data: any) => {
+    // const rstNodes = newNodes.map((node) => Object.assign(node, { type: 'output' }));
+    const roadmap = {
+      title: data.title,
+      tag: data.tag,
+      nodes: JSON.stringify(newNodes),
+      edges: JSON.stringify(newEdges),
+    };
+    saveRoadmap.mutate(roadmap);
   };
 
   const nodeTypes = useMemo(() => ({ textUpdater: TextUpdaterNode }), []);
 
   return (
-    <FormWrapper>
-      <ButtonWrapper>
-        <Button onClick={addNode}>노드 추가</Button>
-        <Button onClick={saveData}>저장</Button>
-      </ButtonWrapper>
+    <form onSubmit={handleSubmit(saveData)}>
+      <InputWrapper>
+        <MiniTitle sizeType="2xl" fontWeight="600">
+          제목
+        </MiniTitle>
+        <InfoInput {...register('title', { required: '제목은 필수 항목입니다.' })} />
+      </InputWrapper>
+
+      <RoadmapTitleWrapper>
+        <MiniTitle sizeType="2xl" fontWeight="600">
+          로드맵
+        </MiniTitle>
+        <Button onClick={addNode} borderRadius="var(--borders-radius-lg)">
+          노드 추가
+        </Button>
+      </RoadmapTitleWrapper>
+
       <FlowWrapper>
         <ReactFlow defaultNodes={initialNodes} defaultEdges={initialEdges} nodeTypes={nodeTypes}>
           <Background />
         </ReactFlow>
       </FlowWrapper>
-    </FormWrapper>
-  );
-};
 
-const RoadmapForm = () => {
-  return (
-    <ReactFlowProvider>
-      <ReactFlowForm />
-    </ReactFlowProvider>
+      <InputWrapper>
+        <MiniTitle sizeType="2xl" fontWeight="600">
+          태그
+        </MiniTitle>
+        <InfoInput width="100px" {...register('tag', { required: '태그는 필수 항목입니다.' })} />
+      </InputWrapper>
+
+      <Button borderRadius="var(--borders-radius-lg)">저장</Button>
+    </form>
   );
 };
 

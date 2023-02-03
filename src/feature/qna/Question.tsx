@@ -1,45 +1,53 @@
 import styled from 'styled-components';
+import { Button, Div, MiniTitle, Paragraph } from '../../components';
+import { IQuestion } from '../../apis/qna/qna-type';
 import {
   IconBookmarkEmpty,
   IconBookmarkFill,
+  IconCheckCircle,
   IconLikeEmpty,
   IconLikeFill,
-  IconCheckCircle,
   IconShare,
 } from '../../components/icons/Icons';
-import { Button, Div, MiniTitle, Paragraph } from '../../components';
+import getImageUrl from '../../utils/getImageUrl';
 import elapsedTime from '../../utils/elapsed-time';
-
-interface IQuestion {
-  questionId: number;
-  author: {
-    username: string;
-    image?: string;
-    company?: string;
-  };
-  title: string;
-  content: string;
-  category: string;
-  tags: Array<string>;
-  likeCount: number;
-  answerCount: number;
-  timestamp: number;
-  isLiked: boolean;
-  isSolved: boolean;
-  isBookMarked: boolean;
-}
+import MilkdownEditor from '../text-editor/MilkdownEditor';
+import { COMPANY } from '../../constant/company';
 
 const QuestionDiv = styled(Div)`
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: start;
-  width: 820px;
-  padding: 2rem;
+  width: 100%;
+  padding: 0;
+  margin-bottom: 2.5rem;
+  background-color: ${({ theme: { isDark } }) => (isDark ? 'rgba(46, 52, 64, 1)' : '#f7f8ff')};
+  border: ${({ theme: { isDark } }) => (isDark ? '' : '1px solid var(--colors-brand-200)')};
 `;
 
 const UpperWrapper = styled.div`
   display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1.5rem 1rem;
   justify-content: space-between;
+  background-color: ${({ theme: { isDark } }) =>
+    isDark ? 'rgba(36, 42, 54, 1)' : 'var(--colors-brand-200)'};
+  border-bottom: ${({ theme: { isDark } }) =>
+      isDark ? 'var(--colors-black-100)' : 'rgb(182, 202,229)'}
+    solid 1px;
+
+  .question-icons {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .author {
+    display: flex;
+    margin-right: 1rem;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
 `;
 
 const UpperTagWrapper = styled.div`
@@ -57,134 +65,143 @@ const Icons = styled.div`
   }
 `;
 
-const QuestionInfoWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 const SubText = styled(Paragraph)`
   color: ${({ theme }) => theme.textColor100};
 `;
 
 const ProfileImg = styled.img`
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 2rem;
+  height: 2rem;
   border-radius: var(--borders-radius-round);
 `;
 
 const CompanyImg = styled.img`
-  width: 14px;
-  height: 14px;
+  width: 1.25rem;
+  height: 1.25rem;
   border-radius: 4px;
 `;
 
-const Line = styled.div`
-  margin-top: 1rem;
-  margin-bottom: 1.6rem;
-  border-bottom: 0.8px ${({ theme }) => theme.borderColor} solid;
-`;
-
-const Like = styled.div`
+const Like = styled.span`
   display: flex;
   align-items: center;
-  margin-top: 1.6rem;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 1rem auto 1.5rem;
   svg {
     margin-right: 0.2rem;
     color: ${({ theme }) => theme.textColor100};
   }
-  p {
-    margin-top: 0.1rem;
+`;
+
+const QuestionBody = styled.div`
+  display: flex;
+  padding: 2rem;
+  flex-direction: column;
+
+  & > div:first-child {
+    margin-bottom: 1rem;
+  }
+
+  .milkdown {
+    background-color: ${({ theme: { isDark } }) =>
+      isDark ? 'var(--colors-black-300)' : 'var(--colors-brand-100)'};
+    color: ${({ theme: { textColor } }) => textColor};
+    box-shadow: none;
+    border-radius: var(--borders-radius-base);
+  }
+
+  .milkdown .editor {
+    & > * {
+      margin: 0.5rem 0;
+    }
   }
 `;
 
-const Question = () => {
-  // 목업 Question. 추후 UseQuery로 변경하실 것.
-  const MQuestion = {
-    questionId: 1,
-    author: {
-      username: '42good',
-      image: 'https://avatars.githubusercontent.com/u/109320569?v=4',
-      company: 'https://avatars.githubusercontent.com/u/109320569?v=4',
-    },
-    title: 'react-hook-form 정규표현식 관리 방법',
-    content:
-      '안녕하세요. react-hook-form을 사용해서 프로젝트를 하고 있습니다. 정규 표현식을 react-hook-form에서 사용할 때 다양한 방법이 있는 것으로 알고 있는데 보통 이것은 목업 데이터입니다.',
-    category: '개발',
-    tags: ['react', 'react-hook-form'],
-    likeCount: 3,
-    answerCount: 12,
-    timestamp: 174183600,
-    isLiked: false,
-    isSolved: true,
-    isBookMarked: false,
-  };
-
+const Question = ({
+  questionId,
+  tags,
+  updatedAt,
+  content,
+  timestamp,
+  viewCount,
+  likeCount,
+  answerCount,
+  answers,
+  isLiked,
+  title,
+  errorCode,
+  author,
+  category,
+  isBookmarked,
+  isSolved,
+}: IQuestion) => {
   return (
     <QuestionDiv>
       <UpperWrapper>
-        <UpperTagWrapper>
-          {/* 카테고리 */}
-          <UpperTag
-            designType="purpleFill"
-            fontSize="14px"
-            padding="0.2rem 0.6rem"
-            borderRadius="10px"
-          >
-            {MQuestion.category}
-          </UpperTag>
-
-          {/* 해결 여부 */}
-          {MQuestion.isSolved && (
+        <div className="question-icons">
+          <UpperTagWrapper>
+            {/* 카테고리 */}
             <UpperTag
-              designType="greenFill"
+              as="span"
+              designType="purpleFill"
               fontSize="14px"
               padding="0.2rem 0.6rem"
-              margin="0 0 0 0.4rem"
               borderRadius="10px"
             >
-              <IconCheckCircle size="14" className="solved-icon" />
-              &nbsp;Catched
+              {category}
             </UpperTag>
-          )}
-        </UpperTagWrapper>
 
-        <Icons>
-          {/* 북마크 */}
-          {MQuestion.isBookMarked && <IconBookmarkFill size="20" color="var(--colors-brand-500)" />}
-          {MQuestion.isBookMarked || (
-            <IconBookmarkEmpty size="20" color="var(--colors-brand-500)" />
-          )}
+            {/* 해결 여부 */}
+            {isSolved && (
+              <UpperTag
+                as="span"
+                designType="greenFill"
+                fontSize="14px"
+                padding="0.2rem 0.6rem"
+                margin="0 0 0 0.4rem"
+                borderRadius="10px"
+              >
+                <IconCheckCircle size="14" className="solved-icon" />
+                &nbsp;Catched
+              </UpperTag>
+            )}
+          </UpperTagWrapper>
 
-          {/* 공유 */}
-          <IconShare size="16" color="var(--colors-brand-500)" />
-        </Icons>
+          <Icons>
+            {/* 북마크 */}
+            {isBookmarked && <IconBookmarkFill size="20" color="var(--colors-brand-500)" />}
+            {isBookmarked || <IconBookmarkEmpty size="20" color="var(--colors-brand-500)" />}
+
+            {/* 공유 */}
+            <IconShare size="16" color="var(--colors-brand-500)" />
+          </Icons>
+        </div>
+
+        <MiniTitle sizeType="3xl" textAlign="left" margin="1rem 0 0.6rem 0" fontWeight="600">
+          {title}
+        </MiniTitle>
+
+        <div className="author">
+          <ProfileImg src={author.profileImage} />
+          <SubText sizeType="sm" margin="0 0.2rem 0 0.3rem">
+            {author.userName}
+          </SubText>
+          <CompanyImg
+            src={author.companyName && getImageUrl(COMPANY[author.companyName], 'logo', 'png')}
+            alt={author.companyName}
+          />
+          <SubText sizeType="xm" margin="0 0 0 1rem">
+            {elapsedTime(timestamp)}
+          </SubText>
+        </div>
       </UpperWrapper>
-
-      <MiniTitle sizeType="2xl" textAlign="left" margin="1rem 0 0.6rem 0" fontWeight="600">
-        {MQuestion.title}
-      </MiniTitle>
-
-      <QuestionInfoWrapper>
-        <ProfileImg src={MQuestion.author.image} />
-        <SubText sizeType="sm" margin="0 0.2rem 0 0.3rem">
-          {MQuestion.author.username}
-        </SubText>
-        <CompanyImg src={MQuestion.author.company} />
-        <SubText sizeType="xm" margin="0 0 0 1rem">
-          {elapsedTime(MQuestion.timestamp)}
-        </SubText>
-      </QuestionInfoWrapper>
-
-      <Line />
-
-      <Paragraph sizeType="base">{MQuestion.content}</Paragraph>
+      <QuestionBody>
+        <MilkdownEditor width="100%" editable={false} data={content} />
+        {errorCode && <MilkdownEditor width="100%" editable={false} data={errorCode} />}
+      </QuestionBody>
 
       <Like>
-        {MQuestion.isLiked && <IconLikeFill />}
-        {MQuestion.isLiked || <IconLikeEmpty />}
-        <SubText sizeType="xm">{MQuestion.likeCount}</SubText>
+        {isLiked && <IconLikeFill />}
+        {isLiked || <IconLikeEmpty />}
+        <SubText sizeType="xm">{likeCount}</SubText>
       </Like>
     </QuestionDiv>
   );

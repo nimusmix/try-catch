@@ -1,14 +1,17 @@
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { IconLikeEmpty, IconEye, IconComment } from '../../components/icons/Icons';
-import { Button, MiniTitle, Paragraph } from '../../components';
-import { isDarkState } from '../../recoil';
-import { IQuestionItemList, ITag } from './QuestionList';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { IconComment, IconEye, IconLikeEmpty } from '../../../components/icons/Icons';
+import { Button, MiniTitle, Paragraph } from '../../../components';
+import { isDarkState } from '../../../recoil';
+import elapsedTime from '../../../utils/elapsed-time';
+import { IQuestion } from '../../../apis/qna/qna-type';
 
 const Wrapper = styled.article`
-  max-width: 800px;
-  padding: 1rem 2rem;
-  border-bottom: 1px solid var(--colors-black-200);
+  max-width: 848px;
+  padding: 2rem 2.25rem 1rem;
+  border-bottom: 1px solid ${({ theme }) => theme.borderColor};
   cursor: pointer;
   &:hover {
     background-color: ${({ theme: { isDark } }) =>
@@ -20,11 +23,22 @@ const QuestionHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0.6rem 0 0.5rem;
 `;
 
 const QuestionBody = styled.div`
-  margin-bottom: 0.75rem;
+  margin: 0.5rem 0 0.5rem;
+  max-height: 100px;
+  overflow: hidden;
+  p {
+    /* display: inline-block; */
+    display: -webkit-box;
+    max-height: 50px;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
 `;
 
 const QuestionFooter = styled.div`
@@ -57,16 +71,26 @@ const InfoWrapper = styled.div`
   }
 `;
 
+const toKorean = (category: string | undefined) => {
+  if (category === 'DEV') {
+    return '개발';
+  }
+  return '커리어';
+};
+
 const QuestionItem = ({
+  category,
   title,
-  timestamp,
   content,
+  timestamp,
   viewCount,
   likeCount,
   answerCount,
   tags,
-}: IQuestionItemList) => {
+  ...rest
+}: Partial<IQuestion>) => {
   const isDark = useRecoilValue(isDarkState);
+
   return (
     <Wrapper>
       <QuestionHeader>
@@ -82,34 +106,39 @@ const QuestionItem = ({
           sizeType="sm"
           color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
         >
-          {timestamp}
+          {timestamp ? elapsedTime(timestamp) : null}
         </Paragraph>
       </QuestionHeader>
 
       <QuestionBody>
-        <Paragraph
-          sizeType="base"
-          color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-        >
-          {content}
-        </Paragraph>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{content!}</ReactMarkdown>
       </QuestionBody>
 
       <QuestionFooter>
         <TagsWrapper>
-          {tags.map(({ id, tagName }: ITag) => (
-            <Button
-              key={id}
-              as="span"
-              designType="blueEmpty"
-              color="var(--colors-brand-500)"
-              fontSize="var(--fonts-body-xm)"
-              padding="2px 10px"
-              borderRadius="var(--borders-radius-base)"
-            >
-              {tagName}
-            </Button>
-          ))}
+          <Button
+            as="span"
+            designType="purpleFill"
+            fontSize="var(--fonts-body-xm)"
+            padding="2.2px 10px"
+          >
+            {toKorean(category)}
+          </Button>
+          {tags?.map((tag) => {
+            if (tag === '') return null;
+            return (
+              <Button
+                key={tag}
+                as="span"
+                designType="blueEmpty"
+                fontSize="var(--fonts-body-xm)"
+                padding="2px 10px"
+                borderRadius="var(--borders-radius-base)"
+              >
+                {tag}
+              </Button>
+            );
+          })}
         </TagsWrapper>
         <InfoWrapper>
           <Paragraph as="span" sizeType="sm">

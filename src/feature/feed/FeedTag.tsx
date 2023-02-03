@@ -1,38 +1,52 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Button } from '../../components';
-import { ITag } from '../qna/QuestionList';
 
 interface IFeedPopularTag {
-  tags: ITag[];
+  tags: Array<string>;
 }
 
 const TagsWrapper = styled.div`
   & > span {
     display: inline-block;
     margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    z-index: 1001;
   }
 `;
 
 const FeedTag = ({ tags }: IFeedPopularTag) => {
-  const handleClick = () => {};
+  const navigate = useNavigate();
+
+  const handleClick = (e: React.MouseEvent<HTMLSpanElement>) => {
+    const tagName: string = e.currentTarget.innerText;
+
+    console.log(tagName);
+    navigate(`/feed?keyword=${tagName}`);
+    e.preventDefault();
+  };
   // /search?type=feed&keyword=&page=&size&
+
   return (
     <TagsWrapper>
-      {tags.map(({ id, tagName }: ITag) => (
-        <Button
-          key={id}
-          as="span"
-          designType="blueEmpty"
-          color="var(--colors-brand-500)"
-          fontSize="var(--fonts-body-xm)"
-          padding="0.125rem 0.5rem"
-          borderRadius="var(--borders-radius-base)"
-          style={{ marginBottom: '0.5rem' }}
-          onClick={handleClick}
-        >
-          {tagName}
-        </Button>
-      ))}
+      {tags &&
+        tags.map((tag, index) => {
+          const tagIdx = `${tag}-${index}`;
+          return (
+            <Button
+              key={tagIdx}
+              as="span"
+              designType="blueEmpty"
+              color="var(--colors-brand-500)"
+              fontSize="var(--fonts-body-xm)"
+              padding="0.125rem 0.5rem"
+              borderRadius="var(--borders-radius-base)"
+              onClick={handleClick}
+            >
+              {tag}
+            </Button>
+          );
+        })}
     </TagsWrapper>
   );
 };

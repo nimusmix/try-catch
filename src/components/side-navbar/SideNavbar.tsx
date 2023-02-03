@@ -5,9 +5,12 @@ import { MiniTitle } from '..';
 interface INavOptions {
   id: number;
   option: string;
+  value?: string;
 }
 interface INavbarProps {
   navOptions: Array<INavOptions>;
+  changeOption: React.Dispatch<React.SetStateAction<string>>;
+  activeIdx?: number;
 }
 
 const Item = styled.li`
@@ -39,25 +42,29 @@ const Item = styled.li`
   }
 `;
 
-const SideNavbar = ({ navOptions }: INavbarProps) => {
-  const [activeNavOption, setActiveNavOption] = useState<string | null>(() => navOptions[0].option);
+const SideNavbar = ({ navOptions, changeOption, activeIdx = 0 }: INavbarProps) => {
+  const [activeNavOption, setActiveNavOption] = useState<string | null>(
+    () => navOptions[activeIdx].option
+  );
 
   const handleNavOptionClick = (event: React.MouseEvent<HTMLLIElement>) => {
     const target = event.target as Element;
     const navOptionName = target.getAttribute('data-name');
     setActiveNavOption(navOptionName);
+    changeOption(`${navOptionName}`);
   };
+
   return (
     <nav>
       <ul>
-        {navOptions.map(({ id, option }: INavOptions) => {
+        {navOptions.map(({ id, option, value }: INavOptions) => {
           return (
             <Item
               key={id}
               onClick={handleNavOptionClick}
-              className={activeNavOption === option ? 'active' : ''}
+              className={activeNavOption === value ? 'active' : ''}
             >
-              <MiniTitle sizeType="xl" color="var(--colors-black-100)" data-name={option}>
+              <MiniTitle sizeType="xl" color="var(--colors-black-100)" data-name={value}>
                 {option}
               </MiniTitle>
             </Item>

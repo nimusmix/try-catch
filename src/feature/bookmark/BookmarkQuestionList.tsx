@@ -10,14 +10,11 @@ const questionItemList = [
     content:
       '안녕하세요. react-hook-form을 사용해서 프로젝트를 하고 있습니다. 정규 표현식을\n' +
       'react-hook-form에서 사용할 때 다양한 방법이 있는 것으로 알고 있는데 보통 보통...',
-    timestamp: '9분 전',
+    timestamp: 1675139370,
     viewCount: 12,
     likeCount: 12,
     answerCount: 12,
-    tags: [
-      { id: 1, tagName: 'react' },
-      { id: 2, tagName: 'react-hook-form' },
-    ],
+    tags: ['react', '4242'],
   },
   {
     id: 2,
@@ -25,14 +22,11 @@ const questionItemList = [
     content:
       '안녕하세요. react-hook-form을 사용해서 프로젝트를 하고 있습니다. 정규 표현식을\n' +
       'react-hook-form에서 사용할 때 다양한 방법이 있는 것으로 알고 있는데 보통 보통...',
-    timestamp: '9분 전',
+    timestamp: 1675139370,
     viewCount: 12,
     likeCount: 12,
     answerCount: 12,
-    tags: [
-      { id: 1, tagName: 'react' },
-      { id: 2, tagName: 'react-hook-form' },
-    ],
+    tags: ['react', '4242'],
   },
   {
     id: 3,
@@ -40,14 +34,11 @@ const questionItemList = [
     content:
       '안녕하세요. react-hook-form을 사용해서 프로젝트를 하고 있습니다. 정규 표현식을\n' +
       'react-hook-form에서 사용할 때 다양한 방법이 있는 것으로 알고 있는데 보통 보통...',
-    timestamp: '9분 전',
+    timestamp: 1675139370,
     viewCount: 12,
     likeCount: 12,
     answerCount: 12,
-    tags: [
-      { id: 1, tagName: 'react' },
-      { id: 2, tagName: 'react-hook-form' },
-    ],
+    tags: ['react', '4242'],
   },
 ];
 

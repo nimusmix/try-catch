@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { useForm } from 'react-hook-form';
-import { IconSearch } from '../../components/icons/Icons';
-import { Button, Input } from '../../components';
-import { isDarkState } from '../../recoil';
+import { IconSearch } from '../../../components/icons/Icons';
+import { Button, Input } from '../../../components';
+import { isDarkState } from '../../../recoil';
 
 interface ISearchValue {
   data: string;
@@ -34,7 +34,7 @@ const StyledSearch = styled.div`
 
 const SearchBarForm = styled.form`
   padding-top: 3rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.25rem;
   position: sticky;
   top: 3rem;
   background: ${({ theme: { bgColor } }) => bgColor};

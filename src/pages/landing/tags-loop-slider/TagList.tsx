@@ -33,10 +33,9 @@ const StyledTagList = styled.div`
   }
 `;
 
-const Wrapper = styled.section`
+const Wrapper = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
 `;
 
 const TAGS = [

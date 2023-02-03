@@ -38,7 +38,7 @@ const LightUI = styled.div`
 `;
 
 const EmptyDiv = styled.div`
-  background: #ffffff;
+  background: ${({ theme }) => theme.bgColor};
   height: 6px;
   left: 0;
   position: absolute;

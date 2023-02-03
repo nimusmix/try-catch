@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { IconSearch } from '../../components/icons/Icons';
 import { Input } from '../../components';
 import { isDarkState } from '../../recoil';
 
 interface ISearchValue {
-  data: string;
+  keyword: string;
 }
 
 const SearchIcon = styled.button`
@@ -28,15 +29,20 @@ const StyledSearchBar = styled.div`
 
 const FeedSearchBar = () => {
   const isDark = useRecoilValue(isDarkState);
-  const { register, handleSubmit, resetField } = useForm<ISearchValue>();
+  const { register, handleSubmit } = useForm<ISearchValue>();
 
-  const handleClick = () => resetField('data');
-  const onSubmit = handleSubmit(() => {});
+  const navigate = useNavigate();
 
+  // const handleClick = () => resetField('keyword');
+  // const onSubmit = handleSubmit(() => {});
+
+  const onValid = (data: ISearchValue) => {
+    navigate(`/feed?keyword=${data.keyword}`);
+  };
   return (
-    <form onSubmit={onSubmit} style={{ marginBottom: '1rem' }}>
+    <form onSubmit={handleSubmit(onValid)} style={{ marginBottom: '1rem' }}>
       <StyledSearchBar>
-        <SearchIcon onClick={handleClick}>
+        <SearchIcon>
           <IconSearch
             color={isDark ? 'var(--colors-black-100)' : 'var(--colors-white-100)'}
             size="20"
@@ -49,7 +55,7 @@ const FeedSearchBar = () => {
           border="none"
           placeholder="Search..."
           style={{ position: 'absolute', left: '1.875rem', top: 'calc(50% - 1.125rem)' }}
-          {...register('data')}
+          {...register('keyword', { required: true, minLength: 1 })}
         />
       </StyledSearchBar>
     </form>

@@ -2,9 +2,10 @@ import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { useState } from 'react';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
-import { ITag } from '../qna/QuestionList';
-import { Button, MiniTitle, Paragraph } from '../../components';
+import { MiniTitle, Paragraph } from '../../components';
 import { isDarkState } from '../../recoil';
+import { IFeedItemProps } from './IFeed';
+import FeedTag from './FeedTag';
 
 const Wrapper = styled.article`
   display: flex;
@@ -20,29 +21,22 @@ const ArticleWrapper = styled.article`
   padding: 1rem 2rem;
 `;
 
-const QuestionHeader = styled.div`
+const FeedHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 0.6rem 0 0.5rem;
 `;
 
-const QuestionBody = styled.div`
+const FeedBody = styled.div`
   margin-bottom: 0.75rem;
 `;
 
-const QuestionFooter = styled.div`
+const FeedFooter = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
-`;
-
-const TagsWrapper = styled.div`
-  & > span {
-    display: inline-block;
-    margin-right: 0.5rem;
-  }
 `;
 
 const Icons = styled.button`
@@ -76,31 +70,24 @@ const CompanyImg = styled.img`
   margin: auto 8px;
 `;
 
+const createImageUrl = (companyName: string) => {
+  return new URL(`/src/assets/logo/${companyName}.png`, import.meta.url).href;
+};
+
 const BlogTitle = styled.span`
   display: flex;
 `;
 
-export interface IFeedListItemProps {
-  blogURL: string;
-  companyName: string;
-  content: string;
-  createdAt: string;
-  feedId: string;
-  isBookmarked: boolean;
-  tags: string[];
-  thumbnailImage: string;
-  title: string;
-}
-
 const FeedListItem = ({
   title,
-  content,
+  summary,
   tags,
+  keywords,
   isBookmarked,
-  blogURL,
+  url,
   companyName,
   thumbnailImage,
-}: IFeedListItemProps) => {
+}: IFeedItemProps) => {
   const isDark = useRecoilValue(isDarkState);
   const [bookMarkIcon, setBookMarkIcon] = useState(isBookmarked);
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -116,11 +103,11 @@ const FeedListItem = ({
   };
 
   return (
-    <a href={`${blogURL}`} target="_blank" rel="noreferrer" style={{ zIndex: '1' }}>
+    <a href={`${url}`} target="_blank" rel="noreferrer" style={{ zIndex: '1' }}>
       <Wrapper>
         <FeedThumbnailImg image={thumbnailImage} />
         <ArticleWrapper>
-          <QuestionHeader>
+          <FeedHeader>
             <BlogTitle>
               <MiniTitle
                 sizeType="xl"
@@ -131,7 +118,9 @@ const FeedListItem = ({
               </MiniTitle>
               <CompanyImg
                 src={
-                  companyName ? `/src/assets/logo/${companyName}.png` : `/src/assets/favicon.ico`
+                  companyName
+                    ? createImageUrl(companyName)
+                    : new URL(`/src/assets/favicon.ico`, import.meta.url).href
                 }
                 alt={`${companyName}`}
               />
@@ -141,35 +130,21 @@ const FeedListItem = ({
               {bookMarkIcon && <IconBookmarkFill size="30" color="var(--colors-brand-500)" />}
               {bookMarkIcon || <IconBookmarkEmpty size="30" color="var(--colors-brand-500)" />}
             </Icons>
-          </QuestionHeader>
+          </FeedHeader>
 
-          <QuestionBody>
+          <FeedBody>
             <Paragraph
               sizeType="base"
               color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
               style={{ width: '510px' }}
             >
-              {content.length > 90 ? `${content.slice(0, 90)}...` : content}
+              {summary.length > 90 ? `${summary.slice(0, 90)}...` : summary}
             </Paragraph>
-          </QuestionBody>
+          </FeedBody>
 
-          <QuestionFooter>
-            <TagsWrapper>
-              {tags.map((tag) => (
-                <Button
-                  key={tag}
-                  as="span"
-                  designType="blueEmpty"
-                  color="var(--colors-brand-500)"
-                  fontSize="var(--fonts-body-xm)"
-                  padding="2px 10px"
-                  borderRadius="var(--borders-radius-base)"
-                >
-                  {tag}
-                </Button>
-              ))}
-            </TagsWrapper>
-          </QuestionFooter>
+          <FeedFooter>
+            <FeedTag tags={tags.length === 0 ? keywords : tags} />
+          </FeedFooter>
         </ArticleWrapper>
       </Wrapper>
     </a>

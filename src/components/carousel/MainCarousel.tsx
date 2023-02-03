@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { useState, useEffect, useRef, useLayoutEffect } from 'react';
-
+import { useState, useEffect, useRef } from 'react';
+import useWindowSize from '../../hooks/useWindowSize';
 import MiniTitle from '../font/MiniTitle';
 
 interface ICarouselProps {
@@ -99,19 +99,6 @@ const useInterval = (callback: () => void, delay: number | null) => {
   }, [delay]);
 };
 
-const useWindowSize = () => {
-  const [size, setSize] = useState(0);
-  useLayoutEffect(() => {
-    function updateSize() {
-      setSize(window.innerWidth);
-    }
-    window.addEventListener('resize', updateSize);
-    updateSize();
-    return () => window.removeEventListener('resize', updateSize);
-  }, []);
-  return size;
-};
-
 const SlideshowDots = styled.div`
   position: absolute;
   text-align: center;
@@ -169,7 +156,7 @@ const SlideShow = () => {
   const [isSwiping, setIsSwiping] = useState(false);
 
   const isResizing = useRef(false);
-  const windowWidth = useWindowSize();
+  const windowWidth = useWindowSize()[0];
 
   const getNewItemWidth = () => {
     const itemWidth = windowWidth > 1200 ? windowWidth : 1200;

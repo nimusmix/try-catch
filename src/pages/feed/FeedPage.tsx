@@ -1,28 +1,22 @@
-import { createRef, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
 import { HeaderImage, Layout } from '../../layout';
 import { Paragraph, SubTitle } from '../../components';
 import { header_feed } from '../../assets';
-import { FeedList, FeedSearchBar, FeedTag, FeedView, FeedFilter } from '../../feature/feed';
+import {
+  CompanyRecommend,
+  FeedFilter,
+  FeedList,
+  FeedSearchSide,
+  FeedView,
+} from '../../feature/feed';
 import { QuestionPageBody as FeedPageBody } from '../qna/QnaPage';
-
-const FeedTags = [
-  { id: 1, tagName: 'react' },
-  { id: 2, tagName: 'recoil' },
-  { id: 3, tagName: 'docker' },
-  { id: 4, tagName: 'JPA' },
-  { id: 5, tagName: 'spring' },
-  { id: 6, tagName: 'AWS' },
-  { id: 7, tagName: 'PJT' },
-  { id: 8, tagName: 'Fighting' },
-  { id: 9, tagName: 'Aja Aja' },
-];
 
 const Aside = styled.aside`
   margin: 3rem 1.5rem 0;
   position: sticky;
   top: 6rem;
-  left: 0;
   height: 500px;
   width: 17.75rem;
 `;
@@ -33,15 +27,35 @@ const FilterTop = styled.section`
   margin-bottom: 1rem;
 `;
 
-const FeedPage = () => {
-  const [activeFilterOption, setActiveFilterOption] = useState<string | null>('나의 관심순');
-  const filter = createRef();
+const filterOptions = [
+  {
+    id: 1,
+    option: '나의 관심순',
+  },
+  {
+    id: 2,
+    option: '최신순',
+  },
+];
 
-  const handleFilterOptionClick = (event: React.MouseEvent<HTMLElement>) => {
-    const target = event.target as Element;
-    const filterOptionName = target.getAttribute('data-name');
-    setActiveFilterOption(filterOptionName);
+const FeedPage = () => {
+  const [activeFilterOption, setActiveFilterOption] = useState('최신순');
+  const [activeViewOption, setActiveViewOption] = useState<boolean>(true);
+  const [tagListProps, setTagListProps] = useState<Array<string>>([]);
+  const [checkedItemsProps, setCheckedItemsProps] = useState<Array<number>>([]);
+
+  const keyword = new URLSearchParams(useLocation().search).get('keyword') || '';
+  const subscribe = checkedItemsProps.includes(1);
+  const advanced = checkedItemsProps.includes(2);
+
+  const getData = (data: Array<string>) => {
+    setTagListProps(data);
   };
+
+  const getCheckData = (data: Array<number>) => {
+    setCheckedItemsProps(data);
+  };
+
   return (
     <Layout>
       <HeaderImage image={header_feed}>
@@ -54,19 +68,24 @@ const FeedPage = () => {
       </HeaderImage>
       <FeedPageBody>
         <Aside>
-          <FeedSearchBar />
-          <FeedTag tags={FeedTags} />
+          <FeedSearchSide tagListProps={tagListProps} getCheckData={getCheckData} />
+          <CompanyRecommend />
         </Aside>
         <section style={{ margin: '3rem 1.5rem 0' }}>
           <FilterTop>
-            <FeedFilter
-              ref={filter}
-              currentOption={activeFilterOption}
-              handleFilterOptionClick={handleFilterOptionClick}
-            />
-            <FeedView />
+            <FeedFilter filterOptions={filterOptions} changeOption={setActiveFilterOption} />
+            <FeedView setActiveViewOption={setActiveViewOption} />
           </FilterTop>
-          <FeedList />
+          <FeedList
+            activeViewOption={activeViewOption}
+            keyword={keyword}
+            subscribe={subscribe}
+            advanced={advanced}
+            getData={getData}
+            activeFilterOption={activeFilterOption}
+            tagListProps={tagListProps}
+            checkedItemsProps={checkedItemsProps}
+          />
         </section>
       </FeedPageBody>
     </Layout>

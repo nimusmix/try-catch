@@ -4,6 +4,8 @@ import styled from 'styled-components';
 
 interface IStyledOverlay {
   children: React.ReactNode;
+  width?: string;
+  height?: string;
 }
 
 interface IModalProps {
@@ -29,21 +31,19 @@ const StyledOverlay = styled.div<IStyledOverlay>`
   background-color: ${({ theme: { isDark } }) =>
     isDark ? 'var(--colors-black-300)' : 'var(--colors-white-500)'};
   color: ${({ theme: { textColor } }) => textColor};
-  width: 600px;
-
-  height: 400px;
-  padding: 1rem;
+  width: ${({ width }) => width || '600px'};
+  height: ${({ height }) => height || '600px'};
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   border: var(--colors-white-100);
   border-radius: var(--borders-radius-lg);
   box-shadow: var(--shadows-black-lg);
-  z-index: 1000;
+  z-index: 101;
   overflow: hidden;
 `;
 
-const Modal = ({ children, onClose }: IStyledOverlay & IModalProps) => {
+const Modal = ({ children, width, height, onClose }: IStyledOverlay & IModalProps) => {
   return (
     <>
       {ReactDOM.createPortal(
@@ -51,7 +51,9 @@ const Modal = ({ children, onClose }: IStyledOverlay & IModalProps) => {
         document.getElementById('backdrop-root') as HTMLElement
       )}
       {ReactDOM.createPortal(
-        <StyledOverlay>{children}</StyledOverlay>,
+        <StyledOverlay width={width} height={height}>
+          {children}
+        </StyledOverlay>,
         document.getElementById('overlay-root') as HTMLElement
       )}
     </>
