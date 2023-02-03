@@ -7,7 +7,7 @@ import { getRoadmapDetail } from '../../apis/roadmap/roadmap';
 const RoadmapDetailPage = () => {
   const { userName } = useParams();
   const { isLoading, data: roadmapDetail } = useQuery<IRoadmap>(['roadmap', userName], () =>
-    getRoadmapDetail(String(userName))
+    getRoadmapDetail(userName!)
   );
   return <MiniTitle sizeType="xl">{roadmapDetail?.title}</MiniTitle>;
 };

@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import ReactFlow, { Controls, Background } from 'reactflow';
 import 'reactflow/dist/style.css';
 import styled from 'styled-components';
-import { Button } from '../../components';
 
 interface INode {
   width: number;

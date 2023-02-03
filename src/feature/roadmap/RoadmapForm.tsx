@@ -126,7 +126,7 @@ const TextUpdaterNode = ({ data }: any) => {
 
 let nodeId = 3;
 
-const ReactFlowForm = () => {
+const RoadmapForm = () => {
   const {
     register,
     handleSubmit,
@@ -212,14 +212,6 @@ const ReactFlowForm = () => {
 
       <Button borderRadius="var(--borders-radius-lg)">저장</Button>
     </form>
-  );
-};
-
-const RoadmapForm = () => {
-  return (
-    <ReactFlowProvider>
-      <ReactFlowForm />
-    </ReactFlowProvider>
   );
 };
 

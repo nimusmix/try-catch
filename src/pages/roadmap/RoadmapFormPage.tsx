@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { ReactFlowProvider } from 'reactflow';
 import Layout from '../../layout/Layout';
 import { SubTitle, Paragraph } from '../../components';
 import RoadmapForm from '../../feature/roadmap/RoadmapForm';
@@ -25,7 +26,10 @@ const RoadmapFormPage = () => {
           <SubTitle margin="0 1rem 0 0">로드맵 생성</SubTitle>
           <Paragraph sizeType="base">본인만의 로드맵을 생성해 보세요.</Paragraph>
         </TitleWrapper>
-        <RoadmapForm />
+
+        <ReactFlowProvider>
+          <RoadmapForm />
+        </ReactFlowProvider>
       </RoadmapFormWrapper>
     </Layout>
   );

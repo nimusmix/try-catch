@@ -1,37 +1,32 @@
-import { useState } from 'react';
-import { Link, Outlet, useMatch } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { HeaderImage, Layout } from '../../layout';
-import { Button, Paragraph, SubTitle } from '../../components';
+import { Paragraph, SubTitle } from '../../components';
 import SideNavbar from '../../components/side-navbar/SideNavbar';
 import { Aside } from '../qna/QnaPage';
 import { header_roadmap } from '../../assets';
-import FERoadmapPage from './FERoadmapPage';
+import RoadmapMain from '../../feature/roadmap/RoadmapMain';
 
-const navOptions = [
+export const navOptions = [
   { id: 1, option: '공통' },
   { id: 2, option: '커스텀' },
 ];
 
-const RoadmapWrapper = styled.div`
+export const RoadmapWrapper = styled.div`
   display: flex;
-`;
-
-const ContentWrapper = styled.div`
-  margin-top: 3rem;
-  margin-left: 2rem;
-  width: 942px;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
 `;
 
 const RoadmapPage = () => {
   const [activeCategory, setActiveCategory] = useState('공통');
-  const roadmapMatch = useMatch('roadmap');
-  const BEMatch = useMatch('roadmap/be');
+  const navi = useNavigate();
+  useEffect(() => {
+    if (activeCategory === '공통') {
+      navi('/roadmap');
+    } else {
+      navi('./list');
+    }
+  }, [navi, activeCategory]);
 
   return (
     <Layout>
@@ -49,33 +44,7 @@ const RoadmapPage = () => {
           <SideNavbar navOptions={navOptions} changeOption={setActiveCategory} />
         </Aside>
 
-        <ContentWrapper>
-          <ButtonWrapper>
-            <div>
-              <Link to="fe">
-                <Button
-                  margin="0 1rem 0 0"
-                  borderRadius="var(--borders-radius-lg)"
-                  designType={BEMatch ? 'blueEmpty' : 'blueFill'}
-                >
-                  프론트엔드
-                </Button>
-              </Link>
-              <Link to="be">
-                <Button
-                  borderRadius="var(--borders-radius-lg)"
-                  designType={BEMatch ? 'blueFill' : 'blueEmpty'}
-                >
-                  백엔드
-                </Button>
-              </Link>
-            </div>
-            <Link to="form">
-              <Button borderRadius="var(--borders-radius-lg)">로드맵 생성</Button>
-            </Link>
-          </ButtonWrapper>
-          {roadmapMatch ? <FERoadmapPage /> : <Outlet />}
-        </ContentWrapper>
+        <RoadmapMain />
       </RoadmapWrapper>
     </Layout>
   );
