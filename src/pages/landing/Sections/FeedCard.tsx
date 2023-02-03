@@ -53,7 +53,7 @@ const FeedCard = ({ title, content, company, tags }: IFeedCard) => {
         <MiniTitle sizeType="xl" textAlign="left" margin="0.4rem 0 0 0">
           {title}
         </MiniTitle>
-        <img src={getImageUrl(company, 'logo')} alt={company} />
+        <img src={getImageUrl(company, 'logo', 'png')} alt={company} />
       </CardHeader>
       <CardBody>
         <Paragraph sizeType="base" textAlign="left">

@@ -3,6 +3,7 @@ import { IconLikeEmpty, IconLikeFill } from '../../../components/icons/Icons';
 import { Button, Paragraph } from '../../../components';
 import { IAnswer } from '../../../interface/qna';
 import getImageUrl from '../../../utils/getImageUrl';
+import { COMPANY } from '../../../constant/company';
 
 const AnswerItem = styled.li`
   display: flex;
@@ -105,9 +106,8 @@ const Answer = ({ answer }: { answer: IAnswer }) => {
               <Paragraph sizeType="base">{answer.author.userName}</Paragraph>
               <CompanyImg
                 src={
-                  answer.author.companyName
-                    ? getImageUrl(answer.author.companyName, 'logo')
-                    : new URL(`/src/assets/favicon.ico`, import.meta.url).href
+                  answer.author.companyName &&
+                  getImageUrl(COMPANY[answer.author.companyName], 'logo', 'png')
                 }
                 alt={answer.author.companyName}
               />
