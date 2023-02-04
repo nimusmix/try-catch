@@ -36,16 +36,17 @@ const TooltipAside = styled.aside`
   width: 100%;
 `;
 
-/*
- * TODO
- *  Loading 시 처리
- * */
 const QnaFormPage = () => {
   const { content, category, errorCode, title, tags } = useQuestionState();
-  const { mutate: addQuestion, isSuccess } = useMutation(
-    postQuestion({ content, category, errorCode, title, tags })
-  );
   const navigate = useNavigate();
+  const { mutate: addQuestion } = useMutation(
+    postQuestion({ content, category, errorCode, title, tags }),
+    {
+      onSuccess: () => {
+        navigate('/question', { replace: true });
+      },
+    }
+  );
 
   const onClickAddQuestion = () => {
     if (!category.trim() || !title.trim() || !content.trim() || !errorCode.trim()) {
@@ -56,9 +57,6 @@ const QnaFormPage = () => {
       alert('필수 목록이 비어있음');
     }
     addQuestion();
-    if (isSuccess) {
-      navigate('/question', { replace: true });
-    }
   };
 
   return (

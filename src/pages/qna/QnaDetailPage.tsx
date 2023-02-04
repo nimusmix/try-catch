@@ -56,7 +56,6 @@ const QnaDetailPage = () => {
     <Layout>
       <QnaDetailWrapper>
         <QnaDetailMain>
-          {isLoading && 'Loading...'}
           {questionDetail && <Question {...questionDetail} />}
 
           <AnswerForm questionId={questionId as string} />

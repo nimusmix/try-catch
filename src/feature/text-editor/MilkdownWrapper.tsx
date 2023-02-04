@@ -43,6 +43,7 @@ const MilkDownWrapper = styled.div<{
     .milkdown {
       background-color: ${({ theme: { isDark } }) => (isDark ? '' : '#f7f8ff')};
       color: ${({ theme: { textColor } }) => textColor};
+
       box-shadow: none;
       border-radius: 0 0 0.5rem 0.5rem;
       border-bottom: 1px solid
