@@ -51,9 +51,9 @@ const Img = styled.img`
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
   const acc = useRecoilValue(accToken);
-  const { data: userName } = useQuery(['user', 'userName'] as const, getName);
-  const { data: profileImage } = useQuery(['user', 'profileImage'] as const, () => getImage(acc), {
-    enabled: !!userName,
+  const { data: profileImage } = useQuery(['user', 'profileImage'] as const, () => getImage(acc));
+  const { data: userName } = useQuery(['user', 'userName'] as const, getName, {
+    enabled: !!profileImage,
   });
 
   return (
