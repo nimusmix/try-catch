@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
 import React, { useState } from 'react';
@@ -31,9 +31,19 @@ const Aside = styled.aside`
 
 const QnaDetailPage = () => {
   const { questionId } = useParams<string>();
+  const queryClient = useQueryClient();
   const { isLoading, data: questionDetail } = useQuery<IQuestion>(
     ['question', questionId] as const,
-    getQuestionDetail(questionId as string)
+    getQuestionDetail(questionId as string),
+    {
+      initialData: () => {
+        const questionDetail = queryClient
+          .getQueryData<Array<IQuestion>>(['question', 'questionList'])
+          ?.find((question: IQuestion) => question.questionId === Number(questionId));
+
+        return questionDetail;
+      },
+    }
   );
 
   const [questionInput, setQuestionInput] = useState('');
@@ -46,7 +56,6 @@ const QnaDetailPage = () => {
     <Layout>
       <QnaDetailWrapper>
         <QnaDetailMain>
-          {isLoading && 'Loading...'}
           {questionDetail && <Question {...questionDetail} />}
 
           <AnswerForm questionId={questionId as string} />
