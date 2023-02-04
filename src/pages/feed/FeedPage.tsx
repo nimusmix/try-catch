@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
 import { HeaderImage, Layout } from '../../layout';
@@ -47,6 +47,10 @@ const FeedPage = () => {
   const keyword = new URLSearchParams(useLocation().search).get('keyword') || '';
   const subscribe = checkedItemsProps.includes(1);
   const advanced = checkedItemsProps.includes(2);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [keyword, subscribe, advanced]);
 
   const getData = (data: Array<string>) => {
     setTagListProps(data);

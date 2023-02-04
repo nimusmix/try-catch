@@ -41,12 +41,18 @@ import {
   FollowersPage,
 } from './pages';
 import { Bookmark, Challenges, Error, Feed, Home, Profile, QnA, Roadmap, Settings } from './routes';
+import ScrollToTop from './components/scroll-to-top/ScrollToTop';
 
 const router = createBrowserRouter([
   {
     // 랜딩 페이지
     path: '/',
-    element: <App />,
+    element: (
+      <>
+        <ScrollToTop />
+        <App />
+      </>
+    ),
     errorElement: <NotFoundPage />,
     children: [
       {
