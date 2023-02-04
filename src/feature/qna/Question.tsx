@@ -11,8 +11,8 @@ import {
 } from '../../components/icons/Icons';
 import getImageUrl from '../../utils/getImageUrl';
 import elapsedTime from '../../utils/elapsed-time';
-import MilkdownEditor from '../text-editor/MilkdownEditor';
 import { COMPANY } from '../../constant/company';
+import MilkdownViewer from '../text-editor/MilkdownViewer';
 
 const QuestionDiv = styled(Div)`
   overflow: hidden;
@@ -194,8 +194,8 @@ const Question = ({
         </div>
       </UpperWrapper>
       <QuestionBody>
-        <MilkdownEditor width="100%" editable={false} data={content} />
-        {errorCode && <MilkdownEditor width="100%" editable={false} data={errorCode} />}
+        <MilkdownViewer width="100%" data={content} />
+        {errorCode && <MilkdownViewer width="100%" data={errorCode} />}
       </QuestionBody>
 
       <Like>

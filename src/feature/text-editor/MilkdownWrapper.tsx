@@ -44,7 +44,16 @@ const MilkDownWrapper = styled.div<{
       background-color: ${({ theme: { isDark } }) => (isDark ? '' : '#f7f8ff')};
       color: ${({ theme: { textColor } }) => textColor};
       box-shadow: none;
-      border-radius: 1rem;
+      border-radius: 0 0 0.5rem 0.5rem;
+      border-bottom: 1px solid
+        ${({ theme: { isDark } }) =>
+          isDark ? 'var(--colors-black-100)' : 'var(--colors-brand-200)'};
+      border-left: 1px solid
+        ${({ theme: { isDark } }) =>
+          isDark ? 'var(--colors-black-100)' : 'var(--colors-brand-200)'};
+      border-right: 1px solid
+        ${({ theme: { isDark } }) =>
+          isDark ? 'var(--colors-black-100)' : 'var(--colors-brand-200)'};
 
       .ProseMirror-selectednode {
         padding: 0.5rem;

@@ -1,9 +1,10 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { HelmetProvider } from 'react-helmet-async';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Outlet } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import React from 'react';
 import { isDarkState } from './recoil';
 import { darkTheme, lightTheme } from './styles/theme';
 
@@ -33,6 +34,13 @@ function App() {
   const isDark = useRecoilValue(isDarkState);
   return (
     <HelmetProvider>
+      <Helmet>
+        {isDark ? (
+          <link href="https://unpkg.com/prism-themes/themes/prism-one-dark.css" rel="stylesheet" />
+        ) : (
+          <link href="https://unpkg.com/prism-themes/themes/prism-one-light.css" rel="stylesheet" />
+        )}
+      </Helmet>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
           <GlobalStyles />
