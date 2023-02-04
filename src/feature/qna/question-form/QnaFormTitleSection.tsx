@@ -17,6 +17,8 @@ const Wrapper = styled.div`
 const TitleTooltip = styled(Tooltip)`
   translate: 110% -20px;
   width: 400px;
+  background-color: ${({ theme: { isDark } }) =>
+    isDark ? 'var(--colors-black-400)' : 'var(--colors-brand-100)'};
 `;
 
 const QnaFormTitleSection = () => {
