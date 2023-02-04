@@ -7,6 +7,10 @@ export const getFeedList = () => {
 };
 export const getFeedSearchList = async (params: IFeedSearch) => {
   return api.get(`/feed/search`, { params }).then((res) => {
-    return { ...res.data, nextPage: params.page + 1 };
+    let nextPage;
+    if (res.data.feedList.length === 9) {
+      nextPage = params.page + 1;
+    }
+    return { ...res.data, nextPage };
   });
 };

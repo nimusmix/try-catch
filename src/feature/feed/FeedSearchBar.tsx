@@ -34,10 +34,10 @@ const FeedSearchBar = () => {
   const navigate = useNavigate();
 
   // const handleClick = () => resetField('keyword');
-  // const onSubmit = handleSubmit(() => {});
 
   const onValid = (data: ISearchValue) => {
-    navigate(`/feed?keyword=${data.keyword}`);
+    const encodeKeyword = encodeURIComponent(data.keyword);
+    navigate(`/feed?keyword=${encodeKeyword}`);
   };
   return (
     <form onSubmit={handleSubmit(onValid)} style={{ marginBottom: '1rem' }}>
