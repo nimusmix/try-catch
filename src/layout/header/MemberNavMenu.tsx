@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link, NavLink } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { useQueries } from 'react-query';
+import { useQuery } from 'react-query';
 import { IconBellFill, IconBookmarkFill, IconUserCircle } from '../../components/icons/Icons';
 import { BOOKMARK_PAGE_NAME } from '../../constant';
 import { Ul } from './NavMenu';
@@ -51,10 +51,10 @@ const Img = styled.img`
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
   const acc = useRecoilValue(accToken);
-  const [{ data: userName }, { data: profileImg }] = useQueries([
-    { queryKey: ['userName'], queryFn: getName },
-    { queryKey: ['profileImg'], queryFn: () => getImage(acc) },
-  ]);
+  const { data: userName } = useQuery(['user', 'userName'] as const, getName);
+  const { data: profileImage } = useQuery(['user', 'profileImage'] as const, () => getImage(acc), {
+    enabled: !!userName,
+  });
 
   return (
     <Ul>
@@ -77,8 +77,8 @@ const MemberNavMenu = () => {
       </Li>
       <Link to={`/profile/${userName}`}>
         <ProfileLi>
-          {profileImg ? (
-            <Img src={profileImg} />
+          {profileImage ? (
+            <Img src={profileImage} />
           ) : (
             <IconUserCircle
               color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
