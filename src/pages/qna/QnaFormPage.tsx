@@ -57,6 +57,7 @@ const QnaFormPage = () => {
       alert('필수 목록이 비어있음');
       return;
     }
+    alert('검증 통과');
     addQuestion();
   };
 
