@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { Button, Div, MiniTitle, Paragraph } from '../../components';
-import { IQuestion } from '../../apis/qna/qna-type';
 import {
   IconBookmarkEmpty,
   IconBookmarkFill,
@@ -13,6 +12,7 @@ import getImageUrl from '../../utils/getImageUrl';
 import elapsedTime from '../../utils/elapsed-time';
 import { COMPANY } from '../../constant/company';
 import MilkdownViewer from '../text-editor/MilkdownViewer';
+import { IQuestion } from '../../interface/qna';
 
 const QuestionDiv = styled(Div)`
   overflow: hidden;

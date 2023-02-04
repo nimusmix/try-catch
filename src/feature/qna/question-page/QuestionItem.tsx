@@ -6,7 +6,7 @@ import { IconComment, IconEye, IconLikeEmpty } from '../../../components/icons/I
 import { Button, MiniTitle, Paragraph } from '../../../components';
 import { isDarkState } from '../../../recoil';
 import elapsedTime from '../../../utils/elapsed-time';
-import { IQuestion } from '../../../apis/qna/qna-type';
+import { IQuestion } from '../../../interface/qna';
 
 const Wrapper = styled.article`
   max-width: 848px;
