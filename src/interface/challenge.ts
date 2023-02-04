@@ -1,3 +1,7 @@
-const challenge = () => {};
-
-export default challenge;
+export interface IChallengeUser {
+  author: {
+    username: string;
+    image?: string;
+    company?: string;
+  };
+}

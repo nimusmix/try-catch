@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 import Layout from '../../layout/Layout';
 import { Answer, QnaDetailPopularQna, Question } from '../../feature/qna';
 import { getQuestionDetail } from '../../apis/qna/qna';
-import { IQuestion } from '../../apis/qna/qna-type';
 import { AnswerForm } from '../../feature';
+import { IQuestion } from '../../interface/qna';
 
 const QnaDetailWrapper = styled.section`
   margin-top: 3rem;

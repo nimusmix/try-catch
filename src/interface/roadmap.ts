@@ -21,6 +21,13 @@ export interface IEdge {
   targetHandle: string;
 }
 
+export interface IRoadmapPost {
+  title: string;
+  tag: string;
+  nodes: string;
+  edges: string;
+}
+
 export interface IRoadmap {
   author: {
     userId: number;
