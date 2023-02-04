@@ -5,7 +5,7 @@ import { MiniTitle } from '..';
 interface INavOptions {
   id: number;
   option: string;
-  value?: string;
+  value: string;
 }
 interface INavbarProps {
   navOptions: Array<INavOptions>;
@@ -44,7 +44,7 @@ const Item = styled.li`
 
 const SideNavbar = ({ navOptions, changeOption, activeIdx = 0 }: INavbarProps) => {
   const [activeNavOption, setActiveNavOption] = useState<string | null>(
-    () => navOptions[activeIdx].option
+    () => navOptions[activeIdx].value
   );
 
   const handleNavOptionClick = (event: React.MouseEvent<HTMLLIElement>) => {

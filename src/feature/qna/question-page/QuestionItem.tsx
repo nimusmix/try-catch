@@ -111,7 +111,7 @@ const QuestionItem = ({
       </QuestionHeader>
 
       <QuestionBody>
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{content!}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{content as string}</ReactMarkdown>
       </QuestionBody>
 
       <QuestionFooter>

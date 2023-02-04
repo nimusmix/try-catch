@@ -1,11 +1,9 @@
 import styled from 'styled-components';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useRecoilValue } from 'recoil';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../../layout/Layout';
-import { isDarkState } from '../../recoil';
 import { Button } from '../../components';
 import QnaFormHeader from '../../feature/qna/question-form/QnaFormHeader';
 import QnaFormBody from '../../feature/qna/question-form/QnaFormBody';
@@ -43,7 +41,6 @@ const TooltipAside = styled.aside`
  *  Loading 시 처리
  * */
 const QnaFormPage = () => {
-  const isDark = useRecoilValue(isDarkState);
   const { content, category, errorCode, title, tags } = useQuestionState();
   const { mutate: addQuestion, isSuccess } = useMutation(
     postQuestion({ content, category, errorCode, title, tags })
@@ -68,11 +65,6 @@ const QnaFormPage = () => {
     <>
       <Helmet>
         <title>트라이캐치 | 질문작성</title>
-        {isDark ? (
-          <link href="https://unpkg.com/prism-themes/themes/prism-one-dark.css" rel="stylesheet" />
-        ) : (
-          <link href="https://unpkg.com/prism-themes/themes/prism-one-light.css" rel="stylesheet" />
-        )}
       </Helmet>
       <Layout>
         <QnaFormContainer>
