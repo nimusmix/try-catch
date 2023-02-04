@@ -17,7 +17,8 @@ const Wrapper = styled.div`
 
 export const Tooltip = styled.div`
   position: absolute;
-  background-color: var(--colors-brand-100);
+  background-color: ${({ theme: { isDark } }) =>
+    isDark ? 'var(--colors-black-400)' : 'var(--colors-brand-100)'};
   padding: 2rem 2.5rem;
   width: 400px;
   right: 0;

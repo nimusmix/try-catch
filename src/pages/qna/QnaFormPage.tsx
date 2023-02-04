@@ -54,7 +54,7 @@ const QnaFormPage = () => {
       logOnDev.log(title);
       logOnDev.log(content);
       logOnDev.log(errorCode);
-      alert('필수 목록이 비어있음');
+      logOnDev.log('검증 실패');
       return;
     }
     alert('검증 통과');
