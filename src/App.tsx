@@ -5,9 +5,10 @@ import { Outlet } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import React from 'react';
-import { isDarkState } from './recoil';
+import { isDarkState, toastState } from './recoil';
 import { darkTheme, lightTheme } from './styles/theme';
 import ScrollToTop from './utils/ScrollToTop';
+import Toast from './feature/toast/Toast';
 
 const GlobalStyles = createGlobalStyle`
   *{
@@ -31,6 +32,7 @@ const queryClient = new QueryClient();
 
 function App() {
   const isDark = useRecoilValue(isDarkState);
+  const { isVisible } = useRecoilValue(toastState);
   return (
     <HelmetProvider>
       <Helmet>
@@ -42,6 +44,7 @@ function App() {
       </Helmet>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+          {isVisible && <Toast />}
           <GlobalStyles />
           <ScrollToTop />
           <Outlet />

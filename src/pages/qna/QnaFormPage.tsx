@@ -3,6 +3,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import Layout from '../../layout/Layout';
 import { Button } from '../../components';
 import QnaFormHeader from '../../feature/qna/question-form/QnaFormHeader';
@@ -10,6 +11,7 @@ import QnaFormBody from '../../feature/qna/question-form/QnaFormBody';
 import { useQuestionState } from '../../context/QnaContext';
 import { postQuestion } from '../../apis/qna/qna';
 import { logOnDev } from '../../utils/logging';
+import { toastState } from '../../recoil';
 
 const QnaFormContainer = styled.div`
   display: flex;
@@ -37,6 +39,7 @@ const TooltipAside = styled.aside`
 `;
 
 const QnaFormPage = () => {
+  const setToast = useSetRecoilState(toastState);
   const { content, category, errorCode, title, tags } = useQuestionState();
   const navigate = useNavigate();
   const { mutate: addQuestion } = useMutation(
@@ -44,6 +47,11 @@ const QnaFormPage = () => {
     {
       onSuccess: () => {
         navigate('/question', { replace: true });
+        setToast({ type: 'positive', message: '질문 작성 성공', isVisible: true });
+      },
+
+      onError: () => {
+        setToast({ type: 'negative', message: '질문 작성 실패', isVisible: true });
       },
     }
   );
@@ -54,10 +62,9 @@ const QnaFormPage = () => {
       logOnDev.log(title);
       logOnDev.log(content);
       logOnDev.log(errorCode);
-      logOnDev.log('검증 실패');
+      setToast({ type: 'negative', message: '필수 항목을 모두 입력해주세요.', isVisible: true });
       return;
     }
-    alert('검증 통과');
     addQuestion();
   };
 

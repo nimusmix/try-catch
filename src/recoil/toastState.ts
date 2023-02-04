@@ -1,6 +1,12 @@
 import { atom } from 'recoil';
 
-const toastState = atom({
+interface IToast {
+  type: 'positive' | 'negative';
+  message: string;
+  isVisible: boolean;
+}
+
+const toastState = atom<IToast>({
   key: 'toastState',
   default: {
     type: 'positive',

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import styled from 'styled-components';
 import { IconX } from '../../components/icons/Icons';
@@ -69,8 +70,9 @@ const TagsInput = ({ addTag, removeTag, tags }: any) => {
       <TagsList>
         {tags.map((tag: string, index: number) => (
           // eslint-disable-next-line react/no-array-index-key
-          <Tag key={index} className="tag">
+          <Tag key={String(tag + index)} className="tag">
             <span className="tag-title">{tag}</span>
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
             <span className="tag-close-icon" onClick={() => removeTag(index)} key={1}>
               <IconX />
             </span>
@@ -80,7 +82,7 @@ const TagsInput = ({ addTag, removeTag, tags }: any) => {
       <input
         type="text"
         onKeyUp={(e) => (e.key === 'Enter' ? addTag(e) : null)}
-        placeholder="쉼표 혹은 엔터를 입력해서 태그를 등록할 수 있습니다."
+        placeholder="엔터를 입력해서 태그를 등록할 수 있습니다."
       />
     </STagInput>
   );
