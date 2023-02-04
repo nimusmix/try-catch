@@ -16,7 +16,7 @@ interface IRoadmapListItem {
 }
 
 const RoadmapList = () => {
-  const { data: roadmapList } = useQuery<Array<IRoadmapListItem>>(['roadmapList'], () =>
+  const { data: roadmapList } = useQuery<Array<IRoadmapListItem>>(['roadmapList'] as const, () =>
     getRoadmapList()
   );
 

@@ -7,7 +7,7 @@ import { IQuestion } from '../../../apis/qna/qna-type';
 
 const QuestionList = ({ activeCategory }: { activeCategory: string }) => {
   const { isLoading, data: questionList } = useQuery<Array<IQuestion>>(
-    ['question', 'questionList'],
+    ['question', 'questionList'] as const,
     getQuestionList
   );
 

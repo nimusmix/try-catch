@@ -76,7 +76,7 @@ const SettingBody = styled.section`
 `;
 
 const SettingsLayout = ({ children }: ILayoutProps) => {
-  // const [activeCategory, setActiveCategory] = useState('개발');
+  // const [activeCategory, setActiveCategory] = useState('DEV');
   return (
     <Layout>
       <SettingContainer>

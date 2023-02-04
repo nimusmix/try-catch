@@ -7,6 +7,7 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import React from 'react';
 import { isDarkState } from './recoil';
 import { darkTheme, lightTheme } from './styles/theme';
+import ScrollToTop from './utils/ScrollToTop';
 
 const GlobalStyles = createGlobalStyle`
   *{
@@ -44,6 +45,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
           <GlobalStyles />
+          <ScrollToTop />
           <Outlet />
           <ReactQueryDevtools initialIsOpen={false} />
         </ThemeProvider>

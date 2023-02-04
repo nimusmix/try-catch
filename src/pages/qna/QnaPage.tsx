@@ -1,13 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { MdOutlineCreate } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import loadable from '@loadable/component';
 import { HeaderImage, Layout } from '../../layout';
 import { Button, Paragraph, SubTitle } from '../../components';
 import { PopularQna, QnaPopularTag, QnaSearchBar } from '../../feature/qna';
 import QuestionList from '../../feature/qna/question-page/QuestionList';
 import { header_qna } from '../../assets';
 import SideNavbar from '../../components/side-navbar/SideNavbar';
+
+const DetailPage = loadable(() => import('./QnaDetailPage'));
 
 const navOptions = [
   {
@@ -54,7 +57,9 @@ export const Aside = styled.aside`
 const QnaPage = () => {
   const [activeCategory, setActiveCategory] = useState('DEV');
 
-  console.log(activeCategory);
+  useEffect(() => {
+    DetailPage.preload();
+  }, []);
 
   return (
     <Layout>

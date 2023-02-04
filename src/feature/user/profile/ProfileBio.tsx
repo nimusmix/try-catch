@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getUserDetail, getUserId } from '../../../apis/profile/profile';
-import { MiniTitle, Paragraph, Button, Modal } from '../../../components';
+import { Button, MiniTitle, Modal, Paragraph } from '../../../components';
 import { IUserDetail } from '../../../interface/user';
 
 const BioWrapper = styled.div`
@@ -66,10 +66,14 @@ const ProfileBio = () => {
     setIsModalOpened(true);
   };
   const { userName } = useParams();
-  const { data: userId } = useQuery<number>(['userId'], () => getUserId(userName!));
-  const { data: user } = useQuery<IUserDetail>(['userDetail'], () => getUserDetail(userId!), {
-    enabled: !!userId,
-  });
+  const { data: userId } = useQuery<number>(['userId'] as const, () => getUserId(userName!));
+  const { data: user } = useQuery<IUserDetail>(
+    ['userDetail'] as const,
+    () => getUserDetail(userId!),
+    {
+      enabled: !!userId,
+    }
+  );
 
   const createImageUrl = (companyName: string) => {
     return new URL(`/src/assets/logo/${companyName}.png`, import.meta.url).href;

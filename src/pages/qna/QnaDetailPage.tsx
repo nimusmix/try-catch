@@ -32,7 +32,7 @@ const Aside = styled.aside`
 const QnaDetailPage = () => {
   const { questionId } = useParams<string>();
   const { isLoading, data: questionDetail } = useQuery<IQuestion>(
-    ['question', questionId],
+    ['question', questionId] as const,
     getQuestionDetail(questionId as string)
   );
 
