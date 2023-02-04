@@ -9,7 +9,7 @@ const HeaderImage = styled.div<IHeaderImageProps>`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 300px;
+  height: 200px;
   background-image: url(${({ image }) => image});
   background-repeat: no-repeat;
   background-size: cover;
