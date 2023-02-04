@@ -9,8 +9,8 @@ import { header_roadmap } from '../../assets';
 import RoadmapMain from '../../feature/roadmap/RoadmapMain';
 
 export const navOptions = [
-  { id: 1, option: '공통' },
-  { id: 2, option: '커스텀' },
+  { id: 1, option: '공통', value: '공통' },
+  { id: 2, option: '커스텀', value: '커스텀' },
 ];
 
 export const RoadmapWrapper = styled.div`

@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
-import { Paragraph, SubTitle, MiniTitle, Button } from '../../components';
+import { Button, MiniTitle, Paragraph, SubTitle } from '../../components';
 import { IRoadmap } from '../../interface/roadmap';
 import { getRoadmapDetail } from '../../apis/roadmap/roadmap';
 import { Layout } from '../../layout';
@@ -41,8 +41,9 @@ const UserInfoWrapper = styled.div`
 
 const RoadmapDetailPage = () => {
   const { userName } = useParams();
-  const { data: roadmapDetail, isLoading } = useQuery<IRoadmap>(['roadmap', userName], () =>
-    getRoadmapDetail(userName!)
+  const { data: roadmapDetail, isLoading } = useQuery<IRoadmap>(
+    ['roadmap', userName] as const,
+    () => getRoadmapDetail(userName!)
   );
 
   if (isLoading) {
