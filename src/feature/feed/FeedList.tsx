@@ -2,15 +2,18 @@ import { useInfiniteQuery } from 'react-query';
 import { AxiosError } from 'axios';
 import styled from 'styled-components';
 import { useEffect } from 'react';
-import Skeleton from './FeedItemSkeleton';
+
 import { IFeedSearch } from '../../interface/feed';
 import FeedListItem from './FeedListItem';
 import FeedCardItem from './FeedCardItem';
-import FeedCardSkeleton from './FeedCardSkeleton';
+
 import { MiniTitle, Paragraph } from '../../components';
 import { ReactComponent as Bug } from '../../assets/bug.svg';
 import { IFeedListProps } from './IFeed';
 import { getFeedSearchList } from '../../apis/feed/feed';
+
+import FeedCardSkeletonList from './skeleton/FeedCardSkeletonList';
+import FeedItemSkeletonList from './skeleton/FeedItemSkeletonList';
 
 interface IFeedList {
   activeViewOption: boolean;
@@ -62,30 +65,6 @@ const NonSearchResult = ({ keyword }: Partial<IFeedList>) => {
   );
 };
 
-const FeedCardSkeletons = () => {
-  return (
-    <FeedListWrapper>
-      <FeedCardSkeleton />
-      <FeedCardSkeleton />
-      <FeedCardSkeleton />
-      <FeedCardSkeleton />
-      <FeedCardSkeleton />
-      <FeedCardSkeleton />
-    </FeedListWrapper>
-  );
-};
-
-const Skeletons = () => {
-  return (
-    <>
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-      <Skeleton />
-    </>
-  );
-};
-
 const FeedList = ({
   activeViewOption,
   keyword,
@@ -125,20 +104,20 @@ const FeedList = ({
     },
     {
       keepPreviousData: true,
-      getNextPageParam: (lastPage) => lastPage.nextPage,
+      getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
     }
   );
 
   useEffect(() => {
     const handleScroll = () => {
       const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
-      if (scrollTop + clientHeight >= scrollHeight - 60) {
+      if (scrollTop + clientHeight >= scrollHeight - 500) {
         fetchNextPage();
       }
     };
-    window.addEventListener('scroll', handleScroll);
+    if (!isFetchingNextPage) window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [fetchNextPage]);
+  }, [fetchNextPage, isFetchingNextPage]);
 
   useEffect(() => {
     if (!isLoading && data?.pages && data?.pages[0].feedList.length !== 0) {
@@ -177,10 +156,14 @@ const FeedList = ({
 
   return (
     <div>
-      {isLoading && activeViewOption && <FeedCardSkeletons />}
-      {isLoading && !activeViewOption && <Skeletons />}
+      {/* 첫 페이지 로딩 카드 아이템 스켈레톤 */}
+      {isLoading && activeViewOption && <FeedCardSkeletonList />}
+      {/* 첫 페이지 로딩 리스트 아이템 스켈레톤 */}
+      {isLoading && !activeViewOption && <FeedItemSkeletonList />}
       {isError && <h2>에러입니다.</h2>}
+      {/* 검색 결과가 없을 때 */}
       {data?.pages[0].feedList.length === 0 && <NonSearchResult keyword={keyword} />}
+      {/* 검색 결과가 있을 때 */}
       {data?.pages.map((page, index) => {
         const pageIdx = `${page} ${index}`;
         return (
@@ -202,10 +185,6 @@ const FeedList = ({
                 />
               );
             })}
-            {isFetchingNextPage && page.feedList.length === 0 && activeViewOption && (
-              <FeedCardSkeletons />
-            )}
-            {isFetchingNextPage && page.feedList.length === 0 && !activeViewOption && <Skeletons />}
           </FeedListWrapper>
         );
       })}

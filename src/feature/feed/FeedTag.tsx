@@ -20,9 +20,8 @@ const FeedTag = ({ tags }: IFeedPopularTag) => {
 
   const handleClick = (e: React.MouseEvent<HTMLSpanElement>) => {
     const tagName: string = e.currentTarget.innerText;
-
-    console.log(tagName);
-    navigate(`/feed?keyword=${tagName}`);
+    const encodeKeyword = encodeURIComponent(tagName);
+    navigate(`/feed?keyword=${encodeKeyword}`);
     e.preventDefault();
   };
   // /search?type=feed&keyword=&page=&size&

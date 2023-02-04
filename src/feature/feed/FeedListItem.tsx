@@ -6,6 +6,26 @@ import { MiniTitle, Paragraph } from '../../components';
 import { isDarkState } from '../../recoil';
 import { IFeedItemProps } from './IFeed';
 import FeedTag from './FeedTag';
+import getImageUrl from '../../utils/getImageUrl';
+import { COMPANY } from '../../constant/company';
+
+const DefaultDIv = styled.div`
+  /* 한 줄 자르기 */
+  display: inline-block;
+  width: 98%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  /* 여러 줄 자르기 추가 스타일 */
+  white-space: normal;
+  line-height: 1.8;
+  height: 1.8rem;
+  text-align: left;
+  word-wrap: break-word;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+`;
 
 const Wrapper = styled.article`
   display: flex;
@@ -16,9 +36,9 @@ const Wrapper = styled.article`
   }
 `;
 
-const ArticleWrapper = styled.article`
+const BlogWrapper = styled.div`
   width: 630px;
-  padding: 1rem 2rem;
+  padding: 1rem 1.5rem;
 `;
 
 const FeedHeader = styled.div`
@@ -28,15 +48,19 @@ const FeedHeader = styled.div`
   margin: 0.6rem 0 0.5rem;
 `;
 
-const FeedBody = styled.div`
+const FeedBody = styled(DefaultDIv)`
+  line-height: 1.5;
+  height: 3rem;
+  text-align: left;
+  -webkit-line-clamp: 2;
   margin-bottom: 0.75rem;
+  display: -webkit-box;
 `;
 
-const FeedFooter = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
+const FeedFooter = styled(DefaultDIv)`
+  line-height: 1.3;
+  height: 1.6rem;
+  margin-bottom: 0.75rem;
 `;
 
 const Icons = styled.button`
@@ -50,33 +74,46 @@ const Icons = styled.button`
 `;
 
 const FeedThumbnailImg = styled.div<{ image: string }>`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 11.5rem;
-  height: 7.875rem;
+  width: 12rem;
+  height: 8rem;
   background-image: url(${({ image }) => image});
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   border-radius: var(--borders-radius-base);
-  margin: auto 1rem;
+  margin: auto 0rem auto 1.5rem;
 `;
+
 const CompanyImg = styled.img`
-  width: 18px;
-  height: 18px;
-  border-radius: 4px;
-  margin: auto 8px;
+  width: 20px;
+  max-height: 20px;
+  padding: 0.2rem;
+  background-color: ${({ theme: { isDark } }) =>
+    isDark ? 'var(--colors-brand-100)' : 'var(--colors-white-500)'};
+  border-radius: var(--borders-radius-base);
+  box-shadow: ${({ theme: { isDark } }) =>
+    isDark
+      ? 'rgba(39, 110, 226, 0.2) 0px 0px 0px 2px, rgba(39, 110, 226, 0.3) 0px 4px 6px -1px, rgba(39, 110, 226, 0.08) 0px 1px 0px inset;'
+      : 'rgba(0, 0, 0, 0.16) 0px 1px 4px'};
 `;
 
-const createImageUrl = (companyName: string) => {
-  return new URL(`/src/assets/logo/${companyName}.png`, import.meta.url).href;
+const BlogTitle = styled(DefaultDIv)`
+  display: -webkit-box;
+  margin: 0.6rem 0 0.5rem;
+`;
+
+interface LinkProps {
+  children: React.ReactNode;
+  url: string;
+}
+
+const LinkWrapper = ({ children, url }: LinkProps) => {
+  return (
+    <a href={`${url}`} target="_blank" rel="noreferrer" style={{ zIndex: '1' }}>
+      {children}
+    </a>
+  );
 };
-
-const BlogTitle = styled.span`
-  display: flex;
-`;
 
 const FeedListItem = ({
   title,
@@ -87,6 +124,7 @@ const FeedListItem = ({
   url,
   companyName,
   thumbnailImage,
+  createAt,
 }: IFeedItemProps) => {
   const isDark = useRecoilValue(isDarkState);
   const [bookMarkIcon, setBookMarkIcon] = useState(isBookmarked);
@@ -103,51 +141,78 @@ const FeedListItem = ({
   };
 
   return (
-    <a href={`${url}`} target="_blank" rel="noreferrer" style={{ zIndex: '1' }}>
-      <Wrapper>
-        <FeedThumbnailImg image={thumbnailImage} />
-        <ArticleWrapper>
-          <FeedHeader>
-            <BlogTitle>
+    <Wrapper>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <LinkWrapper url={url}>
+          <FeedThumbnailImg image={thumbnailImage} />
+        </LinkWrapper>
+      </div>
+
+      <BlogWrapper>
+        <FeedHeader>
+          <LinkWrapper url={url}>
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+              <CompanyImg
+                src={companyName && getImageUrl(COMPANY[companyName], 'logo', 'png')}
+                alt={companyName}
+              />
               <MiniTitle
                 sizeType="xl"
-                color={isDark ? 'var(--colors-white-500)' : 'var(--colors-dark-500)'}
                 textAlign="left"
+                margin="0 0 0 0.5rem"
+                style={{ fontSize: 'var(--fonts-body-base)' }}
               >
-                {title.length > 36 ? `${title.slice(0, 36)}...` : title}
+                {companyName}
               </MiniTitle>
-              <CompanyImg
-                src={
-                  companyName
-                    ? createImageUrl(companyName)
-                    : new URL(`/src/assets/favicon.ico`, import.meta.url).href
-                }
-                alt={`${companyName}`}
-              />
-            </BlogTitle>
-            <Icons onClick={handleClick}>
-              {/* 북마크 */}
-              {bookMarkIcon && <IconBookmarkFill size="30" color="var(--colors-brand-500)" />}
-              {bookMarkIcon || <IconBookmarkEmpty size="30" color="var(--colors-brand-500)" />}
-            </Icons>
-          </FeedHeader>
+              <Paragraph sizeType="xm" style={{ marginLeft: '0.25rem' }}>
+                · {createAt}
+              </Paragraph>
+            </div>
+          </LinkWrapper>
+          <Icons onClick={handleClick}>
+            {/* 북마크 */}
+            {bookMarkIcon && <IconBookmarkFill size="27" color="var(--colors-brand-500)" />}
+            {bookMarkIcon || <IconBookmarkEmpty size="27" color="var(--colors-brand-500)" />}
+          </Icons>
+        </FeedHeader>
 
-          <FeedBody>
+        <BlogTitle>
+          <LinkWrapper url={url}>
+            <MiniTitle
+              sizeType="xl"
+              color={isDark ? 'var(--colors-white-500)' : 'var(--colors-dark-500)'}
+              textAlign="left"
+              style={{ width: '510px' }}
+            >
+              {title}
+            </MiniTitle>
+          </LinkWrapper>
+        </BlogTitle>
+
+        <FeedBody>
+          <LinkWrapper url={url}>
             <Paragraph
               sizeType="base"
               color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
               style={{ width: '510px' }}
             >
-              {summary.length > 90 ? `${summary.slice(0, 90)}...` : summary}
+              {summary}
             </Paragraph>
-          </FeedBody>
+          </LinkWrapper>
+        </FeedBody>
 
-          <FeedFooter>
-            <FeedTag tags={tags.length === 0 ? keywords : tags} />
-          </FeedFooter>
-        </ArticleWrapper>
-      </Wrapper>
-    </a>
+        <FeedFooter>
+          <FeedTag tags={tags.length === 0 ? keywords : tags} />
+        </FeedFooter>
+      </BlogWrapper>
+    </Wrapper>
   );
 };
 

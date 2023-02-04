@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { IconCard, IconList } from '../../components/icons/Icons';
 
 const Wrapper = styled.div`
