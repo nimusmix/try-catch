@@ -55,6 +55,7 @@ const QnaFormPage = () => {
       logOnDev.log(content);
       logOnDev.log(errorCode);
       alert('필수 목록이 비어있음');
+      return;
     }
     addQuestion();
   };
