@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { getName } from '../../../apis/auth/auth';
 import { getUserDetail, getUserId } from '../../../apis/profile/profile';
 import { Button, MiniTitle, Modal, Paragraph } from '../../../components';
 import { IUserDetail } from '../../../interface/user';
+import isMyself from '../../../utils/isMyself';
+import { postFollow, putFollow } from '../../../apis/user/user';
 
 const BioWrapper = styled.div`
   display: flex;
@@ -74,9 +77,19 @@ const ProfileBio = () => {
       enabled: !!userId,
     }
   );
+  const { data: loginedUserName } = useQuery(['loginedUserName'] as const, getName);
+  const isMine = isMyself(loginedUserName, userName!);
 
   const createImageUrl = (companyName: string) => {
     return new URL(`/src/assets/logo/${companyName}.png`, import.meta.url).href;
+  };
+
+  const clickFollowBtn = () => {
+    if (user?.isFollowed) {
+      postFollow(userId!);
+    } else {
+      putFollow(userId!);
+    }
   };
 
   return (
@@ -124,18 +137,25 @@ const ProfileBio = () => {
             ))}
           </div>
         </InfoWrapper>
-        {user?.isFollowed && (
-          <Button padding="0.25rem 1rem" borderRadius="var(--borders-radius-lg)">
-            팔로잉
-          </Button>
-        )}
-        {user?.isFollowed || (
+
+        {isMine ? (
+          <Link to="/profile/edit">
+            <Button
+              designType="blueEmpty"
+              padding="0.25rem 1rem"
+              borderRadius="var(--borders-radius-lg)"
+            >
+              프로필 편집
+            </Button>
+          </Link>
+        ) : (
           <Button
-            designType="blueEmpty"
+            designType={user?.isFollowed ? 'blueFill' : 'blueEmpty'}
             padding="0.25rem 1rem"
             borderRadius="var(--borders-radius-lg)"
+            onClick={clickFollowBtn}
           >
-            팔로우
+            {user?.isFollowed ? '팔로잉' : '팔로우'}
           </Button>
         )}
       </BioWrapper>
