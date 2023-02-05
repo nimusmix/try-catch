@@ -11,6 +11,7 @@ export interface IAnswer {
   author: IAuthor;
   content: string;
   timestamp: number;
+  updatedAt: number;
   likeCount: number;
   isLiked: boolean;
 }
@@ -32,6 +33,18 @@ export interface IQuestion {
   isSolved: boolean;
   isBookmarked: boolean;
   answers: Array<IAnswer>;
+}
+
+export interface IQuestionList {
+  questionList: Array<IQuestion>;
+  nextPage: string | undefined;
+}
+
+export interface IQuestionSearch {
+  query: string;
+  category: 'DEV' | 'CAREER' | 'BALANCE';
+  page: number;
+  size: number;
 }
 
 export interface ISearchedData {
