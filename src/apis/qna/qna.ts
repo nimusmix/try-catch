@@ -1,12 +1,16 @@
 // Q&A
 import { AxiosResponse } from 'axios';
 import { api, authApi } from '../../utils/axios-instance';
-import { IPostQuestion, IQuestion } from '../../interface/qna';
+import { IPostQuestion, IQuestion, IQuestionSearch } from '../../interface/qna';
 
-export const getQuestionList = (activeCategory: string) => {
-  return api
-    .get(`/question?category=${activeCategory}`)
-    .then((res: AxiosResponse<Array<IQuestion>>) => res.data);
+export const getQuestionList = (params: IQuestionSearch) => {
+  return api.get(`/question`, { params }).then((res: AxiosResponse<Array<IQuestion>>) => {
+    let nextPage;
+    if (res.data.length === 10) {
+      nextPage = params.page + 1;
+    }
+    return { data: res.data, nextPage };
+  });
 };
 
 export const getQuestQuestionList = () => {

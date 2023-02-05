@@ -38,8 +38,8 @@ const QnaDetailPage = () => {
   const [questionInput, setQuestionInput] = useState('');
   const { isLoading, data: questionDetail } = useQuery<IQuestion>(
     ['question', questionId] as const,
-    getQuestionDetail(questionId as string),
-    {
+    getQuestionDetail(questionId as string)
+    /* {
       initialData: () => {
         const questionDetail = queryClient
           .getQueryData<Array<IQuestion>>(['question', 'questionList', qnaCategory])
@@ -47,7 +47,7 @@ const QnaDetailPage = () => {
 
         return questionDetail;
       },
-    }
+    } */
   );
 
   if (isLoading) {
@@ -63,9 +63,18 @@ const QnaDetailPage = () => {
           <AnswerForm questionId={questionId as string} />
           <ul>
             {questionDetail &&
-              questionDetail.answers.map((answer) => (
-                <Answer key={answer.answerId} answer={answer} setQuestionInput={setQuestionInput} />
-              ))}
+              questionDetail.answers
+                .sort((a, b) => a.updatedAt - b.updatedAt)
+                .map((answer) => {
+                  console.log(answer);
+                  return (
+                    <Answer
+                      key={answer.answerId}
+                      answer={answer}
+                      setQuestionInput={setQuestionInput}
+                    />
+                  );
+                })}
           </ul>
         </QnaDetailMain>
         <Aside>
