@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import MilkdownEditor from '../../text-editor/MilkdownEditor';
 import { Button, MiniTitle } from '../../../components';
 import { postAnswer } from '../../../apis/answer/answer';
+import { logOnDev } from '../../../utils/logging';
 
 const Wrapper = styled.div`
   display: flex;
@@ -33,6 +34,7 @@ const AnswerForm = ({ questionId }: { questionId: string }) => {
     postAnswer(questionId as string, { content: answerInput }),
     {
       onSuccess: () => {
+        logOnDev.log('댓글 작성 성공');
         queryClient.invalidateQueries(['question', questionId]);
       },
     }
