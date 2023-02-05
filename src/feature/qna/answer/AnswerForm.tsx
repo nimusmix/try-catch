@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import MilkdownEditor from '../../text-editor/MilkdownEditor';
 import { Button, MiniTitle } from '../../../components';
 import { postAnswer } from '../../../apis/answer/answer';
@@ -25,13 +25,16 @@ const Wrapper = styled.div`
     border-radius: 0 0 0.5rem 0.5rem;
   }
 `;
+// TODO 답변 작성 후 바로 조회하기
 const AnswerForm = ({ questionId }: { questionId: string }) => {
   const [answerInput, setAnswerInput] = useState('');
-  const {
-    mutate: addAnswer,
-    isSuccess,
-    isError,
-  } = useMutation(postAnswer(questionId as string, { content: answerInput }));
+  const queryClient = useQueryClient();
+  const { mutate: addAnswer } = useMutation(
+    postAnswer(questionId as string, { content: answerInput }),
+    {
+      onSuccess: () => queryClient.invalidateQueries(['question', questionId]),
+    }
+  );
 
   // 에러면 토스트
 

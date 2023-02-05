@@ -32,6 +32,7 @@ const Aside = styled.aside`
 const QnaDetailPage = () => {
   const { questionId } = useParams<string>();
   const queryClient = useQueryClient();
+  const [questionInput, setQuestionInput] = useState('');
   const { isLoading, data: questionDetail } = useQuery<IQuestion>(
     ['question', questionId] as const,
     getQuestionDetail(questionId as string),
@@ -45,8 +46,6 @@ const QnaDetailPage = () => {
       },
     }
   );
-
-  const [questionInput, setQuestionInput] = useState('');
 
   if (isLoading) {
     return <h1>Loading...</h1>;
