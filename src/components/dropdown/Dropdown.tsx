@@ -27,7 +27,7 @@ const StyledSelectBox = styled.button`
 
 const SelectBox = styled.div<Partial<ISelectBoxProps>>`
   position: relative;
-  z-index: 10;
+  z-index: 5;
   width: ${({ width }) => width || '150px'};
   height: ${({ height }) => height};
   border-radius: 4px;
@@ -38,7 +38,7 @@ const SelectBox = styled.div<Partial<ISelectBoxProps>>`
 
   &.active {
     overflow: visible;
-    z-index: 10;
+    z-index: 5;
     ${OptionList} {
       max-height: 500px;
     }
