@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import { api, authApi } from '../../utils/axios-instance';
 import { IPostQuestion, IQuestion } from '../../interface/qna';
 
-export const getQuestionList = (activeCategory: 'DEV' | 'CAREER' | 'BALANCE') => {
+export const getQuestionList = (activeCategory: string) => {
   return api
     .get(`/question?category=${activeCategory}`)
     .then((res: AxiosResponse<Array<IQuestion>>) => res.data);

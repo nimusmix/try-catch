@@ -8,9 +8,7 @@ import { IQuestion } from '../../../interface/qna';
 import qnaCategoryState from '../../../recoil/qnaCategoryState';
 
 const QuestionList = () => {
-  const [activeCategory, setActiveCategory] = useRecoilState<'DEV' | 'CAREER' | 'BALANCE'>(
-    qnaCategoryState
-  );
+  const [activeCategory, setActiveCategory] = useRecoilState<string>(qnaCategoryState);
   const { isLoading, data: questionList } = useQuery<Array<IQuestion>>(
     ['question', 'questionList', activeCategory] as const,
     () => getQuestionList(activeCategory)
