@@ -8,6 +8,7 @@ import {
 import {
   BsBellFill as IconBellFill,
   BsCheckCircleFill as IconCheckCircle,
+  BsCheck as IconCheck,
   BsFillReplyFill as IconReply,
   BsGrid as IconCard,
   BsShareFill as IconShare,
@@ -33,6 +34,7 @@ export {
   IconLikeEmpty,
   IconLikeFill,
   IconCheckCircle,
+  IconCheck,
   IconShare,
   IconEye,
   IconComment,
