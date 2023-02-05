@@ -6,6 +6,7 @@ import ReactFlow, {
   Background,
   Edge,
   Handle,
+  Controls,
   Position,
   useEdges,
   useNodes,
@@ -174,6 +175,7 @@ const RoadmapForm = () => {
 
       <FlowWrapper>
         <ReactFlow defaultNodes={initialNodes} defaultEdges={initialEdges} nodeTypes={nodeTypes}>
+          <Controls />
           <Background />
         </ReactFlow>
       </FlowWrapper>

@@ -586,7 +586,9 @@ const edges = [
 const BERoadmap = () => {
   return (
     <DetailWrapper>
-      <ReactFlow nodes={nodes} edges={edges} fitView />
+      <ReactFlow nodes={nodes} edges={edges} fitView>
+        <Controls />
+      </ReactFlow>
     </DetailWrapper>
   );
 };
