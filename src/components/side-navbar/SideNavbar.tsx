@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useRecoilState } from 'recoil';
+import { SetterOrUpdater } from 'recoil';
 import { MiniTitle } from '..';
-import qnaCategoryState from '../../recoil/qnaCategoryState';
 
 interface INavOptions {
   id: number;
@@ -11,6 +10,7 @@ interface INavOptions {
 }
 interface INavbarProps {
   navOptions: Array<INavOptions>;
+  changeOption: React.Dispatch<React.SetStateAction<string>> | SetterOrUpdater<string>;
   activeIdx?: number;
 }
 
@@ -43,10 +43,7 @@ const Item = styled.li`
   }
 `;
 
-const SideNavbar = ({ navOptions, activeIdx = 0 }: INavbarProps) => {
-  const [activeCategory, setActiveCategory] = useRecoilState<'DEV' | 'CAREER' | 'BALANCE'>(
-    qnaCategoryState
-  );
+const SideNavbar = ({ navOptions, changeOption, activeIdx = 0 }: INavbarProps) => {
   const [activeNavOption, setActiveNavOption] = useState<string | null>(
     () => navOptions[activeIdx].value
   );
@@ -55,7 +52,7 @@ const SideNavbar = ({ navOptions, activeIdx = 0 }: INavbarProps) => {
     const target = event.target as Element;
     const navOptionName = target.getAttribute('data-name');
     setActiveNavOption(navOptionName);
-    setActiveCategory(`${navOptionName}` as 'DEV' | 'CAREER' | 'BALANCE');
+    changeOption(`${navOptionName}`);
   };
 
   return (

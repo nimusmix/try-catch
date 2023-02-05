@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-const qnaCategoryState = atom<'DEV' | 'CAREER' | 'BALANCE'>({
+const qnaCategoryState = atom<string>({
   key: 'qnaCategory',
   default: 'DEV',
 });
