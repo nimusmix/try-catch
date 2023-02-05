@@ -32,7 +32,9 @@ const AnswerForm = ({ questionId }: { questionId: string }) => {
   const { mutate: addAnswer } = useMutation(
     postAnswer(questionId as string, { content: answerInput }),
     {
-      onSuccess: () => queryClient.invalidateQueries(['question', questionId]),
+      onSuccess: () => {
+        queryClient.invalidateQueries(['question', questionId]);
+      },
     }
   );
 
