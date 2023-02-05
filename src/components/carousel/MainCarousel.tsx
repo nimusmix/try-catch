@@ -103,7 +103,7 @@ const SlideshowDots = styled.div`
   position: absolute;
   text-align: center;
   bottom: 2%;
-  left: calc(50% - 12px);
+  left: calc(50% - 42px);
   z-index: 1;
 `;
 
