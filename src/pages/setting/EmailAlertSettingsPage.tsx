@@ -1,18 +1,11 @@
 import { MiniTitle } from '../../components';
 import { SettingsBody } from './ThemeSettingsPage';
-
-const EmailAlertHeader = () => {
-  return (
-    <MiniTitle sizeType="3xl" textAlign="left">
-      이메일 알람 설정
-    </MiniTitle>
-  );
-};
+import { SettingHeader as EmailAlertHeader } from '../../feature/settings';
 
 const EmailAlertSettingsPage = () => {
   return (
     <SettingsBody>
-      <EmailAlertHeader />
+      <EmailAlertHeader title="이메일 알람 설정" />
       EmailAlertSettingsPage
     </SettingsBody>
   );
