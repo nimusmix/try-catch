@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Dropdown, Input, Paragraph } from '../../../components';
 import { Tooltip } from './QnaFormContentSection';
@@ -27,21 +27,40 @@ const QnaFormTitleSection = () => {
 
   const dispatch = useQuestionDispatch();
 
-  const setCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch({ type: 'SET_CATEGORY', category: e.target.value });
-  };
+  // const setCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //   console.log(e.target.value);
+  //   dispatch({ type: 'SET_CATEGORY', category: e.target.value });
+  // };
+
+  /** (수정 후) 현 Dropdown 버전 작동 확인 후 위 주석 삭제 요망 */
+  const [activeCategory, setActiveCategory] = useState('DEV');
+  useEffect(() => {
+    dispatch({ type: 'SET_CATEGORY', category: activeCategory });
+  }, [activeCategory, dispatch]);
+
   const setTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({ type: 'SET_TITLE', title: e.target.value });
   };
 
   return (
     <Wrapper>
-      <Dropdown
+      {/**
+       * Dropdown 이전 버전
+       * TODO 아래의 새 버전 기능 정상작동 확인 후 삭제 요망
+       */}
+      {/* <Dropdown
         items={[
           { text: '개발', value: 'DEV' },
           { text: '커리어', value: 'CAREER' },
         ]}
         onChange={setCategory}
+      /> */}
+      <Dropdown
+        items={[
+          { text: '개발', value: 'DEV' },
+          { text: '커리어', value: 'CAREER' },
+        ]}
+        changeOption={setActiveCategory}
       />
       <Input
         placeholder="제목을 입력해 주세요"
