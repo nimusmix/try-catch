@@ -86,9 +86,9 @@ const ProfileBio = () => {
 
   const clickFollowBtn = () => {
     if (user?.isFollowed) {
-      postFollow(userId!);
-    } else {
       putFollow(userId!);
+    } else {
+      postFollow(userId!);
     }
   };
 
