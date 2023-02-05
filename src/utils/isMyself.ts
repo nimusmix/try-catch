@@ -1,5 +1,5 @@
-const isMyself = (me: string, target: string) => {
-  if (me === target) return true;
+const isMyself = (myUserName: string, targetUserName: string) => {
+  if (myUserName === targetUserName) return true;
   return false;
 };
 

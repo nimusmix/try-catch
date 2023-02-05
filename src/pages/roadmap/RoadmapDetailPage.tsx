@@ -36,7 +36,6 @@ const UserWrapper = styled.div`
 
 const UserInfoWrapper = styled.div`
   display: flex;
-  margin-bottom: 2rem;
 `;
 
 const RoadmapDetailPage = () => {
