@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import ReactFlow, { Controls, Background } from 'reactflow';
+import ReactFlow, { Controls, Handle, Position } from 'reactflow';
 import 'reactflow/dist/style.css';
 import styled from 'styled-components';
 
@@ -10,7 +10,7 @@ const nodes = [
     id: '1-1',
     position: { x: 520, y: 50 },
     data: { label: 'HTML' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -18,7 +18,7 @@ const nodes = [
     id: '1-2',
     position: { x: 520, y: 100 },
     data: { label: 'CSS' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -26,7 +26,7 @@ const nodes = [
     id: '1-3',
     position: { x: 520, y: 150 },
     data: { label: 'JavaScript' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -34,7 +34,7 @@ const nodes = [
     id: '2',
     position: { x: 300, y: 100 },
     data: { label: 'BEM' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -42,7 +42,7 @@ const nodes = [
     id: '3-1',
     position: { x: 740, y: 100 },
     data: { label: 'Sass' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -50,7 +50,7 @@ const nodes = [
     id: '3-2',
     position: { x: 740, y: 150 },
     data: { label: 'PostCSS' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -58,7 +58,7 @@ const nodes = [
     id: '3-3',
     position: { x: 740, y: 200 },
     data: { label: 'cssnext' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -66,7 +66,7 @@ const nodes = [
     id: '4-1',
     position: { x: 300, y: 200 },
     data: { label: 'Webpack' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -74,7 +74,7 @@ const nodes = [
     id: '4-2',
     position: { x: 300, y: 250 },
     data: { label: 'Rollup' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -82,7 +82,7 @@ const nodes = [
     id: '4-3',
     position: { x: 300, y: 300 },
     data: { label: 'Parcel' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -90,7 +90,7 @@ const nodes = [
     id: '5-1',
     position: { x: 740, y: 300 },
     data: { label: 'Prettier' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -98,7 +98,7 @@ const nodes = [
     id: '5-2',
     position: { x: 740, y: 350 },
     data: { label: 'ESLint' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -106,7 +106,7 @@ const nodes = [
     id: '6',
     position: { x: 120, y: 450 },
     data: { label: 'React' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -114,7 +114,7 @@ const nodes = [
     id: '7',
     position: { x: 520, y: 450 },
     data: { label: 'Vue' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -122,7 +122,7 @@ const nodes = [
     id: '8',
     position: { x: 920, y: 450 },
     data: { label: 'Angular' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -130,7 +130,7 @@ const nodes = [
     id: '9-1',
     position: { x: 20, y: 520 },
     data: { label: 'Redux' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -138,7 +138,7 @@ const nodes = [
     id: '9-2',
     position: { x: 20, y: 570 },
     data: { label: 'Recoil' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -146,7 +146,7 @@ const nodes = [
     id: '10',
     position: { x: 220, y: 520 },
     data: { label: 'Next.js' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -154,7 +154,7 @@ const nodes = [
     id: '11',
     position: { x: 420, y: 520 },
     data: { label: 'VueX' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -162,7 +162,7 @@ const nodes = [
     id: '12',
     position: { x: 620, y: 520 },
     data: { label: 'Nuxt.js' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -170,7 +170,7 @@ const nodes = [
     id: '13-1',
     position: { x: 820, y: 520 },
     data: { label: 'RxJS' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -178,7 +178,7 @@ const nodes = [
     id: '13-2',
     position: { x: 820, y: 570 },
     data: { label: 'NgRx' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -186,7 +186,7 @@ const nodes = [
     id: '14',
     position: { x: 1020, y: 520 },
     data: { label: 'Universal' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -194,7 +194,7 @@ const nodes = [
     id: '15-1',
     position: { x: 300, y: 670 },
     data: { label: 'Styled Components' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -202,7 +202,7 @@ const nodes = [
     id: '15-2',
     position: { x: 300, y: 720 },
     data: { label: 'CSS Modules' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -210,7 +210,7 @@ const nodes = [
     id: '15-3',
     position: { x: 300, y: 770 },
     data: { label: 'Styled JSX' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -218,7 +218,7 @@ const nodes = [
     id: '15-4',
     position: { x: 300, y: 820 },
     data: { label: 'Emotion' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -226,7 +226,7 @@ const nodes = [
     id: '16-1',
     position: { x: 520, y: 670 },
     data: { label: 'Reactstra' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -234,7 +234,7 @@ const nodes = [
     id: '16-2',
     position: { x: 520, y: 720 },
     data: { label: 'MUI' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -242,7 +242,7 @@ const nodes = [
     id: '16-3',
     position: { x: 520, y: 770 },
     data: { label: 'Tailwind CSS' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -250,7 +250,7 @@ const nodes = [
     id: '16-4',
     position: { x: 520, y: 820 },
     data: { label: 'Chakra UI' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -258,7 +258,7 @@ const nodes = [
     id: '17-1',
     position: { x: 740, y: 670 },
     data: { label: 'Bootstrap' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -266,7 +266,7 @@ const nodes = [
     id: '17-2',
     position: { x: 740, y: 720 },
     data: { label: 'Materialize CSS' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -274,7 +274,7 @@ const nodes = [
     id: '17-3',
     position: { x: 740, y: 770 },
     data: { label: 'Bulma' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -290,7 +290,7 @@ const nodes = [
     id: '19-1',
     position: { x: 200, y: 970 },
     data: { label: 'Apollo' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -298,7 +298,7 @@ const nodes = [
     id: '19-2',
     position: { x: 400, y: 970 },
     data: { label: 'Relay Mode' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -314,7 +314,7 @@ const nodes = [
     id: '21-1',
     position: { x: 640, y: 970 },
     data: { label: 'React Native' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -322,7 +322,7 @@ const nodes = [
     id: '21-2',
     position: { x: 640, y: 1020 },
     data: { label: 'NativeScript' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -330,7 +330,7 @@ const nodes = [
     id: '21-3',
     position: { x: 840, y: 970 },
     data: { label: 'Flutter' },
-    type: 'default',
+    type: 'content',
   },
   {
     width: 160,
@@ -338,7 +338,7 @@ const nodes = [
     id: '21-4',
     position: { x: 840, y: 1020 },
     data: { label: 'Ionic' },
-    type: 'default',
+    type: 'content',
   },
 ];
 
@@ -417,9 +417,17 @@ const Content = styled.div`
   border-radius: var(--borders-radius-base);
 `;
 
-// const ContentNode = ({ data: any }) => {
-//   return <Content>{data.label}</Content>;
-// };
+const ContentNode = ({ data }: { data: any }) => {
+  return (
+    <>
+      <Handle type="target" position={Position.Top} id="t" />
+      <Handle type="target" position={Position.Left} id="l" />
+      <Content>{data.label}</Content>
+      <Handle type="source" position={Position.Bottom} id="b" />
+      <Handle type="source" position={Position.Right} id="r" />
+    </>
+  );
+};
 
 const Subject = styled.div`
   width: 160px;
@@ -429,13 +437,14 @@ const Subject = styled.div`
   text-align: center;
 `;
 
-// eslint-disable-next-line react-hooks/rules-of-hooks
-// const nodeTypes = useMemo(() => ({ content: ContentNode }), []);
-
 const FERoadmap = () => {
+  const nodeTypes = useMemo(() => ({ content: ContentNode }), []);
+
   return (
     <DetailWrapper>
-      <ReactFlow nodes={nodes} edges={edges} fitView />
+      <ReactFlow nodes={nodes} edges={edges} nodeTypes={nodeTypes} fitView>
+        <Controls />
+      </ReactFlow>
     </DetailWrapper>
   );
 };
