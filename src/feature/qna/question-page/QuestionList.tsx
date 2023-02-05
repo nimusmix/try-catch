@@ -1,14 +1,19 @@
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
+import { useRecoilState } from 'recoil';
 import QuestionItem from './QuestionItem';
 
 import { getQuestionList } from '../../../apis/qna/qna';
 import { IQuestion } from '../../../interface/qna';
+import qnaCategoryState from '../../../recoil/qnaCategoryState';
 
-const QuestionList = ({ activeCategory }: { activeCategory: string }) => {
+const QuestionList = () => {
+  const [activeCategory, setActiveCategory] = useRecoilState<'DEV' | 'CAREER' | 'BALANCE'>(
+    qnaCategoryState
+  );
   const { isLoading, data: questionList } = useQuery<Array<IQuestion>>(
-    ['question', 'questionList'] as const,
-    getQuestionList
+    ['question', 'questionList', activeCategory] as const,
+    () => getQuestionList(activeCategory)
   );
 
   return (

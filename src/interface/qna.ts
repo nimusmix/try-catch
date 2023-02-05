@@ -46,7 +46,7 @@ export interface ISimilarErrorData {
 }
 
 export interface IPostQuestion {
-  category: 'DEV' | 'CAREER';
+  category: 'DEV' | 'CAREER' | 'BALANCE';
   title: string;
   content: string;
   errorCode: string;
