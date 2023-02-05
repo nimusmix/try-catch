@@ -57,6 +57,7 @@ export const Aside = styled.aside`
 const QnaPage = () => {
   const [activeCategory, setActiveCategory] = useState('DEV');
 
+  // 디테일 페이지를 미리 로드 (효과가 있는지 잘 모르겠음..)
   useEffect(() => {
     DetailPage.preload();
   }, []);

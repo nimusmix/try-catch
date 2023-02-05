@@ -11,14 +11,9 @@ const QuestionList = ({ activeCategory }: { activeCategory: string }) => {
     getQuestionList
   );
 
-  console.log(activeCategory);
-  const filteredQuestionList = questionList?.filter(
-    (question) => question.category === activeCategory
-  );
-
   return (
     <ul>
-      {filteredQuestionList?.map((question) => {
+      {questionList?.map((question) => {
         return (
           <li key={question.questionId}>
             <Link to={`${question.questionId}`}>
