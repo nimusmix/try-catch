@@ -2,11 +2,13 @@ import { useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
 import React, { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import Layout from '../../layout/Layout';
 import { Answer, QnaDetailPopularQna, Question } from '../../feature/qna';
 import { getQuestionDetail } from '../../apis/qna/qna';
 import { AnswerForm } from '../../feature';
 import { IQuestion } from '../../interface/qna';
+import qnaCategoryState from '../../recoil/qnaCategoryState';
 
 const QnaDetailWrapper = styled.section`
   margin-top: 3rem;
@@ -32,6 +34,7 @@ const Aside = styled.aside`
 const QnaDetailPage = () => {
   const { questionId } = useParams<string>();
   const queryClient = useQueryClient();
+  const qnaCategory = useRecoilValue(qnaCategoryState);
   const [questionInput, setQuestionInput] = useState('');
   const { isLoading, data: questionDetail } = useQuery<IQuestion>(
     ['question', questionId] as const,
@@ -39,7 +42,7 @@ const QnaDetailPage = () => {
     {
       initialData: () => {
         const questionDetail = queryClient
-          .getQueryData<Array<IQuestion>>(['question', 'questionList'])
+          .getQueryData<Array<IQuestion>>(['question', 'questionList', qnaCategory])
           ?.find((question: IQuestion) => question.questionId === Number(questionId));
 
         return questionDetail;

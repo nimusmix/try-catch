@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { MdOutlineCreate } from 'react-icons/md';
 import { Link } from 'react-router-dom';
@@ -55,8 +55,6 @@ export const Aside = styled.aside`
 `;
 
 const QnaPage = () => {
-  const [activeCategory, setActiveCategory] = useState('DEV');
-
   // 디테일 페이지를 미리 로드 (효과가 있는지 잘 모르겠음..)
   useEffect(() => {
     DetailPage.preload();
@@ -74,11 +72,11 @@ const QnaPage = () => {
       </HeaderImage>
       <QuestionPageBody>
         <Aside>
-          <SideNavbar navOptions={navOptions} changeOption={setActiveCategory} />
+          <SideNavbar navOptions={navOptions} />
         </Aside>
         <section>
           <QnaSearchBar />
-          <QuestionList activeCategory={activeCategory} />
+          <QuestionList />
         </section>
         <Aside>
           <Link to="form">
