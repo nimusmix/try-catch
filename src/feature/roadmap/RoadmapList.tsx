@@ -4,6 +4,7 @@ import { getRoadmapList } from '../../apis/roadmap/roadmap';
 import RoadmapListItem from './RoadmapListItem';
 
 interface IRoadmapListItem {
+  roadmapId: number;
   author: {
     userId: number;
     userName: string;
@@ -13,6 +14,7 @@ interface IRoadmapListItem {
   };
   title: string;
   tag: string;
+  isBookmarked: boolean;
 }
 
 const RoadmapList = () => {
