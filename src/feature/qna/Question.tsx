@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useMutation, useQueryClient } from 'react-query';
 import { Button, Div, MiniTitle, Paragraph } from '../../components';
 import {
   IconBookmarkEmpty,
@@ -13,6 +14,7 @@ import elapsedTime from '../../utils/elapsed-time';
 import { COMPANY } from '../../constant/company';
 import MilkdownViewer from '../text-editor/MilkdownViewer';
 import { IQuestion } from '../../interface/qna';
+import { cancelLike, postLike } from '../../apis/like/like';
 
 const QuestionDiv = styled(Div)`
   overflow: hidden;
@@ -87,6 +89,7 @@ const Like = styled.span`
   display: flex;
   align-items: center;
   margin: 1rem auto 1.5rem;
+  cursor: pointer;
   svg {
     margin-right: 0.2rem;
     color: ${({ theme }) => theme.textColor100};
@@ -139,7 +142,68 @@ const Question = ({
   category,
   isBookmarked,
   isSolved,
+  questionId,
 }: IQuestion) => {
+  const queryClient = useQueryClient();
+  const { mutate: like } = useMutation(
+    ['like', 'post'],
+    () => postLike({ id: questionId, type: 'QUESTION' }),
+    {
+      onMutate: async () => {
+        await queryClient.cancelQueries(['question', questionId]);
+        const previousData = queryClient.getQueryData<IQuestion>(['question', questionId]);
+
+        if (previousData) {
+          // previousData 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
+          queryClient.setQueryData<IQuestion>(['question', questionId], (oldData: any) => {
+            return {
+              ...oldData,
+              likeCount: likeCount + 1,
+              isLiked: !isLiked,
+            };
+          });
+        }
+
+        return {
+          previousData,
+        };
+      },
+    }
+  );
+  const { mutate: cancel } = useMutation(
+    ['like', 'put'],
+    () => cancelLike({ id: questionId, type: 'QUESTION' }),
+    {
+      onMutate: async () => {
+        await queryClient.cancelQueries(['question', questionId]);
+        const previousData = queryClient.getQueryData<IQuestion>(['question', questionId]);
+
+        if (previousData) {
+          // previousData 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
+          queryClient.setQueryData<IQuestion>(['question', questionId], (oldData: any) => {
+            return {
+              ...oldData,
+              likeCount: likeCount - 1,
+              isLiked: !isLiked,
+            };
+          });
+        }
+
+        return {
+          previousData,
+        };
+      },
+    }
+  );
+
+  const onClickLikeHandler = () => {
+    if (isLiked) {
+      cancel();
+    } else {
+      like();
+    }
+  };
+
   return (
     <QuestionDiv>
       <UpperWrapper>
@@ -221,7 +285,7 @@ const Question = ({
         {errorCode && <MilkdownViewer width="100%" data={errorCode} />}
       </QuestionBody>
 
-      <Like>
+      <Like onClick={onClickLikeHandler}>
         {isLiked && <IconLikeFill />}
         {isLiked || <IconLikeEmpty />}
         <SubText sizeType="xm">{likeCount}</SubText>
