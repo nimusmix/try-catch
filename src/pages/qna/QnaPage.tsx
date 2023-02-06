@@ -68,12 +68,8 @@ const QnaPage = () => {
   return (
     <Layout>
       <HeaderImage image={header_qna}>
-        <SubTitle color="var(--colors-black-500)" margin="0 0 0.2rem 0">
-          Q&A
-        </SubTitle>
-        <Paragraph sizeType="base" color="var(--colors-black-400)">
-          Q&A 게시판에 대한 설명이 들어갈 자리입니다.
-        </Paragraph>
+        <SubTitle>Q&A</SubTitle>
+        <Paragraph sizeType="base">좋은 멘트 추천 받습니다.</Paragraph>
       </HeaderImage>
       <QuestionPageBody>
         <Aside>

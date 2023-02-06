@@ -26,6 +26,10 @@ const Img = styled.img`
   margin-right: 1rem;
 `;
 
+const SubText = styled(Paragraph)`
+  color: ${({ theme }) => theme.textColor100};
+`;
+
 const UserWrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -69,7 +73,9 @@ const RoadmapDetailPage = () => {
             <Img src={roadmapDetail?.author.profileImage} />
             <div>
               <MiniTitle sizeType="xl">{roadmapDetail?.author.userName}</MiniTitle>
-              <Paragraph sizeType="base">{roadmapDetail?.author.companyName}</Paragraph>
+              <SubText sizeType="base">
+                {roadmapDetail?.author.companyName || '지나가던 개발자'}
+              </SubText>
             </div>
           </UserInfoWrapper>
 

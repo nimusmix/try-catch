@@ -34,12 +34,8 @@ const Bookmark = () => {
         <title>트라이캐치 | 북마크</title>
       </Helmet>
       <HeaderImage image={header_bookmark}>
-        <SubTitle color="var(--colors-black-500)" margin="0 0 0.2rem 0">
-          북마크
-        </SubTitle>
-        <Paragraph sizeType="base" color="var(--colors-black-400)">
-          북마크 게시판에 대한 설명이 들어갈 자리입니다.
-        </Paragraph>
+        <SubTitle>북마크</SubTitle>
+        <Paragraph sizeType="base">북마크 게시판에 대한 설명이 들어갈 자리입니다.</Paragraph>
       </HeaderImage>
 
       <BookmarkWrapper>
