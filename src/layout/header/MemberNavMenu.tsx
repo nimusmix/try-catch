@@ -48,12 +48,8 @@ const Img = styled.img`
   margin-right: 8px;
 `;
 
-const ProfileWrapper = styled.div`
+const ProfileWrapper = styled.span`
   display: flex;
-
-  span {
-    padding-right: 1rem;
-  }
 `;
 
 const DropLi = styled.li`
