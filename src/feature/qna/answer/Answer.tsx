@@ -139,7 +139,8 @@ const Answer = ({
       }
       return ans;
     });
-
+    console.log(previousData);
+    console.log('new', newAnswers);
     if (previousData) {
       // previousData 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
       queryClient.setQueryData<IQuestion>(['question', `${questionId}`], (oldData: any) => {
