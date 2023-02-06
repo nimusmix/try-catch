@@ -8,6 +8,8 @@ import getImageUrl from '../../../utils/getImageUrl';
 import { COMPANY } from '../../../constant/company';
 import { logOnDev } from '../../../utils/logging';
 import { cancelLike, postLike } from '../../../apis/like/like';
+import useIsMe from '../../../hooks/useIsMe';
+import { postFollow, putFollow } from '../../../apis/user/user';
 
 const AnswerItem = styled.li`
   display: flex;
@@ -91,6 +93,7 @@ const Like = styled.div`
   align-items: center;
   margin-top: 1rem;
   margin-left: auto;
+  cursor: pointer;
   svg {
     margin-right: 0.2rem;
     color: ${({ theme }) => theme.textColor100};
@@ -126,6 +129,7 @@ const Answer = ({
   setQuestionInput: Dispatch<SetStateAction<string>>;
   questionId: number;
 }) => {
+  const isMe = useIsMe(answer.answerId);
   const queryClient = useQueryClient();
   const updateLike = (type: 'up' | 'down') => {
     const previousData = queryClient.getQueryData<IQuestion>(['question', `${questionId}`]);
@@ -140,8 +144,7 @@ const Answer = ({
       }
       return ans;
     });
-    console.log(previousData);
-    console.log('new', newAnswers);
+
     if (previousData) {
       // previousData 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
       queryClient.setQueryData<IQuestion>(['question', `${questionId}`], (oldData: any) => {
@@ -156,8 +159,40 @@ const Answer = ({
       previousData,
     };
   };
+
+  const updateFollow = (type: 'do' | 'un') => {
+    const previousData = queryClient.getQueryData<IQuestion>(['question', `${questionId}`]);
+
+    const newAnswers = previousData?.answers.map((ans) => {
+      if (ans.answerId === answer.answerId) {
+        return {
+          ...ans,
+          author: {
+            ...ans.author,
+            isFollowed: type === 'do',
+          },
+        };
+      }
+      return ans;
+    });
+
+    if (previousData) {
+      // previousData 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
+      queryClient.setQueryData<IQuestion>(['question', `${questionId}`], (oldData: any) => {
+        return {
+          ...oldData,
+          answers: newAnswers,
+        };
+      });
+    }
+
+    return {
+      previousData,
+    };
+  };
+
   // 좋아요
-  const { mutate: like } = useMutation(
+  const { mutate: likeUp } = useMutation(
     ['like', 'up'],
     () => postLike({ id: answer.answerId, type: 'ANSWER' }),
     {
@@ -166,7 +201,7 @@ const Answer = ({
   );
 
   // 좋아요 취소
-  const { mutate: cancel } = useMutation(
+  const { mutate: likeDown } = useMutation(
     ['like', 'down'],
     () => cancelLike({ id: answer.answerId, type: 'ANSWER' }),
     {
@@ -174,11 +209,29 @@ const Answer = ({
     }
   );
 
+  // 팔로우
+  const { mutate: follow } = useMutation(['follow'], () => postFollow(answer.author.userId), {
+    onMutate: () => updateFollow('do'),
+  });
+
+  // 팔로우 취소
+  const { mutate: unFollow } = useMutation(['unFollow'], () => putFollow(answer.author.userId), {
+    onMutate: () => updateFollow('un'),
+  });
+
   const onClickLikeHandler = () => {
     if (answer.isLiked) {
-      cancel();
+      likeDown();
     } else {
-      like();
+      likeUp();
+    }
+  };
+
+  const onClickFollowHandler = () => {
+    if (answer.author.isFollowed) {
+      unFollow();
+    } else {
+      follow();
     }
   };
   return (
@@ -199,12 +252,14 @@ const Answer = ({
                 alt={answer.author.companyName}
               />
               {/* 팔로우 버튼 */}
-              {answer.author.isFollowed && <Button>팔로잉</Button>}
-              {answer.author.isFollowed || (
-                <FollowButton designType="blueEmpty" fontSize="14px">
-                  팔로우
-                </FollowButton>
-              )}
+              <span onClick={() => logOnDev.log('팔로우')}>
+                {answer.author.isFollowed && <Button>팔로잉</Button>}
+                {(!isMe && answer.author.isFollowed) || (
+                  <FollowButton designType="blueEmpty" fontSize="14px">
+                    팔로우
+                  </FollowButton>
+                )}
+              </span>
             </UserInfo>
             <SubText sizeType="xm">
               {answer.author.companyName === 'default'
