@@ -1,13 +1,15 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getQuestionList } from '../../../apis/qna/qna';
 import qnaCategoryState from '../../../recoil/qnaCategoryState';
 import { QuestionItem } from '../index';
+import question from '../Question';
 
-const QuestionList = () => {
+const QuestionList = ({ filter }: { filter: string }) => {
   const [activeCategory, setActiveCategory] = useRecoilState<string>(qnaCategoryState);
+  const [test, setTest] = useState(false);
   const keyword = new URLSearchParams(useLocation().search).get('keyword') || '';
   const {
     data: questionList,
@@ -29,6 +31,10 @@ const QuestionList = () => {
     {
       keepPreviousData: true,
       getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
+      select: (data) => {
+        // const filteredPages =
+        return { ...data };
+      },
     }
   );
 
@@ -45,7 +51,7 @@ const QuestionList = () => {
 
   return (
     <ul>
-      {questionList?.pages.map((page, index) => {
+      {questionList?.pages?.map((page, index) => {
         return (
           <>
             {page.data.map((questionItem) => {

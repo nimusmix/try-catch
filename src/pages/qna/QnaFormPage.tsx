@@ -8,7 +8,7 @@ import Layout from '../../layout/Layout';
 import { Button } from '../../components';
 import QnaFormHeader from '../../feature/qna/question-form/QnaFormHeader';
 import QnaFormBody from '../../feature/qna/question-form/QnaFormBody';
-import { useQuestionState } from '../../context/QnaContext';
+import { useQuestionDispatch, useQuestionState } from '../../context/QnaContext';
 import { postQuestion } from '../../apis/qna/qna';
 import { logOnDev } from '../../utils/logging';
 import { toastState } from '../../recoil';
@@ -25,7 +25,7 @@ const Section = styled.section`
   max-width: var(--breakpoints-desktop);
 
   h3 {
-    margin: 2.5rem 0 1rem;
+    margin: 2.5rem 0 0.5rem;
   }
 `;
 
@@ -38,9 +38,16 @@ const TooltipAside = styled.aside`
   width: 100%;
 `;
 
+export const Required = styled.span`
+  color: tomato;
+  line-height: 2rem;
+  margin-left: 0.5rem;
+`;
+
 const QnaFormPage = () => {
   const setToast = useSetRecoilState(toastState);
   const { content, category, errorCode, title, tags } = useQuestionState();
+  const dispatch = useQuestionDispatch();
   const navigate = useNavigate();
   const { mutate: addQuestion } = useMutation(
     postQuestion({ content, category, errorCode, title, tags }),
@@ -48,6 +55,7 @@ const QnaFormPage = () => {
       onSuccess: () => {
         navigate('/question', { replace: true });
         setToast({ type: 'positive', message: '질문 작성 성공', isVisible: true });
+        dispatch({ type: 'RESET' });
       },
 
       onError: () => {

@@ -64,9 +64,8 @@ const QnaDetailPage = () => {
           <ul>
             {questionDetail &&
               questionDetail.answers
-                .sort((a, b) => a.updatedAt - b.updatedAt)
+                .sort((a, b) => a.timestamp - b.timestamp)
                 .map((answer) => {
-                  console.log(answer);
                   return (
                     <Answer
                       key={answer.answerId}

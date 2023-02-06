@@ -1,8 +1,8 @@
 import {
-  IoIosArrowForward as IconArrow,
-  IoMdSearch as IconSearch,
   IoIosArrowDown as IconArrowDown,
+  IoIosArrowForward as IconArrow,
   IoIosArrowUp as IconArrowUp,
+  IoMdSearch as IconSearch,
 } from 'react-icons/io';
 import {
   RxBookmark as IconBookmarkEmpty,
@@ -12,8 +12,8 @@ import {
 
 import {
   BsBellFill as IconBellFill,
-  BsCheckCircleFill as IconCheckCircle,
   BsCheck as IconCheck,
+  BsCheckCircleFill as IconCheckCircle,
   BsFillReplyFill as IconReply,
   BsGrid as IconCard,
   BsShareFill as IconShare,
@@ -26,6 +26,7 @@ import {
 } from 'react-icons/ai';
 import { BiComment as IconComment } from 'react-icons/bi';
 import { FaUserCircle as IconUserCircle } from 'react-icons/fa';
+import { FiMoreVertical as IconMore } from 'react-icons/fi';
 import { GiTalk as IconQuestion } from 'react-icons/gi';
 import { MdOutlineFeed as IconFeed } from 'react-icons/md';
 
@@ -51,4 +52,5 @@ export {
   IconFeed,
   IconX,
   IconReply,
+  IconMore,
 };

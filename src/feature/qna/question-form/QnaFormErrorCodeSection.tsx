@@ -5,6 +5,7 @@ import MilkdownEditor from '../../text-editor/MilkdownEditor';
 import useTooltip from '../../../hooks/useTooltip';
 import { Tooltip } from './QnaFormContentSection';
 import { useQuestionDispatch } from '../../../context/QnaContext';
+import { Required } from '../../../pages/qna/QnaFormPage';
 
 const Wrapper = styled.div`
   position: relative;
@@ -28,8 +29,8 @@ const QnaFormErrorCodeSection = () => {
 
   return (
     <Wrapper>
-      <MiniTitle sizeType="xl" textAlign="left">
-        에러 코드
+      <MiniTitle sizeType="xl" textAlign="left" display="inline-flex">
+        에러 코드 <Required>*</Required>
       </MiniTitle>
       <MilkdownEditor width="100%" ref={errorCodeRef} setState={setErrorCode} />
       {isErrorCodeBlur && (
