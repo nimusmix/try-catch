@@ -10,7 +10,7 @@ import { IBookmarkQuestion } from '../../interface/bookmark';
 
 const Wrapper = styled.article`
   width: 848px;
-  padding: 2rem 2.25rem 1rem;
+  padding: 1.3rem 2.25rem 1rem;
   border-bottom: 1px solid ${({ theme }) => theme.borderColor};
   cursor: pointer;
   &:hover {

@@ -10,6 +10,7 @@ import {
   IconLikeEmpty,
   IconLikeFill,
   IconMore,
+  IconTrying,
 } from '../../components/icons/Icons';
 import getImageUrl from '../../utils/getImageUrl';
 import elapsedTime from '../../utils/elapsed-time';
@@ -58,10 +59,15 @@ const UpperWrapper = styled.div`
 
 const UpperTagWrapper = styled.div`
   display: flex;
+
+  .solved {
+    margin-right: 1rem;
+  }
 `;
 
 const UpperTag = styled(Button)`
   margin-right: 0.5rem;
+  height: 2rem;
 `;
 
 const Icons = styled.div`
@@ -215,7 +221,9 @@ const Question = ({
     ['bookmark'],
     () => postBookmark({ id: questionId, type: 'QUESTION' }),
     {
-      onMutate: () => updateBookmark('do'),
+      onMutate: () => {
+        updateBookmark('do');
+      },
     }
   );
   const { mutate: cancelBookmark } = useMutation(
@@ -235,15 +243,26 @@ const Question = ({
   };
 
   const onClickBookmarkHandler = () => {
-    // setToast({
-    //   type: 'negative',
-    //   message: '로그인 후 북마크 기능을 이용해보세요! ',
-    //   isVisible: true,
-    // });
-    if (isBookmarked) {
+    if (!isLoggedIn) {
+      setToast({
+        type: 'negative',
+        isVisible: true,
+        message: '로그인 후 북마크를 이용해보세요! ',
+      });
+    } else if (isBookmarked) {
       cancelBookmark();
+      setToast({
+        type: 'positive',
+        message: '북마크에서 제거되었습니다.',
+        isVisible: true,
+      });
     } else {
       addBookmark();
+      setToast({
+        type: 'positive',
+        message: '북마크에 추가되었습니다.',
+        isVisible: true,
+      });
     }
   };
 
@@ -253,43 +272,53 @@ const Question = ({
         <div className="question-icons">
           <UpperTagWrapper>
             {/* 카테고리 */}
-            <UpperTag
-              as="span"
-              designType="purpleFill"
-              fontSize="14px"
-              padding="0.2rem 0.6rem"
-              borderRadius="10px"
-            >
+            <UpperTag as="span" designType="purpleFill" padding="0 0.7rem" borderRadius="10px">
               {toKorean(category)}
             </UpperTag>
-            {/* 해결 여부 */}
-            {isSolved && (
-              <UpperTag
-                as="span"
-                designType="greenFill"
-                fontSize="14px"
-                padding="0.2rem 0.6rem"
-                margin="0 0 0.4rem"
-                borderRadius="10px"
-              >
-                <IconCheckCircle size="14" className="solved-icon" />
-                &nbsp;Catched
-              </UpperTag>
-            )}
+            <span className="solved">
+              {/* 해결 여부 */}
+              {isSolved && (
+                <UpperTag
+                  as="span"
+                  designType="greenFill"
+                  fontSize="14px"
+                  padding="0.2rem 0.6rem"
+                  margin="0 0 0.4rem"
+                  borderRadius="10px"
+                >
+                  <IconCheckCircle size="14" className="solved-icon" />
+                  &nbsp;Catched
+                </UpperTag>
+              )}
+              {/* 미해결 질문 */}
+              {isSolved || (
+                <UpperTag
+                  as="span"
+                  designType="skyFill"
+                  fontSize="14px"
+                  padding="0.2rem 0.6rem"
+                  margin="0 0 0.4rem"
+                  borderRadius="10px"
+                >
+                  <IconTrying size="14" className="unsolved-icon" />
+                  &nbsp;Trying
+                </UpperTag>
+              )}
+            </span>
             {tags.map((tag, index) => {
               if (tag === '') return null;
               return (
-                <Button
+                <UpperTag
                   key={String(tag + index)}
                   as="span"
                   designType="blueEmpty"
-                  fontSize="var(--fonts-body-xm)"
+                  fontSize="var(--fonts-body-sm)"
                   padding="2px 10px"
                   margin="0 0.3rem 0 0"
                   borderRadius="var(--borders-radius-base)"
                 >
                   #{tag}
-                </Button>
+                </UpperTag>
               );
             })}
           </UpperTagWrapper>
@@ -334,7 +363,7 @@ const Question = ({
       </QuestionBody>
 
       <Like onClick={onClickLikeHandler}>
-        {isLiked && <IconLikeFill />}
+        {isLiked && <IconLikeFill color="var(--colors-brand-500)" />}
         {isLiked || <IconLikeEmpty />}
         <SubText sizeType="xm">{likeCount}</SubText>
       </Like>
