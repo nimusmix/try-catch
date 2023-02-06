@@ -7,7 +7,7 @@ import {
   IconCheckCircle,
   IconLikeEmpty,
   IconLikeFill,
-  IconShare,
+  IconMore,
 } from '../../components/icons/Icons';
 import getImageUrl from '../../utils/getImageUrl';
 import elapsedTime from '../../utils/elapsed-time';
@@ -15,6 +15,7 @@ import { COMPANY } from '../../constant/company';
 import MilkdownViewer from '../text-editor/MilkdownViewer';
 import { IQuestion } from '../../interface/qna';
 import { cancelLike, postLike } from '../../apis/like/like';
+import useIsMe from '../../hooks/useIsMe';
 
 const QuestionDiv = styled(Div)`
   overflow: hidden;
@@ -126,6 +127,13 @@ const QuestionBody = styled.div`
   }
 `;
 
+const toKorean = (category: string | undefined) => {
+  if (category === 'DEV') {
+    return '개발';
+  }
+  return '커리어';
+};
+
 const Question = ({
   tags,
   updatedAt,
@@ -145,6 +153,7 @@ const Question = ({
   questionId,
 }: IQuestion) => {
   const queryClient = useQueryClient();
+  const isMe = useIsMe(author.userId);
   const { mutate: like } = useMutation(
     ['like', 'post'],
     () => postLike({ id: questionId, type: 'QUESTION' }),
@@ -217,9 +226,9 @@ const Question = ({
               padding="0.2rem 0.6rem"
               borderRadius="10px"
             >
-              {category}
+              {toKorean(category)}
             </UpperTag>
-
+            {isMe}
             {/* 해결 여부 */}
             {isSolved && (
               <UpperTag
@@ -257,8 +266,9 @@ const Question = ({
             {isBookmarked && <IconBookmarkFill size="20" color="var(--colors-brand-500)" />}
             {isBookmarked || <IconBookmarkEmpty size="20" color="var(--colors-brand-500)" />}
 
+            <IconMore size="18" color="var(--colors-brand-500)" />
             {/* 공유 */}
-            <IconShare size="16" color="var(--colors-brand-500)" />
+            {/* <IconShare size="16" color="var(--colors-brand-500)" /> */}
           </Icons>
         </div>
 

@@ -4,6 +4,7 @@ import { MiniTitle, Paragraph } from '../../../components';
 import MilkdownEditor from '../../text-editor/MilkdownEditor';
 import useTooltip from '../../../hooks/useTooltip';
 import { useQuestionDispatch } from '../../../context/QnaContext';
+import { Required } from '../../../pages/qna/QnaFormPage';
 
 const Wrapper = styled.div`
   position: relative;
@@ -43,8 +44,8 @@ const QnaFormContentSection = () => {
 
   return (
     <Wrapper>
-      <MiniTitle sizeType="xl" textAlign="left">
-        질문 내용
+      <MiniTitle sizeType="xl" textAlign="left" display="inline-flex">
+        질문 내용 <Required>*</Required>
       </MiniTitle>
       <MilkdownEditor width="100%" setState={setContent} ref={contentRef} />
       {isContentFocus && (

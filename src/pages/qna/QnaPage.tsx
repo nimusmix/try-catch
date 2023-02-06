@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { MdOutlineCreate } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import loadable from '@loadable/component';
 import { useRecoilState } from 'recoil';
 import { HeaderImage, Layout } from '../../layout';
@@ -56,8 +56,16 @@ export const Aside = styled.aside`
   height: 500px;
 `;
 
+const filterOptions = [
+  { id: 1, option: '전체', value: 'all' },
+  { id: 2, option: '해결', value: 'solved' },
+  { id: 3, option: '미해결', value: 'unSolved' },
+];
+
 const QnaPage = () => {
   const [activeCategory, setActiveCategory] = useRecoilState(qnaCategoryState);
+  const [filter, setFilter] = useState<string>('all');
+  const keyword = new URLSearchParams(useLocation().search).get('keyword') || '';
 
   const activeIdx = navOptions.findIndex((option) => option.value === activeCategory);
   // 디테일 페이지를 미리 로드 (효과가 있는지 잘 모르겠음..)
@@ -81,7 +89,17 @@ const QnaPage = () => {
         </Aside>
         <section>
           <QnaSearchBar />
-          <QuestionList />
+          <div>
+            <ul>
+              {filterOptions.map((option) => (
+                // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+                <li key={option.id} onClick={() => setFilter(option.value)}>
+                  {option.option}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <QuestionList filter={filter} />
         </section>
         <Aside>
           <Link to="form">
