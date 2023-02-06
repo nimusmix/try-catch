@@ -45,6 +45,7 @@ const Img = styled.img`
   width: 24px;
   height: 24px;
   border-radius: 50%;
+  margin-right: 8px;
 `;
 
 const ProfileWrapper = styled.div`
