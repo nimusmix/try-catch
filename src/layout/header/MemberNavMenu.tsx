@@ -52,7 +52,7 @@ const ProfileWrapper = styled.div`
   display: flex;
 
   span {
-    margin-right: 1rem;
+    padding-right: 1rem;
   }
 `;
 
