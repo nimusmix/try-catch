@@ -16,7 +16,6 @@ const Bookmark = styled(NavLink)``;
 const ProfileLi = styled.li`
   display: flex;
   align-items: center;
-  padding-right: 2rem;
   height: var(--toolbar-height);
   cursor: pointer;
   svg {
@@ -45,11 +44,15 @@ const Img = styled.img`
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  margin-right: 8px;
+  margin-right: 1rem;
 `;
 
 const ProfileWrapper = styled.div`
   display: flex;
+
+  p {
+    margin-right: 1rem;
+  }
 `;
 
 const DropLi = styled.li`
@@ -58,7 +61,7 @@ const DropLi = styled.li`
 
 const DropUl = styled.ul`
   list-style: none;
-  line-height: 1rem;
+  line-height: 2rem;
 `;
 
 const Dropdown = styled.button`
@@ -74,6 +77,7 @@ const DropLiContainer = styled.div`
   background-color: ${({ theme }) => theme.bgColor};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   margin-top: 4px;
+  padding: 8px;
   position: absolute;
   display: none;
 
