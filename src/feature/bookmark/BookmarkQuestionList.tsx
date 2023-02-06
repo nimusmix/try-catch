@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import { Button, Checkbox } from '../../components';
 import { IBookmarkQuestion } from '../../interface/bookmark';
-import { getBookmarkQuestionList } from '../../apis/bookmark/bookmark';
+import { getBookmarkQuestionList, putBookmark } from '../../apis/bookmark/bookmark';
 import BookmarkQuestionItem from './BookmarkQuestionItem';
 
 const Wrapper = styled.div`
@@ -31,7 +31,6 @@ const BookmarkQuestionList = () => {
     ['bookmarkQuestionList'] as const,
     getBookmarkQuestionList
   );
-  // useQuery(['loginedUserName'] as const, getName);
 
   const [checkedItems, setCheckedItems] = useState<Array<number>>([]);
 
@@ -61,11 +60,17 @@ const BookmarkQuestionList = () => {
     handleAllCheck((e.target as HTMLInputElement).checked);
   };
 
+  const unBookmark = useMutation(putBookmark);
+
   const onDelete = () => {
     // 얘를 DB로 보내면 됨!
     const newQuestionItemList = bookmarkQuestionList?.filter(
       (el) => checkedItems.includes(el.questionId) === false
     );
+
+    newQuestionItemList?.map((item) => {
+      return unBookmark.mutate({ id: item.questionId, type: 'QUESTION' });
+    });
   };
 
   return (
