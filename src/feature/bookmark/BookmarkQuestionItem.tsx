@@ -71,9 +71,17 @@ const InfoWrapper = styled.div`
   }
 `;
 
+const toKorean = (category: string | undefined) => {
+  if (category === 'DEV') {
+    return '개발';
+  }
+  return '커리어';
+};
+
 const BookmarkQuestionItem = ({
   title,
   content,
+  category,
   createdAt,
   viewCount,
   likeCount,
@@ -108,6 +116,14 @@ const BookmarkQuestionItem = ({
 
       <QuestionFooter>
         <TagsWrapper>
+          <Button
+            as="span"
+            designType="purpleFill"
+            fontSize="var(--fonts-body-xm)"
+            padding="2.2px 10px"
+          >
+            {toKorean(category)}
+          </Button>
           {tags?.map((tag) => {
             if (tag === '') return null;
             return (
