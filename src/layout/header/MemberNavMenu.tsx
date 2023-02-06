@@ -56,7 +56,7 @@ const DropLi = styled.li`
 
 const DropUl = styled.ul`
   list-style: none;
-  line-height: 2rem;
+  line-height: 1rem;
 `;
 
 const Dropdown = styled.button`
@@ -131,9 +131,9 @@ const MemberNavMenu = () => {
           </ProfileWrapper>
           <DropLiContainer>
             <DropUl>
-              <DropLi>
-                <Link to={`/profile/${userName}`}>마이페이지</Link>
-              </DropLi>
+              <Link to={`/profile/${userName}`}>
+                <DropLi>내 프로필</DropLi>
+              </Link>
               <DropLi>
                 <Link to="/settings">설정</Link>
               </DropLi>
