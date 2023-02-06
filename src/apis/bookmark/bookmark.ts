@@ -8,7 +8,7 @@ export const getBookmarkQuestionList = () =>
     .get(`/bookmark/question`)
     .then((res: AxiosResponse<Array<IBookmarkQuestion>>) => res.data);
 
-// export const postBookmarkQuestion = (data: IBookmarkBody) => authApi.post(`/bookmark`, data);
+export const postBookmark = (data: IBookmarkBody) => authApi.post(`/bookmark`, data);
 export const putBookmark = (data: IBookmarkBody) => authApi.put(`/bookmark`, data);
 
 export const getBookmarkFeedList = () => authApi.get(`/bookmark/feed`).then((res) => res.data);
