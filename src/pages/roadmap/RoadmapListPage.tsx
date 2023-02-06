@@ -25,6 +25,7 @@ const RoadmapListPage = () => {
       navi('.');
     }
   }, [navi, activeCategory]);
+
   return (
     <Layout>
       <HeaderImage image={header_roadmap}>
@@ -42,7 +43,6 @@ const RoadmapListPage = () => {
         </Aside>
 
         <ContentWrapper>
-          <SubTitle>커스텀 로드맵 리스트</SubTitle>
           <RoadmapList />
         </ContentWrapper>
       </RoadmapWrapper>

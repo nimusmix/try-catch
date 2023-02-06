@@ -16,7 +16,7 @@ interface IRoadmapItemProps {
 const ItemWrapper = styled(Div)`
   display: flex;
   align-items: center;
-  width: 500px;
+  width: 600px;
   padding: 1.5rem 2rem;
   margin: 1rem;
 `;
@@ -28,8 +28,12 @@ const Img = styled.img`
   margin-right: 1.5rem;
 `;
 
+const SubText = styled(Paragraph)`
+  color: ${({ theme }) => theme.textColor100};
+`;
+
 const Line = styled.div`
-  width: 100%;
+  width: 380px;
   border-bottom: 1px ${({ theme }) => theme.borderColor} solid;
   margin: 0.5rem 0;
 `;
@@ -61,7 +65,7 @@ const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
         <Paragraph sizeType="lg" fontWeight="500">
           {roadmap.author.userName}
         </Paragraph>
-        <Paragraph sizeType="sm">{roadmap.author.companyName || '미인증'}</Paragraph>
+        <SubText sizeType="sm">{roadmap.author.companyName || '지니가던 개발자'}</SubText>
         <Line />
         <MiniTitle sizeType="xl" fontWeight="600">
           {roadmap.title}
