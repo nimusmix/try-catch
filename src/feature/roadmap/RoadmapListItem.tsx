@@ -71,23 +71,28 @@ const Icons = styled.button`
 `;
 
 const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
-  /* 북마크 상태 표시 */
   const queryClient = useQueryClient();
 
   const updateBookmark = (type: 'up' | 'down') => {
-    const previousData = queryClient.getQueryData(['roadmap', `${roadmap.roadmapId}`]);
+    const previousData = queryClient.getQueryData<Array<IRoadmapItemProps>>(['roadmapList']);
+
+    const newRoadmapLists = previousData?.map((roadmapItem) => {
+      if (roadmapItem.roadmapId === roadmap.roadmapId) {
+        return {
+          ...roadmapItem,
+          isBookmarked: type === 'up',
+        };
+      }
+      return roadmapItem;
+    });
 
     if (previousData) {
-      queryClient.setQueryData<IRoadmapItemProps>(
-        ['roadmap', `${roadmap.roadmapId}`],
-        (oldData: any) => {
-          return {
-            ...oldData,
-
-            isBookmarked: type === 'up',
-          };
-        }
-      );
+      queryClient.setQueryData<Array<IRoadmapItemProps>>(['roadmapList'], (oldData: any) => {
+        return {
+          ...oldData,
+          newRoadmapLists,
+        };
+      });
     }
 
     return {
