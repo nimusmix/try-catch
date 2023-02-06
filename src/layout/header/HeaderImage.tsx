@@ -9,11 +9,20 @@ const HeaderImage = styled.div<IHeaderImageProps>`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 200px;
+  height: 180px;
   background-image: url(${({ image }) => image});
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
+
+  h2 {
+    font-size: 32px;
+    color: var(---colors-black-500);
+  }
+
+  p {
+    color: var(---colors-black-400);
+  }
 `;
 
 export default HeaderImage;
