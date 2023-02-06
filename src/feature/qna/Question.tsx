@@ -155,13 +155,11 @@ const Question = ({
   const queryClient = useQueryClient();
   const isMe = useIsMe(author.userId);
   const updateLike = (type: 'up' | 'down') => {
-    const previousData = queryClient.getQueryData(['question', questionId]);
+    const previousData = queryClient.getQueryData(['question', `${questionId}`]);
 
-    console.log('prev', previousData);
     if (previousData) {
       // previousData 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
-      queryClient.setQueryData<IQuestion>(['question', questionId], (oldData: any) => {
-        console.log('old', oldData);
+      queryClient.setQueryData<IQuestion>(['question', `${questionId}`], (oldData: any) => {
         return {
           ...oldData,
           likeCount: type === 'up' ? likeCount + 1 : likeCount - 1,
@@ -178,22 +176,7 @@ const Question = ({
     ['like', 'up'],
     () => postLike({ id: questionId, type: 'QUESTION' }),
     {
-      onMutate: async () => {
-        await queryClient.cancelQueries(['question', questionId]);
-        const prev = queryClient.getQueryData(['question', questionId]);
-
-        queryClient.setQueryData(['question', questionId], (old) => {
-          return {
-            ...old!,
-            likeCount: likeCount + 1,
-            isLiked: true,
-          };
-        });
-
-        return {
-          prev,
-        };
-      },
+      onMutate: () => updateLike('up'),
     }
   );
   const { mutate: cancel } = useMutation(
