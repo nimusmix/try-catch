@@ -17,11 +17,11 @@ const HeaderImage = styled.div<IHeaderImageProps>`
 
   h2 {
     font-size: 32px;
-    color: var(---colors-black-500);
+    color: var(--colors-black-500);
   }
 
   p {
-    color: var(---colors-black-400);
+    color: var(--colors-black-400);
   }
 `;
 
