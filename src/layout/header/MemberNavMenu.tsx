@@ -16,6 +16,7 @@ const Bookmark = styled(NavLink)``;
 const ProfileLi = styled.li`
   display: flex;
   align-items: center;
+  margin-right: 2rem;
   height: var(--toolbar-height);
   cursor: pointer;
   svg {
@@ -44,13 +45,12 @@ const Img = styled.img`
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  margin-right: 1rem;
 `;
 
 const ProfileWrapper = styled.div`
   display: flex;
 
-  p {
+  span {
     margin-right: 1rem;
   }
 `;
@@ -61,7 +61,7 @@ const DropLi = styled.li`
 
 const DropUl = styled.ul`
   list-style: none;
-  line-height: 2rem;
+  line-height: 1rem;
 `;
 
 const Dropdown = styled.button`
