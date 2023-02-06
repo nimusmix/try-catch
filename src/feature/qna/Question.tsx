@@ -228,7 +228,7 @@ const Question = ({
             >
               {toKorean(category)}
             </UpperTag>
-            {isMe}
+            {isMe ? '내가 쓴거' : '남이 쓴거'}
             {/* 해결 여부 */}
             {isSolved && (
               <UpperTag
