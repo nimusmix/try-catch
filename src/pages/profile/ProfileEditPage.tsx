@@ -62,9 +62,9 @@ const IntroductionInput = styled(Input)`
   text-align: start;
   vertical-align: top;
   width: 500px;
-  height: 240px;
+  height: 196px;
   margin-top: 0.5rem;
-  padding: 1rem;
+  padding: 1.5rem;
 `;
 
 const CompanyConfirmWrapper = styled.div`

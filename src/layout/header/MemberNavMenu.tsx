@@ -84,6 +84,11 @@ const DropLiContainer = styled.div`
   }
 `;
 
+const Line = styled.div`
+  border-bottom: 1px solid ${({ theme }) => theme.borderColor};
+  width: 100%;
+`;
+
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
   const acc = useRecoilValue(accToken);
@@ -96,6 +101,10 @@ const MemberNavMenu = () => {
   const goToProfile = (e: React.MouseEvent) => {
     e.preventDefault();
     navi(`/profile/${userName}`);
+  };
+  const goToSettings = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navi('/settings');
   };
 
   return (
@@ -142,10 +151,10 @@ const MemberNavMenu = () => {
                 내 프로필
               </DropLi>
               {/* <DropLi as={Link} to="/settings"> */}
-              <DropLi as="div" onClick={goToProfile}>
+              <DropLi as="div" onClick={goToSettings}>
                 설정
               </DropLi>
-              <hr />
+              <DropLi as={Line} />
               <DropLi>로그아웃</DropLi>
             </DropUl>
           </DropLiContainer>
