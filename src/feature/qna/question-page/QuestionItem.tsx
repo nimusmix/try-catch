@@ -2,7 +2,13 @@ import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { IconComment, IconEye, IconLikeEmpty } from '../../../components/icons/Icons';
+import {
+  IconCheckCircle,
+  IconComment,
+  IconEye,
+  IconLikeEmpty,
+  IconTrying,
+} from '../../../components/icons/Icons';
 import { Button, MiniTitle, Paragraph } from '../../../components';
 import { isDarkState } from '../../../recoil';
 import elapsedTime from '../../../utils/elapsed-time';
@@ -71,6 +77,18 @@ const InfoWrapper = styled.div`
   }
 `;
 
+const UpperTag = styled(Button)`
+  border: 1px solid #00000010;
+`;
+
+const TitleWrapper = styled.div`
+  display: flex;
+
+  h3 {
+    margin-right: 0.5rem;
+  }
+`;
+
 const toKorean = (category: string | undefined) => {
   if (category === 'DEV') {
     return '개발';
@@ -87,6 +105,8 @@ const QuestionItem = ({
   likeCount,
   answerCount,
   tags,
+  isSolved,
+  isLiked,
   ...rest
 }: Partial<IQuestion>) => {
   const isDark = useRecoilValue(isDarkState);
@@ -94,13 +114,43 @@ const QuestionItem = ({
   return (
     <Wrapper>
       <QuestionHeader>
-        <MiniTitle
-          sizeType="xl"
-          color={isDark ? 'var(--colors-white-500)' : 'var(--colors-dark-500)'}
-          textAlign="left"
-        >
-          {title}
-        </MiniTitle>
+        <TitleWrapper>
+          <MiniTitle
+            sizeType="xl"
+            color={isDark ? 'var(--colors-white-500)' : 'var(--colors-dark-500)'}
+            textAlign="left"
+          >
+            {title}
+          </MiniTitle>
+          {/* 해결된 질문 */}
+          {isSolved && (
+            <UpperTag
+              as="span"
+              designType="greenFill"
+              fontSize="14px"
+              padding="0.2rem 0.6rem"
+              margin="0 0 0.4rem"
+              borderRadius="10px"
+            >
+              <IconCheckCircle size="14" className="solved-icon" />
+              &nbsp;Catched
+            </UpperTag>
+          )}
+          {/* 미해결 질문 */}
+          {isSolved || (
+            <UpperTag
+              as="span"
+              designType="skyFill"
+              fontSize="14px"
+              padding="0.2rem 0.6rem"
+              margin="0 0 0.4rem"
+              borderRadius="10px"
+            >
+              <IconTrying size="14" className="solved-icon" />
+              &nbsp;Trying
+            </UpperTag>
+          )}
+        </TitleWrapper>
         <Paragraph
           as="span"
           sizeType="sm"

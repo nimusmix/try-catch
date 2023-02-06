@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import styled from 'styled-components';
 import { useMutation, useQueryClient } from 'react-query';
 import { Button, Div, MiniTitle, Paragraph } from '../../components';
@@ -15,7 +16,7 @@ import { COMPANY } from '../../constant/company';
 import MilkdownViewer from '../text-editor/MilkdownViewer';
 import { IQuestion } from '../../interface/qna';
 import { cancelLike, postLike } from '../../apis/like/like';
-import useIsMe from '../../hooks/useIsMe';
+import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
 
 const QuestionDiv = styled(Div)`
   overflow: hidden;
@@ -153,7 +154,6 @@ const Question = ({
   questionId,
 }: IQuestion) => {
   const queryClient = useQueryClient();
-  const isMe = useIsMe(author.userId);
   const updateLike = (type: 'up' | 'down') => {
     const previousData = queryClient.getQueryData(['question', `${questionId}`]);
 
@@ -173,6 +173,24 @@ const Question = ({
     };
   };
 
+  const updateBookmark = (type: 'do' | 'cancel') => {
+    const previousData = queryClient.getQueryData(['question', `${questionId}`]);
+
+    if (previousData) {
+      // previousData 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
+      queryClient.setQueryData<IQuestion>(['question', `${questionId}`], (oldData: any) => {
+        return {
+          ...oldData,
+          isBookmarked: type === 'do',
+        };
+      });
+    }
+
+    return {
+      previousData,
+    };
+  };
+  
   const { mutate: like } = useMutation(
     ['like', 'up'],
     () => postLike({ id: questionId, type: 'QUESTION' }),
@@ -188,11 +206,34 @@ const Question = ({
     }
   );
 
+  const { mutate: addBookmark } = useMutation(
+    ['bookmark'],
+    () => postBookmark({ id: questionId, type: 'QUESTION' }),
+    {
+      onMutate: () => updateBookmark('do'),
+    }
+  );
+  const { mutate: cancelBookmark } = useMutation(
+    ['cancelBookmark'],
+    () => putBookmark({ id: questionId, type: 'QUESTION' }),
+    {
+      onMutate: () => updateBookmark('cancel'),
+    }
+  );
+
   const onClickLikeHandler = () => {
     if (isLiked) {
       cancel();
     } else {
       like();
+    }
+  };
+
+  const onClickBookmarkHandler = () => {
+    if (isLiked) {
+      addBookmark();
+    } else {
+      cancelBookmark();
     }
   };
 
@@ -211,7 +252,6 @@ const Question = ({
             >
               {toKorean(category)}
             </UpperTag>
-            {isMe ? '내가 쓴거' : '남이 쓴거'}
             {/* 해결 여부 */}
             {isSolved && (
               <UpperTag
@@ -245,13 +285,18 @@ const Question = ({
           </UpperTagWrapper>
 
           <Icons>
-            {/* 북마크 */}
-            {isBookmarked && <IconBookmarkFill size="20" color="var(--colors-brand-500)" />}
-            {isBookmarked || <IconBookmarkEmpty size="20" color="var(--colors-brand-500)" />}
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+            <span onClick={onClickBookmarkHandler}>
+              {/* 북마크 */}
+              {isBookmarked && <IconBookmarkFill size="20" color="var(--colors-brand-500)" />}
+              {isBookmarked || <IconBookmarkEmpty size="20" color="var(--colors-brand-500)" />}
+            </span>
 
-            <IconMore size="18" color="var(--colors-brand-500)" />
-            {/* 공유 */}
-            {/* <IconShare size="16" color="var(--colors-brand-500)" /> */}
+            {/* TODO 드랍다운으로 */}
+            {/* 공유, 수정, 삭제 */}
+            <span>
+              <IconMore size="18" color="var(--colors-brand-500)" />
+            </span>
           </Icons>
         </div>
 
