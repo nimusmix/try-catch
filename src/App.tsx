@@ -7,7 +7,6 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import React from 'react';
 import { isDarkState, toastState } from './recoil';
 import { darkTheme, lightTheme } from './styles/theme';
-import ScrollToTop from './utils/ScrollToTop';
 import Toast from './feature/toast/Toast';
 
 const GlobalStyles = createGlobalStyle`
@@ -46,7 +45,6 @@ function App() {
         <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
           {isVisible && <Toast />}
           <GlobalStyles />
-          <ScrollToTop />
           <Outlet />
           <ReactQueryDevtools initialIsOpen={false} />
         </ThemeProvider>
