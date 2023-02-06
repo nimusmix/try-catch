@@ -17,7 +17,10 @@ export const getQuestQuestionList = () => {
   return api.get('/question/quest').then((res: AxiosResponse<Array<IQuestion>>) => res.data);
 };
 export const getQuestionDetail = (id: string) => () => {
-  return api.get(`/question/${id}`).then((res: AxiosResponse<IQuestion>) => res.data);
+  return api.get(`/question/${id}`).then((res: AxiosResponse<IQuestion>) => {
+    console.log(res.data);
+    return res.data;
+  });
 };
 
 export const postQuestion = (data: IPostQuestion) => () => {

@@ -155,7 +155,6 @@ const Question = ({
   const queryClient = useQueryClient();
   const isMe = useIsMe(author.userId);
   const { mutate: like } = useMutation(
-    ['like', 'post'],
     () => postLike({ id: questionId, type: 'QUESTION' })
     // {
     //   onMutate: async () => {
@@ -180,7 +179,6 @@ const Question = ({
     // }
   );
   const { mutate: cancel } = useMutation(
-    ['like', 'put'],
     () => cancelLike({ id: questionId, type: 'QUESTION' })
     // {
     //   onMutate: async () => {
@@ -206,7 +204,6 @@ const Question = ({
   );
 
   const onClickLikeHandler = () => {
-    console.log(isLiked);
     if (isLiked) {
       cancel();
     } else {
