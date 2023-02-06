@@ -12,7 +12,6 @@ import { cancelLike, postLike } from '../../../apis/like/like';
 import useIsMe from '../../../hooks/useIsMe';
 import { postFollow, putFollow } from '../../../apis/user/user';
 
-
 const AnswerItem = styled.li`
   display: flex;
   flex-direction: column;
@@ -236,7 +235,7 @@ const Answer = ({
       follow();
     }
   };
-  
+
   return (
     <AnswerItem>
       <UpperWrapper>
@@ -255,15 +254,17 @@ const Answer = ({
                 alt={answer.author.companyName}
               />
               {/* 팔로우 버튼 */}
-              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
-              <span onClick={() => logOnDev.log('팔로우')}>
-                {answer.author.isFollowed && <Button>팔로잉</Button>}
-                {(!isMe && answer.author.isFollowed) || (
-                  <FollowButton designType="blueEmpty" fontSize="14px">
-                    팔로우
-                  </FollowButton>
-                )}
-              </span>
+              {isMe || (
+                // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+                <span onClick={() => logOnDev.log('팔로우')}>
+                  {answer.author.isFollowed && <Button>팔로잉</Button>}
+                  {answer.author.isFollowed || (
+                    <FollowButton designType="blueEmpty" fontSize="14px">
+                      팔로우
+                    </FollowButton>
+                  )}
+                </span>
+              )}
             </UserInfo>
             <SubText sizeType="xm">
               {answer.author.companyName === 'default'
