@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import styled from 'styled-components';
 import { useMutation, useQueryClient } from 'react-query';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Button, Div, MiniTitle, Paragraph } from '../../components';
 import {
   IconBookmarkEmpty,
@@ -17,6 +18,7 @@ import MilkdownViewer from '../text-editor/MilkdownViewer';
 import { IQuestion } from '../../interface/qna';
 import { cancelLike, postLike } from '../../apis/like/like';
 import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
+import { isLoggedInState, toastState } from '../../recoil';
 
 const QuestionDiv = styled(Div)`
   overflow: hidden;
@@ -153,6 +155,9 @@ const Question = ({
   isSolved,
   questionId,
 }: IQuestion) => {
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [toast, setToast] = useRecoilState(toastState);
+
   const queryClient = useQueryClient();
   const updateLike = (type: 'up' | 'down') => {
     const previousData = queryClient.getQueryData(['question', `${questionId}`]);
@@ -190,7 +195,7 @@ const Question = ({
       previousData,
     };
   };
-  
+
   const { mutate: like } = useMutation(
     ['like', 'up'],
     () => postLike({ id: questionId, type: 'QUESTION' }),
@@ -230,10 +235,18 @@ const Question = ({
   };
 
   const onClickBookmarkHandler = () => {
-    if (isLiked) {
-      addBookmark();
+    if (isLoggedIn) {
+      if (isBookmarked) {
+        addBookmark();
+      } else {
+        cancelBookmark();
+      }
     } else {
-      cancelBookmark();
+      setToast({
+        type: 'negative',
+        message: '로그인 후 북마크 기능을 이용해보세요! ',
+        isVisible: true,
+      });
     }
   };
 
