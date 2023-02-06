@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import styled from 'styled-components';
 import { useMutation, useQueryClient } from 'react-query';
 import { Button, Div, MiniTitle, Paragraph } from '../../components';
@@ -15,6 +16,7 @@ import { COMPANY } from '../../constant/company';
 import MilkdownViewer from '../text-editor/MilkdownViewer';
 import { IQuestion } from '../../interface/qna';
 import { cancelLike, postLike } from '../../apis/like/like';
+import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
 
 const QuestionDiv = styled(Div)`
   overflow: hidden;
@@ -170,6 +172,24 @@ const Question = ({
       previousData,
     };
   };
+
+  const updateBookmark = (type: 'do' | 'cancel') => {
+    const previousData = queryClient.getQueryData(['question', `${questionId}`]);
+
+    if (previousData) {
+      // previousData 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
+      queryClient.setQueryData<IQuestion>(['question', `${questionId}`], (oldData: any) => {
+        return {
+          ...oldData,
+          isBookmarked: type === 'do',
+        };
+      });
+    }
+
+    return {
+      previousData,
+    };
+  };
   const { mutate: like } = useMutation(
     ['like', 'up'],
     () => postLike({ id: questionId, type: 'QUESTION' }),
@@ -185,11 +205,34 @@ const Question = ({
     }
   );
 
+  const { mutate: addBookmark } = useMutation(
+    ['bookmark'],
+    () => postBookmark({ id: questionId, type: 'QUESTION' }),
+    {
+      onMutate: () => updateBookmark('do'),
+    }
+  );
+  const { mutate: cancelBookmark } = useMutation(
+    ['cancelBookmark'],
+    () => putBookmark({ id: questionId, type: 'QUESTION' }),
+    {
+      onMutate: () => updateBookmark('cancel'),
+    }
+  );
+
   const onClickLikeHandler = () => {
     if (isLiked) {
       cancel();
     } else {
       like();
+    }
+  };
+
+  const onClickBookmarkHandler = () => {
+    if (isLiked) {
+      addBookmark();
+    } else {
+      cancelBookmark();
     }
   };
 
@@ -241,7 +284,8 @@ const Question = ({
           </UpperTagWrapper>
 
           <Icons>
-            <span>
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+            <span onClick={onClickBookmarkHandler}>
               {/* 북마크 */}
               {isBookmarked && <IconBookmarkFill size="20" color="var(--colors-brand-500)" />}
               {isBookmarked || <IconBookmarkEmpty size="20" color="var(--colors-brand-500)" />}

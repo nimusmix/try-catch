@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
@@ -252,6 +253,7 @@ const Answer = ({
                 alt={answer.author.companyName}
               />
               {/* 팔로우 버튼 */}
+              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
               <span onClick={() => logOnDev.log('팔로우')}>
                 {answer.author.isFollowed && <Button>팔로잉</Button>}
                 {(!isMe && answer.author.isFollowed) || (
