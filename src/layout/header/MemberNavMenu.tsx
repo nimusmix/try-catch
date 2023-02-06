@@ -8,6 +8,7 @@ import { Paragraph } from '../../components';
 import { accToken, isDarkState } from '../../recoil';
 import { getImage, getName } from '../../apis/auth/auth';
 import useDetectClose from '../../hooks/useDetectClose';
+import { Ul } from './NavMenu';
 
 const Alert = styled.div``;
 
@@ -48,64 +49,98 @@ const Img = styled.img`
   margin-right: 8px;
 `;
 
-const DropdownContainer = styled.div`
+// const DropdownContainer = styled.div`
+//   position: relative;
+// `;
+
+// const Menu = styled.div<{ isDropped: any }>`
+//   position: absolute;
+//   background-color: gray;
+//   top: 52px;
+//   left: 50%;
+//   width: 100px;
+//   text-align: center;
+//   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+//   border-radius: 4px;
+//   opacity: 0;
+//   visibility: hidden;
+//   transform: translate(-50%, -20px);
+//   transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+//   z-index: 9;
+
+//   &:after {
+//     content: '';
+//     height: 0;
+//     width: 0;
+//     position: absolute;
+//     top: -3px;
+//     left: 50%;
+//     transform: translate(-50%, -50%);
+//     border: 12px solid transparent;
+//     border-top-width: 0;
+//     border-bottom-color: gray;
+//   }
+
+//   ${({ isDropped }) =>
+//     isDropped &&
+//     css`
+//       opacity: 1;
+//       visibility: visible;
+//       transform: translate(-50%, 0);
+//       left: 50%;
+//     `};
+// `;
+
+// const Ul = styled.ul`
+//   & > li {
+//     margin-bottom: 10px;
+//   }
+
+//   & > li:first-of-type {
+//     margin-top: 10px;
+//   }
+
+//   list-style-type: none;
+//   padding: 0;
+//   margin: 0;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: space-between;
+//   align-items: center;
+// `;
+
+const DropLi = styled.li`
+  list-style: none;
+`;
+
+const DropUl = styled.ul`
+  list-style: none;
+  line-height: 1rem;
+`;
+
+const Dropdown = styled.button`
+  border: none;
+  outline: none;
   position: relative;
+  width: 80px;
 `;
 
-const Menu = styled.div<{ isDropped: any }>`
+const DropLiContainer = styled.div`
+  border: 1px solid ${({ theme }) => theme.borderColor};
+  background-color: ${({ theme }) => theme.bgColor};
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: var(---borders-radius-base);
+  padding: 4px;
+  margin-top: 8px;
   position: absolute;
-  background-color: gray;
-  top: 52px;
-  left: 50%;
-  width: 100px;
-  text-align: center;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translate(-50%, -20px);
-  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
-  z-index: 9;
+  display: none;
 
-  &:after {
-    content: '';
-    height: 0;
-    width: 0;
-    position: absolute;
-    top: -3px;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: 12px solid transparent;
-    border-top-width: 0;
-    border-bottom-color: gray;
+  ${Dropdown}:active & {
+    display: block;
   }
-
-  ${({ isDropped }) =>
-    isDropped &&
-    css`
-      opacity: 1;
-      visibility: visible;
-      transform: translate(-50%, 0);
-      left: 50%;
-    `};
-`;
-
-const Ul = styled.ul`
-  & > li {
-    margin-bottom: 10px;
+  ${Dropdown}:focus & {
+    display: block;
   }
-
-  & > li:first-of-type {
-    margin-top: 10px;
-  }
-
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
 `;
 
 const MemberNavMenu = () => {
@@ -138,8 +173,9 @@ const MemberNavMenu = () => {
         </Bookmark>
       </Li>
       {/* <Link to={`/profile/${userName}`}> */}
-      <DropdownContainer>
-        <ProfileLi as="button" onClick={() => dropdownHandler} ref={() => dropdownRef}>
+      {/* <ProfileLi onClick={() => dropdownHandler} ref={() => dropdownRef}> */}
+      <ProfileLi>
+        <Dropdown>
           {profileImage ? (
             <Img src={profileImage} />
           ) : (
@@ -155,15 +191,16 @@ const MemberNavMenu = () => {
           >
             {userName}
           </Paragraph>
-        </ProfileLi>
-        <Menu isDropped={dropdownIsOpen}>
-          <Ul>
-            <li>마이페이지</li>
-            <li>설정</li>
-            <li>로그아웃</li>
-          </Ul>
-        </Menu>
-      </DropdownContainer>
+          <DropLiContainer>
+            <DropUl>
+              <DropLi>마이페이지</DropLi>
+              <DropLi>설정</DropLi>
+              <DropLi>로그아웃</DropLi>
+            </DropUl>
+          </DropLiContainer>
+        </Dropdown>
+      </ProfileLi>
+
       {/* </Link> */}
     </Ul>
   );
