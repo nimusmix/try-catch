@@ -5,6 +5,7 @@ import { Button, Paragraph } from '../../../components';
 import { IAnswer } from '../../../interface/qna';
 import getImageUrl from '../../../utils/getImageUrl';
 import { COMPANY } from '../../../constant/company';
+import { logOnDev } from '../../../utils/logging';
 
 const AnswerItem = styled.li`
   display: flex;
@@ -153,7 +154,7 @@ const Answer = ({
             </SubText>
           </UserInfoWrapper>
         </AuthorWrapper>
-        <ReplyIconWrapper onClick={() => console.log(answer.author.userName)}>
+        <ReplyIconWrapper onClick={() => logOnDev.log(answer.author.userName)}>
           <IconReply />
         </ReplyIconWrapper>
       </UpperWrapper>
