@@ -17,8 +17,7 @@ export const getQuestQuestionList = () => {
   return api.get('/question/quest').then((res: AxiosResponse<Array<IQuestion>>) => res.data);
 };
 export const getQuestionDetail = (id: string) => () => {
-  return api.get(`/question/${id}`).then((res: AxiosResponse<IQuestion>) => {
-    console.log(res.data);
+  return authApi.get(`/question/${id}`).then((res: AxiosResponse<IQuestion>) => {
     return res.data;
   });
 };
