@@ -130,7 +130,7 @@ const Answer = ({
   setQuestionInput: Dispatch<SetStateAction<string>>;
   questionId: number;
 }) => {
-  const isMe = useIsMe(answer.answerId);
+  const isMe = useIsMe(answer.author.userId);
   const queryClient = useQueryClient();
   const updateLike = (type: 'up' | 'down') => {
     const previousData = queryClient.getQueryData<IQuestion>(['question', `${questionId}`]);
