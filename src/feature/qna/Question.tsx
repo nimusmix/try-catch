@@ -235,14 +235,15 @@ const Question = ({
   };
 
   const onClickBookmarkHandler = () => {
+    // setToast({
+    //   type: 'negative',
+    //   message: '로그인 후 북마크 기능을 이용해보세요! ',
+    //   isVisible: true,
+    // });
     if (isBookmarked) {
-      addBookmark();
+      cancelBookmark();
     } else {
-      setToast({
-        type: 'negative',
-        message: '로그인 후 북마크 기능을 이용해보세요! ',
-        isVisible: true,
-      });
+      addBookmark();
     }
   };
 
