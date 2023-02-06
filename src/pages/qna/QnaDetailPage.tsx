@@ -61,8 +61,7 @@ const QnaDetailPage = () => {
           {/* 질문 부분 */}
           {questionDetail && <Question {...questionDetail} />}
           {/* 답변 form 부분 */}
-          <AnswerForm questionId={questionId as string} />
-          {/* 답변들 */}
+          <AnswerForm questionId={questionId as string} questionInput={questionInput} />
           <ul>
             {questionDetail &&
               questionDetail.answers

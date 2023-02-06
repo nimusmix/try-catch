@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import MilkdownEditor from '../../text-editor/MilkdownEditor';
 import { Button, MiniTitle } from '../../../components';
 import { postAnswer } from '../../../apis/answer/answer';
+import { logOnDev } from '../../../utils/logging';
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,13 +27,20 @@ const Wrapper = styled.div`
   }
 `;
 // TODO 답변 작성 후 바로 조회하기
-const AnswerForm = ({ questionId }: { questionId: string }) => {
+const AnswerForm = ({
+  questionId,
+  questionInput,
+}: {
+  questionId: string;
+  questionInput: string;
+}) => {
   const [answerInput, setAnswerInput] = useState('');
   const queryClient = useQueryClient();
   const { mutate: addAnswer } = useMutation(
     postAnswer(questionId as string, { content: answerInput }),
     {
       onSuccess: () => {
+        logOnDev.log('댓글 작성 성공');
         queryClient.invalidateQueries(['question', questionId]);
       },
     }
@@ -42,7 +50,6 @@ const AnswerForm = ({ questionId }: { questionId: string }) => {
 
   const onClickAddAnswer = () => {
     addAnswer();
-    setAnswerInput('');
   };
 
   return (
@@ -50,7 +57,7 @@ const AnswerForm = ({ questionId }: { questionId: string }) => {
       <MiniTitle sizeType="xl" textAlign="left">
         답변하기
       </MiniTitle>
-      <MilkdownEditor width="100%" setState={setAnswerInput} editable />
+      <MilkdownEditor width="100%" setState={setAnswerInput} editable data={questionInput} />
       <Button className="submit" onClick={onClickAddAnswer}>
         등&nbsp;&nbsp;록
       </Button>

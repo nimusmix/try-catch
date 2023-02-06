@@ -28,9 +28,7 @@ import { defaultConfig, menu, menuPlugin } from '@milkdown/plugin-menu';
 import { gfm } from '@milkdown/preset-gfm';
 import { prismPlugin } from '@milkdown/plugin-prism';
 import { refractor } from 'refractor/lib/common';
-import { useRecoilValue } from 'recoil';
 import MilkDownWrapper from './MilkdownWrapper';
-import { isDarkState } from '../../recoil';
 
 const MilkdownEditor = (
   {
@@ -41,7 +39,6 @@ const MilkdownEditor = (
   }: { width: string; setState?: (value: string) => void; editable?: boolean; data?: string },
   ref: ForwardedRef<any>
 ) => {
-  const isDark = useRecoilValue(isDarkState);
   const { editor } = useEditor(
     (root) =>
       Editor.make()
