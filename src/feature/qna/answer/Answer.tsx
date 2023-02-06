@@ -282,7 +282,7 @@ const Answer = ({
       <AnswerBody>
         <Paragraph sizeType="base">{answer.content}</Paragraph>
         <Like onClick={onClickLikeHandler}>
-          {answer.isLiked && <IconLikeFill />}
+          {answer.isLiked && <IconLikeFill color="var(--colors-brand-500)" />}
           {answer.isLiked || <IconLikeEmpty />}
           <SubText sizeType="xm">{answer.likeCount}</SubText>
         </Like>

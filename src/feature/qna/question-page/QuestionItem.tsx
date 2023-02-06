@@ -7,6 +7,7 @@ import {
   IconComment,
   IconEye,
   IconLikeEmpty,
+  IconLikeFill,
   IconTrying,
 } from '../../../components/icons/Icons';
 import { Button, MiniTitle, Paragraph } from '../../../components';
@@ -51,7 +52,7 @@ const QuestionFooter = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-top: 1.3rem;
 `;
 
 const TagsWrapper = styled.div`
@@ -146,7 +147,7 @@ const QuestionItem = ({
               margin="0 0 0.4rem"
               borderRadius="10px"
             >
-              <IconTrying size="14" className="solved-icon" />
+              <IconTrying size="14" className="unsolved-icon" />
               &nbsp;Trying
             </UpperTag>
           )}
@@ -196,7 +197,8 @@ const QuestionItem = ({
             {viewCount}
           </Paragraph>
           <Paragraph as="span" sizeType="sm">
-            <IconLikeEmpty />
+            {isLiked && <IconLikeFill color="var(--colors-brand-500)" />}
+            {isLiked || <IconLikeEmpty />}
             {likeCount}
           </Paragraph>
           <Paragraph as="span" sizeType="sm">
