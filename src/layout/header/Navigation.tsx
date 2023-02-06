@@ -23,6 +23,7 @@ const Nav = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  max-width: 100vw;
   height: var(--toolbar-height);
   box-shadow: ${({ theme: { boxShadowLarge } }) => boxShadowLarge};
 `;

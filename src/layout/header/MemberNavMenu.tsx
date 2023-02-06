@@ -16,6 +16,7 @@ const Bookmark = styled(NavLink)``;
 const ProfileLi = styled.li`
   display: flex;
   align-items: center;
+  padding-right: 2rem;
   height: var(--toolbar-height);
   cursor: pointer;
   svg {
