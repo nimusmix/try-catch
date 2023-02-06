@@ -7,6 +7,7 @@ export interface IBookmarkQuestion {
   questionId: number;
   title: string;
   content: string;
+  category: string;
   tags: Array<string>;
   likeCount: number;
   answerCount: number;
