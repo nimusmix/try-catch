@@ -64,7 +64,6 @@ const Dropdown = styled.button`
   border: none;
   outline: none;
   position: relative;
-  width: 100px;
 `;
 
 const DropLiContainer = styled.div`
