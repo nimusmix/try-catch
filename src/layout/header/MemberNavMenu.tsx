@@ -56,7 +56,7 @@ const DropLi = styled.li`
 
 const DropUl = styled.ul`
   list-style: none;
-  line-height: 1rem;
+  line-height: 2rem;
 `;
 
 const Dropdown = styled.button`
@@ -71,7 +71,7 @@ const DropLiContainer = styled.div`
   background-color: ${({ theme }) => theme.bgColor};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   margin-top: 4px;
-  padding: 8px;
+  padding: 1rem;
   position: absolute;
   display: none;
 
@@ -131,8 +131,12 @@ const MemberNavMenu = () => {
           </ProfileWrapper>
           <DropLiContainer>
             <DropUl>
-              <DropLi>마이페이지</DropLi>
-              <DropLi>설정</DropLi>
+              <DropLi>
+                <Link to={`/profile/${userName}`}>마이페이지</Link>
+              </DropLi>
+              <DropLi>
+                <Link to="/settings">설정</Link>
+              </DropLi>
               <DropLi>로그아웃</DropLi>
             </DropUl>
           </DropLiContainer>
