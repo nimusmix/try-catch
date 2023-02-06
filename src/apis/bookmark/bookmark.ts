@@ -4,7 +4,9 @@ import { IBookmarkQuestion } from '../../interface/bookmark';
 import { authApi } from '../../utils/axios-instance';
 
 export const getBookmarkQuestionList = () =>
-  authApi.get(`/bookmark/question`).then((res: AxiosResponse<IBookmarkQuestion>) => res.data);
+  authApi
+    .get(`/bookmark/question`)
+    .then((res: AxiosResponse<Array<IBookmarkQuestion>>) => res.data);
 
 // export const postBookmarkQuestion = () => authApi.post();
 // export const putBookmarkQuestion = () => authApi.put();
