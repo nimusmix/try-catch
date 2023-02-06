@@ -31,9 +31,22 @@ const QuestionList = ({ filter }: { filter: string }) => {
     {
       keepPreviousData: true,
       getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
+      // 필터 부분 select로 원하는 데이터로 만들어 줌
       select: (data) => {
-        // const filteredPages =
-        return { ...data };
+        const filteredData = {
+          pages: data.pages.map((page) => ({
+            data: page.data.filter((item) => {
+              // 해결됨
+              if (filter === 'solved') return item.isSolved;
+              // 미해결
+              if (filter === 'unSolved') return !item.isSolved;
+              // 전체
+              return item;
+            }),
+          })),
+          pageParams: data.pageParams,
+        };
+        return { ...filteredData };
       },
     }
   );

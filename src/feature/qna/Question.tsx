@@ -15,7 +15,6 @@ import { COMPANY } from '../../constant/company';
 import MilkdownViewer from '../text-editor/MilkdownViewer';
 import { IQuestion } from '../../interface/qna';
 import { cancelLike, postLike } from '../../apis/like/like';
-import useIsMe from '../../hooks/useIsMe';
 
 const QuestionDiv = styled(Div)`
   overflow: hidden;
@@ -153,7 +152,6 @@ const Question = ({
   questionId,
 }: IQuestion) => {
   const queryClient = useQueryClient();
-  const isMe = useIsMe(author.userId);
   const updateLike = (type: 'up' | 'down') => {
     const previousData = queryClient.getQueryData(['question', `${questionId}`]);
 
@@ -210,7 +208,6 @@ const Question = ({
             >
               {toKorean(category)}
             </UpperTag>
-            {isMe ? '내가 쓴거' : '남이 쓴거'}
             {/* 해결 여부 */}
             {isSolved && (
               <UpperTag
@@ -244,13 +241,17 @@ const Question = ({
           </UpperTagWrapper>
 
           <Icons>
-            {/* 북마크 */}
-            {isBookmarked && <IconBookmarkFill size="20" color="var(--colors-brand-500)" />}
-            {isBookmarked || <IconBookmarkEmpty size="20" color="var(--colors-brand-500)" />}
+            <span>
+              {/* 북마크 */}
+              {isBookmarked && <IconBookmarkFill size="20" color="var(--colors-brand-500)" />}
+              {isBookmarked || <IconBookmarkEmpty size="20" color="var(--colors-brand-500)" />}
+            </span>
 
-            <IconMore size="18" color="var(--colors-brand-500)" />
-            {/* 공유 */}
-            {/* <IconShare size="16" color="var(--colors-brand-500)" /> */}
+            {/* TODO 드랍다운으로 */}
+            {/* 공유, 수정, 삭제 */}
+            <span>
+              <IconMore size="18" color="var(--colors-brand-500)" />
+            </span>
           </Icons>
         </div>
 

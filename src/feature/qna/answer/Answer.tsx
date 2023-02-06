@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 import { IconLikeEmpty, IconLikeFill, IconReply } from '../../../components/icons/Icons';
 import { Button, Paragraph } from '../../../components';
-import { IAnswer } from '../../../interface/qna';
+import { IAnswer, IQuestion } from '../../../interface/qna';
 import getImageUrl from '../../../utils/getImageUrl';
 import { COMPANY } from '../../../constant/company';
+import { logOnDev } from '../../../utils/logging';
+import { cancelLike, postLike } from '../../../apis/like/like';
 
 const AnswerItem = styled.li`
   display: flex;
@@ -117,10 +120,67 @@ const ReplyIconWrapper = styled.span`
 const Answer = ({
   answer,
   setQuestionInput,
+  questionId,
 }: {
   answer: IAnswer;
   setQuestionInput: Dispatch<SetStateAction<string>>;
+  questionId: number;
 }) => {
+  const queryClient = useQueryClient();
+  const updateLike = (type: 'up' | 'down') => {
+    const previousData = queryClient.getQueryData<IQuestion>(['question', `${questionId}`]);
+
+    const newAnswers = previousData?.answers.map((ans) => {
+      if (ans.answerId === answer.answerId) {
+        return {
+          ...ans,
+          isLiked: type === 'up',
+          likeCount: type === 'up' ? ans.likeCount + 1 : ans.likeCount - 1,
+        };
+      }
+      return ans;
+    });
+    console.log(previousData);
+    console.log('new', newAnswers);
+    if (previousData) {
+      // previousData 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
+      queryClient.setQueryData<IQuestion>(['question', `${questionId}`], (oldData: any) => {
+        return {
+          ...oldData,
+          answers: newAnswers,
+        };
+      });
+    }
+
+    return {
+      previousData,
+    };
+  };
+  // 좋아요
+  const { mutate: like } = useMutation(
+    ['like', 'up'],
+    () => postLike({ id: answer.answerId, type: 'ANSWER' }),
+    {
+      onMutate: () => updateLike('up'),
+    }
+  );
+
+  // 좋아요 취소
+  const { mutate: cancel } = useMutation(
+    ['like', 'down'],
+    () => cancelLike({ id: answer.answerId, type: 'ANSWER' }),
+    {
+      onMutate: () => updateLike('down'),
+    }
+  );
+
+  const onClickLikeHandler = () => {
+    if (answer.isLiked) {
+      cancel();
+    } else {
+      like();
+    }
+  };
   return (
     <AnswerItem>
       <UpperWrapper>
@@ -153,7 +213,7 @@ const Answer = ({
             </SubText>
           </UserInfoWrapper>
         </AuthorWrapper>
-        <ReplyIconWrapper onClick={() => console.log(answer.author.userName)}>
+        <ReplyIconWrapper onClick={() => logOnDev.log(answer.author.userName)}>
           <IconReply />
         </ReplyIconWrapper>
       </UpperWrapper>
@@ -161,7 +221,7 @@ const Answer = ({
       <Line />
       <AnswerBody>
         <Paragraph sizeType="base">{answer.content}</Paragraph>
-        <Like>
+        <Like onClick={onClickLikeHandler}>
           {answer.isLiked && <IconLikeFill />}
           {answer.isLiked || <IconLikeEmpty />}
           <SubText sizeType="xm">{answer.likeCount}</SubText>

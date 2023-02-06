@@ -16,6 +16,7 @@ import {
   BsCheckCircleFill as IconCheckCircle,
   BsFillReplyFill as IconReply,
   BsGrid as IconCard,
+  BsQuestionDiamondFill as IconTrying,
   BsShareFill as IconShare,
   BsViewStacked as IconList,
 } from 'react-icons/bs';
@@ -53,4 +54,5 @@ export {
   IconX,
   IconReply,
   IconMore,
+  IconTrying,
 };
