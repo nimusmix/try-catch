@@ -65,16 +65,15 @@ const Dropdown = styled.button`
   border: none;
   outline: none;
   position: relative;
-  width: 80px;
+  width: 100px;
 `;
 
 const DropLiContainer = styled.div`
   border: 1px solid ${({ theme }) => theme.borderColor};
+  border-radius: var(--borders-radius-base);
   background-color: ${({ theme }) => theme.bgColor};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: var(---borders-radius-base);
-  padding: 4px;
-  margin-top: 8px;
+  margin-top: 4px;
   position: absolute;
   display: none;
 
