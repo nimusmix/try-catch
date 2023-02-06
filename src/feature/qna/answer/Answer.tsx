@@ -127,13 +127,25 @@ const Answer = ({
 }) => {
   const queryClient = useQueryClient();
   const updateLike = (type: 'up' | 'down') => {
-    const previousData = queryClient.getQueryData(['question', `${questionId}`]);
-    console.log(previousData);
+    const previousData = queryClient.getQueryData<IQuestion>(['question', `${questionId}`]);
+
+    const newAnswers = previousData?.answers.map((ans) => {
+      if (ans.answerId === answer.answerId) {
+        return {
+          ...ans,
+          isLike: type === 'up',
+          likeCount: type === 'up' ? ans.likeCount + 1 : ans.likeCount - 1,
+        };
+      }
+      return ans;
+    });
+
     if (previousData) {
       // previousData 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
       queryClient.setQueryData<IQuestion>(['question', `${questionId}`], (oldData: any) => {
         return {
           ...oldData,
+          answers: newAnswers,
         };
       });
     }
