@@ -32,6 +32,7 @@ const QuestionList = ({ filter }: { filter: string }) => {
       keepPreviousData: true,
       getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
       select: (data) => {
+        console.log(data);
         // const filteredPages =
         return { ...data };
       },

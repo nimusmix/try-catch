@@ -80,6 +80,7 @@ const QnaPage = () => {
         <Paragraph sizeType="base">좋은 멘트 추천 받습니다.</Paragraph>
       </HeaderImage>
       <QuestionPageBody>
+        {/* 왼쪽 네비게이션 */}
         <Aside>
           <SideNavbar
             navOptions={navOptions}
@@ -87,6 +88,7 @@ const QnaPage = () => {
             activeIdx={activeIdx}
           />
         </Aside>
+        {/* 메인 컨텐츠 */}
         <section>
           <QnaSearchBar />
           <div>
@@ -99,6 +101,7 @@ const QnaPage = () => {
               ))}
             </ul>
           </div>
+          {/* Q&A 리스트 */}
           <QuestionList filter={filter} />
         </section>
         <Aside>
@@ -113,7 +116,9 @@ const QnaPage = () => {
               &nbsp;&nbsp;질문 작성하기
             </Button>
           </Link>
+          {/* 인기 태그 */}
           <QnaPopularTag tags={qnaPopularTags} />
+          {/* 인기 Q&A */}
           <PopularQna />
         </Aside>
       </QuestionPageBody>
