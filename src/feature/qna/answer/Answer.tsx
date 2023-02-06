@@ -6,6 +6,7 @@ import { Button, Paragraph } from '../../../components';
 import { IAnswer, IQuestion } from '../../../interface/qna';
 import getImageUrl from '../../../utils/getImageUrl';
 import { COMPANY } from '../../../constant/company';
+import { logOnDev } from '../../../utils/logging';
 import { cancelLike, postLike } from '../../../apis/like/like';
 
 const AnswerItem = styled.li`
@@ -212,7 +213,7 @@ const Answer = ({
             </SubText>
           </UserInfoWrapper>
         </AuthorWrapper>
-        <ReplyIconWrapper onClick={() => console.log(answer.author.userName)}>
+        <ReplyIconWrapper onClick={() => logOnDev.log(answer.author.userName)}>
           <IconReply />
         </ReplyIconWrapper>
       </UpperWrapper>

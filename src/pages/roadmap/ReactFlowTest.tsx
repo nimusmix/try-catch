@@ -1,23 +1,17 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import ReactFlow, {
-  Controls,
   Background,
-  // applyEdgeChanges,
-  // applyNodeChanges,
-  // addEdge,
-  // EdgeChange,
-  // Connection,
   Handle,
   Position,
-  // NodeChange,
   ReactFlowProvider,
-  useReactFlow,
-  useNodes,
   useEdges,
+  useNodes,
+  useReactFlow,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import styled from 'styled-components';
 import { Button } from '../../components';
+import { logOnDev } from '../../utils/logging';
 
 const StyledInput = styled.input`
   width: 160px;
@@ -54,7 +48,7 @@ const initialEdges = [{ id: 'a-b', source: 'a', target: 'b', type: 'step' }];
 const TextUpdaterNode = ({ data }: any) => {
   const onChange = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) => {
-      console.log(evt.target.value);
+      logOnDev.log(evt.target.value);
       // eslint-disable-next-line no-param-reassign
       data.label = evt.target.value;
     },
@@ -101,8 +95,8 @@ const ReactFlowTest = () => {
   }, [reactFlowInstance]);
 
   const printData = () => {
-    console.log(testNodes);
-    console.log(testEdges);
+    logOnDev.log(testNodes);
+    logOnDev.log(testEdges);
   };
 
   // const onNodesChange = useCallback(
