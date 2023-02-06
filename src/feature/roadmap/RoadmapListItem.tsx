@@ -1,8 +1,14 @@
+import { useState } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
 import { Div, Paragraph, MiniTitle, Button } from '../../components';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
+import { isLoggedInState } from '../../recoil';
 
 interface IRoadmapItemProps {
+  roadmapId: number;
   author: {
     userId: number;
     userName: string;
@@ -12,6 +18,7 @@ interface IRoadmapItemProps {
   };
   title: string;
   tag: string;
+  isBookmarked: boolean;
 }
 
 const ItemWrapper = styled(Div)`
@@ -59,7 +66,37 @@ const InfoWrapper = styled.div`
   }
 `;
 
+const Icons = styled.button`
+  display: flex;
+  svg {
+    cursor: pointer;
+  }
+`;
+
 const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
+  /* 북마크 상태 표시 */
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const queryClient = useQueryClient();
+
+  const { mutate: unBookmark } = useMutation(putBookmark, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['roadmapList']);
+    },
+  });
+
+  const { mutate: bookmark } = useMutation(postBookmark, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['roadmapList']);
+    },
+  });
+
+  const onClickBookmarkHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (roadmap.isBookmarked) {
+      unBookmark({ id: roadmap.roadmapId, type: 'ROADMAP' });
+    } else if (isLoggedIn) bookmark({ id: roadmap.roadmapId, type: 'ROADMAP' });
+  };
+
   return (
     <ItemWrapper>
       {roadmap.author.profileImage ? (
@@ -74,7 +111,14 @@ const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
             {roadmap.author.userName}
           </Paragraph>
           {/* 북마크 아이콘 */}
-          <IconBookmarkEmpty color="var(--colors-brand-500)" size={20} />
+          {/* <IconBookmarkEmpty color="var(--colors-brand-500)" size={20} /> */}
+          <Icons onClick={onClickBookmarkHandler}>
+            {/* 북마크 */}
+            {roadmap.isBookmarked && <IconBookmarkFill size="27" color="var(--colors-brand-500)" />}
+            {roadmap.isBookmarked || (
+              <IconBookmarkEmpty size="27" color="var(--colors-brand-500)" />
+            )}
+          </Icons>
         </BookmarkWrapper>
         <SubText sizeType="sm">{roadmap.author.companyName || '지니가던 개발자'}</SubText>
         <Line />
