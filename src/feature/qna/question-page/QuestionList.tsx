@@ -32,9 +32,17 @@ const QuestionList = ({ filter }: { filter: string }) => {
       keepPreviousData: true,
       getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
       select: (data) => {
-        console.log(data);
-        // const filteredPages =
-        return { ...data };
+        const filteredData = {
+          pages: data.pages.map((page) => ({
+            data: page.data.filter((item) => {
+              if (filter === 'solved') return item.isSolved;
+              if (filter === 'unSolved') return !item.isSolved;
+              return item;
+            }),
+          })),
+          pageParams: data.pageParams,
+        };
+        return { ...filteredData };
       },
     }
   );
