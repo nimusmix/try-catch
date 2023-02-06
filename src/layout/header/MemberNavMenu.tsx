@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Link, NavLink } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { useQuery } from 'react-query';
@@ -8,6 +8,7 @@ import { Ul } from './NavMenu';
 import { Paragraph } from '../../components';
 import { accToken, isDarkState } from '../../recoil';
 import { getImage, getName } from '../../apis/auth/auth';
+import useDetectClose from '../../hooks/useDetectClose';
 
 const Alert = styled.div``;
 
@@ -48,6 +49,48 @@ const Img = styled.img`
   margin-right: 8px;
 `;
 
+const DropdownContainer = styled.div`
+  position: relative;
+`;
+
+const Menu = styled.div<{ isDropped: any }>`
+  position: absolute;
+  background-color: gray;
+  top: 52px;
+  left: 50%;
+  width: 100px;
+  text-align: center;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, -20px);
+  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+  z-index: 9;
+
+  &:after {
+    content: '';
+    height: 0;
+    width: 0;
+    position: absolute;
+    top: -3px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 12px solid transparent;
+    border-top-width: 0;
+    border-bottom-color: gray;
+  }
+
+  ${({ isDropped }) =>
+    isDropped &&
+    css`
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, 0);
+      left: 50%;
+    `};
+`;
+
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
   const acc = useRecoilValue(accToken);
@@ -55,6 +98,8 @@ const MemberNavMenu = () => {
   const { data: userName } = useQuery(['user', 'userName'] as const, getName, {
     enabled: !!profileImage,
   });
+
+  const [dropdownIsOpen, dropdownRef, dropdownHandler] = useDetectClose(false);
 
   return (
     <Ul>
@@ -75,8 +120,9 @@ const MemberNavMenu = () => {
           />
         </Bookmark>
       </Li>
-      <Link to={`/profile/${userName}`}>
-        <ProfileLi>
+      {/* <Link to={`/profile/${userName}`}> */}
+      <DropdownContainer>
+        <ProfileLi as="button" onClick={() => dropdownHandler} ref={() => dropdownRef}>
           {profileImage ? (
             <Img src={profileImage} />
           ) : (
@@ -93,7 +139,15 @@ const MemberNavMenu = () => {
             {userName}
           </Paragraph>
         </ProfileLi>
-      </Link>
+        <Menu isDropped={dropdownIsOpen}>
+          <Ul>
+            <Li>마이페이지</Li>
+            <Li>설정</Li>
+            <Li>로그아웃</Li>
+          </Ul>
+        </Menu>
+      </DropdownContainer>
+      {/* </Link> */}
     </Ul>
   );
 };

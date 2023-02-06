@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Div, Paragraph, MiniTitle, Button } from '../../components';
+import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
 
 interface IRoadmapItemProps {
   author: {
@@ -16,7 +17,7 @@ interface IRoadmapItemProps {
 const ItemWrapper = styled(Div)`
   display: flex;
   align-items: center;
-  width: 600px;
+  width: 460px;
   padding: 1.5rem 2rem;
   margin: 1rem;
 `;
@@ -28,12 +29,18 @@ const Img = styled.img`
   margin-right: 1.5rem;
 `;
 
+const BookmarkWrapper = styled.button`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+`;
+
 const SubText = styled(Paragraph)`
   color: ${({ theme }) => theme.textColor100};
 `;
 
 const Line = styled.div`
-  width: 380px;
+  width: 250px;
   border-bottom: 1px ${({ theme }) => theme.borderColor} solid;
   margin: 0.5rem 0;
 `;
@@ -48,7 +55,7 @@ const InfoWrapper = styled.div`
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    margin: 0.1rem 0 0.7rem;
+    margin: 0.1rem 0 0.5rem;
   }
 `;
 
@@ -62,9 +69,13 @@ const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
       )}
 
       <InfoWrapper>
-        <Paragraph sizeType="lg" fontWeight="500">
-          {roadmap.author.userName}
-        </Paragraph>
+        <BookmarkWrapper>
+          <Paragraph sizeType="lg" fontWeight="500">
+            {roadmap.author.userName}
+          </Paragraph>
+          {/* 북마크 아이콘 */}
+          <IconBookmarkEmpty color="var(--colors-brand-500)" size={20} />
+        </BookmarkWrapper>
         <SubText sizeType="sm">{roadmap.author.companyName || '지니가던 개발자'}</SubText>
         <Line />
         <MiniTitle sizeType="xl" fontWeight="600">
