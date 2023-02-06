@@ -33,7 +33,6 @@ const Li = styled.li`
   margin-right: 0.8rem;
 
   & > * {
-    width: 100%;
     height: var(--toolbar-height);
     display: flex;
     justify-content: center;
