@@ -1,17 +1,17 @@
 import styled from 'styled-components';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useRecoilValue } from 'recoil';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import Layout from '../../layout/Layout';
-import { isDarkState } from '../../recoil';
 import { Button } from '../../components';
 import QnaFormHeader from '../../feature/qna/question-form/QnaFormHeader';
 import QnaFormBody from '../../feature/qna/question-form/QnaFormBody';
 import { useQuestionState } from '../../context/QnaContext';
 import { postQuestion } from '../../apis/qna/qna';
 import { logOnDev } from '../../utils/logging';
+import { toastState } from '../../recoil';
 
 const QnaFormContainer = styled.div`
   display: flex;
@@ -38,17 +38,23 @@ const TooltipAside = styled.aside`
   width: 100%;
 `;
 
-/*
- * TODO
- *  Loading 시 처리
- * */
 const QnaFormPage = () => {
-  const isDark = useRecoilValue(isDarkState);
+  const setToast = useSetRecoilState(toastState);
   const { content, category, errorCode, title, tags } = useQuestionState();
-  const { mutate: addQuestion, isSuccess } = useMutation(
-    postQuestion({ content, category, errorCode, title, tags })
-  );
   const navigate = useNavigate();
+  const { mutate: addQuestion } = useMutation(
+    postQuestion({ content, category, errorCode, title, tags }),
+    {
+      onSuccess: () => {
+        navigate('/question', { replace: true });
+        setToast({ type: 'positive', message: '질문 작성 성공', isVisible: true });
+      },
+
+      onError: () => {
+        setToast({ type: 'negative', message: '질문 작성 실패', isVisible: true });
+      },
+    }
+  );
 
   const onClickAddQuestion = () => {
     if (!category.trim() || !title.trim() || !content.trim() || !errorCode.trim()) {
@@ -56,23 +62,16 @@ const QnaFormPage = () => {
       logOnDev.log(title);
       logOnDev.log(content);
       logOnDev.log(errorCode);
-      alert('필수 목록이 비어있음');
+      setToast({ type: 'negative', message: '필수 항목을 모두 입력해주세요.', isVisible: true });
+      return;
     }
     addQuestion();
-    if (isSuccess) {
-      navigate('/question', { replace: true });
-    }
   };
 
   return (
     <>
       <Helmet>
         <title>트라이캐치 | 질문작성</title>
-        {isDark ? (
-          <link href="https://unpkg.com/prism-themes/themes/prism-one-dark.css" rel="stylesheet" />
-        ) : (
-          <link href="https://unpkg.com/prism-themes/themes/prism-one-light.css" rel="stylesheet" />
-        )}
       </Helmet>
       <Layout>
         <QnaFormContainer>

@@ -1,20 +1,16 @@
 import styled from 'styled-components';
-import { MiniTitle, Paragraph } from '../../components';
+import { useRecoilState } from 'recoil';
+import { MiniTitle } from '../../components';
+import { SettingHeader as ThemeHeader } from '../../feature/settings';
+import { isDarkState } from '../../recoil';
 
 export const SettingsBody = styled.section`
   padding: 0 0 0 80px;
   border-left: 1px solid;
   border-color: ${({ theme: { borderColor } }) => borderColor};
   min-height: 70vh;
+  max-width: 100%;
 `;
-
-const ThemeHeader = () => {
-  return (
-    <MiniTitle sizeType="3xl" textAlign="left">
-      테마
-    </MiniTitle>
-  );
-};
 
 const ThemeWrapper = styled.div`
   margin: 2rem 0;
@@ -138,16 +134,44 @@ const LightTheme = () => {
   );
 };
 
+const CheckMark = () => {
+  return (
+    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M25.915 13.252C25.915 20.1555 20.3186 25.752 13.415 25.752C6.51146 25.752 0.915039 20.1555 0.915039 13.252C0.915039 6.34837 6.51146 0.751953 13.415 0.751953C20.3186 0.751953 25.915 6.34837 25.915 13.252ZM11.9692 19.8706L21.2434 10.5964C21.5583 10.2815 21.5583 9.77085 21.2434 9.45593L20.1029 8.31546C19.788 8.00049 19.2773 8.00049 18.9624 8.31546L11.3989 15.8789L7.86771 12.3477C7.55279 12.0327 7.04216 12.0327 6.72719 12.3477L5.58671 13.4881C5.27179 13.8031 5.27179 14.3137 5.58671 14.6286L10.8286 19.8706C11.1436 20.1855 11.6542 20.1855 11.9692 19.8706Z"
+        fill="#13CE29"
+      />
+    </svg>
+  );
+};
+
 const ThemeSettingsPage = () => {
+  const [isDark, setIsDark] = useRecoilState(isDarkState);
   return (
     <SettingsBody>
-      <ThemeHeader />
+      <ThemeHeader title="테마" />
       <ThemeWrapper>
         <DefaultTheme />
       </ThemeWrapper>
       <ThemeWrapper>
-        <DarkTheme />
-        <LightTheme />
+        <button
+          type="button"
+          style={{ cursor: 'pointer' }}
+          onClick={() => {
+            return setIsDark(true);
+          }}
+        >
+          <DarkTheme />
+        </button>
+        <button
+          type="button"
+          style={{ cursor: 'pointer' }}
+          onClick={() => {
+            return setIsDark(false);
+          }}
+        >
+          <LightTheme />
+        </button>
       </ThemeWrapper>
     </SettingsBody>
   );

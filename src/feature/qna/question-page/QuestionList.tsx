@@ -1,29 +1,63 @@
-import { Link } from 'react-router-dom';
-import { useQuery } from 'react-query';
-import QuestionItem from './QuestionItem';
-
+import { Link, useLocation } from 'react-router-dom';
+import { useInfiniteQuery } from 'react-query';
+import { useRecoilState } from 'recoil';
+import { useEffect } from 'react';
 import { getQuestionList } from '../../../apis/qna/qna';
-import { IQuestion } from '../../../apis/qna/qna-type';
+import qnaCategoryState from '../../../recoil/qnaCategoryState';
+import { QuestionItem } from '../index';
 
-const QuestionList = ({ activeCategory }: { activeCategory: string }) => {
-  const { isLoading, data: questionList } = useQuery<Array<IQuestion>>(['questionList'], () =>
-    getQuestionList()
+const QuestionList = () => {
+  const [activeCategory, setActiveCategory] = useRecoilState<string>(qnaCategoryState);
+  const keyword = new URLSearchParams(useLocation().search).get('keyword') || '';
+  const {
+    data: questionList,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+  } = useInfiniteQuery(
+    ['question', 'questionList', activeCategory] as const,
+    ({ pageParam = 0 }) => {
+      const params = {
+        query: keyword,
+        page: pageParam,
+        category: activeCategory as 'DEV' | 'CAREER' | 'BALANCE',
+        size: 10,
+      };
+      return getQuestionList(params);
+    },
+    {
+      keepPreviousData: true,
+      getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
+    }
   );
 
-  console.log(activeCategory);
-  const filteredQuestionList = questionList?.filter(
-    (question) => question.category === activeCategory
-  );
+  useEffect(() => {
+    const handleScroll = () => {
+      const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
+      if (scrollTop + clientHeight >= scrollHeight - 500) {
+        fetchNextPage();
+      }
+    };
+    if (!isFetchingNextPage) window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [fetchNextPage, isFetchingNextPage]);
 
   return (
     <ul>
-      {filteredQuestionList?.map((question) => {
+      {questionList?.pages.map((page, index) => {
         return (
-          <li key={question.questionId}>
-            <Link to={`${question.questionId}`}>
-              <QuestionItem {...question} />
-            </Link>
-          </li>
+          <>
+            {page.data.map((questionItem) => {
+              return (
+                <li key={questionItem.questionId}>
+                  <Link to={`${questionItem.questionId}`}>
+                    <QuestionItem {...questionItem} />
+                  </Link>
+                </li>
+              );
+            })}
+          </>
         );
       })}
     </ul>

@@ -1,5 +1,5 @@
-const tokenDecode = (word: string) => {
-  const payload = JSON.parse(window.localStorage.getItem('recoil-persist')!).accToken.split('.')[1];
+const tokenDecode = (token: string, word: string) => {
+  const payload = token.split('.')[1];
   return JSON.parse(window.atob(payload))[word];
 };
 

@@ -60,7 +60,7 @@ const SettingHeader = () => {
   );
 };
 const SettingAside = styled.aside`
-  width: 25%;
+  width: 250px;
 
   /* border: 1px solid red; */
   /* margin: 3rem 1.5rem 0;
@@ -76,7 +76,7 @@ const SettingBody = styled.section`
 `;
 
 const SettingsLayout = ({ children }: ILayoutProps) => {
-  // const [activeCategory, setActiveCategory] = useState('개발');
+  // const [activeCategory, setActiveCategory] = useState('DEV');
   return (
     <Layout>
       <SettingContainer>
@@ -87,7 +87,7 @@ const SettingsLayout = ({ children }: ILayoutProps) => {
             <SettingNav />
             {/* <SideNavbar navOptions={navOptions} changeOption={setActiveCategory} /> */}
           </SettingAside>
-          <div style={{ width: '70%' }}>{children}</div>
+          <div style={{ width: '840px' }}>{children}</div>
         </SettingBody>
       </SettingContainer>
     </Layout>

@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
 import { MiniTitle } from '../../../components';
 import { useQuestionDispatch, useQuestionState } from '../../../context/QnaContext';
 import TagsInput from '../../hashtag-input/TagsInput';
+import { toastState } from '../../../recoil';
 
 const Wrapper = styled.div`
   span {
@@ -13,10 +15,15 @@ const Wrapper = styled.div`
   margin-bottom: 1.5rem;
 `;
 const QnaFormTagSection = () => {
+  const [toast, setToast] = useRecoilState(toastState);
   const { tags } = useQuestionState();
   const dispatch = useQuestionDispatch();
 
   const addTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (tags.includes(e.currentTarget.value)) {
+      setToast({ type: 'negative', message: '이름이 같은 태그가 있어요.', isVisible: true });
+      return;
+    }
     if (e.currentTarget.value !== '') {
       const newTag = e.currentTarget.value;
       dispatch({ type: 'SET_TAGS', tags: [...tags, newTag] });

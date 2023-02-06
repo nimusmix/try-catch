@@ -1,4 +1,9 @@
-import { IoIosArrowForward as IconArrow, IoMdSearch as IconSearch } from 'react-icons/io';
+import {
+  IoIosArrowForward as IconArrow,
+  IoMdSearch as IconSearch,
+  IoIosArrowDown as IconArrowDown,
+  IoIosArrowUp as IconArrowUp,
+} from 'react-icons/io';
 import {
   RxBookmark as IconBookmarkEmpty,
   RxBookmarkFilled as IconBookmarkFill,
@@ -8,6 +13,7 @@ import {
 import {
   BsBellFill as IconBellFill,
   BsCheckCircleFill as IconCheckCircle,
+  BsCheck as IconCheck,
   BsFillReplyFill as IconReply,
   BsGrid as IconCard,
   BsShareFill as IconShare,
@@ -25,6 +31,8 @@ import { MdOutlineFeed as IconFeed } from 'react-icons/md';
 
 export {
   IconArrow,
+  IconArrowDown,
+  IconArrowUp,
   IconSearch,
   IconBookmarkEmpty,
   IconBookmarkFill,
@@ -33,6 +41,7 @@ export {
   IconLikeEmpty,
   IconLikeFill,
   IconCheckCircle,
+  IconCheck,
   IconShare,
   IconEye,
   IconComment,

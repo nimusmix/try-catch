@@ -1,13 +1,18 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { MdOutlineCreate } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import loadable from '@loadable/component';
+import { useRecoilState } from 'recoil';
 import { HeaderImage, Layout } from '../../layout';
 import { Button, Paragraph, SubTitle } from '../../components';
 import { PopularQna, QnaPopularTag, QnaSearchBar } from '../../feature/qna';
 import QuestionList from '../../feature/qna/question-page/QuestionList';
 import { header_qna } from '../../assets';
 import SideNavbar from '../../components/side-navbar/SideNavbar';
+import qnaCategoryState from '../../recoil/qnaCategoryState';
+
+const DetailPage = loadable(() => import('./QnaDetailPage'));
 
 const navOptions = [
   {
@@ -52,9 +57,13 @@ export const Aside = styled.aside`
 `;
 
 const QnaPage = () => {
-  const [activeCategory, setActiveCategory] = useState('DEV');
+  const [activeCategory, setActiveCategory] = useRecoilState(qnaCategoryState);
 
-  console.log(activeCategory);
+  const activeIdx = navOptions.findIndex((option) => option.value === activeCategory);
+  // 디테일 페이지를 미리 로드 (효과가 있는지 잘 모르겠음..)
+  useEffect(() => {
+    DetailPage.preload();
+  }, []);
 
   return (
     <Layout>
@@ -68,11 +77,15 @@ const QnaPage = () => {
       </HeaderImage>
       <QuestionPageBody>
         <Aside>
-          <SideNavbar navOptions={navOptions} changeOption={setActiveCategory} />
+          <SideNavbar
+            navOptions={navOptions}
+            changeOption={setActiveCategory}
+            activeIdx={activeIdx}
+          />
         </Aside>
         <section>
           <QnaSearchBar />
-          <QuestionList activeCategory={activeCategory} />
+          <QuestionList />
         </section>
         <Aside>
           <Link to="form">

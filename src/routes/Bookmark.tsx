@@ -9,8 +9,8 @@ import SideNavbar from '../components/side-navbar/SideNavbar';
 import { Aside } from '../pages/qna/QnaPage';
 
 const navOptions = [
-  { id: 1, option: '질문' },
-  { id: 2, option: '피드' },
+  { id: 1, option: '질문', value: '질문' },
+  { id: 2, option: '피드', value: '피드' },
 ];
 
 const BookmarkWrapper = styled.div`

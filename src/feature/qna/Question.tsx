@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { Button, Div, MiniTitle, Paragraph } from '../../components';
-import { IQuestion } from '../../apis/qna/qna-type';
 import {
   IconBookmarkEmpty,
   IconBookmarkFill,
@@ -11,8 +10,9 @@ import {
 } from '../../components/icons/Icons';
 import getImageUrl from '../../utils/getImageUrl';
 import elapsedTime from '../../utils/elapsed-time';
-import MilkdownEditor from '../text-editor/MilkdownEditor';
 import { COMPANY } from '../../constant/company';
+import MilkdownViewer from '../text-editor/MilkdownViewer';
+import { IQuestion } from '../../interface/qna';
 
 const QuestionDiv = styled(Div)`
   overflow: hidden;
@@ -29,7 +29,7 @@ const QuestionDiv = styled(Div)`
 const UpperWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 1.5rem 1.5rem 1rem;
+  padding: 2rem 2rem 1rem;
   justify-content: space-between;
   background-color: ${({ theme: { isDark } }) =>
     isDark ? 'rgba(36, 42, 54, 1)' : 'var(--colors-brand-200)'};
@@ -54,7 +54,9 @@ const UpperTagWrapper = styled.div`
   display: flex;
 `;
 
-const UpperTag = styled(Button)``;
+const UpperTag = styled(Button)`
+  margin-right: 0.5rem;
+`;
 
 const Icons = styled.div`
   display: flex;
@@ -113,10 +115,15 @@ const QuestionBody = styled.div`
       margin: 0.5rem 0;
     }
   }
+
+  .milkdown .editor[contenteditable='false'] {
+    & > * {
+      margin: 0.5rem 0;
+    }
+  }
 `;
 
 const Question = ({
-  questionId,
   tags,
   updatedAt,
   content,
@@ -156,13 +163,29 @@ const Question = ({
                 designType="greenFill"
                 fontSize="14px"
                 padding="0.2rem 0.6rem"
-                margin="0 0 0 0.4rem"
+                margin="0 0 0.4rem"
                 borderRadius="10px"
               >
                 <IconCheckCircle size="14" className="solved-icon" />
                 &nbsp;Catched
               </UpperTag>
             )}
+            {tags.map((tag, index) => {
+              if (tag === '') return null;
+              return (
+                <Button
+                  key={String(tag + index)}
+                  as="span"
+                  designType="blueEmpty"
+                  fontSize="var(--fonts-body-xm)"
+                  padding="2px 10px"
+                  margin="0 0.3rem 0 0"
+                  borderRadius="var(--borders-radius-base)"
+                >
+                  #{tag}
+                </Button>
+              );
+            })}
           </UpperTagWrapper>
 
           <Icons>
@@ -194,8 +217,8 @@ const Question = ({
         </div>
       </UpperWrapper>
       <QuestionBody>
-        <MilkdownEditor width="100%" editable={false} data={content} />
-        {errorCode && <MilkdownEditor width="100%" editable={false} data={errorCode} />}
+        <MilkdownViewer width="100%" data={content} />
+        {errorCode && <MilkdownViewer width="100%" data={errorCode} />}
       </QuestionBody>
 
       <Like>

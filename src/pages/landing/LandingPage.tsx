@@ -1,12 +1,13 @@
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { useInView } from 'react-intersection-observer';
+import { useEffect } from 'react';
 import Layout from '../../layout/Layout';
 import MarqueeLogoCard from './marquee-logo-wall/MarqueeLogoCard';
 import LandingTitle from './landing-title/LandingTitle';
 import { ReactComponent as LogoDarkTheme } from '../../assets/vertical_logo_dark_theme.svg';
 import { ReactComponent as LogoLightTheme } from '../../assets/vertical_logo_light_theme.svg';
-import { accToken, refToken, isDarkState, isLoggedInState } from '../../recoil';
+import { accToken, isDarkState, isLoggedInState, refToken } from '../../recoil';
 import { QuestionPageBody } from '../qna/QnaPage';
 import IntroSection from './Sections/IntroSection';
 import QnASection from './Sections/QnASection';
@@ -25,19 +26,20 @@ const LandingPage = () => {
   const isDark = useRecoilValue(isDarkState);
   const { ref: myRef, inView: myElementIsVisible } = useInView();
 
-  // 로그인 토큰 저장
   const setAccToken = useSetRecoilState(accToken);
   const setRefToken = useSetRecoilState(refToken);
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
 
-  if (window.location.search) {
+  useEffect(() => {
+    if (!window.location.search) return;
+
     const params = new URLSearchParams(window.location.search);
-    const acc = params.get('acc');
-    const ref = params.get('ref');
-    setAccToken(acc!);
-    setRefToken(ref!);
-    setIsLoggedIn(true);
-  }
+    if (params.get('acc') && params.get('ref')) {
+      setAccToken(params.get('acc') as string);
+      setRefToken(params.get('ref') as string);
+      setIsLoggedIn(true);
+    }
+  }, [setAccToken, setIsLoggedIn, setRefToken]);
 
   return (
     <Layout>

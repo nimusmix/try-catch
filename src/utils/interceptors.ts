@@ -13,7 +13,7 @@ const tokenInterceptor = (instance: AxiosInstance) => {
     (config) => {
       const axiosConfig = config;
       // const token = getItem('jwt_token')
-      const token = JSON.parse(window.localStorage.getItem('recoil-persist')!).accToken;
+      const token = JSON.parse(window.localStorage.getItem('recoil-persist')!)?.accToken;
       axiosConfig.headers = new AxiosHeaders({
         Authorization: token,
       });

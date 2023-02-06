@@ -1,11 +1,14 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { HelmetProvider } from 'react-helmet-async';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Outlet } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
-import { isDarkState } from './recoil';
+import React from 'react';
+import { isDarkState, toastState } from './recoil';
 import { darkTheme, lightTheme } from './styles/theme';
+import ScrollToTop from './utils/ScrollToTop';
+import Toast from './feature/toast/Toast';
 
 const GlobalStyles = createGlobalStyle`
   *{
@@ -21,21 +24,29 @@ const GlobalStyles = createGlobalStyle`
   body {
     background-color: ${({ theme: { bgColor } }) => bgColor};
   }
+
   
-  .markdown-preview *{ 
-    all : revert;
-  }
 `;
 
 const queryClient = new QueryClient();
 
 function App() {
   const isDark = useRecoilValue(isDarkState);
+  const { isVisible } = useRecoilValue(toastState);
   return (
     <HelmetProvider>
+      <Helmet>
+        {isDark ? (
+          <link href="https://unpkg.com/prism-themes/themes/prism-one-dark.css" rel="stylesheet" />
+        ) : (
+          <link href="https://unpkg.com/prism-themes/themes/prism-one-light.css" rel="stylesheet" />
+        )}
+      </Helmet>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+          {isVisible && <Toast />}
           <GlobalStyles />
+          <ScrollToTop />
           <Outlet />
           <ReactQueryDevtools initialIsOpen={false} />
         </ThemeProvider>

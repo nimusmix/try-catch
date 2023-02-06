@@ -1,9 +1,8 @@
-import { INode } from '../../interface/roadmap';
-import { IRoadmap } from './roadmap-type';
+import { INode, IRoadmapPost } from '../../interface/roadmap';
 import { api, authApi } from '../../utils/axios-instance';
 
 // 로드맵
-export const postRoadmap = (data: IRoadmap) => authApi.post('/roadmap', data);
+export const postRoadmap = (data: IRoadmapPost) => authApi.post('/roadmap', data);
 
 export const getRoadmapDetail = (roadmapId: string) =>
   api.get(`/roadmap/${roadmapId}`).then((res) => {

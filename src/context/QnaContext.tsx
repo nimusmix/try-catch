@@ -2,7 +2,7 @@ import React, { createContext, Dispatch, useContext, useReducer } from 'react';
 
 // state 타입
 interface IState {
-  category: 'DEV' | 'CAREER';
+  category: 'DEV' | 'CAREER' | 'BALANCE';
   title: string;
   content: string;
   errorCode: string;
@@ -38,7 +38,7 @@ const reducer = (state: IState, action: Action): IState => {
     case 'SET_CATEGORY':
       return {
         ...state,
-        category: action.category as 'DEV' | 'CAREER',
+        category: action.category as 'DEV' | 'CAREER' | 'BALANCE',
       };
     case 'SET_TITLE':
       return {

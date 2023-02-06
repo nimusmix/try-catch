@@ -2,14 +2,6 @@ import styled from 'styled-components';
 import { Button, Div, MiniTitle, Paragraph } from '../../components';
 import getImageUrl from '../../utils/getImageUrl';
 
-interface IChallengeUser {
-  author: {
-    username: string;
-    image?: string;
-    company?: string;
-  };
-}
-
 const ChallengeRankWrapper = styled.div`
   display: flex;
   align-items: center;

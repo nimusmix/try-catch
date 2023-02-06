@@ -1,12 +1,14 @@
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
 import React, { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import Layout from '../../layout/Layout';
 import { Answer, QnaDetailPopularQna, Question } from '../../feature/qna';
 import { getQuestionDetail } from '../../apis/qna/qna';
-import { IQuestion } from '../../apis/qna/qna-type';
 import { AnswerForm } from '../../feature';
+import { IQuestion } from '../../interface/qna';
+import qnaCategoryState from '../../recoil/qnaCategoryState';
 
 const QnaDetailWrapper = styled.section`
   margin-top: 3rem;
@@ -31,26 +33,48 @@ const Aside = styled.aside`
 
 const QnaDetailPage = () => {
   const { questionId } = useParams<string>();
+  const queryClient = useQueryClient();
+  const qnaCategory = useRecoilValue(qnaCategoryState);
+  const [questionInput, setQuestionInput] = useState('');
   const { isLoading, data: questionDetail } = useQuery<IQuestion>(
-    ['question'],
+    ['question', questionId] as const,
     getQuestionDetail(questionId as string)
+    /* {
+      initialData: () => {
+        const questionDetail = queryClient
+          .getQueryData<Array<IQuestion>>(['question', 'questionList', qnaCategory])
+          ?.find((question: IQuestion) => question.questionId === Number(questionId));
+
+        return questionDetail;
+      },
+    } */
   );
 
-  const [questionInput, setQuestionInput] = useState('');
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <Layout>
       <QnaDetailWrapper>
         <QnaDetailMain>
-          {isLoading && 'Loading...'}
           {questionDetail && <Question {...questionDetail} />}
 
           <AnswerForm questionId={questionId as string} />
           <ul>
             {questionDetail &&
-              questionDetail.answers.map((answer) => (
-                <Answer key={answer.answerId} answer={answer} setQuestionInput={setQuestionInput} />
-              ))}
+              questionDetail.answers
+                .sort((a, b) => a.updatedAt - b.updatedAt)
+                .map((answer) => {
+                  console.log(answer);
+                  return (
+                    <Answer
+                      key={answer.answerId}
+                      answer={answer}
+                      setQuestionInput={setQuestionInput}
+                    />
+                  );
+                })}
           </ul>
         </QnaDetailMain>
         <Aside>

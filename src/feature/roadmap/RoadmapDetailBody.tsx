@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ReactFlow } from 'reactflow';
+import { ReactFlow, Controls } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { INode, IEdge } from '../../interface/roadmap';
 
@@ -18,7 +18,9 @@ const DetailWrapper = styled.div`
 const RoadmapDetailBody = ({ nodes, edges }: IRoadmapDetailProps) => {
   return (
     <DetailWrapper>
-      <ReactFlow nodes={nodes} edges={edges} fitView />
+      <ReactFlow nodes={nodes} edges={edges} fitView>
+        <Controls />
+      </ReactFlow>
     </DetailWrapper>
   );
 };

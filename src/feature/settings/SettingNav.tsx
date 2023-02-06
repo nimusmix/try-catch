@@ -31,7 +31,7 @@ const Wrapper = styled.div`
     z-index: 10;
     width: 80%;
     padding: 1rem 4rem;
-    text-align: center;
+    text-align: left;
     cursor: pointer;
     font-size: var(--fonts-desktop-heading-xl);
   }
