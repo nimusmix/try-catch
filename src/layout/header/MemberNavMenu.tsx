@@ -4,7 +4,6 @@ import { useRecoilValue } from 'recoil';
 import { useQuery } from 'react-query';
 import { IconBellFill, IconBookmarkFill, IconUserCircle } from '../../components/icons/Icons';
 import { BOOKMARK_PAGE_NAME } from '../../constant';
-import { Ul } from './NavMenu';
 import { Paragraph } from '../../components';
 import { accToken, isDarkState } from '../../recoil';
 import { getImage, getName } from '../../apis/auth/auth';
@@ -91,6 +90,24 @@ const Menu = styled.div<{ isDropped: any }>`
     `};
 `;
 
+const Ul = styled.ul`
+  & > li {
+    margin-bottom: 10px;
+  }
+
+  & > li:first-of-type {
+    margin-top: 10px;
+  }
+
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
   const acc = useRecoilValue(accToken);
@@ -141,9 +158,9 @@ const MemberNavMenu = () => {
         </ProfileLi>
         <Menu isDropped={dropdownIsOpen}>
           <Ul>
-            <Li>마이페이지</Li>
-            <Li>설정</Li>
-            <Li>로그아웃</Li>
+            <li>마이페이지</li>
+            <li>설정</li>
+            <li>로그아웃</li>
           </Ul>
         </Menu>
       </DropdownContainer>
