@@ -154,9 +154,8 @@ const Question = ({
 }: IQuestion) => {
   const queryClient = useQueryClient();
   const isMe = useIsMe(author.userId);
-  const updateLike = async (type: 'up' | 'down') => {
-    await queryClient.cancelQueries(['question', questionId]);
-    const previousData = queryClient.getQueryData<IQuestion>(['question', questionId]);
+  const updateLike = (type: 'up' | 'down') => {
+    const previousData = queryClient.getQueryData(['question', questionId]);
 
     console.log('prev', previousData);
     if (previousData) {
@@ -166,7 +165,7 @@ const Question = ({
         return {
           ...oldData,
           likeCount: type === 'up' ? likeCount + 1 : likeCount - 1,
-          isLiked: !isLiked,
+          isLiked: type === 'up',
         };
       });
     }
@@ -179,7 +178,22 @@ const Question = ({
     ['like', 'up'],
     () => postLike({ id: questionId, type: 'QUESTION' }),
     {
-      onMutate: () => updateLike('up'),
+      onMutate: async () => {
+        await queryClient.cancelQueries(['question', questionId]);
+        const prev = queryClient.getQueryData(['question', questionId]);
+
+        queryClient.setQueryData(['question', questionId], (old) => {
+          return {
+            ...old!,
+            likeCount: likeCount + 1,
+            isLiked: true,
+          };
+        });
+
+        return {
+          prev,
+        };
+      },
     }
   );
   const { mutate: cancel } = useMutation(
