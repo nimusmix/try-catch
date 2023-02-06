@@ -73,55 +73,24 @@ const Icons = styled.button`
 const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
   const queryClient = useQueryClient();
 
-  const updateBookmark = (type: 'up' | 'down') => {
-    const previousData = queryClient.getQueryData<Array<IRoadmapItemProps>>(['roadmapList']);
+  const unBookmark = useMutation(putBookmark, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['roadmapList']);
+    },
+  });
 
-    const newRoadmapLists = previousData?.map((roadmapItem) => {
-      if (roadmapItem.roadmapId === roadmap.roadmapId) {
-        return {
-          ...roadmapItem,
-          isBookmarked: type === 'up',
-        };
-      }
-      return roadmapItem;
-    });
-
-    if (previousData) {
-      queryClient.setQueryData<Array<IRoadmapItemProps>>(['roadmapList'], (oldData: any) => {
-        return {
-          ...oldData,
-          newRoadmapLists,
-        };
-      });
-    }
-
-    return {
-      previousData,
-    };
-  };
-
-  const { mutate: unBookmark } = useMutation(
-    ['bookmark', 'down'],
-    () => putBookmark({ id: roadmap.roadmapId, type: 'ROADMAP' }),
-    {
-      onMutate: () => updateBookmark('down'),
-    }
-  );
-
-  const { mutate: bookmark } = useMutation(
-    ['bookmark', 'up'],
-    () => postBookmark({ id: roadmap.roadmapId, type: 'ROADMAP' }),
-    {
-      onMutate: () => updateBookmark('up'),
-    }
-  );
+  const bookmark = useMutation(postBookmark, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['roadmapList']);
+    },
+  });
 
   const onClickBookmarkHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (roadmap.isBookmarked) {
-      unBookmark();
+      unBookmark.mutate({ id: roadmap.roadmapId, type: 'ROADMAP' });
     } else {
-      bookmark();
+      bookmark.mutate({ id: roadmap.roadmapId, type: 'ROADMAP' });
     }
   };
 
