@@ -73,7 +73,6 @@ const QnaDetailPage = () => {
                       answer={answer}
                       questionId={questionDetail.questionId}
                       setQuestionInput={setQuestionInput}
-                      questionId={questionDetail.questionId}
                     />
                   );
                 })}
