@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { useQuery } from 'react-query';
+import React from 'react';
 import { IconBellFill, IconBookmarkFill, IconUserCircle } from '../../components/icons/Icons';
 import { BOOKMARK_PAGE_NAME } from '../../constant';
 import { Paragraph } from '../../components';
@@ -91,6 +92,12 @@ const MemberNavMenu = () => {
     enabled: !!profileImage,
   });
 
+  const navi = useNavigate();
+  const goToProfile = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navi(`/profile/${userName}`);
+  };
+
   return (
     <Ul>
       <Li>
@@ -131,10 +138,11 @@ const MemberNavMenu = () => {
           </ProfileWrapper>
           <DropLiContainer>
             <DropUl>
-              <DropLi as={Link} to={`/profile/${userName}`}>
+              <DropLi as="div" onClick={goToProfile}>
                 내 프로필
               </DropLi>
-              <DropLi as={Link} to="/settings">
+              {/* <DropLi as={Link} to="/settings"> */}
+              <DropLi as="div" onClick={goToProfile}>
                 설정
               </DropLi>
               <hr />
