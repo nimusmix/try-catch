@@ -235,12 +235,8 @@ const Question = ({
   };
 
   const onClickBookmarkHandler = () => {
-    if (isLoggedIn) {
-      if (isBookmarked) {
-        addBookmark();
-      } else {
-        cancelBookmark();
-      }
+    if (isBookmarked) {
+      addBookmark();
     } else {
       setToast({
         type: 'negative',
