@@ -133,7 +133,7 @@ const Answer = ({
       if (ans.answerId === answer.answerId) {
         return {
           ...ans,
-          isLike: type === 'up',
+          isLiked: type === 'up',
           likeCount: type === 'up' ? ans.likeCount + 1 : ans.likeCount - 1,
         };
       }
