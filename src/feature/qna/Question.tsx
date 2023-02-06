@@ -206,6 +206,7 @@ const Question = ({
   );
 
   const onClickLikeHandler = () => {
+    console.log(isLiked);
     if (isLiked) {
       cancel();
     } else {
