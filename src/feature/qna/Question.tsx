@@ -156,53 +156,53 @@ const Question = ({
   const isMe = useIsMe(author.userId);
   const { mutate: like } = useMutation(
     ['like', 'post'],
-    () => postLike({ id: questionId, type: 'QUESTION' }),
-    {
-      onMutate: async () => {
-        await queryClient.cancelQueries(['question', questionId]);
-        const previousData = queryClient.getQueryData<IQuestion>(['question', questionId]);
-
-        if (previousData) {
-          // previousData 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
-          queryClient.setQueryData<IQuestion>(['question', questionId], (oldData: any) => {
-            return {
-              ...oldData,
-              likeCount: likeCount + 1,
-              isLiked: !isLiked,
-            };
-          });
-        }
-
-        return {
-          previousData,
-        };
-      },
-    }
+    () => postLike({ id: questionId, type: 'QUESTION' })
+    // {
+    //   onMutate: async () => {
+    //     await queryClient.cancelQueries(['question', questionId]);
+    //     const previousData = queryClient.getQueryData<IQuestion>(['question', questionId]);
+    //
+    //     if (previousData) {
+    //       // previousData 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
+    //       queryClient.setQueryData<IQuestion>(['question', questionId], (oldData: any) => {
+    //         return {
+    //           ...oldData,
+    //           likeCount: likeCount + 1,
+    //           isLiked: !isLiked,
+    //         };
+    //       });
+    //     }
+    //
+    //     return {
+    //       previousData,
+    //     };
+    //   },
+    // }
   );
   const { mutate: cancel } = useMutation(
     ['like', 'put'],
-    () => cancelLike({ id: questionId, type: 'QUESTION' }),
-    {
-      onMutate: async () => {
-        await queryClient.cancelQueries(['question', questionId]);
-        const previousData = queryClient.getQueryData<IQuestion>(['question', questionId]);
-
-        if (previousData) {
-          // previousData 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
-          queryClient.setQueryData<IQuestion>(['question', questionId], (oldData: any) => {
-            return {
-              ...oldData,
-              likeCount: likeCount - 1,
-              isLiked: !isLiked,
-            };
-          });
-        }
-
-        return {
-          previousData,
-        };
-      },
-    }
+    () => cancelLike({ id: questionId, type: 'QUESTION' })
+    // {
+    //   onMutate: async () => {
+    //     await queryClient.cancelQueries(['question', questionId]);
+    //     const previousData = queryClient.getQueryData<IQuestion>(['question', questionId]);
+    //
+    //     if (previousData) {
+    //       // previousData 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
+    //       queryClient.setQueryData<IQuestion>(['question', questionId], (oldData: any) => {
+    //         return {
+    //           ...oldData,
+    //           likeCount: likeCount - 1,
+    //           isLiked: !isLiked,
+    //         };
+    //       });
+    //     }
+    //
+    //     return {
+    //       previousData,
+    //     };
+    //   },
+    // }
   );
 
   const onClickLikeHandler = () => {

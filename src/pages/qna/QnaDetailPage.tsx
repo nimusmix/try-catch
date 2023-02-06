@@ -58,8 +58,9 @@ const QnaDetailPage = () => {
     <Layout>
       <QnaDetailWrapper>
         <QnaDetailMain>
+          {/* 질문 부분 */}
           {questionDetail && <Question {...questionDetail} />}
-
+          {/* 답변 form 부분 */}
           <AnswerForm questionId={questionId as string} />
           <ul>
             {questionDetail &&
