@@ -53,11 +53,12 @@ const ProfileWrapper = styled.span`
 
 const DropLi = styled.li`
   list-style: none;
+  color: ${({ theme }) => theme.textColor100};
 `;
 
 const DropUl = styled.ul`
   list-style: none;
-  line-height: 1.5rem;
+  line-height: 1.75rem;
 `;
 
 const Dropdown = styled.button`
@@ -85,6 +86,7 @@ const DropLiContainer = styled.div`
 `;
 
 const Line = styled.div`
+  margin: 0.5rem 0;
   border-bottom: 1px solid ${({ theme }) => theme.borderColor};
   width: 100%;
 `;
@@ -154,7 +156,7 @@ const MemberNavMenu = () => {
               <DropLi as="div" onClick={goToSettings}>
                 설정
               </DropLi>
-              <DropLi as={Line} />
+              <Line />
               <DropLi>로그아웃</DropLi>
             </DropUl>
           </DropLiContainer>
