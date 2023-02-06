@@ -1,11 +1,8 @@
-import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
 import { Div, Paragraph, MiniTitle, Button } from '../../components';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
-import { isLoggedInState } from '../../recoil';
 
 interface IRoadmapItemProps {
   roadmapId: number;
@@ -74,17 +71,15 @@ const Icons = styled.button`
 `;
 
 const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
-  /* 북마크 상태 표시 */
-  const isLoggedIn = useRecoilValue(isLoggedInState);
   const queryClient = useQueryClient();
 
-  const { mutate: unBookmark } = useMutation(putBookmark, {
+  const unBookmark = useMutation(putBookmark, {
     onSuccess: () => {
       queryClient.invalidateQueries(['roadmapList']);
     },
   });
 
-  const { mutate: bookmark } = useMutation(postBookmark, {
+  const bookmark = useMutation(postBookmark, {
     onSuccess: () => {
       queryClient.invalidateQueries(['roadmapList']);
     },
@@ -93,8 +88,10 @@ const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
   const onClickBookmarkHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (roadmap.isBookmarked) {
-      unBookmark({ id: roadmap.roadmapId, type: 'ROADMAP' });
-    } else if (isLoggedIn) bookmark({ id: roadmap.roadmapId, type: 'ROADMAP' });
+      unBookmark.mutate({ id: roadmap.roadmapId, type: 'ROADMAP' });
+    } else {
+      bookmark.mutate({ id: roadmap.roadmapId, type: 'ROADMAP' });
+    }
   };
 
   return (
@@ -114,9 +111,9 @@ const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
           {/* <IconBookmarkEmpty color="var(--colors-brand-500)" size={20} /> */}
           <Icons onClick={onClickBookmarkHandler}>
             {/* 북마크 */}
-            {roadmap.isBookmarked && <IconBookmarkFill size="27" color="var(--colors-brand-500)" />}
+            {roadmap.isBookmarked && <IconBookmarkFill size="24" color="var(--colors-brand-500)" />}
             {roadmap.isBookmarked || (
-              <IconBookmarkEmpty size="27" color="var(--colors-brand-500)" />
+              <IconBookmarkEmpty size="24" color="var(--colors-brand-500)" />
             )}
           </Icons>
         </BookmarkWrapper>

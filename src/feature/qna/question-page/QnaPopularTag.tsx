@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Button, Div, MiniTitle } from '../../../components';
+import { logOnDev } from '../../../utils/logging';
 
 export interface IQnaPopularTag {
   tags: Array<string>;
@@ -25,7 +26,7 @@ const TagsWrapper = styled.div`
 
 const QnaPopularTag = ({ tags }: IQnaPopularTag) => {
   const handleClick = () => {
-    console.log('버튼 테스트');
+    logOnDev.log('버튼 테스트');
   };
   // /search?type=qna&keyword=&page=&size&
   return (

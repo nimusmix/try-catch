@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { IconSearch } from '../../../components/icons/Icons';
 import { Button, Input } from '../../../components';
 import { isDarkState } from '../../../recoil';
+import { logOnDev } from '../../../utils/logging';
 
 interface ISearchValue {
   data: string;
@@ -48,7 +49,7 @@ const QnaSearchBar = () => {
 
   const handleClick = () => resetField('data');
   const onSubmit = handleSubmit(() => {
-    console.log(1);
+    logOnDev.log(1);
   });
   const { name, ref } = register('data');
 

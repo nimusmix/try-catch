@@ -12,6 +12,7 @@ import { cancelLike, postLike } from '../../../apis/like/like';
 import useIsMe from '../../../hooks/useIsMe';
 import { postFollow, putFollow } from '../../../apis/user/user';
 
+
 const AnswerItem = styled.li`
   display: flex;
   flex-direction: column;
@@ -235,6 +236,7 @@ const Answer = ({
       follow();
     }
   };
+  
   return (
     <AnswerItem>
       <UpperWrapper>

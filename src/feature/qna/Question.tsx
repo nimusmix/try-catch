@@ -190,6 +190,7 @@ const Question = ({
       previousData,
     };
   };
+  
   const { mutate: like } = useMutation(
     ['like', 'up'],
     () => postLike({ id: questionId, type: 'QUESTION' }),

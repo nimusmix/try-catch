@@ -20,4 +20,4 @@ export const getRoadmapDetail = (roadmapId: string) =>
     };
   });
 
-export const getRoadmapList = () => api.get('/roadmap/list').then((res) => res.data);
+export const getRoadmapList = () => authApi.get('/roadmap/list').then((res) => res.data);
