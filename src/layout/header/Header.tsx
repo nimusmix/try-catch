@@ -21,6 +21,7 @@ const StyledHeader = styled.header`
   background-color: ${({ theme: { navColor } }) => navColor};
   opacity: 0.93;
   backdrop-filter: blur(30px);
+  padding-right: 2rem;
 `;
 
 const Header = ({ children }: IHeaderProps) => {
