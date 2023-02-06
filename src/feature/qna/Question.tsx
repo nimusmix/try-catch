@@ -158,9 +158,11 @@ const Question = ({
     await queryClient.cancelQueries(['question', questionId]);
     const previousData = queryClient.getQueryData<IQuestion>(['question', questionId]);
 
+    console.log('prev', previousData);
     if (previousData) {
       // previousData 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
       queryClient.setQueryData<IQuestion>(['question', questionId], (oldData: any) => {
+        console.log('old', oldData);
         return {
           ...oldData,
           likeCount: type === 'up' ? likeCount + 1 : likeCount - 1,
