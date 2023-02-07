@@ -12,15 +12,23 @@ import { IQuestion } from '../../../interface/qna';
 const QnaFormBody = () => {
   const dispatch = useQuestionDispatch();
   const { questionId } = useParams();
-  useQuery<IQuestion>(['question', questionId], getQuestionDetail(Number(questionId)), {
-    onSuccess: (data) => {
-      dispatch({ type: 'SET_TITLE', title: data.title });
-      dispatch({ type: 'SET_CATEGORY', category: data.category });
-      dispatch({ type: 'SET_CONTENT', content: data.content });
-      dispatch({ type: 'SET_ERROR_CODE', errorCode: data.errorCode });
-      dispatch({ type: 'SET_TAGS', tags: data.tags });
-    },
-  });
+  const { isLoading } = useQuery<IQuestion>(
+    ['question', questionId],
+    getQuestionDetail(Number(questionId)),
+    {
+      onSuccess: (data) => {
+        dispatch({ type: 'SET_TITLE', title: data.title });
+        dispatch({ type: 'SET_CATEGORY', category: data.category });
+        dispatch({ type: 'SET_CONTENT', content: data.content });
+        dispatch({ type: 'SET_ERROR_CODE', errorCode: data.errorCode });
+        dispatch({ type: 'SET_TAGS', tags: data.tags });
+      },
+    }
+  );
+
+  if (isLoading) {
+    return 'loading...';
+  }
 
   return (
     <div>

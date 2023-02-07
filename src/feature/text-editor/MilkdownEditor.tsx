@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign,consistent-return */
-import React, { ForwardedRef, forwardRef } from 'react';
+import React, { ForwardedRef, forwardRef, useEffect } from 'react';
 import {
   defaultValueCtx,
   Editor,
@@ -169,6 +169,17 @@ const MilkdownEditor = (
         .use(listener),
     []
   );
+
+  useEffect(() => {
+    if (!loading) {
+      console.log('data', `${data}`);
+      const instance = getInstance();
+      instance?.action((ctx) => {
+        // eslint-disable-next-line no-console
+        ctx.update(defaultValueCtx, (prev) => prev);
+      });
+    }
+  }, [data, getInstance, loading]);
 
   return (
     <MilkDownWrapper width={width} ref={ref}>
