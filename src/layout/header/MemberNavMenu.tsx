@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { useQuery } from 'react-query';
 import React from 'react';
@@ -51,23 +51,27 @@ const ProfileWrapper = styled.span`
   display: flex;
 `;
 
-const DropLi = styled.li`
+export const DropLi = styled.li`
   list-style: none;
   color: ${({ theme }) => theme.textColor100};
 `;
 
-const DropUl = styled.ul`
+export const DropUl = styled.ul`
   list-style: none;
   line-height: 1.75rem;
 `;
 
-const Dropdown = styled.button`
+export const Dropdown = styled.button`
   border: none;
   outline: none;
   position: relative;
+
+  #deleteAlert {
+    background-color: red;
+  }
 `;
 
-const DropLiContainer = styled.div`
+export const DropLiContainer = styled.div`
   border: 1px solid ${({ theme }) => theme.borderColor};
   border-radius: var(--borders-radius-base);
   background-color: ${({ theme }) => theme.bgColor};
@@ -77,9 +81,6 @@ const DropLiContainer = styled.div`
   position: absolute;
   display: none;
 
-  ${Dropdown}:active & {
-    display: block;
-  }
   ${Dropdown}:focus & {
     display: block;
   }

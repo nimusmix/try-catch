@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { MdOutlineCreate } from 'react-icons/md';
 import { Link, useLocation } from 'react-router-dom';
 import loadable from '@loadable/component';
 import { useRecoilState } from 'recoil';
@@ -11,6 +10,7 @@ import QuestionList from '../../feature/qna/question-page/QuestionList';
 import { header_qna } from '../../assets';
 import SideNavbar from '../../components/side-navbar/SideNavbar';
 import qnaCategoryState from '../../recoil/qnaCategoryState';
+import { IconPen } from '../../components/icons/Icons';
 
 const DetailPage = loadable(() => import('./QnaDetailPage'));
 
@@ -112,7 +112,7 @@ const QnaPage = () => {
               padding="0.455rem 1.125rem"
               margin="0 0 1rem 0"
             >
-              <MdOutlineCreate />
+              <IconPen />
               &nbsp;&nbsp;질문 작성하기
             </Button>
           </Link>
