@@ -46,7 +46,6 @@ const QuestionList = ({ filter }: { filter: string }) => {
           })),
           pageParams: data.pageParams,
         };
-        HE;
         return { ...filteredData };
       },
     }
