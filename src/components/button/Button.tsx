@@ -9,6 +9,8 @@ export type TDesignType =
   | 'purpleEmpty'
   | 'greenFill'
   | 'greenEmpty'
+  | 'redFill'
+  | 'redEmpty'
   | 'grayFill'
   | 'grayEmpty';
 
@@ -40,6 +42,26 @@ const designList = {
     &:hover {
       color: var(--colors-brand-600);
       border: 0.8px var(--colors-brand-600) solid;
+    }
+  `,
+
+  redFill: css`
+    background-color: var(--colors-red-500);
+    color: var(--colors-white-500);
+    border: 0.8px var(--colors-red-500) solid;
+    &:hover {
+      background-color: var(--colors-red-600);
+      border: 0.8px var(--colors-red-600) solid;
+    }
+  `,
+
+  redEmpty: css`
+    background-color: transparent;
+    color: var(--colors-red-500);
+    border: 0.8px var(--colors-red-500) solid;
+    &:hover {
+      color: var(--colors-red-600);
+      border: 0.8px var(--colors-red-600) solid;
     }
   `,
   skyFill: css`

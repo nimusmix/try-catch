@@ -9,9 +9,6 @@ const MilkDownWrapper = styled.div<{
   width: ${({ width }) => width || '100%'};
   .milkdown-menu-wrapper {
     width: 100%;
-    border: ${({ theme: { isDark } }) =>
-      isDark ? '1px var(--colors-black-100) solid' : '1px solid var(--colors-brand-200)'};
-    border-radius: var(--borders-radius-lg);
 
     .milkdown-menu {
       border-radius: 0.5rem 0.5rem 0 0;
