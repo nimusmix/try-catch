@@ -72,6 +72,7 @@ export const Dropdown = styled.button`
 `;
 
 export const DropLiContainer = styled.div`
+  min-width: 120px;
   border: 1px solid ${({ theme }) => theme.borderColor};
   border-radius: var(--borders-radius-base);
   background-color: ${({ theme }) => theme.bgColor};
@@ -95,6 +96,9 @@ const Line = styled.div`
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
   const acc = useRecoilValue(accToken);
+  // TODO 알림기능
+  // const { followNotifications, answerRegistrationNotifications, answerAcceptanceNotifications } =
+  //   useNotifications();
   const { data: profileImage } = useQuery(['user', 'profileImage'] as const, () => getImage(acc));
   const { data: userName } = useQuery(['user', 'userName'] as const, getName, {
     enabled: !!profileImage,
