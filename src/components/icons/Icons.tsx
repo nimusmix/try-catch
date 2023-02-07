@@ -2,6 +2,7 @@ import {
   IoIosArrowDown as IconArrowDown,
   IoIosArrowForward as IconArrow,
   IoIosArrowUp as IconArrowUp,
+  IoMdArrowBack as IconArrowBack,
   IoMdSearch as IconSearch,
 } from 'react-icons/io';
 import {
@@ -39,6 +40,7 @@ export {
   IconArrow,
   IconArrowDown,
   IconArrowUp,
+  IconArrowBack,
   IconSearch,
   IconBookmarkEmpty,
   IconBookmarkFill,

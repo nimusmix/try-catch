@@ -1,11 +1,12 @@
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router';
+import { useParams, useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { Button, MiniTitle, Paragraph, SubTitle } from '../../components';
 import { IRoadmap } from '../../interface/roadmap';
 import { getRoadmapDetail } from '../../apis/roadmap/roadmap';
 import { Layout } from '../../layout';
 import RoadmapDetailBody from '../../feature/roadmap/RoadmapDetailBody';
+import { IconArrowBack } from '../../components/icons/Icons';
 
 const RoadmapDetailWrapper = styled.div`
   display: flex;
@@ -16,6 +17,11 @@ const RoadmapDetailWrapper = styled.div`
 
   h2 {
     margin: 0.725rem 0 1.5rem;
+  }
+
+  & > svg {
+    cursor: pointer;
+    color: ${({ theme }) => theme.textColor100};
   }
 `;
 
@@ -48,6 +54,7 @@ const RoadmapDetailPage = () => {
     ['roadmap', userName] as const,
     () => getRoadmapDetail(userName!)
   );
+  const navi = useNavigate();
 
   if (isLoading) {
     return <Paragraph sizeType="base">Loading...</Paragraph>;
@@ -56,12 +63,14 @@ const RoadmapDetailPage = () => {
   return (
     <Layout>
       <RoadmapDetailWrapper>
+        <IconArrowBack onClick={() => navi(-1)} size={24} />
         {/* 태그 */}
         <Button
           as="span"
           designType="purpleFill"
           fontSize="var(--fonts-body-sm)"
           padding="2.2px 10px"
+          margin="2rem 0 0 0"
         >
           {roadmapDetail?.tag}
         </Button>
