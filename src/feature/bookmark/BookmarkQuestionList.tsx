@@ -6,14 +6,15 @@ import { Button, Checkbox, MiniTitle, Paragraph } from '../../components';
 import { IBookmarkQuestion } from '../../interface/bookmark';
 import { getBookmarkQuestionList, putBookmark } from '../../apis/bookmark/bookmark';
 import BookmarkQuestionItem from './BookmarkQuestionItem';
-import { ReactComponent as ImptyItem } from '../../assets/empty_bookmarkitem.svg';
+import BookmarkEmpty from './BookmarkEmpty';
 
 const Wrapper = styled.div`
   display: flex;
   align-items: flex-start;
+  justify-content: space-between;
 `;
 
-const QuestionItemWrapper = styled.div`
+const QuestionItemWrapper = styled.li`
   display: flex;
 `;
 
@@ -26,6 +27,31 @@ const ButtonWrapper = styled.div`
 `;
 
 const Btn = styled(Button)<{ checked: boolean }>``;
+
+// const bookmarkQuestionList = [
+//   {
+//     questionId: 42,
+//     title: '오늘은 일요일',
+//     content: '코딩하기 좋은 날!',
+//     category: 'DEV',
+//     tags: ['태그를', '잡으러', '바다로갈까나'],
+//     viewCount: 70,
+//     likeCount: 3,
+//     answerCount: 3,
+//     createdAt: 1675525624000,
+//   },
+//   {
+//     questionId: 39,
+//     title: 'asd',
+//     content: 'asd\n',
+//     category: 'DEV',
+//     tags: [''],
+//     viewCount: 24,
+//     likeCount: 1,
+//     answerCount: 0,
+//     createdAt: 1675499610000,
+//   },
+// ];
 
 const BookmarkQuestionList = () => {
   const { data: bookmarkQuestionList } = useQuery<Array<IBookmarkQuestion>>(
@@ -81,60 +107,41 @@ const BookmarkQuestionList = () => {
     <Wrapper>
       {/* 북마크 질문 아이템이 있을 때 */}
       {bookmarkQuestionList && bookmarkQuestionList?.length > 0 && (
-        <div style={{ width: '848px' }}>
-          {bookmarkQuestionList?.map((questionItem) => {
-            const isChecked = !!checkedItems.includes(questionItem.questionId);
+        <>
+          <ul>
+            {bookmarkQuestionList?.map((questionItem) => {
+              const isChecked = !!checkedItems.includes(questionItem.questionId);
 
-            return (
-              <QuestionItemWrapper key={questionItem.questionId}>
-                <Checkbox
-                  label={String(questionItem.questionId)}
-                  checked={isChecked}
-                  onChange={onSingleCheck}
-                />
-                <Link to={`/question/${questionItem.questionId}`}>
-                  <BookmarkQuestionItem {...questionItem} />
-                </Link>
-              </QuestionItemWrapper>
-            );
-          })}
-        </div>
+              return (
+                <QuestionItemWrapper key={questionItem.questionId}>
+                  <Checkbox
+                    label={String(questionItem.questionId)}
+                    checked={isChecked}
+                    onChange={onSingleCheck}
+                  />
+                  <Link to={`/question/${questionItem.questionId}`}>
+                    <BookmarkQuestionItem {...questionItem} />
+                  </Link>
+                </QuestionItemWrapper>
+              );
+            })}
+          </ul>
+          <ButtonWrapper>
+            <Btn
+              designType="blueEmpty"
+              onClick={onAllCheck}
+              checked={checkedItems.length === bookmarkQuestionList?.length}
+            >
+              {checkedItems.length === bookmarkQuestionList?.length ? '전체 해제' : '전체 선택'}
+            </Btn>
+            <Button designType="blueEmpty" onClick={onDelete}>
+              선택 삭제
+            </Button>
+          </ButtonWrapper>
+        </>
       )}
       {/* 북마크 질문 아이템이 없을 때 */}
-      {bookmarkQuestionList?.length === 0 && (
-        <div style={{ width: '848px', alignItems: 'center', justifyContent: 'center' }}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignContent: 'center',
-              margin: '1rem 0 0',
-            }}
-          >
-            <ImptyItem width="150" height="150" />
-          </div>
-          <MiniTitle sizeType="xl" textAlign="center" margin="0.5rem 0">
-            북마크 질문 리스트가 비어있네요.
-          </MiniTitle>
-          <Paragraph sizeType="base" textAlign="center">
-            관심있는 질문을 북마크하시면
-            <br />
-            더욱 편리하게 이용하실 수 있어요!
-          </Paragraph>
-        </div>
-      )}
-      <ButtonWrapper>
-        <Btn
-          designType="blueEmpty"
-          onClick={onAllCheck}
-          checked={checkedItems.length === bookmarkQuestionList?.length}
-        >
-          {checkedItems.length === bookmarkQuestionList?.length ? '전체 해제' : '전체 선택'}
-        </Btn>
-        <Button designType="blueEmpty" onClick={onDelete}>
-          선택 삭제
-        </Button>
-      </ButtonWrapper>
+      {bookmarkQuestionList?.length === 0 && <BookmarkEmpty category="질문" />}
     </Wrapper>
   );
 };

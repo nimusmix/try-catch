@@ -63,7 +63,7 @@ const InfoWrapper = styled.div`
   }
 `;
 
-const Icons = styled.button`
+const Bookmark = styled.div`
   display: flex;
   svg {
     cursor: pointer;
@@ -85,7 +85,7 @@ const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
     },
   });
 
-  const onClickBookmarkHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onClickBookmarkHandler = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     if (roadmap.isBookmarked) {
       unBookmark.mutate({ id: roadmap.roadmapId, type: 'ROADMAP' });
@@ -107,15 +107,13 @@ const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
           <Paragraph sizeType="lg" fontWeight="500">
             {roadmap.author.userName}
           </Paragraph>
-          {/* 북마크 아이콘 */}
-          {/* <IconBookmarkEmpty color="var(--colors-brand-500)" size={20} /> */}
-          <Icons onClick={onClickBookmarkHandler}>
-            {/* 북마크 */}
+          {/* 북마크 */}
+          <Bookmark onClick={onClickBookmarkHandler}>
             {roadmap.isBookmarked && <IconBookmarkFill size="24" color="var(--colors-brand-500)" />}
             {roadmap.isBookmarked || (
               <IconBookmarkEmpty size="24" color="var(--colors-brand-500)" />
             )}
-          </Icons>
+          </Bookmark>
         </BookmarkWrapper>
         <SubText sizeType="sm">{roadmap.author.companyName || '지니가던 개발자'}</SubText>
         <Line />

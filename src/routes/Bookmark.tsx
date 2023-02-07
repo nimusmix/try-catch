@@ -4,13 +4,14 @@ import { Helmet } from 'react-helmet-async';
 import { HeaderImage, Layout } from '../layout';
 import { Paragraph, SubTitle } from '../components';
 import { header_bookmark } from '../assets';
-import BookmarkQuestionList from '../feature/bookmark/BookmarkQuestionList';
+import { BookmarkQuestionList, BookmarkFeedList, BookmarkRoadMapList } from '../feature/bookmark';
 import SideNavbar from '../components/side-navbar/SideNavbar';
 import { Aside } from '../pages/qna/QnaPage';
 
 const navOptions = [
   { id: 1, option: '질문', value: '질문' },
   { id: 2, option: '피드', value: '피드' },
+  { id: 3, option: '로드맵', value: '로드맵' },
 ];
 
 const BookmarkWrapper = styled.div`
@@ -22,6 +23,7 @@ const BookmarkWrapper = styled.div`
 `;
 
 const ContentWrapper = styled.div`
+  width: 978px;
   margin-top: 3rem;
 `;
 
@@ -43,7 +45,9 @@ const Bookmark = () => {
           <SideNavbar navOptions={navOptions} changeOption={setActiveCategory} />
         </Aside>
         <ContentWrapper>
-          <BookmarkQuestionList />
+          {activeCategory === '질문' && <BookmarkQuestionList />}
+          {activeCategory === '피드' && <BookmarkFeedList />}
+          {activeCategory === '로드맵' && <BookmarkRoadMapList />}
         </ContentWrapper>
       </BookmarkWrapper>
     </Layout>
