@@ -31,39 +31,13 @@ const ButtonWrapper = styled.div`
 
 const Btn = styled(Button)<{ checked: boolean }>``;
 
-// local style 확인용 목업
-const bookmarkQuestionList = [
-  {
-    questionId: 42,
-    title: '오늘은 일요일',
-    content: '코딩하기 좋은 날!',
-    category: 'DEV',
-    tags: ['태그를', '잡으러', '바다로갈까나'],
-    viewCount: 70,
-    likeCount: 3,
-    answerCount: 3,
-    createdAt: 1675525624000,
-  },
-  {
-    questionId: 39,
-    title: 'asd',
-    content: 'asd\n',
-    category: 'DEV',
-    tags: [''],
-    viewCount: 24,
-    likeCount: 1,
-    answerCount: 0,
-    createdAt: 1675499610000,
-  },
-];
-
 const BookmarkQuestionList = () => {
   const [toast, setToast] = useRecoilState(toastState);
 
-  // const { data: bookmarkQuestionList } = useQuery<Array<IBookmarkQuestion>>(
-  //   ['bookmarkQuestionList'] as const,
-  //   getBookmarkQuestionList
-  // );
+  const { data: bookmarkQuestionList } = useQuery<Array<IBookmarkQuestion>>(
+    ['bookmarkQuestionList'] as const,
+    getBookmarkQuestionList
+  );
 
   const [checkedItems, setCheckedItems] = useState<Array<number>>([]);
 
