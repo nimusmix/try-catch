@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useMutation } from 'react-query';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getName } from '../../../apis/auth/auth';
@@ -84,11 +84,14 @@ const ProfileBio = () => {
     return new URL(`/src/assets/logo/${companyName}.png`, import.meta.url).href;
   };
 
+  const { mutate: follow } = useMutation(['follow'], () => postFollow(userId!));
+  const { mutate: unfollow } = useMutation(['unfollow'], () => putFollow(userId!));
+
   const clickFollowBtn = () => {
     if (user?.isFollowed) {
-      putFollow(userId!);
+      unfollow();
     } else {
-      postFollow(userId!);
+      follow();
     }
   };
 
