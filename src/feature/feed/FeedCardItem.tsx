@@ -74,6 +74,7 @@ const FeedThumbnailImg = styled.div`
   border-radius: var(--borders-radius-base);
   overflow: hidden;
   margin-bottom: 0.8rem;
+  background: var(--colors-brand-200);
 `;
 
 const FeedThumbnailImgChild = styled.div<{ image: string }>`
