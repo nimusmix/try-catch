@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { getQuestionList } from '../../../apis/qna/qna';
 import qnaCategoryState from '../../../recoil/qnaCategoryState';
 import { QuestionItem } from '../index';
@@ -46,6 +46,7 @@ const QuestionList = ({ filter }: { filter: string }) => {
           })),
           pageParams: data.pageParams,
         };
+        HE;
         return { ...filteredData };
       },
     }
@@ -64,9 +65,10 @@ const QuestionList = ({ filter }: { filter: string }) => {
 
   return (
     <ul>
-      {questionList?.pages?.map((page) => {
+      {questionList?.pages?.map((page, index) => {
         return (
-          <>
+          // eslint-disable-next-line react/no-array-index-key
+          <Fragment key={index}>
             {page.data.map((questionItem) => {
               return (
                 <li key={questionItem.questionId}>
@@ -76,7 +78,7 @@ const QuestionList = ({ filter }: { filter: string }) => {
                 </li>
               );
             })}
-          </>
+          </Fragment>
         );
       })}
     </ul>

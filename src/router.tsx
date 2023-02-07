@@ -22,6 +22,8 @@ import {
   CustomerServicePage,
   EmailAlertSettingsPage,
   FeedPage,
+  FollowersPage,
+  FollowingPage,
   HomePage,
   IntroducePage,
   LandingPage,
@@ -30,15 +32,13 @@ import {
   QnaDetailPage,
   QnaFormPage,
   QnaPage,
-  RoadmapFormPage,
   RoadmapDetailPage,
+  RoadmapFormPage,
   RoadmapListPage,
   RoadmapPage,
+  SubscriptionPage,
   ThemeSettingsPage,
   UserProfilePage,
-  SubscriptionPage,
-  FollowingPage,
-  FollowersPage,
 } from './pages';
 import { Bookmark, Challenges, Error, Feed, Home, Profile, QnA, Roadmap, Settings } from './routes';
 import ScrollToTop from './components/scroll-to-top/ScrollToTop';
@@ -87,6 +87,7 @@ const router = createBrowserRouter([
           {
             path: 'form',
             element: <QnaFormPage />,
+            children: [{ path: ':questionId', element: <QnaFormPage /> }],
           },
           {
             path: ':questionId',

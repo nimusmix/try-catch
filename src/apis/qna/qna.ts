@@ -57,7 +57,7 @@ export const postQuestion = (data: IPostQuestion) => () => {
  * @param id : 질문ID(number)
  * 질문 수정
  */
-export const putQuestion = (id: number, data: IPostQuestion) => () => {
+export const putQuestion = (id: number, data: IPostQuestion & { hidden: boolean }) => () => {
   return authApi.post(`/question/${id}`, data).then((res: AxiosResponse) => res.data);
 };
 

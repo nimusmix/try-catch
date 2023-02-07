@@ -2,14 +2,14 @@ import styled from 'styled-components';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import Layout from '../../layout/Layout';
 import { Button } from '../../components';
 import QnaFormHeader from '../../feature/qna/question-form/QnaFormHeader';
 import QnaFormBody from '../../feature/qna/question-form/QnaFormBody';
 import { useQuestionDispatch, useQuestionState } from '../../context/QnaContext';
-import { postQuestion } from '../../apis/qna/qna';
+import { postQuestion, putQuestion } from '../../apis/qna/qna';
 import { logOnDev } from '../../utils/logging';
 import { toastState } from '../../recoil';
 
@@ -49,6 +49,7 @@ const QnaFormPage = () => {
   const { content, category, errorCode, title, tags } = useQuestionState();
   const dispatch = useQuestionDispatch();
   const navigate = useNavigate();
+  const { questionId } = useParams();
   const { mutate: addQuestion } = useMutation(
     postQuestion({ content, category, errorCode, title, tags }),
     {
@@ -64,7 +65,22 @@ const QnaFormPage = () => {
     }
   );
 
-  const onClickAddQuestion = () => {
+  const { mutate: modifyQuestion } = useMutation(
+    putQuestion(Number(questionId), { content, category, errorCode, title, tags, hidden: false }),
+    {
+      onSuccess: () => {
+        navigate('/question', { replace: true });
+        setToast({ type: 'positive', message: '질문 수정 성공', isVisible: true });
+        dispatch({ type: 'RESET' });
+      },
+
+      onError: () => {
+        setToast({ type: 'negative', message: '질문 수정 실패', isVisible: true });
+      },
+    }
+  );
+
+  const onClickSubmitQuestion = () => {
     if (!category.trim() || !title.trim() || !content.trim() || !errorCode.trim()) {
       logOnDev.log(category);
       logOnDev.log(title);
@@ -73,13 +89,18 @@ const QnaFormPage = () => {
       setToast({ type: 'negative', message: '필수 항목을 모두 입력해주세요.', isVisible: true });
       return;
     }
-    addQuestion();
+
+    if (questionId) {
+      modifyQuestion();
+    } else {
+      addQuestion();
+    }
   };
 
   return (
     <>
       <Helmet>
-        <title>트라이캐치 | 질문작성</title>
+        {questionId ? <title>트라이캐치 | 질문수정</title> : <title>트라이캐치 | 질문작성</title>}
       </Helmet>
       <Layout>
         <QnaFormContainer>
@@ -87,7 +108,7 @@ const QnaFormPage = () => {
             <QnaFormHeader />
             <QnaFormBody />
             <QnaFormFooter>
-              <Button onClick={onClickAddQuestion}>완료</Button>
+              <Button onClick={onClickSubmitQuestion}>완료</Button>
             </QnaFormFooter>
           </Section>
           <TooltipAside />
