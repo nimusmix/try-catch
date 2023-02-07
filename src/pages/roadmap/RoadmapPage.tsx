@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { createBrowserHistory } from 'history';
 import { HeaderImage, Layout } from '../../layout';
 import { Paragraph, SubTitle } from '../../components';
 import SideNavbar from '../../components/side-navbar/SideNavbar';
@@ -19,14 +20,23 @@ export const RoadmapWrapper = styled.div`
 
 const RoadmapPage = () => {
   const [activeCategory, setActiveCategory] = useState('공통');
+  const history = createBrowserHistory();
   const navi = useNavigate();
   useEffect(() => {
     if (activeCategory === '공통') {
       navi('/roadmap');
     } else {
-      navi('./list');
+      navi('/roadmap/list');
     }
   }, [navi, activeCategory]);
+
+  useEffect(() => {
+    return history.listen((location) => {
+      if (history.action === 'POP') {
+        navi(-1);
+      }
+    });
+  });
 
   return (
     <Layout>
