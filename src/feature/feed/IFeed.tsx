@@ -3,6 +3,7 @@ export interface IFeedItemProps {
   title: string; // 피드 제목
   summary: string; // 피드 요약 ( 300자 내외 )
   companyName: string; // 회사 이름
+  logoSrc: string; // 로고 이미지 경로
   createAt: string; // 피드 생성일 yyyy-MM-dd
   url: string; // 피드 URL
   thumbnailImage: string; // 썸네일 이미지 URL

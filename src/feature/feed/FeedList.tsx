@@ -125,14 +125,21 @@ const FeedList = ({
       const tagListSet = new Set<string>();
 
       for (let i = 0; i < tagListLen; i += 1) {
-        data?.pages[0].feedList[i].keywords.forEach((element: string) => {
-          tagListSet.add(element);
-        });
+        const keywords = data?.pages[0].feedList[i].keywords;
+        if (keywords) {
+          keywords.forEach((element: string) => {
+            tagListSet.add(element);
+          });
+        }
+        const tags = data?.pages[0].feedList[i].tags;
+        if (tags) {
+          tags.forEach((element: string) => {
+            tagListSet.add(element);
+          });
+        }
       }
       const newTagList = [...tagListSet];
       const newTagListSlice = newTagList.slice(0, tagListLen + 1);
-
-      // setNewTagListSlice(newTagList.slice(0, tagListLen + 1));
 
       const checkChange =
         newTagListSlice.every((item) => tagListProps.includes(item)) &&

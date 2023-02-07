@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { Card, MiniTitle } from '../../components';
-import getImageUrl from '../../utils/getImageUrl';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
 import { IFeedItemProps } from './IFeed';
 import FeedTag from './FeedTag';
-import { COMPANY } from '../../constant/company';
 import { isDarkState } from '../../recoil';
 
-const Icons = styled.button`
+const BookmarkButton = styled.button`
   display: flex;
   svg {
     cursor: pointer;
@@ -24,7 +22,7 @@ const CardHeader = styled.div`
 
   img {
     width: 30px;
-    max-height: 30px;
+    height: 30px;
     padding: 0.2rem;
     background-color: ${({ theme: { isDark } }) =>
       isDark ? 'var(--colors-brand-100)' : 'var(--colors-white-500)'};
@@ -90,6 +88,7 @@ const FeedThumbnailImgChild = styled.div<{ image: string }>`
 const FeedCardItem = ({
   title,
   companyName,
+  logoSrc,
   tags,
   url,
   isBookmarked,
@@ -114,7 +113,7 @@ const FeedCardItem = ({
   return (
     <Card
       // width="32%"
-      width="274px"
+      width="17.125rem"
       // height="21.875rem"
       as="a"
       style={{ margin: '0.5rem 0rem 1rem 0.5rem', padding: '1rem 1rem' }}
@@ -124,10 +123,7 @@ const FeedCardItem = ({
     >
       <CardHeader>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <img
-            src={companyName && getImageUrl(COMPANY[companyName], 'logo', 'png')}
-            alt={companyName}
-          />
+          <img src={logoSrc} alt={companyName} />
           <MiniTitle
             sizeType="xl"
             textAlign="left"
@@ -137,11 +133,11 @@ const FeedCardItem = ({
             {companyName}
           </MiniTitle>
         </div>
-        <Icons onClick={handleClick}>
+        <BookmarkButton onClick={handleClick}>
           {/* 북마크 */}
           {bookMarkIcon && <IconBookmarkFill size="22" color="var(--colors-brand-500)" />}
           {bookMarkIcon || <IconBookmarkEmpty size="22" color="var(--colors-brand-500)" />}
-        </Icons>
+        </BookmarkButton>
       </CardHeader>
 
       <FeedThumbnailImg>
