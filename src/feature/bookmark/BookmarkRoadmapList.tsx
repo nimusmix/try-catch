@@ -6,7 +6,7 @@ import { Button, Checkbox } from '../../components';
 import { IBookmarkRoadMap } from '../../interface/bookmark';
 import { getBookmarkRoadmapList, putBookmark } from '../../apis/bookmark/bookmark';
 import BookmarkEmpty from './BookmarkEmpty';
-import BookmarkRoadmapItem from './BookmarkRoadMapItem';
+import BookmarkRoadmapItem from './BookmarkRoadmapItem';
 
 const Wrapper = styled.div`
   display: flex;
@@ -92,7 +92,7 @@ const BookmarkRoadmapList = () => {
     );
 
     newQuestionItemList?.map((item) => {
-      return unBookmark.mutate({ id: item.roadmapId, type: 'QUESTION' });
+      return unBookmark.mutate({ id: item.roadmapId, type: 'ROADMAP' });
     });
   };
 
