@@ -81,6 +81,11 @@ const FeedThumbnailImg = styled.div<{ image: string }>`
   background-size: cover;
   background-position: center;
   border-radius: var(--borders-radius-base);
+`;
+
+const FeedThumbnailImgWrapper = styled.div`
+  background: var(--colors-brand-200);
+  border-radius: var(--borders-radius-base);
   margin: auto 0rem auto 1.5rem;
 `;
 
@@ -151,7 +156,9 @@ const FeedListItem = ({
         }}
       >
         <LinkWrapper url={url}>
-          <FeedThumbnailImg image={thumbnailImage} />
+          <FeedThumbnailImgWrapper>
+            <FeedThumbnailImg image={thumbnailImage} />
+          </FeedThumbnailImgWrapper>
         </LinkWrapper>
       </div>
 

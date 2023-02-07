@@ -9,7 +9,6 @@ import {
   IconCheckCircle,
   IconLikeEmpty,
   IconLikeFill,
-  IconMore,
   IconTrying,
 } from '../../components/icons/Icons';
 import getImageUrl from '../../utils/getImageUrl';
@@ -20,9 +19,10 @@ import { IQuestion } from '../../interface/qna';
 import { cancelLike, postLike } from '../../apis/like/like';
 import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
 import { isLoggedInState, toastState } from '../../recoil';
+import QuestionDropdown from './question-detail/QuestionDropdown';
 
 const QuestionDiv = styled(Div)`
-  overflow: hidden;
+  //overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -43,6 +43,7 @@ const UpperWrapper = styled.div`
   border-bottom: ${({ theme: { isDark } }) =>
       isDark ? 'var(--colors-black-100)' : 'rgb(182, 202,229)'}
     solid 1px;
+  border-radius: 0.9rem 0.9rem 0 0;
 
   .question-icons {
     display: flex;
@@ -143,6 +144,9 @@ const toKorean = (category: string | undefined) => {
   return '커리어';
 };
 
+/*
+ * TODO 무조건 리팩토링 하기
+ * */
 const Question = ({
   tags,
   updatedAt,
@@ -226,6 +230,7 @@ const Question = ({
       },
     }
   );
+
   const { mutate: cancelBookmark } = useMutation(
     ['cancelBookmark'],
     () => putBookmark({ id: questionId, type: 'QUESTION' }),
@@ -333,9 +338,11 @@ const Question = ({
 
             {/* TODO 드랍다운으로 */}
             {/* 공유, 수정, 삭제 */}
-            <span>
-              <IconMore size="18" color="var(--colors-brand-500)" />
-            </span>
+            <QuestionDropdown
+              questionId={questionId}
+              userId={author.userId}
+              answerCount={answerCount}
+            />
           </Icons>
         </div>
 

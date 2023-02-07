@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from 'react-query';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
+import { IconBookmarkEmpty, IconBookmarkFill, IconLikeEmpty } from '../../components/icons/Icons';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
 import { Div, Paragraph, MiniTitle, Button } from '../../components';
-import { IconBookmarkEmpty, IconBookmarkFill, IconLikeEmpty } from '../../components/icons/Icons';
-import { isDarkState } from '../../recoil';
+import { isDarkState, isLoggedInState, toastState } from '../../recoil';
 
 interface IRoadmapItemProps {
   roadmapId: number;
@@ -70,7 +70,7 @@ const InfoWrapper = styled.div`
   }
 `;
 
-const Icons = styled.div`
+const Bookmark = styled.div`
   display: flex;
   svg {
     cursor: pointer;
@@ -93,6 +93,9 @@ const LikeWrapper = styled.div`
 `;
 
 const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [toast, setToast] = useRecoilState(toastState);
+
   const queryClient = useQueryClient();
 
   const unBookmark = useMutation(putBookmark, {
@@ -109,10 +112,26 @@ const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
 
   const onClickBookmarkHandler = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    if (roadmap.isBookmarked) {
+    if (!isLoggedIn) {
+      setToast({
+        type: 'negative',
+        isVisible: true,
+        message: '로그인 후 북마크를 이용해보세요! ',
+      });
+    } else if (roadmap.isBookmarked) {
       unBookmark.mutate({ id: roadmap.roadmapId, type: 'ROADMAP' });
+      setToast({
+        type: 'positive',
+        message: '북마크에서 제거되었습니다.',
+        isVisible: true,
+      });
     } else {
       bookmark.mutate({ id: roadmap.roadmapId, type: 'ROADMAP' });
+      setToast({
+        type: 'positive',
+        message: '북마크에 추가되었습니다.',
+        isVisible: true,
+      });
     }
   };
 
@@ -131,15 +150,13 @@ const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
           <Paragraph sizeType="lg" fontWeight="500">
             {roadmap.author.userName}
           </Paragraph>
-          {/* 북마크 아이콘 */}
-          {/* <IconBookmarkEmpty color="var(--colors-brand-500)" size={20} /> */}
-          <Icons onClick={onClickBookmarkHandler}>
-            {/* 북마크 */}
+          {/* 북마크 */}
+          <Bookmark onClick={onClickBookmarkHandler}>
             {roadmap.isBookmarked && <IconBookmarkFill size="24" color="var(--colors-brand-500)" />}
             {roadmap.isBookmarked || (
               <IconBookmarkEmpty size="24" color="var(--colors-brand-500)" />
             )}
-          </Icons>
+          </Bookmark>
         </BookmarkWrapper>
         <SubText sizeType="sm">{roadmap.author.companyName || '지니가던 개발자'}</SubText>
         <Line />

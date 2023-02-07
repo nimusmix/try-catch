@@ -6,6 +6,7 @@ interface IStyledOverlay {
   children: React.ReactNode;
   width?: string;
   height?: string;
+  flexDirection?: string;
 }
 
 interface IModalProps {
@@ -26,6 +27,7 @@ const StyledBackdrop = styled.div`
 const StyledOverlay = styled.div<IStyledOverlay>`
   position: fixed;
   display: flex;
+  flex-direction: ${({ flexDirection }) => flexDirection || 'row'};
   justify-content: center;
   align-items: center;
   background-color: ${({ theme: { isDark } }) =>

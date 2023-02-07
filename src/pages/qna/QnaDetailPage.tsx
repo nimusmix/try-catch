@@ -20,7 +20,7 @@ const QnaDetailMain = styled.section`
   width: 70%;
   margin-right: 2rem;
 
-  ul {
+  & > ul {
     margin-bottom: 10rem;
   }
 `;
@@ -38,7 +38,7 @@ const QnaDetailPage = () => {
   const [questionInput, setQuestionInput] = useState('');
   const { isLoading, data: questionDetail } = useQuery<IQuestion>(
     ['question', questionId] as const,
-    getQuestionDetail(questionId as string)
+    getQuestionDetail(Number(questionId))
     /* {
       initialData: () => {
         const questionDetail = queryClient

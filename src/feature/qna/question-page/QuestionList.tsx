@@ -64,7 +64,7 @@ const QuestionList = ({ filter }: { filter: string }) => {
 
   return (
     <ul>
-      {questionList?.pages?.map((page, index) => {
+      {questionList?.pages?.map((page) => {
         return (
           <>
             {page.data.map((questionItem) => {

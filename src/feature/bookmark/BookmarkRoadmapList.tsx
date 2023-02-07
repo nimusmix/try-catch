@@ -4,10 +4,10 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { Button, Checkbox } from '../../components';
-import { IBookmarkQuestion } from '../../interface/bookmark';
-import { getBookmarkQuestionList, putBookmark } from '../../apis/bookmark/bookmark';
-import BookmarkQuestionItem from './BookmarkQuestionItem';
+import { IBookmarkRoadMap } from '../../interface/bookmark';
+import { getBookmarkRoadmapList, putBookmark } from '../../apis/bookmark/bookmark';
 import BookmarkEmpty from './BookmarkEmpty';
+import BookmarkRoadmapItem from './BookmarkRoadmapItem';
 import { toastState } from '../../recoil';
 
 const Wrapper = styled.div`
@@ -16,9 +16,8 @@ const Wrapper = styled.div`
   justify-content: space-between;
 `;
 
-const QuestionItemWrapper = styled.li`
+const RoadmapItemWrapper = styled.li`
   display: flex;
-  border-bottom: 1px solid ${({ theme }) => theme.borderColor};
 `;
 
 const ButtonWrapper = styled.div`
@@ -31,12 +30,31 @@ const ButtonWrapper = styled.div`
 
 const Btn = styled(Button)<{ checked: boolean }>``;
 
-const BookmarkQuestionList = () => {
+// loacl UI 확인용 목업
+// const bookmarkRoadmapList = [
+//   {
+//     roadmapId: 27,
+//     author: {
+//       userId: 4,
+//       userName: 'hyeonaseome',
+//       profileImage: 'https://avatars.githubusercontent.com/hyeonaseome',
+//       companyName: 'default',
+//       isFollowed: false,
+//     },
+//     title: '세젤귀 로드맵',
+//     tag: '풀스택',
+//     likeCount: 0,
+//     createdAt: 1675696486000,
+//     updatedAt: 1675728886000,
+//   },
+// ];
+
+const BookmarkRoadmapList = () => {
   const [toast, setToast] = useRecoilState(toastState);
 
-  const { data: bookmarkQuestionList } = useQuery<Array<IBookmarkQuestion>>(
-    ['bookmarkQuestionList'] as const,
-    getBookmarkQuestionList
+  const { data: bookmarkRoadmapList } = useQuery<Array<IBookmarkRoadMap>>(
+    ['bookmarkRoadmapList'] as const,
+    getBookmarkRoadmapList
   );
 
   const [checkedItems, setCheckedItems] = useState<Array<number>>([]);
@@ -56,7 +74,7 @@ const BookmarkQuestionList = () => {
   const handleAllCheck = (checked: boolean) => {
     if (!checked) {
       const allItems: Array<number> = [];
-      bookmarkQuestionList?.forEach((el) => allItems.push(el.questionId));
+      bookmarkRoadmapList?.forEach((el) => allItems.push(el.roadmapId));
       setCheckedItems(allItems);
     } else {
       setCheckedItems([]);
@@ -69,20 +87,20 @@ const BookmarkQuestionList = () => {
   const queryClient = useQueryClient();
   const unBookmark = useMutation(putBookmark, {
     onSuccess: () => {
-      queryClient.invalidateQueries(['bookmarkQuestionList']);
+      queryClient.invalidateQueries(['bookmarkRoadmapList']);
     },
   });
 
   const onDelete = () => {
-    const newQuestionItemList = bookmarkQuestionList?.filter(
-      (el) => checkedItems.includes(el.questionId) === true
+    const newRoadmapItemList = bookmarkRoadmapList?.filter(
+      (el) => checkedItems.includes(el.roadmapId) === true
     );
 
-    newQuestionItemList?.map((item) => {
-      return unBookmark.mutate({ id: item.questionId, type: 'QUESTION' });
+    newRoadmapItemList?.map((item) => {
+      return unBookmark.mutate({ id: item.roadmapId, type: 'ROADMAP' });
     });
 
-    if (newQuestionItemList && newQuestionItemList?.length > 0) {
+    if (newRoadmapItemList && newRoadmapItemList?.length > 0) {
       setToast({
         type: 'positive',
         message: '북마크에서 제거되었습니다.',
@@ -93,24 +111,24 @@ const BookmarkQuestionList = () => {
 
   return (
     <Wrapper>
-      {/* 북마크 질문 아이템이 있을 때 */}
-      {bookmarkQuestionList && bookmarkQuestionList?.length > 0 && (
+      {/* 북마크 로드맵 아이템이 있을 때 */}
+      {bookmarkRoadmapList && bookmarkRoadmapList?.length > 0 && (
         <>
           <ul>
-            {bookmarkQuestionList?.map((questionItem) => {
-              const isChecked = !!checkedItems.includes(questionItem.questionId);
+            {bookmarkRoadmapList?.map((item) => {
+              const isChecked = !!checkedItems.includes(item.roadmapId);
 
               return (
-                <QuestionItemWrapper key={questionItem.questionId}>
+                <RoadmapItemWrapper key={item.roadmapId}>
                   <Checkbox
-                    label={String(questionItem.questionId)}
+                    label={String(item.roadmapId)}
                     checked={isChecked}
                     onChange={onSingleCheck}
                   />
-                  <Link to={`/question/${questionItem.questionId}`}>
-                    <BookmarkQuestionItem {...questionItem} />
+                  <Link to={`/roadmap/${item.author.userName}`}>
+                    <BookmarkRoadmapItem {...item} />
                   </Link>
-                </QuestionItemWrapper>
+                </RoadmapItemWrapper>
               );
             })}
           </ul>
@@ -118,9 +136,9 @@ const BookmarkQuestionList = () => {
             <Btn
               designType="blueEmpty"
               onClick={onAllCheck}
-              checked={checkedItems.length === bookmarkQuestionList?.length}
+              checked={checkedItems.length === bookmarkRoadmapList?.length}
             >
-              {checkedItems.length === bookmarkQuestionList?.length ? '전체 해제' : '전체 선택'}
+              {checkedItems.length === bookmarkRoadmapList?.length ? '전체 해제' : '전체 선택'}
             </Btn>
             <Button designType="blueEmpty" onClick={onDelete}>
               선택 삭제
@@ -128,10 +146,10 @@ const BookmarkQuestionList = () => {
           </ButtonWrapper>
         </>
       )}
-      {/* 북마크 질문 아이템이 없을 때 */}
-      {bookmarkQuestionList?.length === 0 && <BookmarkEmpty category="질문" />}
+      {/* 북마크 로드맵 아이템이 없을 때 */}
+      {bookmarkRoadmapList?.length === 0 && <BookmarkEmpty category="로드맵" />}
     </Wrapper>
   );
 };
 
-export default BookmarkQuestionList;
+export default BookmarkRoadmapList;
