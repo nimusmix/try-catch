@@ -93,6 +93,7 @@ const ProfileBio = () => {
         return {
           ...oldData,
           isFollowed: type === 'post',
+          followerCount: type === 'post' ? oldData.followerCount + 1 : oldData.followerCount - 1,
         };
       });
     }
