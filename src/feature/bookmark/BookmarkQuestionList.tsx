@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
-import { Button, Checkbox, MiniTitle, Paragraph } from '../../components';
+import { useRecoilState } from 'recoil';
+import { Button, Checkbox } from '../../components';
 import { IBookmarkQuestion } from '../../interface/bookmark';
 import { getBookmarkQuestionList, putBookmark } from '../../apis/bookmark/bookmark';
 import BookmarkQuestionItem from './BookmarkQuestionItem';
 import BookmarkEmpty from './BookmarkEmpty';
+import { toastState } from '../../recoil';
 
 const Wrapper = styled.div`
   display: flex;
@@ -28,6 +30,7 @@ const ButtonWrapper = styled.div`
 
 const Btn = styled(Button)<{ checked: boolean }>``;
 
+// local style 확인용 목업
 // const bookmarkQuestionList = [
 //   {
 //     questionId: 42,
@@ -54,6 +57,8 @@ const Btn = styled(Button)<{ checked: boolean }>``;
 // ];
 
 const BookmarkQuestionList = () => {
+  const [toast, setToast] = useRecoilState(toastState);
+
   const { data: bookmarkQuestionList } = useQuery<Array<IBookmarkQuestion>>(
     ['bookmarkQuestionList'] as const,
     getBookmarkQuestionList
@@ -101,6 +106,14 @@ const BookmarkQuestionList = () => {
     newQuestionItemList?.map((item) => {
       return unBookmark.mutate({ id: item.questionId, type: 'QUESTION' });
     });
+
+    if (newQuestionItemList && newQuestionItemList?.length > 0) {
+      setToast({
+        type: 'positive',
+        message: '북마크에서 제거되었습니다.',
+        isVisible: true,
+      });
+    }
   };
 
   return (

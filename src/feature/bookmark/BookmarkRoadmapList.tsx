@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import { Button, Checkbox } from '../../components';
 import { IBookmarkRoadMap } from '../../interface/bookmark';
 import { getBookmarkRoadmapList, putBookmark } from '../../apis/bookmark/bookmark';
 import BookmarkEmpty from './BookmarkEmpty';
 import BookmarkRoadmapItem from './BookmarkRoadmapItem';
+import { toastState } from '../../recoil';
 
 const Wrapper = styled.div`
   display: flex;
@@ -28,6 +30,7 @@ const ButtonWrapper = styled.div`
 
 const Btn = styled(Button)<{ checked: boolean }>``;
 
+// loacl UI 확인용 목업
 // const bookmarkRoadmapList = [
 //   {
 //     roadmapId: 27,
@@ -47,6 +50,8 @@ const Btn = styled(Button)<{ checked: boolean }>``;
 // ];
 
 const BookmarkRoadmapList = () => {
+  const [toast, setToast] = useRecoilState(toastState);
+
   const { data: bookmarkRoadmapList } = useQuery<Array<IBookmarkRoadMap>>(
     ['bookmarkRoadmapList'] as const,
     getBookmarkRoadmapList
@@ -82,18 +87,26 @@ const BookmarkRoadmapList = () => {
   const queryClient = useQueryClient();
   const unBookmark = useMutation(putBookmark, {
     onSuccess: () => {
-      queryClient.invalidateQueries(['bookmarkRoadMapList']);
+      queryClient.invalidateQueries(['bookmarkRoadmapList']);
     },
   });
 
   const onDelete = () => {
-    const newQuestionItemList = bookmarkRoadmapList?.filter(
+    const newRoadmapItemList = bookmarkRoadmapList?.filter(
       (el) => checkedItems.includes(el.roadmapId) === true
     );
 
-    newQuestionItemList?.map((item) => {
+    newRoadmapItemList?.map((item) => {
       return unBookmark.mutate({ id: item.roadmapId, type: 'ROADMAP' });
     });
+
+    if (newRoadmapItemList && newRoadmapItemList?.length > 0) {
+      setToast({
+        type: 'positive',
+        message: '북마크에서 제거되었습니다.',
+        isVisible: true,
+      });
+    }
   };
 
   return (
@@ -112,7 +125,7 @@ const BookmarkRoadmapList = () => {
                     checked={isChecked}
                     onChange={onSingleCheck}
                   />
-                  <Link to={`/roadmap/${item.roadmapId}`}>
+                  <Link to={`/roadmap/${item.author.userName}`}>
                     <BookmarkRoadmapItem {...item} />
                   </Link>
                 </RoadmapItemWrapper>
