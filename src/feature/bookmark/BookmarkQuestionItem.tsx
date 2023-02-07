@@ -9,10 +9,9 @@ import elapsedTime from '../../utils/elapsed-time';
 import { IBookmarkQuestion } from '../../interface/bookmark';
 
 const Wrapper = styled.article`
-  width: 832px;
-  padding: 1.3rem 2.25rem 1.3rem;
+  width: 800px;
+  padding: 1.3rem 2rem 1.3rem 1rem;
   margin-left: 1rem;
-  border-bottom: 1px solid ${({ theme }) => theme.borderColor};
   cursor: pointer;
   &:hover {
     background-color: ${({ theme: { isDark } }) =>
