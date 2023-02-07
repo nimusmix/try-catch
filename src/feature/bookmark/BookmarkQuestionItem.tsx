@@ -9,8 +9,9 @@ import elapsedTime from '../../utils/elapsed-time';
 import { IBookmarkQuestion } from '../../interface/bookmark';
 
 const Wrapper = styled.article`
-  width: 848px;
-  padding: 1.3rem 2.25rem 1rem;
+  width: 832px;
+  padding: 1.3rem 2.25rem 1.3rem;
+  margin-left: 1rem;
   border-bottom: 1px solid ${({ theme }) => theme.borderColor};
   cursor: pointer;
   &:hover {
@@ -45,7 +46,6 @@ const QuestionFooter = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
 `;
 
 const TagsWrapper = styled.div`
