@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { useMutation, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { Dropdown, DropLi, DropLiContainer, DropUl } from '../../../layout/header/MemberNavMenu';
@@ -12,11 +12,9 @@ import {
   IconShare,
 } from '../../../components/icons/Icons';
 import useIsMe from '../../../hooks/useIsMe';
-import { logOnDev } from '../../../utils/logging';
-import Modal from '../../../components/modal/Modal';
-import { Button, MiniTitle, Paragraph } from '../../../components';
-import { deleteQuestion } from '../../../apis/qna/qna';
 import { toastState } from '../../../recoil';
+import QuestionReportModal from './QuestionReportModal';
+import QuestionDeleteModal from './QuestionDeleteModal';
 
 const DropContainer = styled(DropLiContainer)`
   padding: 0;
@@ -78,53 +76,19 @@ const QuestionDropdown = ({
   userId: number;
   answerCount: number;
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
   const isMe = useIsMe(userId);
   const setToast = useSetRecoilState(toastState);
   const navigate = useNavigate();
-  const { mutate: delQuestion } = useMutation(
-    ['question', 'delete', `${questionId}`],
-    deleteQuestion(questionId),
-    {
-      onSuccess: () => {
-        navigate('/question', { replace: true });
-        setToast({
-          type: 'positive',
-          isVisible: true,
-          message: '질문을 삭제했습니다.',
-        });
-      },
-      onError: () => {
-        setToast({
-          type: 'negative',
-          isVisible: true,
-          message: '질문 삭제 실패',
-        });
-      },
-    }
-  );
-  const onClickModify = () => {
-    dropdownRef.current!.style.display = 'none';
-    logOnDev.log('수정');
-  };
 
-  const onClickDelete = () => {
-    dropdownRef.current!.style.display = 'none';
-    if (answerCount > 0) {
-      setToast({
-        type: 'negative',
-        isVisible: true,
-        message: '댓글이 있는 질문은 삭제할 수 없어요',
-      });
-    }
-    delQuestion();
-    setIsModalOpen(false);
+  const onClickModify = () => {
+    navigate(`/question/form/${questionId}`);
   };
 
   const onClickCopy = async () => {
-    dropdownRef.current!.style.display = 'none';
     try {
       await navigator.clipboard.writeText(window.location.href);
       setToast({ type: 'positive', message: '클립보드에 링크가 복사됐어요', isVisible: true });
@@ -133,55 +97,20 @@ const QuestionDropdown = ({
     }
   };
 
-  const onClickReport = () => {
-    dropdownRef.current!.style.display = 'none';
-    // 모달을 띄운다
-    logOnDev.log('신고하기');
-  };
-
-  const onClickOpenDropDown = () => {
-    dropdownRef.current!.style.display = 'block';
-  };
+  const onClickOpenDropDown = () => {};
   return (
     <Dropdown>
-      {isModalOpen && (
-        <Modal onClose={setIsModalOpen} width="320px" height="180px">
-          <ModalBody>
-            <MiniTitle sizeType="xl" color="rgba(248, 81, 73, 0.8)" textAlign="left">
-              정말 삭제하시겠습니까? 😥
-            </MiniTitle>
-            <Paragraph sizeType="base" textAlign="left">
-              삭제하신 질문은 복구할 수 없어요!
-            </Paragraph>
-            <div className="question__button-wrapper">
-              <Button designType="redFill" onClick={onClickDelete}>
-                삭제
-              </Button>
-              <Button
-                designType="grayFill"
-                onClick={() => {
-                  setIsModalOpen(false);
-                  dropdownRef.current!.style.display = 'none';
-                }}
-              >
-                취소
-              </Button>
-            </div>
-          </ModalBody>
-        </Modal>
-      )}
-      {isModalOpen || null}
       <IconMore size="18" color="var(--colors-brand-500)" onClick={onClickOpenDropDown} />
       <DropContainer ref={dropdownRef}>
         <DropUl>
-          {isMe && (
+          {isMe || (
             <DropList onClick={onClickModify}>
               <IconPen />
               수정
             </DropList>
           )}
-          {isMe && (
-            <DropList onClick={() => setIsModalOpen(true)}>
+          {isMe || (
+            <DropList onClick={() => setIsDeleteModalOpen(true)}>
               <IconDelete />
               삭제
             </DropList>
@@ -190,12 +119,29 @@ const QuestionDropdown = ({
             <IconShare />
             공유하기
           </DropList>
-          <DropList onClick={onClickReport}>
+          <DropList onClick={() => setIsReportModalOpen(true)}>
             <IconReport color="tomato" />
             신고하기
           </DropList>
         </DropUl>
       </DropContainer>
+      {/* 삭제 모달  */}
+      {isDeleteModalOpen && (
+        <QuestionDeleteModal
+          questionId={questionId}
+          answerCount={answerCount}
+          setToast={setToast}
+          setIsDeleteModalOpen={setIsDeleteModalOpen}
+        />
+      )}
+      {/* 신고 모달  */}
+      {isReportModalOpen && (
+        <QuestionReportModal
+          id={questionId}
+          setToast={setToast}
+          setIsReportModalOpen={setIsReportModalOpen}
+        />
+      )}
     </Dropdown>
   );
 };

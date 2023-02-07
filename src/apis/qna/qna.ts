@@ -19,7 +19,7 @@ export const getQuestionList = (params: IQuestionSearch) => {
  * id에 해당하는 질문 상세내용을 불러온다
  */
 export const getQuestionDetail = (id: number) => () => {
-  return api.get(`/question/${id}`).then((res: AxiosResponse<IQuestion>) => {
+  return authApi.get(`/question/${id}`).then((res: AxiosResponse<IQuestion>) => {
     return res.data;
   });
 };
