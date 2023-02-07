@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getName } from '../../../apis/auth/auth';
@@ -84,8 +84,28 @@ const ProfileBio = () => {
     return new URL(`/src/assets/logo/${companyName}.png`, import.meta.url).href;
   };
 
-  const { mutate: follow } = useMutation(['follow'], () => postFollow(userId!));
-  const { mutate: unfollow } = useMutation(['unfollow'], () => putFollow(userId!));
+  const queryClient = useQueryClient();
+  const updateFollow = (type: 'post' | 'put') => {
+    const prevData = queryClient.getQueryData(['userDetail']);
+
+    if (prevData) {
+      queryClient.setQueryData<IUserDetail>(['userDetail'], (oldData: any) => {
+        return {
+          ...oldData,
+          isFollowed: type === 'post',
+        };
+      });
+    }
+
+    return { prevData };
+  };
+
+  const { mutate: follow } = useMutation(['post', 'follow'], () => postFollow(userId!), {
+    onMutate: () => updateFollow('post'),
+  });
+  const { mutate: unfollow } = useMutation(['put', 'follow'], () => putFollow(userId!), {
+    onMutate: () => updateFollow('put'),
+  });
 
   const clickFollowBtn = () => {
     if (user?.isFollowed) {
