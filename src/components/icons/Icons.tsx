@@ -24,6 +24,8 @@ import {
   AiFillLike as IconLikeFill,
   AiOutlineEye as IconEye,
   AiOutlineLike as IconLikeEmpty,
+  AiOutlineArrowLeft as IconArrowLeft,
+  AiOutlineArrowRight as IconArrowRight,
 } from 'react-icons/ai';
 import { BiComment as IconComment } from 'react-icons/bi';
 import { FaUserCircle as IconUserCircle } from 'react-icons/fa';
@@ -55,4 +57,6 @@ export {
   IconReply,
   IconMore,
   IconTrying,
+  IconArrowLeft,
+  IconArrowRight,
 };

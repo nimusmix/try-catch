@@ -1,8 +1,10 @@
 import { useMutation, useQueryClient } from 'react-query';
 import styled from 'styled-components';
+import { useRecoilValue } from 'recoil';
 import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
 import { Div, Paragraph, MiniTitle, Button } from '../../components';
-import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
+import { IconBookmarkEmpty, IconBookmarkFill, IconLikeEmpty } from '../../components/icons/Icons';
+import { isDarkState } from '../../recoil';
 
 interface IRoadmapItemProps {
   roadmapId: number;
@@ -16,6 +18,10 @@ interface IRoadmapItemProps {
   title: string;
   tag: string;
   isBookmarked: boolean;
+  isLiked: boolean;
+  likeCount: number;
+  createdAt: number;
+  updatedAt: number;
 }
 
 const ItemWrapper = styled(Div)`
@@ -23,7 +29,7 @@ const ItemWrapper = styled(Div)`
   align-items: center;
   width: 460px;
   padding: 1.5rem 2rem;
-  margin: 1rem;
+  margin: 0.5rem;
 `;
 
 const Img = styled.img`
@@ -56,6 +62,7 @@ const InfoWrapper = styled.div`
   width: 300px;
 
   h3 {
+    display: inline-block;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -63,10 +70,25 @@ const InfoWrapper = styled.div`
   }
 `;
 
-const Icons = styled.button`
+const Icons = styled.div`
   display: flex;
   svg {
     cursor: pointer;
+  }
+`;
+
+const BottomWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 250px;
+`;
+
+const LikeWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  p {
+    margin: 0 0.25rem;
   }
 `;
 
@@ -85,7 +107,7 @@ const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
     },
   });
 
-  const onClickBookmarkHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onClickBookmarkHandler = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     if (roadmap.isBookmarked) {
       unBookmark.mutate({ id: roadmap.roadmapId, type: 'ROADMAP' });
@@ -93,6 +115,8 @@ const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
       bookmark.mutate({ id: roadmap.roadmapId, type: 'ROADMAP' });
     }
   };
+
+  const isDark = useRecoilValue(isDarkState);
 
   return (
     <ItemWrapper>
@@ -122,9 +146,20 @@ const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
         <MiniTitle sizeType="xl" fontWeight="600">
           {roadmap.title}
         </MiniTitle>
-        <Button designType="purpleFill" fontSize="var(--fonts-body-xm)" padding="2.2px 10px">
-          {roadmap.tag}
-        </Button>
+
+        <BottomWrapper>
+          <Button designType="purpleFill" fontSize="var(--fonts-body-xm)" padding="2.2px 10px">
+            {roadmap.tag}
+          </Button>
+
+          <LikeWrapper>
+            <IconLikeEmpty
+              size={14}
+              color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
+            />
+            <Paragraph sizeType="sm">{roadmap.likeCount}</Paragraph>
+          </LikeWrapper>
+        </BottomWrapper>
       </InfoWrapper>
     </ItemWrapper>
   );
