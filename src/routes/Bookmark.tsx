@@ -23,8 +23,9 @@ const BookmarkWrapper = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  width: 978px;
+  width: 972px;
   margin-top: 3rem;
+  padding-left: 1.5rem;
 `;
 
 const Bookmark = () => {

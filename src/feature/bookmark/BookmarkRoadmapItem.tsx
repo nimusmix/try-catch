@@ -71,7 +71,9 @@ const BookmarkRoadmapItem = ({
             {author?.userName}
           </Paragraph>
         </BookmarkWrapper>
-        <SubText sizeType="sm">{author?.companyName || '지니가던 개발자'}</SubText>
+        <SubText sizeType="sm">
+          {author?.companyName === 'default' ? author?.companyName : '지니가던 개발자'}
+        </SubText>
         <Line />
         <MiniTitle sizeType="xl" fontWeight="600">
           {title}
