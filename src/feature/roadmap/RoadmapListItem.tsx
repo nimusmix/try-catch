@@ -1,8 +1,10 @@
 import { useMutation, useQueryClient } from 'react-query';
 import styled from 'styled-components';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
 import { Div, Paragraph, MiniTitle, Button } from '../../components';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
+import { isLoggedInState, toastState } from '../../recoil';
 
 interface IRoadmapItemProps {
   roadmapId: number;
@@ -71,6 +73,9 @@ const Bookmark = styled.div`
 `;
 
 const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [toast, setToast] = useRecoilState(toastState);
+
   const queryClient = useQueryClient();
 
   const unBookmark = useMutation(putBookmark, {
@@ -87,10 +92,26 @@ const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
 
   const onClickBookmarkHandler = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    if (roadmap.isBookmarked) {
+    if (!isLoggedIn) {
+      setToast({
+        type: 'negative',
+        isVisible: true,
+        message: '로그인 후 북마크를 이용해보세요! ',
+      });
+    } else if (roadmap.isBookmarked) {
       unBookmark.mutate({ id: roadmap.roadmapId, type: 'ROADMAP' });
+      setToast({
+        type: 'positive',
+        message: '북마크에서 제거되었습니다.',
+        isVisible: true,
+      });
     } else {
       bookmark.mutate({ id: roadmap.roadmapId, type: 'ROADMAP' });
+      setToast({
+        type: 'positive',
+        message: '북마크에 추가되었습니다.',
+        isVisible: true,
+      });
     }
   };
 
