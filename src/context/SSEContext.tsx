@@ -1,5 +1,6 @@
 import React, { createContext, Dispatch, useContext, useEffect, useReducer } from 'react';
 import { sseEvents } from '../utils/sse';
+import { logOnDev } from '../utils/logging';
 
 // 알람관련 state 타입
 // interface IState {}
@@ -45,6 +46,7 @@ const SSEProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, null); // null => initialState
   useEffect(() => {
     // message 이벤트
+    // 서버로부터 데이터가 오면
     sseEvents.addEventListener('message', (e) => {});
 
     // 내 질문에 댓글 달림
@@ -67,13 +69,15 @@ const SSEProvider = ({ children }: { children: React.ReactNode }) => {
       // 알림만 띄우기?
     });
 
-    sseEvents.onopen = (e) => {
-      console.log(e);
-    };
+    // connection 되면
+    sseEvents.addEventListener('open', (e) => {
+      logOnDev.dir(e);
+    });
 
-    sseEvents.onerror = (e) => {
-      console.log(e);
-    };
+    // error 발생시
+    sseEvents.addEventListener('error', (e) => {
+      logOnDev.log(e);
+    });
 
     return () => {
       sseEvents.close();
