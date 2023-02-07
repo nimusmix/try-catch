@@ -116,17 +116,21 @@ const QuestionDropdown = ({
       setToast({
         type: 'negative',
         isVisible: true,
-        message: '댓글이 있는 질문은 삭제할 수 없습니다.',
+        message: '댓글이 있는 질문은 삭제할 수 없어요',
       });
     }
     delQuestion();
     setIsModalOpen(false);
   };
 
-  const onClickCopy = () => {
+  const onClickCopy = async () => {
     dropdownRef.current!.style.display = 'none';
-    // 클립보드에 복사한다
-    logOnDev.log('클립보드');
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setToast({ type: 'positive', message: '클립보드에 링크가 복사됐어요', isVisible: true });
+    } catch (e) {
+      setToast({ type: 'negative', message: '복사 실패', isVisible: true });
+    }
   };
 
   const onClickReport = () => {
