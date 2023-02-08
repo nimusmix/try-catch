@@ -33,6 +33,7 @@ const QnaFormBody = () => {
         dispatch({ type: 'SET_ERROR_CODE', errorCode: data.errorCode });
         dispatch({ type: 'SET_TAGS', tags: data.tags });
       },
+      enabled: !!questionId,
     }
   );
 
