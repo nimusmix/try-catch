@@ -296,7 +296,7 @@ const Answer = ({
             </SubText>
           </UserInfoWrapper>
         </AuthorWrapper>
-        {answer.accepted ? <IconCheckCircle /> : null}
+        {answer.accepted ? <IconCheckCircle color="var(--colors-success-500)" /> : null}
       </UpperWrapper>
 
       <Line />
@@ -309,8 +309,8 @@ const Answer = ({
         </Like>
       </AnswerBody>
       <AnswerFooter>
-        {/* 현재 유저가 작성자 and 문제가 해결되지 않았을 때 */}
-        {isAuthor && !isSolved ? (
+        {/* 현재 유저가 질문 작성자 and 문제가 해결되지 않았을 때 and 댓글 작성자가 내가 아닐때 */}
+        {isAuthor && !isSolved && !isMe ? (
           <Button designType="greenFill" onClick={() => select()}>
             채택하기
           </Button>
