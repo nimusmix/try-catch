@@ -1,11 +1,11 @@
 /* eslint-disable no-param-reassign,consistent-return */
-import React, { ForwardedRef, forwardRef, useEffect } from 'react';
+import React, { ForwardedRef, forwardRef } from 'react';
 import { Editor, editorViewOptionsCtx, rootCtx, themeManagerCtx } from '@milkdown/core';
 import { nord } from '@milkdown/theme-nord';
 import { ReactEditor, useEditor } from '@milkdown/react';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { history } from '@milkdown/plugin-history';
-import { insert, replaceAll } from '@milkdown/utils';
+import { insert } from '@milkdown/utils';
 import {
   createDropdownItem,
   defaultActions,
@@ -56,6 +56,7 @@ const MilkdownEditor = (
       dispatch({ type: 'SET_ERROR_CODE', errorCode: q.errorCode });
       dispatch({ type: 'SET_TAGS', tags: q.tags });
     },
+    enabled: !!questionId,
   });
 
   const { editor, getInstance, loading } = useEditor(
@@ -188,11 +189,6 @@ const MilkdownEditor = (
         .use(listener),
     []
   );
-
-  useEffect(() => {
-    const instance = getInstance();
-    instance?.action(() => replaceAll(data));
-  }, [data, getInstance, questionId]);
 
   return (
     <MilkDownWrapper width={width} ref={ref}>

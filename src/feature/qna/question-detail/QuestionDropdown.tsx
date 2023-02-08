@@ -103,7 +103,7 @@ const QuestionDropdown = ({
       <IconMore size="18" color="var(--colors-brand-500)" onClick={onClickOpenDropDown} />
       <DropContainer ref={dropdownRef}>
         <DropUl>
-          {isMe && (
+          {isMe || (
             <>
               <DropList onClick={onClickModify}>
                 <IconPen />
