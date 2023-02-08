@@ -361,7 +361,7 @@ const Answer = ({
         {answer.accepted ? (
           <IconCheckCircle className="selected" />
         ) : (
-          isMe || <TbEdit className="edit" onClick={() => setIsEdit((prev) => !prev)} />
+          isMe && <TbEdit className="edit" onClick={() => setIsEdit((prev) => !prev)} />
         )}
       </UpperWrapper>
 
@@ -390,7 +390,7 @@ const Answer = ({
           <SubText sizeType="xm">{answer.likeCount}</SubText>
         </Like>
         {isEdit && (
-          <Button className="modify-button" onClick={modifyAnswer}>
+          <Button className="modify-button" onClick={() => modifyAnswer}>
             수정하기
           </Button>
         )}
