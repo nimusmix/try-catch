@@ -22,7 +22,8 @@ const FollowingPage = () => {
   if (userIdLoading || contentLoading) {
     return <p>Loading...</p>;
   }
-
+  console.log('유저아이디', userId);
+  console.log('팔로잉', following);
   return (
     <ModalWrapper>
       <NavWrapper>
