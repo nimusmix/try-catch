@@ -276,7 +276,10 @@ const Answer = ({
   });
 
   const { mutate: select } = useMutation(['select'], selectAnswer(questionId, answer.answerId), {
-    onSuccess: () => queryClient.invalidateQueries(['question', `${questionId}`]),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['question', `${questionId}`]);
+      setToast({ type: 'positive', message: '댓글을 채택했어요', isVisible: true });
+    },
   });
 
   const { mutate: modifyAnswer } = useMutation(
