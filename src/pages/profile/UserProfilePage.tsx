@@ -1,8 +1,12 @@
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import Layout from '../../layout/Layout';
 import { ProfileBio } from '../../feature';
 import { Div } from '../../components';
-import MyQuestionList from '../../feature/user/profile/MyQuestionList';
+import MyProfileMenu from '../../feature/user/profile/MyProfileMenu';
+import AnswerList from '../../feature/user/profile/AnswerList';
 
 const ProfileWrapper = styled.div`
   display: flex;
@@ -28,10 +32,13 @@ const Badge = styled.div`
 `;
 
 const UserProfilePage = () => {
+  const [activeMenu, setActiveMenu] = useState('질문');
+  const [isMine, setIsMine] = useState('false');
+
   return (
     <Layout>
       <ProfileWrapper>
-        <ProfileBio />
+        <ProfileBio changeFn={setIsMine} />
         <BadgeDiv>
           <Badge>뱃지</Badge>
           <Badge>뱃지</Badge>
@@ -40,7 +47,8 @@ const UserProfilePage = () => {
           <Badge>뱃지</Badge>
         </BadgeDiv>
       </ProfileWrapper>
-      <MyQuestionList />
+      {/* {isMine ? <MyProfileMenu /> : null} */}
+      <MyProfileMenu />
     </Layout>
   );
 };

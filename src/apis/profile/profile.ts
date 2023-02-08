@@ -9,3 +9,6 @@ export const getUserDetail = (userId: number) =>
 
 export const getUserQuestion = (userId: number) =>
   authApi.get(`/user/${userId}/question/list`).then((res) => res.data);
+
+export const getUserAnswer = (userId: number) =>
+  authApi.get(`/user/${userId}/answer/list`).then((res) => res.data);

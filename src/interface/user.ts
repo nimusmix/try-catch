@@ -33,15 +33,26 @@ export interface ISimpleUserData {
 //   answers: Array<IAnswer>;
 // }
 
-export interface IUserAnswer extends Omit<IAnswer, 'author'> {
+// export interface IUserAnswer extends Omit<IAnswer, 'author'> {
+//   questionId: number;
+//   questionTitle: string;
+//   questionContent: string;
+// }
+
+export interface IUserAnswer {
+  answerId: number;
   questionId: number;
   questionTitle: string;
   questionContent: string;
+  timestamp: number;
+  likeCount: number;
+  isLiked: boolean;
+  answerContent: string;
 }
 
-export interface IUserAnswerList {
-  myAnswers: Array<IUserAnswer>;
-}
+// export interface IUserAnswerList {
+//   myAnswers: Array<IUserAnswer>;
+// }
 
 /**
  * /user/{userId}/question/list

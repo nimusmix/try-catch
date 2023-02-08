@@ -63,15 +63,12 @@ const Introduction = styled.div`
   padding: 3rem 0;
 `;
 
-const ProfileBio = () => {
-  const [isModalOpened, setIsModalOpened] = useState(false);
-  const modalClick = (e: React.MouseEvent<HTMLElement>) => {
-    setIsModalOpened(true);
-  };
+const ProfileBio = ({ changeFn }: any) => {
   const { userName } = useParams();
   const { data: userId } = useQuery<number>(['profileBio', 'userId'] as const, () =>
     getUserId(userName!)
   );
+
   const { data: user } = useQuery<IUserDetail>(
     ['userDetail'] as const,
     () => getUserDetail(userId!),
@@ -79,8 +76,15 @@ const ProfileBio = () => {
       enabled: !!userId,
     }
   );
+
   const { data: loginedUserName } = useQuery(['loginedUserName'] as const, getName);
   const isMine = isMyself(loginedUserName, userName!);
+  changeFn(isMine);
+
+  const [isModalOpened, setIsModalOpened] = useState(false);
+  const modalClick = (e: React.MouseEvent<HTMLElement>) => {
+    setIsModalOpened(true);
+  };
 
   const createImageUrl = (companyName: string) => {
     return new URL(`/src/assets/logo/${companyName}.png`, import.meta.url).href;
