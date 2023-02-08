@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Link, Outlet, useParams } from 'react-router-dom';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { getName } from '../../../apis/auth/auth';
 import { getUserDetail, getUserId } from '../../../apis/profile/profile';
 import { Button, MiniTitle, Modal, Paragraph } from '../../../components';
 import { IUserDetail } from '../../../interface/user';
 import isMyself from '../../../utils/isMyself';
+import { isLoggedInState, toastState } from '../../../recoil';
 import { postFollow, putFollow } from '../../../apis/user/user';
 
 const BioWrapper = styled.div`
@@ -81,9 +83,16 @@ const ProfileBio = ({ changeFn }: any) => {
   const isMine = isMyself(loginedUserName, userName!);
   changeFn(isMine);
 
+  // 로그인 여부 (모달 띄우기 방지 위함)
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [toast, setToast] = useRecoilState(toastState);
   const [isModalOpened, setIsModalOpened] = useState(false);
   const modalClick = (e: React.MouseEvent<HTMLElement>) => {
-    setIsModalOpened(true);
+    if (isLoggedIn) {
+      setIsModalOpened(true);
+    } else {
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다.', isVisible: true });
+    }
   };
 
   const createImageUrl = (companyName: string) => {

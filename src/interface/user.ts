@@ -1,5 +1,3 @@
-import { IAnswer, IQuestion } from './qna';
-
 /**
  * /user/{userID}/list
  * follower or followee
