@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import { ModalWrapper, NavWrapper, NavItem, ItemWrapper } from './SubscriptionPage';
 import { getUserId, getUserFollow } from '../../apis/profile/profile';
 import { ISimpleUserData } from '../../interface/user';
+import SimpleUserItem from '../../feature/user/profile/SimpleUserItem';
 
 const FollowingPage = () => {
   const { userName } = useParams();
@@ -17,7 +18,11 @@ const FollowingPage = () => {
     () => getUserFollow(userId!, { type: 'followee' }),
     { enabled: !!userId }
   );
-  console.log(following);
+
+  if (userIdLoading || contentLoading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <ModalWrapper>
       <NavWrapper>
@@ -30,16 +35,9 @@ const FollowingPage = () => {
         </NavItem>
       </NavWrapper>
       <ItemWrapper>
-        <p>팔로잉</p>
-        <p>팔로잉</p>
-        <p>팔로잉</p>
-        <p>팔로잉</p>
-        <p>팔로잉</p>
-        <p>팔로잉</p>
-        <p>팔로잉</p>
-        <p>팔로잉</p>
-        <p>팔로잉</p>
-        <p>팔로잉</p>
+        {following.map((user: ISimpleUserData) => {
+          return <SimpleUserItem {...user} key={user.userId} />;
+        })}
       </ItemWrapper>
     </ModalWrapper>
   );
