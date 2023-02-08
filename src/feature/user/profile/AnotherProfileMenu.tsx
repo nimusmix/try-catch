@@ -1,12 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { IMenuOption } from './MyProfileMenu';
 import QuestionList from './QuestionList';
 import AnswerList from './AnswerList';
-
-export interface IMenuOption {
-  id: number;
-  option: string;
-}
 
 const menu = [
   {
@@ -17,10 +13,6 @@ const menu = [
     id: 2,
     option: '답변',
   },
-  {
-    id: 3,
-    option: '최근 본 피드',
-  },
 ];
 
 const Ul = styled.ul`
@@ -30,7 +22,7 @@ const Ul = styled.ul`
 
 const Li = styled.li`
   text-align: center;
-  width: 266.6px;
+  width: 400px;
   height: 40px;
   border-bottom: 1px solid ${({ theme }) => theme.textColor100};
   color: ${({ theme }) => theme.textColor100};
@@ -44,7 +36,7 @@ const Li = styled.li`
   }
 `;
 
-const MyProfileMenu = () => {
+const AnotherProfileMenu = () => {
   const [activeMenu, setActiveMenu] = useState('질문');
 
   const handleMenuClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -73,4 +65,4 @@ const MyProfileMenu = () => {
   );
 };
 
-export default MyProfileMenu;
+export default AnotherProfileMenu;
