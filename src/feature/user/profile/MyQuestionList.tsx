@@ -9,19 +9,30 @@ const MyQuestionList = () => {
   const { data: userId } = useQuery<number>(['myQuestionList', 'userId'] as const, () =>
     getUserId(userName!)
   );
-  const { data: questionList } = useQuery<Array<IQuestion>>(
+  const { data: questionList, isLoading } = useQuery<Array<IQuestion>>(
     ['myQuestionList'],
     () => getUserQuestion(userId!),
     {
       enabled: !!userId,
     }
   );
-  console.log(questionList);
+
+  console.log('내 질문 리스트', questionList);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
   return (
-    <p>ㅎㅎ</p>
-    // {questionList.map((q: IQuestion) => {
-    //   <Link to={`/question/${q.questionId}`}></Link>
-    // })}
+    <>
+      {questionList!.map((ques: IQuestion) => {
+        return (
+          <Link to={`/question/${ques.questionId}`} key={ques.questionId}>
+            <QuestionItem {...ques} />
+          </Link>
+        );
+      })}
+    </>
   );
 };
 
