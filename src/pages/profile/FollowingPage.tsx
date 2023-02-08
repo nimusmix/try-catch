@@ -1,20 +1,19 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { ModalWrapper, NavWrapper, NavItem, ItemWrapper } from './SubscriptionPage';
 
 const FollowingPage = () => {
-  const { username } = useParams();
+  const { userName } = useParams();
+  const navi = useNavigate();
   return (
     <ModalWrapper>
       <NavWrapper>
-        <Link to={`/profile/${username}/subscription`}>
-          <NavItem>구독</NavItem>
-        </Link>
-        <Link to={`/profile/${username}/following`}>
-          <NavItem toggle>팔로잉</NavItem>
-        </Link>
-        <Link to={`/profile/${username}/followers`}>
-          <NavItem>팔로워</NavItem>
-        </Link>
+        <NavItem onClick={() => navi(`/profile/${userName}/subscription`, { replace: true })}>
+          구독
+        </NavItem>
+        <NavItem toggle>팔로잉</NavItem>
+        <NavItem onClick={() => navi(`/profile/${userName}/followers`, { replace: true })}>
+          팔로워
+        </NavItem>
       </NavWrapper>
       <ItemWrapper>
         <p>팔로잉</p>
