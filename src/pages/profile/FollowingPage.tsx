@@ -35,10 +35,9 @@ const FollowingPage = () => {
         </NavItem>
       </NavWrapper>
       <ItemWrapper>
-        {following &&
-          following?.map((user: ISimpleUserData) => {
-            return <SimpleUserItem {...user} key={user.userId} />;
-          })}
+        {following?.map((user: ISimpleUserData) => {
+          return <SimpleUserItem {...user} key={user.userId} />;
+        })}
       </ItemWrapper>
     </ModalWrapper>
   );
