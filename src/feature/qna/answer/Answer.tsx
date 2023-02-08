@@ -135,14 +135,18 @@ const Answer = ({
   answer,
   setQuestionInput,
   questionId,
+  questionAuthorId,
   isSolved,
 }: {
   answer: IAnswer;
   setQuestionInput: Dispatch<SetStateAction<string>>;
   questionId: number;
+  questionAuthorId: number;
   isSolved: boolean;
 }) => {
   const isMe = useIsMe(answer.author.userId);
+  const isAuthor = useIsMe(questionAuthorId);
+
   const queryClient = useQueryClient();
   const updateLike = (type: 'up' | 'down') => {
     const previousData = queryClient.getQueryData<IQuestion>(['question', `${questionId}`]);
@@ -308,7 +312,8 @@ const Answer = ({
         </Like>
       </AnswerBody>
       <AnswerFooter>
-        {isMe && !isSolved ? (
+        {/* 현재 유저가 작성자 and 문제가 해결되지 않았을 때 */}
+        {isAuthor && !isSolved ? (
           <Button designType="greenFill" onClick={() => select()}>
             채택하기
           </Button>

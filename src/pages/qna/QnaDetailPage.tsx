@@ -72,6 +72,7 @@ const QnaDetailPage = () => {
                     <Answer
                       key={answer.answerId}
                       answer={answer}
+                      questionAuthorId={questionDetail.author.userId}
                       questionId={questionDetail.questionId}
                       isSolved={questionDetail.isSolved}
                       setQuestionInput={setQuestionInput}
