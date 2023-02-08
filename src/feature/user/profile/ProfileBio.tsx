@@ -69,7 +69,9 @@ const ProfileBio = () => {
     setIsModalOpened(true);
   };
   const { userName } = useParams();
-  const { data: userId } = useQuery<number>(['userId'] as const, () => getUserId(userName!));
+  const { data: userId } = useQuery<number>(['profileBio', 'userId'] as const, () =>
+    getUserId(userName!)
+  );
   const { data: user } = useQuery<IUserDetail>(
     ['userDetail'] as const,
     () => getUserDetail(userId!),
@@ -191,9 +193,11 @@ const ProfileBio = () => {
         </Modal>
       ) : null}
 
-      <Introduction>
-        <Paragraph sizeType="lg">{user?.introduction}</Paragraph>
-      </Introduction>
+      {user?.introduction && (
+        <Introduction>
+          <Paragraph sizeType="lg">{user?.introduction}</Paragraph>
+        </Introduction>
+      )}
     </>
   );
 };
