@@ -6,10 +6,13 @@ import { QuestionItem } from '../../qna';
 
 const MyQuestionList = () => {
   const { userName } = useParams();
-  const { data: userId } = useQuery<number>(['myQuestionList', 'userId'] as const, () =>
-    getUserId(userName!)
+  const { data: userId, isLoading: userIdLoading } = useQuery<number>(
+    ['myQuestionList', 'userId'] as const,
+    () => getUserId(userName!)
   );
-  const { data: questionList, isLoading } = useQuery<Array<IQuestion>>(
+
+  console.log('유저 아이디', userId);
+  const { data: questionList, isLoading: myQuestionLoading } = useQuery<Array<IQuestion>>(
     ['myQuestionList'],
     () => getUserQuestion(userId!),
     {
@@ -19,7 +22,7 @@ const MyQuestionList = () => {
 
   console.log('내 질문 리스트', questionList);
 
-  if (isLoading) {
+  if (userIdLoading || myQuestionLoading) {
     return <p>Loading...</p>;
   }
 
