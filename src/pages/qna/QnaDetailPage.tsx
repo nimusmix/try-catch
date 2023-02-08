@@ -66,12 +66,14 @@ const QnaDetailPage = () => {
             {questionDetail &&
               questionDetail.answers
                 .sort((a, b) => a.timestamp - b.timestamp)
+                .sort((a, b) => Number(b.accepted) - Number(a.accepted))
                 .map((answer) => {
                   return (
                     <Answer
                       key={answer.answerId}
                       answer={answer}
                       questionId={questionDetail.questionId}
+                      isSolved={questionDetail.isSolved}
                       setQuestionInput={setQuestionInput}
                     />
                   );

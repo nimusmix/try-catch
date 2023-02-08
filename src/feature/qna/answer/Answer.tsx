@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import { Dispatch, SetStateAction } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { IconLikeEmpty, IconLikeFill, IconReply } from '../../../components/icons/Icons';
+import { IconCheckCircle, IconLikeEmpty, IconLikeFill } from '../../../components/icons/Icons';
 import { Button, Paragraph } from '../../../components';
 import { IAnswer, IQuestion } from '../../../interface/qna';
 import getImageUrl from '../../../utils/getImageUrl';
@@ -11,6 +11,7 @@ import { logOnDev } from '../../../utils/logging';
 import { cancelLike, postLike } from '../../../apis/like/like';
 import useIsMe from '../../../hooks/useIsMe';
 import { postFollow, putFollow } from '../../../apis/user/user';
+import { selectAnswer } from '../../../apis/answer/answer';
 
 const AnswerItem = styled.li`
   display: flex;
@@ -109,6 +110,15 @@ const AnswerBody = styled.div`
   padding: 1rem 2rem;
 `;
 
+const AnswerFooter = styled.div`
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+    margin: 1rem 1rem 1rem 0;
+  }
+`;
+
 const ReplyIconWrapper = styled.span`
   display: inline-flex;
   justify-content: center;
@@ -125,10 +135,12 @@ const Answer = ({
   answer,
   setQuestionInput,
   questionId,
+  isSolved,
 }: {
   answer: IAnswer;
   setQuestionInput: Dispatch<SetStateAction<string>>;
   questionId: number;
+  isSolved: boolean;
 }) => {
   const isMe = useIsMe(answer.author.userId);
   const queryClient = useQueryClient();
@@ -220,6 +232,11 @@ const Answer = ({
     onMutate: () => updateFollow('un'),
   });
 
+  const { mutate: select } = useMutation(
+    ['select'],
+    selectAnswer(questionId, answer.author.userId)
+  );
+
   const onClickLikeHandler = () => {
     if (answer.isLiked) {
       likeDown();
@@ -229,6 +246,7 @@ const Answer = ({
   };
 
   const onClickFollowHandler = () => {
+    logOnDev.log('follow');
     if (answer.author.isFollowed) {
       unFollow();
     } else {
@@ -256,8 +274,12 @@ const Answer = ({
               {/* 팔로우 버튼 */}
               {isMe || (
                 // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-                <span onClick={() => logOnDev.log('팔로우')}>
-                  {answer.author.isFollowed && <Button>팔로잉</Button>}
+                <span onClick={onClickFollowHandler}>
+                  {answer.author.isFollowed && (
+                    <FollowButton designType="blueFill" fontSize="14px">
+                      팔로잉
+                    </FollowButton>
+                  )}
                   {answer.author.isFollowed || (
                     <FollowButton designType="blueEmpty" fontSize="14px">
                       팔로우
@@ -273,9 +295,7 @@ const Answer = ({
             </SubText>
           </UserInfoWrapper>
         </AuthorWrapper>
-        <ReplyIconWrapper onClick={() => logOnDev.log(answer.author.userName)}>
-          <IconReply />
-        </ReplyIconWrapper>
+        {answer.accepted ? <IconCheckCircle /> : null}
       </UpperWrapper>
 
       <Line />
@@ -287,6 +307,13 @@ const Answer = ({
           <SubText sizeType="xm">{answer.likeCount}</SubText>
         </Like>
       </AnswerBody>
+      <AnswerFooter>
+        {isMe && !isSolved && (
+          <Button designType="greenFill" onClick={() => select()}>
+            채택하기
+          </Button>
+        )}
+      </AnswerFooter>
     </AnswerItem>
   );
 };
