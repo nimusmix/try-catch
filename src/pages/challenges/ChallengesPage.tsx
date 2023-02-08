@@ -6,8 +6,9 @@ import { QuestionPageBody as ChallengePageBody } from '../qna/QnaPage';
 import {
   ChallengeRank,
   OngoingChallenge,
-  RecommendChallenge,
   OngoingChallengeVer3,
+  RecommendChallenge,
+  ChallengeAll,
 } from '../../feature/challenge';
 
 const ChallengeRecommend = () => {
@@ -35,10 +36,21 @@ const ChallengeRankWrapper = () => {
 const ChallengeOngoing = () => {
   return (
     <div style={{ margin: '0 2rem' }}>
-      <MiniTitle sizeType="xl" textAlign="left" padding="1.25rem 0rem 1rem 0rem">
+      <MiniTitle sizeType="2xl" textAlign="left" padding="0rem 0rem 2rem 0rem" fontWeight="600">
         진행 중인 챌린지
       </MiniTitle>
       <OngoingChallengeVer3 />
+    </div>
+  );
+};
+
+const ChallengeAllWrapper = () => {
+  return (
+    <div style={{ margin: '0 2rem' }}>
+      <MiniTitle sizeType="2xl" textAlign="left" padding="1.25rem 0rem 1rem 0rem" fontWeight="600">
+        전체 챌린지
+      </MiniTitle>
+      <ChallengeAll />
     </div>
   );
 };
@@ -55,13 +67,18 @@ const ChallengesPage = () => {
         <SubTitle>챌린지</SubTitle>
         <Paragraph sizeType="base">챌린지 게시판에 대한 설명이 들어갈 자리입니다.</Paragraph>
       </HeaderImage>
-      <ChallengePageBody style={{ margin: '3rem 1.5rem', flexDirection: 'column' }}>
+      <ChallengePageBody
+        style={{ margin: '3rem 1.5rem', flexDirection: 'column', width: '1200px' }}
+      >
         {/* <ChallengeHeader>
           <ChallengeRecommend />
           <ChallengeRankWrapper />
         </ChallengeHeader> */}
-        <ChallengeOngoingWrapper>
+        <ChallengeHeader>
           <ChallengeOngoing />
+        </ChallengeHeader>
+        <ChallengeOngoingWrapper>
+          <ChallengeAllWrapper />
         </ChallengeOngoingWrapper>
       </ChallengePageBody>
     </Layout>

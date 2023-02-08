@@ -21,29 +21,6 @@ const SettingHeaderWrapper = styled.div`
   }
 `;
 
-const navOptions = [
-  {
-    id: 1,
-    option: '테마',
-  },
-  {
-    id: 2,
-    option: '이메일 알림',
-  },
-  {
-    id: 3,
-    option: '고급기능',
-  },
-  {
-    id: 4,
-    option: '소개',
-  },
-  {
-    id: 5,
-    option: '고객센터',
-  },
-];
-
 const SettingHeader = () => {
   const isDark = useRecoilValue(isDarkState);
   return (
@@ -73,6 +50,19 @@ const SettingAside = styled.aside`
 const SettingBody = styled.section`
   display: flex;
   flex-direction: row;
+  /* top: 200px;
+  bottom: 0px;
+  position: fixed;
+  overflow-y: scroll; */
+`;
+
+const SettingContent = styled.div`
+  width: 840px;
+  /* left: 400px; */
+  /* top: 60px;
+  bottom: 0px; */
+  /* position: fixed; */
+  /* overflow-y: scroll; */
 `;
 
 const SettingsLayout = ({ children }: ILayoutProps) => {
@@ -85,9 +75,8 @@ const SettingsLayout = ({ children }: ILayoutProps) => {
         <SettingBody>
           <SettingAside>
             <SettingNav />
-            {/* <SideNavbar navOptions={navOptions} changeOption={setActiveCategory} /> */}
           </SettingAside>
-          <div style={{ width: '840px' }}>{children}</div>
+          <SettingContent>{children}</SettingContent>
         </SettingBody>
       </SettingContainer>
     </Layout>

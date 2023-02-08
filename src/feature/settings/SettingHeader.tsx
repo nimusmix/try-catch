@@ -6,7 +6,7 @@ interface ISettingHeaderProps {
 
 const SettingHeader = ({ title }: ISettingHeaderProps) => {
   return (
-    <MiniTitle sizeType="3xl" textAlign="left">
+    <MiniTitle sizeType="2xl" textAlign="left" fontWeight="600">
       {title}
     </MiniTitle>
   );

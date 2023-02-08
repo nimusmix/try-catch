@@ -30,7 +30,7 @@ const Wrapper = styled.div`
     display: inline-block;
     z-index: 10;
     width: 80%;
-    padding: 1rem 4rem;
+    padding: 1rem 3.5rem;
     text-align: left;
     cursor: pointer;
     font-size: var(--fonts-desktop-heading-xl);
@@ -45,21 +45,16 @@ const SettingNavList = [
   },
   {
     id: 1,
-    link: `/settings/email-alert`,
-    title: '이메일 알림',
-  },
-  {
-    id: 2,
     link: `/settings/advanced`,
     title: '고급 기능',
   },
   {
-    id: 3,
+    id: 2,
     link: `/settings/trycatch`,
     title: '소개',
   },
   {
-    id: 4,
+    id: 3,
     link: `/settings/customer-service`,
     title: '고객 센터',
   },
