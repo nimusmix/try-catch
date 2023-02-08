@@ -6,8 +6,6 @@ import { MiniTitle, Paragraph } from '../../components';
 import { isDarkState } from '../../recoil';
 import { IFeedItemProps } from './IFeed';
 import FeedTag from './FeedTag';
-import getImageUrl from '../../utils/getImageUrl';
-import { COMPANY } from '../../constant/company';
 
 const DefaultDIv = styled.div`
   /* 한 줄 자르기 */
@@ -63,7 +61,7 @@ const FeedFooter = styled(DefaultDIv)`
   margin-bottom: 0.75rem;
 `;
 
-const Icons = styled.button`
+const BookmarkButton = styled.button`
   display: flex;
   align-items: center;
   svg {
@@ -134,7 +132,7 @@ const FeedListItem = ({
 }: IFeedItemProps) => {
   const isDark = useRecoilValue(isDarkState);
   const [bookMarkIcon, setBookMarkIcon] = useState(isBookmarked);
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     setBookMarkIcon(!bookMarkIcon);
     e.preventDefault();
 
@@ -181,11 +179,11 @@ const FeedListItem = ({
               </Paragraph>
             </div>
           </LinkWrapper>
-          <Icons onClick={handleClick}>
+          <BookmarkButton onClick={handleClick}>
             {/* 북마크 */}
             {bookMarkIcon && <IconBookmarkFill size="27" color="var(--colors-brand-500)" />}
             {bookMarkIcon || <IconBookmarkEmpty size="27" color="var(--colors-brand-500)" />}
-          </Icons>
+          </BookmarkButton>
         </FeedHeader>
 
         <BlogTitle>

@@ -8,8 +8,13 @@ const Wrapper = styled.div`
 `;
 
 const IconWrapper = styled.button`
-  margin: 0 0.2rem 0 0.4rem;
+  margin: 0 0 0 0.1rem;
+  padding: 0.3rem;
   cursor: pointer;
+  border-radius: 6px;
+  :hover {
+    background: rgba(2, 32, 71, 0.08);
+  }
 `;
 
 interface FeedViewProps {
