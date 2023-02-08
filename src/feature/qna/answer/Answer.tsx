@@ -9,7 +9,6 @@ import { Button, Paragraph } from '../../../components';
 import { IAnswer, IQuestion } from '../../../interface/qna';
 import getImageUrl from '../../../utils/getImageUrl';
 import { COMPANY } from '../../../constant/company';
-import { logOnDev } from '../../../utils/logging';
 import { cancelLike, postLike } from '../../../apis/like/like';
 import useIsMe from '../../../hooks/useIsMe';
 import { postFollow, putFollow } from '../../../apis/user/user';
@@ -306,7 +305,6 @@ const Answer = ({
   }, [isEdit]);
 
   const onClickLikeHandler = () => {
-    console.log(isLogin);
     if (!isLogin) {
       setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다', isVisible: true });
       return;
@@ -329,7 +327,6 @@ const Answer = ({
       setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다', isVisible: true });
       return;
     }
-    logOnDev.log('follow');
     if (answer.author.isFollowed) {
       unFollow();
     } else {
