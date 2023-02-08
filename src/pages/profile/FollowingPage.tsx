@@ -19,7 +19,7 @@ const FollowingPage = () => {
     { enabled: !!userId }
   );
 
-  if (userIdLoading || !following) {
+  if (userIdLoading || contentLoading) {
     return <p>Loading...</p>;
   }
 
@@ -35,9 +35,10 @@ const FollowingPage = () => {
         </NavItem>
       </NavWrapper>
       <ItemWrapper>
-        {following?.map((user: ISimpleUserData) => {
-          return <SimpleUserItem {...user} key={user.userId} />;
-        })}
+        {following &&
+          following?.map((user: ISimpleUserData) => {
+            return <SimpleUserItem {...user} key={user.userId} />;
+          })}
       </ItemWrapper>
     </ModalWrapper>
   );
