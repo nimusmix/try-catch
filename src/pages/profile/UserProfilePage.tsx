@@ -6,7 +6,7 @@ import Layout from '../../layout/Layout';
 import { ProfileBio } from '../../feature';
 import { Div } from '../../components';
 import MyProfileMenu from '../../feature/user/profile/MyProfileMenu';
-import AnswerList from '../../feature/user/profile/AnswerList';
+import AnotherProfileMenu from '../../feature/user/profile/AnotherProfileMenu';
 
 const ProfileWrapper = styled.div`
   display: flex;
@@ -47,8 +47,7 @@ const UserProfilePage = () => {
           <Badge>뱃지</Badge>
         </BadgeDiv>
       </ProfileWrapper>
-      {/* {isMine ? <MyProfileMenu /> : null} */}
-      <MyProfileMenu />
+      {isMine ? <MyProfileMenu /> : <AnotherProfileMenu />}
     </Layout>
   );
 };
