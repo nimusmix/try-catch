@@ -103,17 +103,17 @@ const QuestionDropdown = ({
       <IconMore size="18" color="var(--colors-brand-500)" onClick={onClickOpenDropDown} />
       <DropContainer ref={dropdownRef}>
         <DropUl>
-          {isMe || (
-            <DropList onClick={onClickModify}>
-              <IconPen />
-              수정
-            </DropList>
-          )}
-          {isMe || (
-            <DropList onClick={() => setIsDeleteModalOpen(true)}>
-              <IconDelete />
-              삭제
-            </DropList>
+          {isMe && (
+            <>
+              <DropList onClick={onClickModify}>
+                <IconPen />
+                수정
+              </DropList>
+              <DropList onClick={() => setIsDeleteModalOpen(true)}>
+                <IconDelete />
+                삭제
+              </DropList>
+            </>
           )}
           <DropList onClick={onClickCopy}>
             <IconShare />

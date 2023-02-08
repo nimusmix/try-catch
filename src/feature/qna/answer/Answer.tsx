@@ -268,7 +268,7 @@ const Answer = ({
             </UserInfo>
             <SubText sizeType="xm">
               {answer.author.companyName === 'default'
-                ? '지나가는 개발자'
+                ? '지나가던 개발자'
                 : answer.author.companyName}
             </SubText>
           </UserInfoWrapper>
