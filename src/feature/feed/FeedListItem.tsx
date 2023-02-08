@@ -130,6 +130,7 @@ const FeedListItem = ({
   companyName,
   thumbnailImage,
   createAt,
+  logoSrc,
 }: IFeedItemProps) => {
   const isDark = useRecoilValue(isDarkState);
   const [bookMarkIcon, setBookMarkIcon] = useState(isBookmarked);
@@ -166,10 +167,7 @@ const FeedListItem = ({
         <FeedHeader>
           <LinkWrapper url={url}>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <CompanyImg
-                src={companyName && getImageUrl(COMPANY[companyName], 'logo', 'png')}
-                alt={companyName}
-              />
+              <CompanyImg src={logoSrc} alt={companyName} />
               <MiniTitle
                 sizeType="xl"
                 textAlign="left"

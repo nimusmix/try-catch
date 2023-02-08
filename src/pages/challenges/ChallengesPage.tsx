@@ -3,7 +3,12 @@ import { HeaderImage, Layout } from '../../layout';
 import { MiniTitle, Paragraph, SubTitle } from '../../components';
 import { header_challenge } from '../../assets';
 import { QuestionPageBody as ChallengePageBody } from '../qna/QnaPage';
-import { ChallengeRank, OngoingChallenge, RecommendChallenge } from '../../feature/challenge';
+import {
+  ChallengeRank,
+  OngoingChallenge,
+  RecommendChallenge,
+  OngoingChallengeVer3,
+} from '../../feature/challenge';
 
 const ChallengeRecommend = () => {
   return (
@@ -33,7 +38,7 @@ const ChallengeOngoing = () => {
       <MiniTitle sizeType="xl" textAlign="left" padding="1.25rem 0rem 1rem 0rem">
         진행 중인 챌린지
       </MiniTitle>
-      <OngoingChallenge />
+      <OngoingChallengeVer3 />
     </div>
   );
 };
@@ -51,10 +56,10 @@ const ChallengesPage = () => {
         <Paragraph sizeType="base">챌린지 게시판에 대한 설명이 들어갈 자리입니다.</Paragraph>
       </HeaderImage>
       <ChallengePageBody style={{ margin: '3rem 1.5rem', flexDirection: 'column' }}>
-        <ChallengeHeader>
+        {/* <ChallengeHeader>
           <ChallengeRecommend />
           <ChallengeRankWrapper />
-        </ChallengeHeader>
+        </ChallengeHeader> */}
         <ChallengeOngoingWrapper>
           <ChallengeOngoing />
         </ChallengeOngoingWrapper>
