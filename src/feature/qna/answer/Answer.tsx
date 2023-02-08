@@ -3,16 +3,17 @@ import styled, { css } from 'styled-components';
 import { useMutation, useQueryClient } from 'react-query';
 import { TbEdit } from 'react-icons/tb';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { IconCheckCircle, IconLikeEmpty, IconLikeFill } from '../../../components/icons/Icons';
 import { Button, Paragraph } from '../../../components';
 import { IAnswer, IQuestion } from '../../../interface/qna';
 import getImageUrl from '../../../utils/getImageUrl';
 import { COMPANY } from '../../../constant/company';
-import { logOnDev } from '../../../utils/logging';
 import { cancelLike, postLike } from '../../../apis/like/like';
 import useIsMe from '../../../hooks/useIsMe';
 import { postFollow, putFollow } from '../../../apis/user/user';
 import { putAnswer, selectAnswer } from '../../../apis/answer/answer';
+import { isLoggedInState, toastState } from '../../../recoil';
 
 const AnswerItem = styled.li`
   display: flex;
@@ -178,6 +179,8 @@ const Answer = ({
   const isMe = useIsMe(answer.author.userId);
   const isAuthor = useIsMe(questionAuthorId);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const isLogin = useRecoilValue(isLoggedInState);
+  const setToast = useSetRecoilState(toastState);
   const [isEdit, setIsEdit] = useState(false);
   const [answerInput, setAnswerInput] = useState(() => answer.content);
 
@@ -211,12 +214,11 @@ const Answer = ({
     };
   };
 
-  // TODO 낙관적 업데이트 변경하기
   const updateFollow = (type: 'do' | 'un') => {
     const previousData = queryClient.getQueryData<IQuestion>(['question', `${questionId}`]);
 
     const newAnswers = previousData?.answers.map((ans) => {
-      if (ans.answerId === answer.answerId) {
+      if (ans.author.userId === answer.author.userId) {
         return {
           ...ans,
           author: {
@@ -248,7 +250,9 @@ const Answer = ({
     ['like', 'up'],
     () => postLike({ id: answer.answerId, type: 'ANSWER' }),
     {
-      onMutate: () => updateLike('up'),
+      onMutate: () => {
+        updateLike('up');
+      },
     }
   );
 
@@ -279,7 +283,13 @@ const Answer = ({
     ['answer', 'update', answer.answerId],
     putAnswer(questionId, { answerId: answer.answerId, content: answerInput, hidden: false }),
     {
-      onSuccess: () => logOnDev.log('수정 성공'),
+      onSuccess: () => {
+        setToast({ type: 'positive', message: '댓글 수정 성공', isVisible: true });
+      },
+      onError: () => {
+        setToast({ type: 'negative', message: '댓글 수정 실패', isVisible: true });
+      },
+      onSettled: () => setIsEdit(false),
     }
   );
 
@@ -295,6 +305,10 @@ const Answer = ({
   }, [isEdit]);
 
   const onClickLikeHandler = () => {
+    if (!isLogin) {
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다', isVisible: true });
+      return;
+    }
     if (answer.isLiked) {
       likeDown();
     } else {
@@ -309,7 +323,10 @@ const Answer = ({
   };
 
   const onClickFollowHandler = () => {
-    logOnDev.log('follow');
+    if (!isLogin) {
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다', isVisible: true });
+      return;
+    }
     if (answer.author.isFollowed) {
       unFollow();
     } else {
@@ -372,7 +389,6 @@ const Answer = ({
           ref={inputRef}
           value={answerInput}
           onChange={onChangeAnswerForm}
-          onBlur={() => setIsEdit(false)}
         />
       </AnswerBody>
       <AnswerFooter>
@@ -390,7 +406,7 @@ const Answer = ({
           <SubText sizeType="xm">{answer.likeCount}</SubText>
         </Like>
         {isEdit && (
-          <Button className="modify-button" onClick={() => modifyAnswer}>
+          <Button className="modify-button" onClick={() => modifyAnswer()}>
             수정하기
           </Button>
         )}
