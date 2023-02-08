@@ -2,7 +2,7 @@
 import styled, { css } from 'styled-components';
 import { useMutation, useQueryClient } from 'react-query';
 import { TbEdit } from 'react-icons/tb';
-import { useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { IconCheckCircle, IconLikeEmpty, IconLikeFill } from '../../../components/icons/Icons';
 import { Button, Paragraph } from '../../../components';
 import { IAnswer, IQuestion } from '../../../interface/qna';
@@ -115,8 +115,15 @@ const AnswerBody = styled.div`
 `;
 
 const AnswerFooter = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
+
+  .modify-button {
+    position: absolute;
+    right: 2.5rem;
+    bottom: 3.5rem;
+  }
 
   button {
     margin: 1rem 0 1rem 1rem;
@@ -147,10 +154,13 @@ const TextAreaFocus = css`
 
 const AnswerForm = styled.textarea<{ isEdit: boolean }>`
   width: 100%;
-  background-color: transparent;
+  background-color: ${({ theme: { isDark } }) =>
+    isDark ? 'rgb(46, 52, 64)' : 'rgb(247, 248, 255)'};
+  color: ${({ theme: { textColor } }) => textColor};
   resize: none;
   border-radius: 0.5rem;
   outline: none;
+  padding: 1rem;
   ${({ isEdit }) => isEdit && TextAreaFocus}
 `;
 
@@ -280,7 +290,7 @@ const Answer = ({
     } else {
       inputRef.current!.blur();
       inputRef.current!.readOnly = true;
-      modifyAnswer();
+      inputRef.current!.style.height = `${inputRef.current!.scrollHeight}px`;
     }
   }, [isEdit]);
 
@@ -290,6 +300,12 @@ const Answer = ({
     } else {
       likeUp();
     }
+  };
+
+  const onChangeAnswerForm = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    inputRef.current!.style.height = 'auto';
+    inputRef.current!.style.height = `${inputRef.current!.scrollHeight}px`;
+    setAnswerInput(e.target.value);
   };
 
   const onClickFollowHandler = () => {
@@ -345,18 +361,18 @@ const Answer = ({
         {answer.accepted ? (
           <IconCheckCircle className="selected" />
         ) : (
-          isMe || <TbEdit className="edit" onClick={() => setIsEdit((prev) => !prev)} />
+          isMe && <TbEdit className="edit" onClick={() => setIsEdit((prev) => !prev)} />
         )}
       </UpperWrapper>
 
       <AnswerBody>
         <AnswerForm
+          rows={1}
           isEdit={isEdit}
           ref={inputRef}
           value={answerInput}
-          onChange={(e) => {
-            setAnswerInput(e.target.value);
-          }}
+          onChange={onChangeAnswerForm}
+          onBlur={() => setIsEdit(false)}
         />
       </AnswerBody>
       <AnswerFooter>
@@ -373,6 +389,11 @@ const Answer = ({
           {answer.isLiked || <IconLikeEmpty />}
           <SubText sizeType="xm">{answer.likeCount}</SubText>
         </Like>
+        {isEdit && (
+          <Button className="modify-button" onClick={() => modifyAnswer}>
+            수정하기
+          </Button>
+        )}
       </AnswerFooter>
     </AnswerItem>
   );
