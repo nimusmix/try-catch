@@ -8,10 +8,6 @@ const Td = styled.div`
   background: ${({ theme }) => theme.bgColor};
 `;
 
-const TdRight = styled(Td)`
-  text-align: center;
-`;
-
 const TdCenter = styled.div`
   display: flex;
   justify-content: center;

@@ -47,7 +47,7 @@ const ChallengeOngoing = () => {
 const ChallengeAllWrapper = () => {
   return (
     <div style={{ margin: '0 2rem' }}>
-      <MiniTitle sizeType="2xl" textAlign="left" padding="1.25rem 0rem 1rem 0rem" fontWeight="600">
+      <MiniTitle sizeType="2xl" textAlign="left" padding="1.25rem 0rem 2rem 0rem" fontWeight="600">
         전체 챌린지
       </MiniTitle>
       <ChallengeAll />
