@@ -41,6 +41,7 @@ const Li = styled.li`
   &.active {
     border-bottom: 2px solid var(--colors-brand-500);
     color: var(--colors-brand-500);
+    font-weight: 600;
   }
 `;
 
