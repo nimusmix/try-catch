@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 import QnaFormTitleSection from './QnaFormTitleSection';
 import QnaFormContentSection from './QnaFormContentSection';
@@ -11,6 +11,7 @@ import { IQuestion } from '../../../interface/qna';
 
 const QnaFormBody = () => {
   const dispatch = useQuestionDispatch();
+  const queryClient = useQueryClient();
   const { questionId } = useParams();
   const { isLoading } = useQuery<IQuestion>(
     ['question', questionId],
@@ -22,6 +23,14 @@ const QnaFormBody = () => {
         dispatch({ type: 'SET_CONTENT', content: data.content });
         dispatch({ type: 'SET_ERROR_CODE', errorCode: data.errorCode });
         dispatch({ type: 'SET_TAGS', tags: data.tags });
+      },
+
+      initialData: () => {
+        const questionDetail = queryClient
+          .getQueryData<Array<IQuestion>>(['question', `${questionId}`])
+          ?.find((question: IQuestion) => question.questionId === Number(questionId));
+
+        return questionDetail;
       },
     }
   );
