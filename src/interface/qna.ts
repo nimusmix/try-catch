@@ -14,6 +14,7 @@ export interface IAnswer {
   updatedAt: number;
   likeCount: number;
   isLiked: boolean;
+  accepted: boolean;
 }
 
 export interface IQuestion {
@@ -32,6 +33,7 @@ export interface IQuestion {
   isLiked: boolean;
   isSolved: boolean;
   isBookmarked: boolean;
+
   answers: Array<IAnswer>;
 }
 
