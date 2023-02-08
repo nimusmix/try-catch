@@ -58,7 +58,7 @@ export const postQuestion = (data: IPostQuestion) => () => {
  * 질문 수정
  */
 export const putQuestion = (id: number, data: IPostQuestion & { hidden: boolean }) => () => {
-  return authApi.post(`/question/${id}`, data).then((res: AxiosResponse) => res.data);
+  return authApi.put(`/question/${id}`, data).then((res: AxiosResponse) => res.data);
 };
 
 export const getQuestQuestionList = () => {
