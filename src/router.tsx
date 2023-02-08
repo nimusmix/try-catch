@@ -89,6 +89,10 @@ const router = createBrowserRouter([
             element: <QnaFormPage />,
           },
           {
+            path: 'form/:questionId',
+            element: <QnaFormPage edit />,
+          },
+          {
             path: ':questionId',
             element: <QnaDetailPage />,
           },

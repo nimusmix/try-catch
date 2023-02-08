@@ -17,7 +17,13 @@ const Wrapper = styled.div`
   }
 `;
 
-const QnaFormErrorCodeSection = ({ dispatch }: { dispatch: QuestionDispatch }) => {
+const QnaFormErrorCodeSection = ({
+  dispatch,
+  edit,
+}: {
+  dispatch: QuestionDispatch;
+  edit: boolean;
+}) => {
   const { errorCode } = useQuestionState();
   const errorCodeRef = useRef<HTMLDivElement>(null);
   const [, isErrorCodeBlur] = useTooltip(errorCodeRef);
@@ -31,7 +37,13 @@ const QnaFormErrorCodeSection = ({ dispatch }: { dispatch: QuestionDispatch }) =
       <MiniTitle sizeType="xl" textAlign="left" display="inline-flex">
         에러 코드 <Required>*</Required>
       </MiniTitle>
-      <MilkdownEditor width="100%" ref={errorCodeRef} setState={setErrorCode} data={errorCode} />
+      <MilkdownEditor
+        width="100%"
+        ref={errorCodeRef}
+        setState={setErrorCode}
+        data={errorCode}
+        edit={edit}
+      />
       {isErrorCodeBlur && (
         <Tooltip>
           <Paragraph sizeType="base">
