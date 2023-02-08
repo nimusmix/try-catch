@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import ProgressBar from './ProgressBar';
 
 const Td = styled.div`
@@ -40,6 +39,11 @@ const Badge = styled.div`
   margin: auto 0;
 `;
 
+const JoinCount = styled.div`
+  width: 1px;
+  border-left: 1px solid ${({ theme }) => theme.borderColor};
+`;
+
 const ChallengeItem = ({
   badge, // 뱃지 이미지 링크
   name, // 챌린지 명
@@ -53,21 +57,19 @@ const ChallengeItem = ({
     <div style={{ width: '700px' }}>
       <Td style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Badge>{badge}</Badge>
-
-        <Link to={`${challengeId}`}>
-          <div style={{ width: ' 500px' }}>
-            <strong>{name}</strong>
-            <br />
-            {content}
-          </div>
-        </Link>
+        <div style={{ width: ' 500px' }}>
+          <strong>{name}</strong>
+          <br />
+          {content}
+        </div>
       </Td>
       <Td style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div style={{ margin: 'auto 0', display: 'flex' }}>
           <TdCenter>진행도</TdCenter>
           <ProgressBar process={progress} />
         </div>
-        <div style={{ margin: 'auto 0', display: 'flex' }}>
+        <JoinCount />
+        <div>
           <TdCenter>참여한 사람 수</TdCenter>
           {successNumber}
         </div>
