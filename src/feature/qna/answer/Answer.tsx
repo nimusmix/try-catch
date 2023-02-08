@@ -308,12 +308,11 @@ const Answer = ({
         </Like>
       </AnswerBody>
       <AnswerFooter>
-        {isSolved ||
-          (isMe ? (
-            <Button designType="greenFill" onClick={() => select()}>
-              채택하기
-            </Button>
-          ) : null)}
+        {isMe && !isSolved ? (
+          <Button designType="greenFill" onClick={() => select()}>
+            채택하기
+          </Button>
+        ) : null}
       </AnswerFooter>
     </AnswerItem>
   );
