@@ -108,7 +108,11 @@ const QnaFormPage = () => {
             <QnaFormHeader />
             <QnaFormBody />
             <QnaFormFooter>
-              <Button onClick={onClickSubmitQuestion}>완료</Button>
+              {questionId ? (
+                <Button onClick={onClickSubmitQuestion}>수정</Button>
+              ) : (
+                <Button onClick={onClickSubmitQuestion}>작성</Button>
+              )}
             </QnaFormFooter>
           </Section>
           <TooltipAside />
