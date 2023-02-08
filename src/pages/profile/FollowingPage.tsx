@@ -19,11 +19,10 @@ const FollowingPage = () => {
     { enabled: !!userId }
   );
 
-  if (userIdLoading || contentLoading) {
+  if (userIdLoading || !following) {
     return <p>Loading...</p>;
   }
-  console.log('유저아이디', userId);
-  console.log('팔로잉', following, contentLoading);
+
   return (
     <ModalWrapper>
       <NavWrapper>
