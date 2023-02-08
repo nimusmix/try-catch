@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import Layout from '../../layout/Layout';
@@ -9,7 +9,7 @@ import { Button } from '../../components';
 import QnaFormHeader from '../../feature/qna/question-form/QnaFormHeader';
 import QnaFormBody from '../../feature/qna/question-form/QnaFormBody';
 import { useQuestionDispatch, useQuestionState } from '../../context/QnaContext';
-import { postQuestion, putQuestion } from '../../apis/qna/qna';
+import { getQuestionDetail, postQuestion, putQuestion } from '../../apis/qna/qna';
 import { logOnDev } from '../../utils/logging';
 import { toastState } from '../../recoil';
 
@@ -44,19 +44,34 @@ export const Required = styled.span`
   margin-left: 0.5rem;
 `;
 
-const QnaFormPage = () => {
+const QnaFormPage = ({ edit }: { edit?: boolean }) => {
   const setToast = useSetRecoilState(toastState);
   const { content, category, errorCode, title, tags } = useQuestionState();
   const dispatch = useQuestionDispatch();
   const navigate = useNavigate();
   const { questionId } = useParams();
-  const queryClinet = useQueryClient();
+  const queryClient = useQueryClient();
+  const { data: question, isLoading } = useQuery(
+    ['question', `${questionId}`],
+    getQuestionDetail(Number(questionId)),
+    {
+      onSuccess: (q) => {
+        dispatch({ type: 'SET_CATEGORY', category: q.category });
+        dispatch({ type: 'SET_TITLE', title: q.title });
+        dispatch({ type: 'SET_CONTENT', content: q.content });
+        dispatch({ type: 'SET_ERROR_CODE', errorCode: q.errorCode });
+        dispatch({ type: 'SET_TAGS', tags: q.tags });
+      },
+      enabled: !!edit,
+    }
+  );
+
   const { mutate: addQuestion } = useMutation(
     postQuestion({ content, category, errorCode, title, tags }),
     {
       onSuccess: () => {
         navigate('/question', { replace: true });
-        queryClinet.invalidateQueries(['question', 'questionList', 'DEV']);
+        queryClient.invalidateQueries(['question', 'questionList', 'DEV']);
         setToast({ type: 'positive', message: '질문 작성 성공', isVisible: true });
         dispatch({ type: 'RESET' });
       },
@@ -92,7 +107,7 @@ const QnaFormPage = () => {
       return;
     }
 
-    if (questionId) {
+    if (edit) {
       modifyQuestion();
     } else {
       addQuestion();
@@ -108,7 +123,7 @@ const QnaFormPage = () => {
         <QnaFormContainer>
           <Section>
             <QnaFormHeader />
-            <QnaFormBody />
+            <QnaFormBody edit={edit as boolean} />
             <QnaFormFooter>
               {questionId ? (
                 <Button onClick={onClickSubmitQuestion}>수정</Button>

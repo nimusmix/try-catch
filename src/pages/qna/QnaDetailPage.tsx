@@ -10,6 +10,7 @@ import { AnswerForm } from '../../feature';
 import { IQuestion } from '../../interface/qna';
 import qnaCategoryState from '../../recoil/qnaCategoryState';
 import { isLoggedInState } from '../../recoil';
+import { useQuestionDispatch } from '../../context/QnaContext';
 
 const QnaDetailWrapper = styled.section`
   margin-top: 3rem;
@@ -37,19 +38,27 @@ const QnaDetailPage = () => {
   const { questionId } = useParams<string>();
   const queryClient = useQueryClient();
   const qnaCategory = useRecoilValue(qnaCategoryState);
+  const dispatch = useQuestionDispatch();
   const isLogin = useRecoilValue(isLoggedInState);
   const { isLoading, data: questionDetail } = useQuery<IQuestion>(
     ['question', questionId] as const,
-    getQuestionDetail(Number(questionId))
-    /* {
-      initialData: () => {
-        const questionDetail = queryClient
-          .getQueryData<Array<IQuestion>>(['question', 'questionList', qnaCategory])
-          ?.find((question: IQuestion) => question.questionId === Number(questionId));
-
-        return questionDetail;
+    getQuestionDetail(Number(questionId)),
+    {
+      onSuccess: (q) => {
+        dispatch({ type: 'SET_CATEGORY', category: q.category });
+        dispatch({ type: 'SET_TITLE', title: q.title });
+        dispatch({ type: 'SET_CONTENT', content: q.content });
+        dispatch({ type: 'SET_ERROR_CODE', errorCode: q.errorCode });
+        dispatch({ type: 'SET_TAGS', tags: q.tags });
       },
-    } */
+      // initialData: () => {
+      //   const questionDetail = queryClient
+      //     .getQueryData(['question', 'questionList', qnaCategory])
+      //     .pages.flatMap((page: Array<IQuestion>) => page.find((item) => Number(item.questionId) === Number(questionId));
+      //
+      //   return questionDetail;
+      // },
+    }
   );
 
   if (isLoading) {

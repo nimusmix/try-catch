@@ -1,16 +1,11 @@
 /* eslint-disable no-param-reassign,consistent-return */
 import React, { ForwardedRef, forwardRef, useEffect } from 'react';
-import {
-  defaultValueCtx,
-  Editor,
-  editorViewOptionsCtx,
-  rootCtx,
-  themeManagerCtx,
-} from '@milkdown/core';
+import { Editor, editorViewOptionsCtx, rootCtx, themeManagerCtx } from '@milkdown/core';
 import { nord } from '@milkdown/theme-nord';
 import { ReactEditor, useEditor } from '@milkdown/react';
 import { commonmark } from '@milkdown/preset-commonmark';
 import { history } from '@milkdown/plugin-history';
+import { insert, replaceAll } from '@milkdown/utils';
 import {
   createDropdownItem,
   defaultActions,
@@ -28,6 +23,7 @@ import { defaultConfig, menu, menuPlugin } from '@milkdown/plugin-menu';
 import { gfm } from '@milkdown/preset-gfm';
 import { prismPlugin } from '@milkdown/plugin-prism';
 import { refractor } from 'refractor/lib/common';
+import { useParams } from 'react-router-dom';
 import MilkDownWrapper from './MilkdownWrapper';
 
 const MilkdownEditor = (
@@ -35,11 +31,20 @@ const MilkdownEditor = (
     width,
     setState,
     editable = true,
-    data = '',
-  }: { width: string; setState?: (value: string) => void; editable?: boolean; data?: string },
+    data = '123',
+    edit,
+  }: {
+    width: string;
+    setState?: (value: string) => void;
+    editable?: boolean;
+    data?: string;
+    edit?: boolean;
+  },
   ref: ForwardedRef<any>
 ) => {
-  const { editor, loading, getInstance } = useEditor(
+  const { questionId } = useParams();
+
+  const { editor, getInstance, loading } = useEditor(
     (root) =>
       Editor.make()
         .config((ctx) => {
@@ -54,7 +59,7 @@ const MilkdownEditor = (
             });
           }
           if (data) {
-            ctx.set(defaultValueCtx, data);
+            ctx.get(listenerCtx).mounted(insert(data));
           }
         })
         .use(nord)
@@ -171,15 +176,9 @@ const MilkdownEditor = (
   );
 
   useEffect(() => {
-    if (!loading) {
-      console.log('data', `${data}`);
-      const instance = getInstance();
-      instance?.action((ctx) => {
-        // eslint-disable-next-line no-console
-        ctx.update(defaultValueCtx, (prev) => prev);
-      });
-    }
-  }, [data, getInstance, loading]);
+    const instance = getInstance();
+    instance?.action(() => replaceAll(data));
+  }, [data, getInstance, questionId]);
 
   return (
     <MilkDownWrapper width={width} ref={ref}>
