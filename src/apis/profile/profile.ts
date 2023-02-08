@@ -12,3 +12,6 @@ export const getUserQuestion = (userId: number) =>
 
 export const getUserAnswer = (userId: number) =>
   authApi.get(`/user/${userId}/answer/list`).then((res) => res.data);
+
+export const getUserSubscription = (userId: number) =>
+  authApi.get(`/user/${userId}/subscription/list`).then((res) => res.data);
