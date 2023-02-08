@@ -88,11 +88,11 @@ const ProfileBio = ({ changeFn }: any) => {
   const [toast, setToast] = useRecoilState(toastState);
   const [isModalOpened, setIsModalOpened] = useState(false);
   const modalClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (isLoggedIn) {
-      setIsModalOpened(true);
-    } else {
-      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다.', isVisible: true });
-    }
+    // if (isLoggedIn) {
+    setIsModalOpened(true);
+    // } else {
+    //   setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다.', isVisible: true });
+    // }
   };
 
   const createImageUrl = (companyName: string) => {
