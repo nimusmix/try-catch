@@ -149,13 +149,10 @@ const toKorean = (category: string | undefined) => {
  * */
 const Question = ({
   tags,
-  updatedAt,
   content,
   timestamp,
-  viewCount,
   likeCount,
   answerCount,
-  answers,
   isLiked,
   title,
   errorCode,
@@ -164,6 +161,7 @@ const Question = ({
   isBookmarked,
   isSolved,
   questionId,
+  ...rest
 }: IQuestion) => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const [toast, setToast] = useRecoilState(toastState);
