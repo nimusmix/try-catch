@@ -45,12 +45,12 @@ const Li = styled.li`
 `;
 
 const MyProfileMenu = () => {
-  const [activeMenu, setActvieMenu] = useState('질문');
+  const [activeMenu, setActiveMenu] = useState('질문');
   console.log(activeMenu);
 
   const handleMenuClick = (e: React.MouseEvent<HTMLElement>) => {
     const target = e.target as HTMLElement;
-    setActvieMenu(target.innerText);
+    setActiveMenu(target.innerText);
   };
 
   return (
