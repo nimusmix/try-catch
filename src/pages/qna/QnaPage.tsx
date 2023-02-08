@@ -11,6 +11,7 @@ import { header_qna } from '../../assets';
 import SideNavbar from '../../components/side-navbar/SideNavbar';
 import qnaCategoryState from '../../recoil/qnaCategoryState';
 import { IconPen } from '../../components/icons/Icons';
+import { useQuestionDispatch } from '../../context/QnaContext';
 
 const DetailPage = loadable(() => import('./QnaDetailPage'));
 
@@ -66,12 +67,14 @@ const QnaPage = () => {
   const [activeCategory, setActiveCategory] = useRecoilState(qnaCategoryState);
   const [filter, setFilter] = useState<string>('all');
   const keyword = new URLSearchParams(useLocation().search).get('keyword') || '';
+  const dispatch = useQuestionDispatch();
 
   const activeIdx = navOptions.findIndex((option) => option.value === activeCategory);
   // 디테일 페이지를 미리 로드 (효과가 있는지 잘 모르겠음..)
   useEffect(() => {
     DetailPage.preload();
-  }, []);
+    dispatch({ type: 'RESET' });
+  }, [dispatch]);
 
   return (
     <Layout>
