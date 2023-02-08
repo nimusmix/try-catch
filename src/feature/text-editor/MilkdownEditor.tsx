@@ -24,14 +24,18 @@ import { gfm } from '@milkdown/preset-gfm';
 import { prismPlugin } from '@milkdown/plugin-prism';
 import { refractor } from 'refractor/lib/common';
 import { useParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
 import MilkDownWrapper from './MilkdownWrapper';
+import { IQuestion } from '../../interface/qna';
+import { getQuestionDetail } from '../../apis/qna/qna';
+import { useQuestionDispatch } from '../../context/QnaContext';
 
 const MilkdownEditor = (
   {
     width,
     setState,
     editable = true,
-    data = '123',
+    data = '',
     edit,
   }: {
     width: string;
@@ -43,6 +47,16 @@ const MilkdownEditor = (
   ref: ForwardedRef<any>
 ) => {
   const { questionId } = useParams();
+  const dispatch = useQuestionDispatch();
+  useQuery<IQuestion>(['question', questionId] as const, getQuestionDetail(Number(questionId)), {
+    onSuccess: (q) => {
+      dispatch({ type: 'SET_CATEGORY', category: q.category });
+      dispatch({ type: 'SET_TITLE', title: q.title });
+      dispatch({ type: 'SET_CONTENT', content: q.content });
+      dispatch({ type: 'SET_ERROR_CODE', errorCode: q.errorCode });
+      dispatch({ type: 'SET_TAGS', tags: q.tags });
+    },
+  });
 
   const { editor, getInstance, loading } = useEditor(
     (root) =>
