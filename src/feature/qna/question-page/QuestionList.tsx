@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery, useQueryClient } from 'react-query';
 import { useRecoilState } from 'recoil';
 import { Fragment, useEffect, useState } from 'react';
 import { getQuestionList } from '../../../apis/qna/qna';
@@ -10,6 +10,7 @@ import question from '../Question';
 const QuestionList = ({ filter }: { filter: string }) => {
   const [activeCategory, setActiveCategory] = useRecoilState<string>(qnaCategoryState);
   const [test, setTest] = useState(false);
+  const queryClient = useQueryClient();
   const keyword = new URLSearchParams(useLocation().search).get('keyword') || '';
   const {
     data: questionList,
@@ -61,6 +62,10 @@ const QuestionList = ({ filter }: { filter: string }) => {
     if (!isFetchingNextPage) window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [fetchNextPage, isFetchingNextPage]);
+
+  useEffect(() => {
+    queryClient.invalidateQueries(['question', 'questionList', activeCategory]);
+  }, [activeCategory, queryClient]);
 
   return (
     <ul>
