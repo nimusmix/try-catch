@@ -236,10 +236,7 @@ const Answer = ({
     onMutate: () => updateFollow('un'),
   });
 
-  const { mutate: select } = useMutation(
-    ['select'],
-    selectAnswer(questionId, answer.author.userId)
-  );
+  const { mutate: select } = useMutation(['select'], selectAnswer(questionId, answer.answerId));
 
   const onClickLikeHandler = () => {
     if (answer.isLiked) {
