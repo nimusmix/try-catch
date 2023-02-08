@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Layout from '../../layout/Layout';
 import { ProfileBio } from '../../feature';
 import { Div } from '../../components';
+import MyQuestionList from '../../feature/user/profile/MyQuestionList';
 
 const ProfileWrapper = styled.div`
   display: flex;
@@ -39,6 +40,7 @@ const UserProfilePage = () => {
           <Badge>뱃지</Badge>
         </BadgeDiv>
       </ProfileWrapper>
+      <MyQuestionList />
     </Layout>
   );
 };

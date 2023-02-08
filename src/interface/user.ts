@@ -146,7 +146,7 @@ export interface IUserDetail {
   followingCount: number;
   // followers: Array<ISimpleUserData>;
   followerCount: number;
-  introduction: string;
+  introduction?: string;
   tags: Array<string>;
   // questions: Array<IQuestion>;
   // answers: Array<IAnswer>;
