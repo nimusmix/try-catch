@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import Layout from '../../layout/Layout';
@@ -50,11 +50,13 @@ const QnaFormPage = () => {
   const dispatch = useQuestionDispatch();
   const navigate = useNavigate();
   const { questionId } = useParams();
+  const queryClinet = useQueryClient();
   const { mutate: addQuestion } = useMutation(
     postQuestion({ content, category, errorCode, title, tags }),
     {
       onSuccess: () => {
         navigate('/question', { replace: true });
+        queryClinet.invalidateQueries(['question', 'questionList', 'DEV']);
         setToast({ type: 'positive', message: '질문 작성 성공', isVisible: true });
         dispatch({ type: 'RESET' });
       },
