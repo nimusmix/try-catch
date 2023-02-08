@@ -13,6 +13,7 @@ import qnaCategoryState from '../../recoil/qnaCategoryState';
 const QnaDetailWrapper = styled.section`
   margin-top: 3rem;
   max-width: var(--breakpoints-desktop);
+  min-width: var(--breakpoints-desktop);
   display: flex;
 `;
 
@@ -61,7 +62,7 @@ const QnaDetailPage = () => {
           {/* 질문 부분 */}
           {questionDetail && <Question {...questionDetail} />}
           {/* 답변 form 부분 */}
-          <AnswerForm questionId={questionId as string} questionInput={questionInput} />
+          <AnswerForm questionId={questionId as string} />
           <ul>
             {questionDetail &&
               questionDetail.answers
@@ -75,7 +76,6 @@ const QnaDetailPage = () => {
                       questionAuthorId={questionDetail.author.userId}
                       questionId={questionDetail.questionId}
                       isSolved={questionDetail.isSolved}
-                      setQuestionInput={setQuestionInput}
                     />
                   );
                 })}

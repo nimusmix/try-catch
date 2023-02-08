@@ -34,8 +34,15 @@ const QuestionHeader = styled.div`
 
 const QuestionBody = styled.div`
   margin: 0.5rem 0 0.5rem;
-  max-height: 100px;
+  max-height: 75px;
   overflow: hidden;
+
+  .markdown * {
+    background: unset;
+    margin: unset;
+    font: unset;
+  }
+
   p {
     /* display: inline-block; */
     display: -webkit-box;
@@ -162,7 +169,9 @@ const QuestionItem = ({
       </QuestionHeader>
 
       <QuestionBody>
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{content as string}</ReactMarkdown>
+        <ReactMarkdown className="markdown" remarkPlugins={[remarkGfm]}>
+          {content as string}
+        </ReactMarkdown>
       </QuestionBody>
 
       <QuestionFooter>
