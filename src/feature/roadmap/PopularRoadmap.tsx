@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { IRoadmapListItem } from './NewRoadmap';
-import { getRoadmapList } from '../../apis/roadmap/roadmap';
+import { getPopularRoadmapList } from '../../apis/roadmap/roadmap';
 import RoadmapListItem from './RoadmapListItem';
 import { IconArrowLeft, IconArrowRight } from '../../components/icons/Icons';
 import { isDarkState } from '../../recoil';
@@ -41,10 +41,9 @@ const ContentBox = styled.div<{ trans: string }>`
 `;
 
 const PopularRoadmap = () => {
-  // 나중에 인기 로드맵 리스트 api로 수정하기
   const { data: popularRoadmapList } = useQuery<Array<IRoadmapListItem>>(
     ['roadmapList'] as const,
-    () => getRoadmapList()
+    () => getPopularRoadmapList()
   );
   const [translateState, setTranslateState] = useState(0);
   const isDark = useRecoilValue(isDarkState);

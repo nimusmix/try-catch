@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { useMutation, useQueryClient } from 'react-query';
 import { Card, MiniTitle } from '../../components';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
 import { IFeedItemProps } from './IFeed';
 import FeedTag from './FeedTag';
-import { isDarkState } from '../../recoil';
+import { isLoggedInState, toastState } from '../../recoil';
 import { postFeedRead } from '../../apis/feed/feed';
+import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
 
 const BookmarkButton = styled.button`
   display: flex;
@@ -99,6 +101,7 @@ const StyledCard = styled(Card)`
 `;
 
 const FeedCardItem = ({
+  id,
   title,
   companyName,
   logoSrc,
@@ -108,20 +111,47 @@ const FeedCardItem = ({
   thumbnailImage,
   keywords,
 }: IFeedItemProps) => {
-  const [bookMarkIcon, setBookMarkIcon] = useState(isBookmarked);
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setBookMarkIcon(!bookMarkIcon);
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [toast, setToast] = useRecoilState(toastState);
+
+  const queryClient = useQueryClient();
+
+  const unBookmark = useMutation(putBookmark, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('feed');
+    },
+  });
+
+  const bookmark = useMutation(postBookmark, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('feed');
+    },
+  });
+
+  const onClickBookmarkHandler = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-
-    // isBookmarked 상태 변화 보내기
-    // /bookmark
-    // body{
-    //   id: number,
-    //   type :string; // feed
-    // }
+    if (!isLoggedIn) {
+      setToast({
+        type: 'negative',
+        isVisible: true,
+        message: '로그인 후 북마크를 이용해보세요! ',
+      });
+    } else if (isBookmarked) {
+      unBookmark.mutate({ id, type: 'FEED' });
+      setToast({
+        type: 'positive',
+        message: '북마크에서 제거되었습니다.',
+        isVisible: true,
+      });
+    } else {
+      bookmark.mutate({ id, type: 'FEED' });
+      setToast({
+        type: 'positive',
+        message: '북마크에 추가되었습니다.',
+        isVisible: true,
+      });
+    }
   };
-
-  const isDark = useRecoilValue(isDarkState);
 
   return (
     <StyledCard width="17.125rem" as="a" href={`${url}`} target="_blank" rel="noreferrer">
@@ -137,10 +167,10 @@ const FeedCardItem = ({
             {companyName}
           </MiniTitle>
         </div>
-        <BookmarkButton onClick={handleClick}>
+        <BookmarkButton onClick={onClickBookmarkHandler}>
           {/* 북마크 */}
-          {bookMarkIcon && <IconBookmarkFill size="22" color="var(--colors-brand-500)" />}
-          {bookMarkIcon || <IconBookmarkEmpty size="22" color="var(--colors-brand-500)" />}
+          {isBookmarked && <IconBookmarkFill size="22" color="var(--colors-brand-500)" />}
+          {isBookmarked || <IconBookmarkEmpty size="22" color="var(--colors-brand-500)" />}
         </BookmarkButton>
       </CardHeader>
 

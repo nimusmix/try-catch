@@ -144,7 +144,7 @@ const Flip = styled.div<Partial<IOngoingChallengeCardProps>>`
   }
 
   :hover circle {
-    animation: ${({ progressCircle }) => anim(progressCircle || 450)} 1.5s linear forwards;
+    animation: ${({ progressCircle }) => anim(progressCircle || 450)} 1.2s linear forwards;
   }
 `;
 
