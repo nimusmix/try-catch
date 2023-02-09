@@ -10,6 +10,8 @@ import { IUserDetail } from '../../../interface/user';
 import isMyself from '../../../utils/isMyself';
 import { isLoggedInState, toastState } from '../../../recoil';
 import { postFollow, putFollow } from '../../../apis/user/user';
+import getImageUrl from '../../../utils/getImageUrl';
+import { COMPANY } from '../../../constant/company';
 
 const BioWrapper = styled.div`
   display: flex;
@@ -88,16 +90,16 @@ const ProfileBio = ({ changeFn }: any) => {
   const [toast, setToast] = useRecoilState(toastState);
   const [isModalOpened, setIsModalOpened] = useState(false);
   const modalClick = (e: React.MouseEvent<HTMLElement>) => {
-    // if (isLoggedIn) {
-    setIsModalOpened(true);
-    // } else {
-    //   setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다.', isVisible: true });
-    // }
+    if (isLoggedIn) {
+      setIsModalOpened(true);
+    } else {
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다.', isVisible: true });
+    }
   };
 
-  const createImageUrl = (companyName: string) => {
-    return new URL(`/src/assets/logo/${companyName}.png`, import.meta.url).href;
-  };
+  // const createImageUrl = (companyName: string) => {
+  //   return new URL(`/src/assets/logo/${companyName}.png`, import.meta.url).href;
+  // };
 
   const queryClient = useQueryClient();
   const updateFollow = (type: 'post' | 'put') => {
@@ -137,7 +139,9 @@ const ProfileBio = ({ changeFn }: any) => {
         <InfoWrapper>
           <ProfileImg src={user?.profileImg} />
           <div>
-            {user?.companyName && <CompanyImg src={createImageUrl(user.companyName)} />}
+            {user?.companyName && (
+              <CompanyImg src={getImageUrl(COMPANY[user.companyName], 'logo', 'png')} />
+            )}
             <MiniTitle sizeType="3xl">{user?.userName}</MiniTitle>
           </div>
           <div>
