@@ -67,7 +67,7 @@ const AnswerListItem = ({
           {questionTitle}
         </Paragraph>
         <QuestionContentWrapper>
-          <ReactMarkdown className="markdown" remarkPlugins={[remarkGfm]} className="content">
+          <ReactMarkdown className="markdown content" remarkPlugins={[remarkGfm]}>
             {questionContent as string}
           </ReactMarkdown>
         </QuestionContentWrapper>
