@@ -129,7 +129,6 @@ const BookmarkFeedListItem = ({
               sizeType="xl"
               color={isDark ? 'var(--colors-white-500)' : 'var(--colors-dark-500)'}
               textAlign="left"
-              // style={{ width: '100%' }}
             >
               {title}
             </MiniTitle>
@@ -141,7 +140,6 @@ const BookmarkFeedListItem = ({
             <Paragraph
               sizeType="base"
               color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-              // style={{ width: '510px' }}
             >
               {content}
             </Paragraph>
