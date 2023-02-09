@@ -1,4 +1,3 @@
-import { number, string } from 'yargs';
 import { IEdge, INode } from './roadmap';
 
 export interface IBookmarkBody {

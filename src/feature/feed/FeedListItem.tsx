@@ -1,12 +1,15 @@
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { useState } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
 import { MiniTitle, Paragraph } from '../../components';
-import { isDarkState } from '../../recoil';
-import { IFeedItemProps } from './IFeed';
+import { isDarkState, isLoggedInState, toastState } from '../../recoil';
+import { IFeedItemProps, IFeedListProps } from './IFeed';
 import FeedTag from './FeedTag';
 import { postFeedRead } from '../../apis/feed/feed';
+
+import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
 
 const DefaultDIv = styled.div`
   /* 한 줄 자르기 */
@@ -128,6 +131,7 @@ const BlogMiniTitle = styled(MiniTitle)`
 `;
 
 const FeedListItem = ({
+  id,
   title,
   summary,
   tags,
@@ -138,21 +142,95 @@ const FeedListItem = ({
   thumbnailImage,
   createAt,
   logoSrc,
+  keyword,
+  paramSort,
+  subscribe,
+  advanced,
 }: IFeedItemProps) => {
   const isDark = useRecoilValue(isDarkState);
-  const [bookMarkIcon, setBookMarkIcon] = useState(isBookmarked);
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    setBookMarkIcon(!bookMarkIcon);
-    e.preventDefault();
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [toast, setToast] = useRecoilState(toastState);
 
-    // isBookmarked 상태 변화 보내기
-    // /bookmark
-    // body{
-    //   id: number,
-    //   type :string; // feed
-    // }
+  const queryClient = useQueryClient();
+  const updateBookmark = (type: 'do' | 'cancel') => {
+    const previousData = queryClient.getQueryData<IFeedListProps>([
+      'feed',
+      keyword,
+      paramSort,
+      subscribe,
+      advanced,
+    ]);
+
+    const newFeedList = previousData?.feedList?.map((feed) => {
+      if (feed.id === id) {
+        return {
+          ...feed,
+          isBookmarked: type === 'do',
+        };
+      }
+      return feed;
+    });
+
+    if (previousData) {
+      // previousData 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
+      queryClient.setQueryData<IFeedItemProps>(
+        ['feed', keyword, paramSort, subscribe, advanced],
+        (oldData: any) => {
+          return {
+            ...oldData,
+            feedList: newFeedList,
+          };
+        }
+      );
+    }
+
+    return {
+      previousData,
+    };
   };
 
+  const { mutate: addBookmark } = useMutation(
+    ['bookmark'],
+    () => postBookmark({ id, type: 'FEED' }),
+    {
+      onMutate: () => {
+        updateBookmark('do');
+      },
+    }
+  );
+
+  const { mutate: cancelBookmark } = useMutation(
+    ['cancelBookmark'],
+    () => putBookmark({ id, type: 'FEED' }),
+    {
+      onMutate: () => updateBookmark('cancel'),
+    }
+  );
+
+  const onClickBookmarkHandler = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    if (!isLoggedIn) {
+      setToast({
+        type: 'negative',
+        isVisible: true,
+        message: '로그인 후 북마크를 이용해보세요! ',
+      });
+    } else if (isBookmarked) {
+      cancelBookmark();
+      setToast({
+        type: 'positive',
+        message: '북마크에서 제거되었습니다.',
+        isVisible: true,
+      });
+    } else {
+      addBookmark();
+      setToast({
+        type: 'positive',
+        message: '북마크에 추가되었습니다.',
+        isVisible: true,
+      });
+    }
+  };
   return (
     <Wrapper>
       <div
@@ -188,10 +266,10 @@ const FeedListItem = ({
               </Paragraph>
             </div>
           </LinkWrapper>
-          <BookmarkButton onClick={handleClick}>
+          <BookmarkButton onClick={onClickBookmarkHandler}>
             {/* 북마크 */}
-            {bookMarkIcon && <IconBookmarkFill size="27" color="var(--colors-brand-500)" />}
-            {bookMarkIcon || <IconBookmarkEmpty size="27" color="var(--colors-brand-500)" />}
+            {isBookmarked && <IconBookmarkFill size="27" color="var(--colors-brand-500)" />}
+            {isBookmarked || <IconBookmarkEmpty size="27" color="var(--colors-brand-500)" />}
           </BookmarkButton>
         </FeedHeader>
 
