@@ -32,7 +32,13 @@ export const Tooltip = styled.div`
   }
 `;
 
-const QnaFormContentSection = ({ dispatch }: { dispatch: QuestionDispatch }) => {
+const QnaFormContentSection = ({
+  dispatch,
+  edit,
+}: {
+  dispatch: QuestionDispatch;
+  edit: boolean;
+}) => {
   const { content } = useQuestionState();
   const contentRef = useRef<HTMLDivElement>(null);
   const [isContentFocus] = useTooltip(contentRef);
@@ -46,7 +52,13 @@ const QnaFormContentSection = ({ dispatch }: { dispatch: QuestionDispatch }) => 
       <MiniTitle sizeType="xl" textAlign="left" display="inline-flex">
         질문 내용 <Required>*</Required>
       </MiniTitle>
-      <MilkdownEditor width="100%" setState={setContent} ref={contentRef} data={content} />
+      <MilkdownEditor
+        width="100%"
+        setState={setContent}
+        ref={contentRef}
+        data={content}
+        edit={edit}
+      />
       {isContentFocus && (
         <Tooltip>
           <Paragraph sizeType="base">💡 질문 내용 작성 가이드</Paragraph>

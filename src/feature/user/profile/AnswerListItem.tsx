@@ -32,6 +32,10 @@ const QuestionContentWrapper = styled.div`
   code {
     all: unset;
   }
+
+  &.content {
+    color: var(--colors-black-500);
+  }
 `;
 
 const AnswerContent = styled.div`
@@ -59,11 +63,11 @@ const AnswerListItem = ({
   return (
     <ItemWrapper>
       <QuestionWrapper>
-        <Paragraph sizeType="lg" fontWeight="600">
+        <Paragraph sizeType="lg" fontWeight="600" color="var(--colors-black-500)">
           {questionTitle}
         </Paragraph>
         <QuestionContentWrapper>
-          <ReactMarkdown className="markdown" remarkPlugins={[remarkGfm]}>
+          <ReactMarkdown className="markdown content" remarkPlugins={[remarkGfm]}>
             {questionContent as string}
           </ReactMarkdown>
         </QuestionContentWrapper>

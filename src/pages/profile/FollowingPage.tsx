@@ -1,32 +1,43 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
 import { ModalWrapper, NavWrapper, NavItem, ItemWrapper } from './SubscriptionPage';
+import { getUserId, getUserFollow } from '../../apis/profile/profile';
+import { ISimpleUserData } from '../../interface/user';
+import SimpleUserItem from '../../feature/user/profile/SimpleUserItem';
 
 const FollowingPage = () => {
-  const { username } = useParams();
+  const { userName } = useParams();
+  const navi = useNavigate();
+
+  const { data: userId, isLoading: userIdLoading } = useQuery<number>(
+    ['myAnswerList', 'userId'] as const,
+    () => getUserId(userName!)
+  );
+  const { data: following, isLoading: contentLoading } = useQuery<any>(
+    ['user', 'following'],
+    () => getUserFollow(userId!, { type: 'followee' }),
+    { enabled: !!userId }
+  );
+
+  if (userIdLoading || contentLoading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <ModalWrapper>
       <NavWrapper>
-        <Link to={`/profile/${username}/subscription`}>
-          <NavItem>구독</NavItem>
-        </Link>
-        <Link to={`/profile/${username}/following`}>
-          <NavItem toggle>팔로잉</NavItem>
-        </Link>
-        <Link to={`/profile/${username}/followers`}>
-          <NavItem>팔로워</NavItem>
-        </Link>
+        <NavItem onClick={() => navi(`/profile/${userName}/subscription`, { replace: true })}>
+          구독
+        </NavItem>
+        <NavItem toggle>팔로잉</NavItem>
+        <NavItem onClick={() => navi(`/profile/${userName}/followers`, { replace: true })}>
+          팔로워
+        </NavItem>
       </NavWrapper>
       <ItemWrapper>
-        <p>팔로잉</p>
-        <p>팔로잉</p>
-        <p>팔로잉</p>
-        <p>팔로잉</p>
-        <p>팔로잉</p>
-        <p>팔로잉</p>
-        <p>팔로잉</p>
-        <p>팔로잉</p>
-        <p>팔로잉</p>
-        <p>팔로잉</p>
+        {following?.map((user: ISimpleUserData) => {
+          return <SimpleUserItem {...user} key={user.userId} />;
+        })}
       </ItemWrapper>
     </ModalWrapper>
   );

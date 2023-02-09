@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { useState } from 'react';
-import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
-import { MiniTitle, Paragraph } from '../../components';
-import { isDarkState } from '../../recoil';
-import { IFeedItemProps } from './IFeed';
-import FeedTag from './FeedTag';
-import { postFeedRead } from '../../apis/feed/feed';
+import { IFeedItem } from '../../../interface/feed';
+import { isDarkState } from '../../../recoil';
+import { Paragraph, MiniTitle } from '../../../components';
+import FeedTag from '../../feed/FeedTag';
+import getImageUrl from '../../../utils/getImageUrl';
+import { COMPANY } from '../../../constant/company';
 
 const DefaultDIv = styled.div`
   /* 한 줄 자르기 */
@@ -62,7 +61,7 @@ const FeedFooter = styled(DefaultDIv)`
   margin-bottom: 0.75rem;
 `;
 
-const BookmarkButton = styled.button`
+const Icons = styled.button`
   display: flex;
   align-items: center;
   svg {
@@ -109,43 +108,29 @@ const BlogTitle = styled(DefaultDIv)`
 interface LinkProps {
   children: React.ReactNode;
   url: string;
-  onClick?: () => void;
 }
 
-const LinkWrapper = ({ children, url, onClick }: LinkProps) => {
+const LinkWrapper = ({ children, url }: LinkProps) => {
   return (
-    <a href={`${url}`} target="_blank" rel="noreferrer" style={{ zIndex: '1' }} onClick={onClick}>
+    <a href={`${url}`} target="_blank" rel="noreferrer" style={{ zIndex: '1' }}>
       {children}
     </a>
   );
 };
 
-const FeedListItem = ({
+const RecentListItem = ({
+  feedId,
   title,
   summary,
+  companyName,
+  createdAt,
+  url,
+  thumbnailImage,
   tags,
   keywords,
   isBookmarked,
-  url,
-  companyName,
-  thumbnailImage,
-  createAt,
-  logoSrc,
-}: IFeedItemProps) => {
+}: IFeedItem) => {
   const isDark = useRecoilValue(isDarkState);
-  const [bookMarkIcon, setBookMarkIcon] = useState(isBookmarked);
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    setBookMarkIcon(!bookMarkIcon);
-    e.preventDefault();
-
-    // isBookmarked 상태 변화 보내기
-    // /bookmark
-    // body{
-    //   id: number,
-    //   type :string; // feed
-    // }
-  };
-
   return (
     <Wrapper>
       <div
@@ -167,7 +152,10 @@ const FeedListItem = ({
         <FeedHeader>
           <LinkWrapper url={url}>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <CompanyImg src={logoSrc} alt={companyName} />
+              <CompanyImg
+                src={getImageUrl(COMPANY[companyName], 'logo', 'png')}
+                alt={companyName}
+              />
               <MiniTitle
                 sizeType="xl"
                 textAlign="left"
@@ -177,17 +165,11 @@ const FeedListItem = ({
                 {companyName}
               </MiniTitle>
               <Paragraph sizeType="xm" style={{ marginLeft: '0.25rem' }}>
-                · {createAt}
+                · {createdAt}
               </Paragraph>
             </div>
           </LinkWrapper>
-          <BookmarkButton onClick={handleClick}>
-            {/* 북마크 */}
-            {bookMarkIcon && <IconBookmarkFill size="27" color="var(--colors-brand-500)" />}
-            {bookMarkIcon || <IconBookmarkEmpty size="27" color="var(--colors-brand-500)" />}
-          </BookmarkButton>
         </FeedHeader>
-
         <BlogTitle>
           <LinkWrapper url={url}>
             <MiniTitle
@@ -221,4 +203,4 @@ const FeedListItem = ({
   );
 };
 
-export default FeedListItem;
+export default RecentListItem;

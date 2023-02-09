@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import QuestionList from './QuestionList';
 import AnswerList from './AnswerList';
+import RecentList from './RecentList';
 
 export interface IMenuOption {
   id: number;
@@ -41,6 +42,7 @@ const Li = styled.li`
   &.active {
     border-bottom: 2px solid var(--colors-brand-500);
     color: var(--colors-brand-500);
+    font-weight: 600;
   }
 `;
 
@@ -69,6 +71,7 @@ const MyProfileMenu = () => {
       </Ul>
       {activeMenu === '질문' && <QuestionList />}
       {activeMenu === '답변' && <AnswerList />}
+      {activeMenu === '최근 본 피드' && <RecentList />}
     </>
   );
 };

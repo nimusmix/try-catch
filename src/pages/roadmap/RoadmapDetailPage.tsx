@@ -1,12 +1,15 @@
-import { useQuery } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { useParams, useNavigate } from 'react-router';
 import styled from 'styled-components';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { Button, MiniTitle, Paragraph, SubTitle } from '../../components';
 import { IRoadmap } from '../../interface/roadmap';
 import { getRoadmapDetail } from '../../apis/roadmap/roadmap';
 import { Layout } from '../../layout';
 import RoadmapDetailBody from '../../feature/roadmap/RoadmapDetailBody';
-import { IconArrowBack } from '../../components/icons/Icons';
+import { IconArrowBack, IconLikeEmpty } from '../../components/icons/Icons';
+import { postLike, cancelLike } from '../../apis/like/like';
+import { isLoggedInState, toastState } from '../../recoil';
 
 const RoadmapDetailWrapper = styled.div`
   display: flex;
@@ -48,13 +51,76 @@ const UserInfoWrapper = styled.div`
   display: flex;
 `;
 
+const LikeWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 2rem auto 1rem;
+  cursor: pointer;
+
+  svg {
+    margin-right: 0.25rem;
+  }
+`;
+
 const RoadmapDetailPage = () => {
   const { userName } = useParams();
   const { data: roadmapDetail, isLoading } = useQuery<IRoadmap>(
     ['roadmap', userName] as const,
     () => getRoadmapDetail(userName!)
   );
+
   const navi = useNavigate();
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [toast, setToast] = useRecoilState(toastState);
+
+  const queryClient = useQueryClient();
+  const updateLike = (type: 'up' | 'down') => {
+    const prevData = queryClient.getQueryData(['roadmap', `${roadmapDetail?.roadmapId}`]);
+
+    if (prevData) {
+      queryClient.setQueryData<IRoadmap>(
+        ['roadmap', `${roadmapDetail?.roadmapId}`],
+        (oldData: any) => {
+          return {
+            ...oldData,
+            likeCount: type === 'up' ? roadmapDetail!.likeCount + 1 : roadmapDetail!.likeCount - 1,
+            isLiked: type === 'up',
+          };
+        }
+      );
+    }
+
+    return {
+      prevData,
+    };
+  };
+
+  const { mutate: like } = useMutation(
+    ['like', 'up'],
+    () => postLike({ id: roadmapDetail!.roadmapId, type: 'ROADMAP' }),
+    {
+      onMutate: () => updateLike('up'),
+    }
+  );
+  const { mutate: cancel } = useMutation(
+    ['like', 'down'],
+    () => cancelLike({ id: roadmapDetail!.roadmapId, type: 'ROADMAP' }),
+    {
+      onMutate: () => updateLike('down'),
+    }
+  );
+
+  const onClickLikeHandler = () => {
+    if (!isLoggedIn) {
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다', isVisible: true });
+      return;
+    }
+    if (roadmapDetail?.isLiked) {
+      cancel();
+    } else {
+      like();
+    }
+  };
 
   if (isLoading) {
     return <Paragraph sizeType="base">Loading...</Paragraph>;
@@ -98,6 +164,11 @@ const RoadmapDetailPage = () => {
           )}
         </UserWrapper>
         <RoadmapDetailBody nodes={roadmapDetail!.nodes} edges={roadmapDetail!.edges} />
+
+        <LikeWrapper onClick={onClickLikeHandler}>
+          <IconLikeEmpty />
+          <Paragraph sizeType="base">{roadmapDetail!.likeCount}</Paragraph>
+        </LikeWrapper>
       </RoadmapDetailWrapper>
     </Layout>
   );

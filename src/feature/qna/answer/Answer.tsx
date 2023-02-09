@@ -1,17 +1,19 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import styled from 'styled-components';
-import { Dispatch, SetStateAction } from 'react';
+import styled, { css } from 'styled-components';
 import { useMutation, useQueryClient } from 'react-query';
+import { TbEdit } from 'react-icons/tb';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { IconCheckCircle, IconLikeEmpty, IconLikeFill } from '../../../components/icons/Icons';
 import { Button, Paragraph } from '../../../components';
 import { IAnswer, IQuestion } from '../../../interface/qna';
 import getImageUrl from '../../../utils/getImageUrl';
 import { COMPANY } from '../../../constant/company';
-import { logOnDev } from '../../../utils/logging';
 import { cancelLike, postLike } from '../../../apis/like/like';
 import useIsMe from '../../../hooks/useIsMe';
 import { postFollow, putFollow } from '../../../apis/user/user';
-import { selectAnswer } from '../../../apis/answer/answer';
+import { putAnswer, selectAnswer } from '../../../apis/answer/answer';
+import { isLoggedInState, toastState } from '../../../recoil';
 
 const AnswerItem = styled.li`
   display: flex;
@@ -34,6 +36,16 @@ const UpperWrapper = styled.div`
     isDark ? 'rgba(36, 42, 54, 1)' : 'var(--colors-brand-200)'};
   height: 100%;
   padding: 1rem;
+
+  .selected {
+    color: ${({ theme: { isDark } }) =>
+      isDark ? 'var(--colors-success-400)' : 'var(--colors-success-800)'};
+  }
+
+  .edit {
+    color: var(--colors-brand-500);
+    cursor: pointer;
+  }
 
   svg {
     align-self: baseline;
@@ -84,17 +96,10 @@ const FollowButton = styled(Button)`
   font-size: var(--fonts-body-sm);
 `;
 
-const Line = styled.div`
-  margin-bottom: 1.6rem;
-  border-bottom: 0.8px
-    ${({ theme: { isDark } }) => (isDark ? 'var(--colors-black-100)' : 'rgb(182, 202,229)')} solid;
-`;
-
 const Like = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 1rem;
-  margin-left: auto;
+  align-self: flex-end;
   cursor: pointer;
   svg {
     margin-right: 0.2rem;
@@ -111,41 +116,73 @@ const AnswerBody = styled.div`
 `;
 
 const AnswerFooter = styled.div`
+  position: relative;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+
+  .modify-button {
+    position: absolute;
+    right: 2.5rem;
+    bottom: 3.5rem;
+  }
 
   button {
+    margin: 1rem 0 1rem 1rem;
+  }
+
+  ${Like} {
     margin: 1rem 1rem 1rem 0;
   }
 `;
 
-const ReplyIconWrapper = styled.span`
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 2rem;
-  height: 2rem;
+// const ReplyIconWrapper = styled.span`
+//   display: inline-flex;
+//   justify-content: center;
+//   align-items: center;
+//   width: 2rem;
+//   height: 2rem;
+//
+//   &:hover {
+//     cursor: pointer;
+//   }
+// `;
 
-  &:hover {
-    cursor: pointer;
+const TextAreaFocus = css`
+  &:focus {
+    outline: 2px solid var(--colors-brand-500);
   }
+`;
+
+const AnswerForm = styled.textarea<{ isEdit: boolean }>`
+  width: 100%;
+  background-color: ${({ theme: { isDark } }) =>
+    isDark ? 'rgb(46, 52, 64)' : 'rgb(247, 248, 255)'};
+  color: ${({ theme: { textColor } }) => textColor};
+  resize: none;
+  border-radius: 0.5rem;
+  outline: none;
+  padding: 1rem;
+  ${({ isEdit }) => isEdit && TextAreaFocus}
 `;
 
 const Answer = ({
   answer,
-  setQuestionInput,
   questionId,
   questionAuthorId,
   isSolved,
 }: {
   answer: IAnswer;
-  setQuestionInput: Dispatch<SetStateAction<string>>;
   questionId: number;
   questionAuthorId: number;
   isSolved: boolean;
 }) => {
   const isMe = useIsMe(answer.author.userId);
   const isAuthor = useIsMe(questionAuthorId);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const isLogin = useRecoilValue(isLoggedInState);
+  const setToast = useSetRecoilState(toastState);
+  const [isEdit, setIsEdit] = useState(false);
+  const [answerInput, setAnswerInput] = useState(() => answer.content);
 
   const queryClient = useQueryClient();
   const updateLike = (type: 'up' | 'down') => {
@@ -181,7 +218,7 @@ const Answer = ({
     const previousData = queryClient.getQueryData<IQuestion>(['question', `${questionId}`]);
 
     const newAnswers = previousData?.answers.map((ans) => {
-      if (ans.answerId === answer.answerId) {
+      if (ans.author.userId === answer.author.userId) {
         return {
           ...ans,
           author: {
@@ -213,7 +250,9 @@ const Answer = ({
     ['like', 'up'],
     () => postLike({ id: answer.answerId, type: 'ANSWER' }),
     {
-      onMutate: () => updateLike('up'),
+      onMutate: () => {
+        updateLike('up');
+      },
     }
   );
 
@@ -236,9 +275,44 @@ const Answer = ({
     onMutate: () => updateFollow('un'),
   });
 
-  const { mutate: select } = useMutation(['select'], selectAnswer(questionId, answer.answerId));
+  const { mutate: select } = useMutation(['select'], selectAnswer(questionId, answer.answerId), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['question', `${questionId}`]);
+      setToast({ type: 'positive', message: '댓글을 채택했어요', isVisible: true });
+    },
+  });
+
+  const { mutate: modifyAnswer } = useMutation(
+    ['answer', 'update', answer.answerId],
+    putAnswer(questionId, { answerId: answer.answerId, content: answerInput, hidden: false }),
+    {
+      onSuccess: () => {
+        setToast({ type: 'positive', message: '댓글 수정 성공', isVisible: true });
+        queryClient.invalidateQueries(['question', `${questionId}`]);
+      },
+      onError: () => {
+        setToast({ type: 'negative', message: '댓글 수정 실패', isVisible: true });
+      },
+      onSettled: () => setIsEdit(false),
+    }
+  );
+
+  useEffect(() => {
+    if (isEdit) {
+      inputRef.current!.focus();
+      inputRef.current!.readOnly = false;
+    } else {
+      inputRef.current!.blur();
+      inputRef.current!.readOnly = true;
+      inputRef.current!.style.height = `${inputRef.current!.scrollHeight}px`;
+    }
+  }, [isEdit]);
 
   const onClickLikeHandler = () => {
+    if (!isLogin) {
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다', isVisible: true });
+      return;
+    }
     if (answer.isLiked) {
       likeDown();
     } else {
@@ -246,8 +320,17 @@ const Answer = ({
     }
   };
 
+  const onChangeAnswerForm = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    inputRef.current!.style.height = 'auto';
+    inputRef.current!.style.height = `${inputRef.current!.scrollHeight}px`;
+    setAnswerInput(e.target.value);
+  };
+
   const onClickFollowHandler = () => {
-    logOnDev.log('follow');
+    if (!isLogin) {
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다', isVisible: true });
+      return;
+    }
     if (answer.author.isFollowed) {
       unFollow();
     } else {
@@ -296,25 +379,41 @@ const Answer = ({
             </SubText>
           </UserInfoWrapper>
         </AuthorWrapper>
-        {answer.accepted ? <IconCheckCircle color="var(--colors-success-500)" /> : null}
+        {answer.accepted ? (
+          <IconCheckCircle className="selected" />
+        ) : (
+          isMe && <TbEdit className="edit" onClick={() => setIsEdit((prev) => !prev)} />
+        )}
       </UpperWrapper>
 
-      <Line />
       <AnswerBody>
-        <Paragraph sizeType="base">{answer.content}</Paragraph>
-        <Like onClick={onClickLikeHandler}>
+        <AnswerForm
+          rows={1}
+          isEdit={isEdit}
+          ref={inputRef}
+          value={answerInput}
+          onChange={onChangeAnswerForm}
+        />
+      </AnswerBody>
+      <AnswerFooter>
+        <span>
+          {/* 현재 유저가 질문 작성자 and 문제가 해결되지 않았을 때 and 댓글 작성자가 내가 아닐때 */}
+          {isAuthor && !isSolved && !isMe ? (
+            <Button designType="greenFill" onClick={() => select()}>
+              채택하기
+            </Button>
+          ) : null}
+        </span>
+        <Like as="span" onClick={onClickLikeHandler}>
           {answer.isLiked && <IconLikeFill color="var(--colors-brand-500)" />}
           {answer.isLiked || <IconLikeEmpty />}
           <SubText sizeType="xm">{answer.likeCount}</SubText>
         </Like>
-      </AnswerBody>
-      <AnswerFooter>
-        {/* 현재 유저가 질문 작성자 and 문제가 해결되지 않았을 때 and 댓글 작성자가 내가 아닐때 */}
-        {isAuthor && !isSolved && !isMe ? (
-          <Button designType="greenFill" onClick={() => select()}>
-            채택하기
+        {isEdit && (
+          <Button className="modify-button" onClick={() => modifyAnswer()}>
+            수정하기
           </Button>
-        ) : null}
+        )}
       </AnswerFooter>
     </AnswerItem>
   );

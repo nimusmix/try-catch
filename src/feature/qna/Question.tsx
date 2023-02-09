@@ -9,7 +9,6 @@ import {
   IconCheckCircle,
   IconLikeEmpty,
   IconLikeFill,
-  IconTrying,
 } from '../../components/icons/Icons';
 import getImageUrl from '../../utils/getImageUrl';
 import elapsedTime from '../../utils/elapsed-time';
@@ -149,13 +148,10 @@ const toKorean = (category: string | undefined) => {
  * */
 const Question = ({
   tags,
-  updatedAt,
   content,
   timestamp,
-  viewCount,
   likeCount,
   answerCount,
-  answers,
   isLiked,
   title,
   errorCode,
@@ -164,6 +160,7 @@ const Question = ({
   isBookmarked,
   isSolved,
   questionId,
+  ...rest
 }: IQuestion) => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const [toast, setToast] = useRecoilState(toastState);
@@ -240,6 +237,10 @@ const Question = ({
   );
 
   const onClickLikeHandler = () => {
+    if (!isLoggedIn) {
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다', isVisible: true });
+      return;
+    }
     if (isLiked) {
       cancel();
     } else {
@@ -293,20 +294,6 @@ const Question = ({
                 >
                   <IconCheckCircle size="14" className="solved-icon" />
                   &nbsp;Catched
-                </UpperTag>
-              )}
-              {/* 미해결 질문 */}
-              {isSolved || (
-                <UpperTag
-                  as="span"
-                  designType="skyFill"
-                  fontSize="14px"
-                  padding="0.2rem 0.6rem"
-                  margin="0 0 0.4rem"
-                  borderRadius="10px"
-                >
-                  <IconTrying size="14" className="unsolved-icon" />
-                  &nbsp;Trying
                 </UpperTag>
               )}
             </span>

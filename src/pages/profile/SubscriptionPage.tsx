@@ -1,5 +1,8 @@
+import { useQuery } from 'react-query';
+import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Link, useParams } from 'react-router-dom';
+import { getUserId, getUserSubscription } from '../../apis/profile/profile';
+import { ISubscription } from '../../interface/user';
 
 export const ModalWrapper = styled.div`
   display: flex;
@@ -40,42 +43,37 @@ export const ItemWrapper = styled.div`
 `;
 
 const SubscriptionPage = () => {
-  const { username } = useParams();
+  const { userName } = useParams();
+
+  const { data: userId, isLoading: userIdLoading } = useQuery<number>(
+    ['myAnswerList', 'userId'] as const,
+    () => getUserId(userName!)
+  );
+  const { data: subscription, isLoading: contentLoading } = useQuery<Array<ISubscription>>(
+    ['user', 'subscription'],
+    () => getUserSubscription(userId!),
+    { enabled: !!userId }
+  );
+
+  const navi = useNavigate();
+
+  if (userIdLoading || contentLoading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <ModalWrapper>
       <NavWrapper>
-        <Link to={`/profile/${username}/subscription`}>
-          <NavItem toggle>구독</NavItem>
-        </Link>
-        <Link to={`/profile/${username}/following`}>
-          <NavItem>팔로잉</NavItem>
-        </Link>
-        <Link to={`/profile/${username}/followers`}>
-          <NavItem>팔로워</NavItem>
-        </Link>
+        <NavItem toggle>구독</NavItem>
+        <NavItem onClick={() => navi(`/profile/${userName}/following`, { replace: true })}>
+          팔로잉
+        </NavItem>
+        <NavItem onClick={() => navi(`/profile/${userName}/followers`, { replace: true })}>
+          팔로워
+        </NavItem>
       </NavWrapper>
       <ItemWrapper>
-        <p>사람</p>
-        <p>사람</p>
-        <p>사람</p>
-        <p>사람</p>
-        <p>사람</p>
-        <p>사람</p>
-        <p>사람</p>
-        <p>사람</p>
-        <p>사람</p>
-        <p>사람</p>
-        <p>사람</p>
-        <p>사람</p>
-        <p>사람</p>
-        <p>사람</p>
-        <p>사람</p>
-        <p>사람</p>
-        <p>사람</p>
-        <p>사람</p>
-        <p>사람</p>
-        <p>사람</p>
-        <p>사람</p>
+        <p>구독 구현 후 테스트해보기</p>
       </ItemWrapper>
     </ModalWrapper>
   );

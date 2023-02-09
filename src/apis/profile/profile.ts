@@ -12,3 +12,13 @@ export const getUserQuestion = (userId: number) =>
 
 export const getUserAnswer = (userId: number) =>
   authApi.get(`/user/${userId}/answer/list`).then((res) => res.data);
+
+export const getUserRecent = (userId: number) =>
+  authApi.get(`/user/${userId}/recent/list`).then((res) => res.data);
+
+export const getUserSubscription = (userId: number) =>
+  authApi.get(`/user/${userId}/subscription/list`).then((res) => res.data);
+
+export const getUserFollow = (userId: number, params: { type: string }) => {
+  authApi.get(`/user/${userId}/list`, { params }).then((res) => res.data);
+};

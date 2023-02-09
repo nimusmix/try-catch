@@ -5,7 +5,7 @@ import { isDarkState } from '../../recoil';
 import { API_URL } from '../../constant';
 
 const NonUserWrapper = styled.a`
-  padding-right: 2rem;
+  padding-right: 1rem;
 `;
 
 const NonMemberNavMenu = () => {
