@@ -99,15 +99,15 @@ const ProfileEditPage = () => {
 
   return (
     <Layout>
-      <EditForm>
+      <EditForm onClick={handleSubmit(onValid)}>
         <Img src={user?.profileImg} />
 
         <InfoWrapper>
           <InputWrapper>
             <MiniTitle sizeType="2xl" fontWeight="600">
-              닉네임
+              {user?.userName}
             </MiniTitle>
-            <Paragraph sizeType="base">{user?.userName}</Paragraph>
+            {/* <Paragraph sizeType="base">{user?.userName}</Paragraph> */}
           </InputWrapper>
 
           <InputWrapper>
