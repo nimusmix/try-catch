@@ -76,11 +76,6 @@ const FeedList = ({
   activeFilterOption,
   checkedItemsProps,
 }: IFeedList) => {
-  /**
-   * TODO
-   * getFeedSearch()로 변경해야함
-   */
-
   const paramSort = activeFilterOption === '최신순' ? 'date' : 'user';
 
   const { status, data, isLoading, isError, isFetchingNextPage, fetchNextPage } = useInfiniteQuery<
@@ -188,6 +183,10 @@ const FeedList = ({
                 <FeedListItem
                   key={feedItem.feedId}
                   {...feedItem}
+                  keyword={keyword}
+                  paramSort={paramSort}
+                  subscribe={subscribe}
+                  advanced={advanced}
                   checkedItemsProps={checkedItemsProps}
                 />
               );
