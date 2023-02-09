@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios';
 import { api, authApi } from '../../utils/axios-instance';
 import { IPostQuestion, IQuestion, IQuestionSearch } from '../../interface/qna';
 
+// Question 목록을 불러온다
 export const getQuestionList = (params: IQuestionSearch) => {
   return api.get(`/question`, { params }).then((res: AxiosResponse<Array<IQuestion>>) => {
     let nextPage;
@@ -13,13 +14,65 @@ export const getQuestionList = (params: IQuestionSearch) => {
   });
 };
 
+/**
+ * @param id 질문ID(number)
+ * id에 해당하는 질문 상세내용을 불러온다
+ */
+export const getQuestionDetail = (id: number) => () => {
+  return authApi.get(`/question/${id}`).then((res: AxiosResponse<IQuestion>) => {
+    return res.data;
+  });
+};
+
+/**
+ * @param id 질문ID(number)
+ * id에 해당하는 질문을 삭제한다
+ */
+export const deleteQuestion = (id: number) => () => {
+  return authApi.delete(`/question/${id}`).then((res: AxiosResponse) => res.data);
+};
+
+/**
+ * @param data {
+ *   category: 'DEV' | 'CAREER' | 'BALANCE';
+ *   title: string;
+ *   content: string;
+ *   errorCode: string;
+ *   tags: Array<string>;
+ *   }
+ * 질문 작성
+ */
+export const postQuestion = (data: IPostQuestion) => () => {
+  return authApi.post('/question', data).then((res: AxiosResponse) => res.data);
+};
+
+/**
+ * @param data {
+ *   category: 'DEV' | 'CAREER' | 'BALANCE';
+ *   title: string;
+ *   content: string;
+ *   errorCode: string;
+ *   tags: Array<string>;
+ *   }
+ * @param id : 질문ID(number)
+ * 질문 수정
+ */
+export const putQuestion = (id: number, data: IPostQuestion & { hidden: boolean }) => () => {
+  return authApi.put(`/question/${id}`, data).then((res: AxiosResponse) => res.data);
+};
+
 export const getQuestQuestionList = () => {
   return api.get('/question/quest').then((res: AxiosResponse<Array<IQuestion>>) => res.data);
 };
-export const getQuestionDetail = (id: string) => () => {
-  return api.get(`/question/${id}`).then((res: AxiosResponse<IQuestion>) => res.data);
+
+export const getPopularTags = () => {
+  return api
+    .get(`/question/popular-tag`)
+    .then((res: AxiosResponse<{ tags: Array<string> }>) => res.data);
 };
 
-export const postQuestion = (data: IPostQuestion) => () => {
-  return authApi.post('/question', data).then((res: AxiosResponse) => res.data);
+export const getPopularQuestion = (params: { category?: 'DEV' | 'CAREER'; size: number }) => () => {
+  return api
+    .get(`/question/popular`, { params })
+    .then((res: AxiosResponse<Array<IQuestion>>) => res.data);
 };

@@ -8,6 +8,7 @@ import { IFeedItemProps } from './IFeed';
 import FeedTag from './FeedTag';
 import getImageUrl from '../../utils/getImageUrl';
 import { COMPANY } from '../../constant/company';
+import { postFeedRead } from '../../apis/feed/feed';
 
 const DefaultDIv = styled.div`
   /* 한 줄 자르기 */
@@ -81,6 +82,11 @@ const FeedThumbnailImg = styled.div<{ image: string }>`
   background-size: cover;
   background-position: center;
   border-radius: var(--borders-radius-base);
+`;
+
+const FeedThumbnailImgWrapper = styled.div`
+  background: var(--colors-brand-200);
+  border-radius: var(--borders-radius-base);
   margin: auto 0rem auto 1.5rem;
 `;
 
@@ -105,11 +111,12 @@ const BlogTitle = styled(DefaultDIv)`
 interface LinkProps {
   children: React.ReactNode;
   url: string;
+  onClick?: () => void;
 }
 
-const LinkWrapper = ({ children, url }: LinkProps) => {
+const LinkWrapper = ({ children, url, onClick }: LinkProps) => {
   return (
-    <a href={`${url}`} target="_blank" rel="noreferrer" style={{ zIndex: '1' }}>
+    <a href={`${url}`} target="_blank" rel="noreferrer" style={{ zIndex: '1' }} onClick={onClick}>
       {children}
     </a>
   );
@@ -125,6 +132,7 @@ const FeedListItem = ({
   companyName,
   thumbnailImage,
   createAt,
+  logoSrc,
 }: IFeedItemProps) => {
   const isDark = useRecoilValue(isDarkState);
   const [bookMarkIcon, setBookMarkIcon] = useState(isBookmarked);
@@ -151,7 +159,9 @@ const FeedListItem = ({
         }}
       >
         <LinkWrapper url={url}>
-          <FeedThumbnailImg image={thumbnailImage} />
+          <FeedThumbnailImgWrapper>
+            <FeedThumbnailImg image={thumbnailImage} />
+          </FeedThumbnailImgWrapper>
         </LinkWrapper>
       </div>
 
@@ -159,10 +169,7 @@ const FeedListItem = ({
         <FeedHeader>
           <LinkWrapper url={url}>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <CompanyImg
-                src={companyName && getImageUrl(COMPANY[companyName], 'logo', 'png')}
-                alt={companyName}
-              />
+              <CompanyImg src={logoSrc} alt={companyName} />
               <MiniTitle
                 sizeType="xl"
                 textAlign="left"

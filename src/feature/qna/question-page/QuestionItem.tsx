@@ -2,7 +2,14 @@ import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { IconComment, IconEye, IconLikeEmpty } from '../../../components/icons/Icons';
+import {
+  IconCheckCircle,
+  IconComment,
+  IconEye,
+  IconHash,
+  IconLikeEmpty,
+  IconLikeFill,
+} from '../../../components/icons/Icons';
 import { Button, MiniTitle, Paragraph } from '../../../components';
 import { isDarkState } from '../../../recoil';
 import elapsedTime from '../../../utils/elapsed-time';
@@ -17,6 +24,9 @@ const Wrapper = styled.article`
     background-color: ${({ theme: { isDark } }) =>
       isDark ? 'var(--colors-black-400)' : 'var(--colors-white-400)'};
   }
+  & > span {
+    margin-bottom: 1rem;
+  }
 `;
 
 const QuestionHeader = styled.div`
@@ -27,8 +37,15 @@ const QuestionHeader = styled.div`
 
 const QuestionBody = styled.div`
   margin: 0.5rem 0 0.5rem;
-  max-height: 100px;
+  max-height: 75px;
   overflow: hidden;
+
+  .markdown * {
+    background: unset;
+    margin: unset;
+    font: unset;
+  }
+
   p {
     /* display: inline-block; */
     display: -webkit-box;
@@ -45,12 +62,12 @@ const QuestionFooter = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-top: 1.3rem;
 `;
 
 const TagsWrapper = styled.div`
   & > span {
-    display: inline-block;
+    display: inline-flex;
     margin-right: 0.5rem;
   }
 `;
@@ -71,6 +88,28 @@ const InfoWrapper = styled.div`
   }
 `;
 
+const UpperTag = styled(Button)`
+  border: 1px solid #00000010;
+`;
+
+const Tag = styled(Button)`
+  border: 1px solid rgb(238 238 238/10);
+  background-color: ${({ theme: { bgColor } }) => bgColor};
+  color: ${({ theme: { textColor } }) => textColor};
+
+  &:hover {
+    color: #f1f1f1;
+  }
+`;
+
+const TitleWrapper = styled.div`
+  display: flex;
+
+  h3 {
+    margin-right: 0.5rem;
+  }
+`;
+
 const toKorean = (category: string | undefined) => {
   if (category === 'DEV') {
     return '개발';
@@ -87,20 +126,45 @@ const QuestionItem = ({
   likeCount,
   answerCount,
   tags,
+  isSolved,
+  isLiked,
   ...rest
 }: Partial<IQuestion>) => {
   const isDark = useRecoilValue(isDarkState);
 
   return (
     <Wrapper>
+      <Button
+        as="span"
+        designType="purpleFill"
+        fontSize="var(--fonts-body-xm)"
+        padding="2.2px 10px"
+      >
+        {toKorean(category)}
+      </Button>
       <QuestionHeader>
-        <MiniTitle
-          sizeType="xl"
-          color={isDark ? 'var(--colors-white-500)' : 'var(--colors-dark-500)'}
-          textAlign="left"
-        >
-          {title}
-        </MiniTitle>
+        <TitleWrapper>
+          <MiniTitle
+            sizeType="xl"
+            color={isDark ? 'var(--colors-white-500)' : 'var(--colors-dark-500)'}
+            textAlign="left"
+          >
+            {title}
+          </MiniTitle>
+          {/* 해결된 질문 */}
+          {isSolved && (
+            <UpperTag
+              as="span"
+              designType="greenFill"
+              fontSize="14px"
+              padding="0.2rem 0.6rem"
+              borderRadius="10px"
+            >
+              <IconCheckCircle size="14" className="solved-icon" />
+              &nbsp;Catched
+            </UpperTag>
+          )}
+        </TitleWrapper>
         <Paragraph
           as="span"
           sizeType="sm"
@@ -111,32 +175,26 @@ const QuestionItem = ({
       </QuestionHeader>
 
       <QuestionBody>
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{content as string}</ReactMarkdown>
+        <ReactMarkdown className="markdown" remarkPlugins={[remarkGfm]}>
+          {content as string}
+        </ReactMarkdown>
       </QuestionBody>
 
       <QuestionFooter>
         <TagsWrapper>
-          <Button
-            as="span"
-            designType="purpleFill"
-            fontSize="var(--fonts-body-xm)"
-            padding="2.2px 10px"
-          >
-            {toKorean(category)}
-          </Button>
           {tags?.map((tag) => {
             if (tag === '') return null;
             return (
-              <Button
+              <Tag
                 key={tag}
                 as="span"
-                designType="blueEmpty"
                 fontSize="var(--fonts-body-xm)"
                 padding="2px 10px"
                 borderRadius="var(--borders-radius-base)"
               >
+                <IconHash color="var(--colors-black-100)" />
                 {tag}
-              </Button>
+              </Tag>
             );
           })}
         </TagsWrapper>
@@ -146,7 +204,8 @@ const QuestionItem = ({
             {viewCount}
           </Paragraph>
           <Paragraph as="span" sizeType="sm">
-            <IconLikeEmpty />
+            {isLiked && <IconLikeFill color="var(--colors-brand-500)" />}
+            {isLiked || <IconLikeEmpty />}
             {likeCount}
           </Paragraph>
           <Paragraph as="span" sizeType="sm">

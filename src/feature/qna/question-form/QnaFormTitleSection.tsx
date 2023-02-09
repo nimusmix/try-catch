@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Dropdown, Input, Paragraph } from '../../../components';
 import { Tooltip } from './QnaFormContentSection';
-import { useQuestionDispatch, useQuestionState } from '../../../context/QnaContext';
+import { QuestionDispatch, useQuestionState } from '../../../context/QnaContext';
 
 const Wrapper = styled.div`
   position: relative;
@@ -21,19 +21,11 @@ const TitleTooltip = styled(Tooltip)`
     isDark ? 'var(--colors-black-400)' : 'var(--colors-brand-100)'};
 `;
 
-const QnaFormTitleSection = () => {
+const QnaFormTitleSection = ({ dispatch }: { dispatch: QuestionDispatch }) => {
+  const { title, category } = useQuestionState();
   const [isTitleFocus, setIsTitleFocus] = useState(false);
-  const { title } = useQuestionState();
+  const [activeCategory, setActiveCategory] = useState<string>(() => category);
 
-  const dispatch = useQuestionDispatch();
-
-  // const setCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
-  //   console.log(e.target.value);
-  //   dispatch({ type: 'SET_CATEGORY', category: e.target.value });
-  // };
-
-  /** (수정 후) 현 Dropdown 버전 작동 확인 후 위 주석 삭제 요망 */
-  const [activeCategory, setActiveCategory] = useState('DEV');
   useEffect(() => {
     dispatch({ type: 'SET_CATEGORY', category: activeCategory });
   }, [activeCategory, dispatch]);
@@ -44,17 +36,6 @@ const QnaFormTitleSection = () => {
 
   return (
     <Wrapper>
-      {/**
-       * Dropdown 이전 버전
-       * TODO 아래의 새 버전 기능 정상작동 확인 후 삭제 요망
-       */}
-      {/* <Dropdown
-        items={[
-          { text: '개발', value: 'DEV' },
-          { text: '커리어', value: 'CAREER' },
-        ]}
-        onChange={setCategory}
-      /> */}
       <Dropdown
         items={[
           { text: '개발', value: 'DEV' },

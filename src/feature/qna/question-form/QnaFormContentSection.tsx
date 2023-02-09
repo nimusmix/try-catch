@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { MiniTitle, Paragraph } from '../../../components';
 import MilkdownEditor from '../../text-editor/MilkdownEditor';
 import useTooltip from '../../../hooks/useTooltip';
-import { useQuestionDispatch } from '../../../context/QnaContext';
+import { QuestionDispatch, useQuestionState } from '../../../context/QnaContext';
+import { Required } from '../../../pages/qna/QnaFormPage';
 
 const Wrapper = styled.div`
   position: relative;
@@ -31,11 +32,16 @@ export const Tooltip = styled.div`
   }
 `;
 
-const QnaFormContentSection = () => {
+const QnaFormContentSection = ({
+  dispatch,
+  edit,
+}: {
+  dispatch: QuestionDispatch;
+  edit: boolean;
+}) => {
+  const { content } = useQuestionState();
   const contentRef = useRef<HTMLDivElement>(null);
   const [isContentFocus] = useTooltip(contentRef);
-
-  const dispatch = useQuestionDispatch();
 
   const setContent = (value: string) => {
     dispatch({ type: 'SET_CONTENT', content: value });
@@ -43,10 +49,16 @@ const QnaFormContentSection = () => {
 
   return (
     <Wrapper>
-      <MiniTitle sizeType="xl" textAlign="left">
-        질문 내용
+      <MiniTitle sizeType="xl" textAlign="left" display="inline-flex">
+        질문 내용 <Required>*</Required>
       </MiniTitle>
-      <MilkdownEditor width="100%" setState={setContent} ref={contentRef} />
+      <MilkdownEditor
+        width="100%"
+        setState={setContent}
+        ref={contentRef}
+        data={content}
+        edit={edit}
+      />
       {isContentFocus && (
         <Tooltip>
           <Paragraph sizeType="base">💡 질문 내용 작성 가이드</Paragraph>

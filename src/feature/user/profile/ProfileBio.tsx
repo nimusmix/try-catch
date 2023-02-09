@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Link, Outlet, useParams } from 'react-router-dom';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { getName } from '../../../apis/auth/auth';
 import { getUserDetail, getUserId } from '../../../apis/profile/profile';
 import { Button, MiniTitle, Modal, Paragraph } from '../../../components';
 import { IUserDetail } from '../../../interface/user';
 import isMyself from '../../../utils/isMyself';
+import { isLoggedInState, toastState } from '../../../recoil';
 import { postFollow, putFollow } from '../../../apis/user/user';
+import getImageUrl from '../../../utils/getImageUrl';
+import { COMPANY } from '../../../constant/company';
 
 const BioWrapper = styled.div`
   display: flex;
@@ -63,13 +67,12 @@ const Introduction = styled.div`
   padding: 3rem 0;
 `;
 
-const ProfileBio = () => {
-  const [isModalOpened, setIsModalOpened] = useState(false);
-  const modalClick = (e: React.MouseEvent<HTMLElement>) => {
-    setIsModalOpened(true);
-  };
+const ProfileBio = ({ changeFn }: any) => {
   const { userName } = useParams();
-  const { data: userId } = useQuery<number>(['userId'] as const, () => getUserId(userName!));
+  const { data: userId } = useQuery<number>(['profileBio', 'userId'] as const, () =>
+    getUserId(userName!)
+  );
+
   const { data: user } = useQuery<IUserDetail>(
     ['userDetail'] as const,
     () => getUserDetail(userId!),
@@ -77,18 +80,56 @@ const ProfileBio = () => {
       enabled: !!userId,
     }
   );
+
   const { data: loginedUserName } = useQuery(['loginedUserName'] as const, getName);
   const isMine = isMyself(loginedUserName, userName!);
+  changeFn(isMine);
 
-  const createImageUrl = (companyName: string) => {
-    return new URL(`/src/assets/logo/${companyName}.png`, import.meta.url).href;
+  // 로그인 여부 (모달 띄우기 방지 위함)
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [toast, setToast] = useRecoilState(toastState);
+  const [isModalOpened, setIsModalOpened] = useState(false);
+  const modalClick = (e: React.MouseEvent<HTMLElement>) => {
+    if (isLoggedIn) {
+      setIsModalOpened(true);
+    } else {
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다.', isVisible: true });
+    }
   };
+
+  // const createImageUrl = (companyName: string) => {
+  //   return new URL(`/src/assets/logo/${companyName}.png`, import.meta.url).href;
+  // };
+
+  const queryClient = useQueryClient();
+  const updateFollow = (type: 'post' | 'put') => {
+    const prevData = queryClient.getQueryData(['userDetail']);
+
+    if (prevData) {
+      queryClient.setQueryData<IUserDetail>(['userDetail'], (oldData: any) => {
+        return {
+          ...oldData,
+          isFollowed: type === 'post',
+          followerCount: type === 'post' ? oldData.followerCount + 1 : oldData.followerCount - 1,
+        };
+      });
+    }
+
+    return { prevData };
+  };
+
+  const { mutate: follow } = useMutation(['post', 'follow'], () => postFollow(userId!), {
+    onMutate: () => updateFollow('post'),
+  });
+  const { mutate: unfollow } = useMutation(['put', 'follow'], () => putFollow(userId!), {
+    onMutate: () => updateFollow('put'),
+  });
 
   const clickFollowBtn = () => {
     if (user?.isFollowed) {
-      putFollow(userId!);
+      unfollow();
     } else {
-      postFollow(userId!);
+      follow();
     }
   };
 
@@ -98,7 +139,9 @@ const ProfileBio = () => {
         <InfoWrapper>
           <ProfileImg src={user?.profileImg} />
           <div>
-            {user?.companyName && <CompanyImg src={createImageUrl(user.companyName)} />}
+            {user?.companyName && (
+              <CompanyImg src={getImageUrl(COMPANY[user.companyName], 'logo', 'png')} />
+            )}
             <MiniTitle sizeType="3xl">{user?.userName}</MiniTitle>
           </div>
           <div>
@@ -167,9 +210,11 @@ const ProfileBio = () => {
         </Modal>
       ) : null}
 
-      <Introduction>
-        <Paragraph sizeType="lg">{user?.introduction}</Paragraph>
-      </Introduction>
+      {user?.introduction && (
+        <Introduction>
+          <Paragraph sizeType="lg">{user?.introduction}</Paragraph>
+        </Introduction>
+      )}
     </>
   );
 };

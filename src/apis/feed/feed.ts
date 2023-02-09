@@ -1,5 +1,5 @@
 // 피드
-import { api } from '../../utils/axios-instance';
+import { api, authApi } from '../../utils/axios-instance';
 import { IFeedSearch } from '../../interface/feed';
 
 export const getFeedList = () => {
@@ -14,3 +14,6 @@ export const getFeedSearchList = async (params: IFeedSearch) => {
     return { ...res.data, nextPage };
   });
 };
+
+export const postFeedRead = (params: { feedId: number }) =>
+  authApi.post('/feed/read', { params }).then((res) => res.data);

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Button, Dropdown, Input, MiniTitle, Paragraph } from '../../components';
 import { SettingsBody } from './ThemeSettingsPage';
 import { SettingHeader as CustomerServiceHeader } from '../../feature/settings';
+import { logOnDev } from '../../utils/logging';
 
 const items = [
   { text: '이용문의', value: 'INQUIRY' },
@@ -24,8 +25,8 @@ const CustomerServiceItemWrapper = styled.div`
 const CustomerServicePage = () => {
   const [activeCategory, setActiveCategory] = useState('INQUIRY');
 
-  console.log('active');
-  console.log(activeCategory);
+  logOnDev.log('active');
+  logOnDev.log(activeCategory);
   return (
     <SettingsBody>
       <CustomerServiceHeader title="고객 센터" />

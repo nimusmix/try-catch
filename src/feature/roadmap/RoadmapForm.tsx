@@ -4,9 +4,9 @@ import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import ReactFlow, {
   Background,
+  Controls,
   Edge,
   Handle,
-  Controls,
   Position,
   useEdges,
   useNodes,
@@ -16,6 +16,7 @@ import 'reactflow/dist/style.css';
 import styled from 'styled-components';
 import { Button, Input, MiniTitle } from '../../components';
 import { postRoadmap } from '../../apis/roadmap/roadmap';
+import { logOnDev } from '../../utils/logging';
 
 const StyledInput = styled.input`
   width: 160px;
@@ -139,7 +140,7 @@ const RoadmapForm = () => {
   const navi = useNavigate();
   const saveRoadmap = useMutation(postRoadmap, {
     onSuccess: (data) => navi(`/roadmap/${data.data.author.userName}`),
-    onError: (error) => console.log(error),
+    onError: (error) => logOnDev.log(error),
   });
 
   const saveData = (data: any) => {

@@ -1,8 +1,6 @@
-import { tooltip } from '@milkdown/plugin-tooltip';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Checkbox, Paragraph } from '../../components';
-import { StyledTooltipBox } from '../../components/tooltip-box/TooltipBox';
 import FeedSearchBar from './FeedSearchBar';
 import FeedTag from './FeedTag';
 

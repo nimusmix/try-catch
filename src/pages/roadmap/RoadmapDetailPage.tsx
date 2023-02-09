@@ -1,11 +1,12 @@
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router';
+import { useParams, useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { Button, MiniTitle, Paragraph, SubTitle } from '../../components';
 import { IRoadmap } from '../../interface/roadmap';
 import { getRoadmapDetail } from '../../apis/roadmap/roadmap';
 import { Layout } from '../../layout';
 import RoadmapDetailBody from '../../feature/roadmap/RoadmapDetailBody';
+import { IconArrowBack, IconLikeEmpty } from '../../components/icons/Icons';
 
 const RoadmapDetailWrapper = styled.div`
   display: flex;
@@ -17,6 +18,11 @@ const RoadmapDetailWrapper = styled.div`
   h2 {
     margin: 0.725rem 0 1.5rem;
   }
+
+  & > svg {
+    cursor: pointer;
+    color: ${({ theme }) => theme.textColor100};
+  }
 `;
 
 const Img = styled.img`
@@ -24,6 +30,10 @@ const Img = styled.img`
   height: 3.5rem;
   border-radius: 50%;
   margin-right: 1rem;
+`;
+
+const SubText = styled(Paragraph)`
+  color: ${({ theme }) => theme.textColor100};
 `;
 
 const UserWrapper = styled.div`
@@ -38,12 +48,23 @@ const UserInfoWrapper = styled.div`
   display: flex;
 `;
 
+const LikeWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 2rem auto 1rem;
+
+  svg {
+    margin-right: 0.25rem;
+  }
+`;
+
 const RoadmapDetailPage = () => {
   const { userName } = useParams();
   const { data: roadmapDetail, isLoading } = useQuery<IRoadmap>(
     ['roadmap', userName] as const,
     () => getRoadmapDetail(userName!)
   );
+  const navi = useNavigate();
 
   if (isLoading) {
     return <Paragraph sizeType="base">Loading...</Paragraph>;
@@ -52,12 +73,14 @@ const RoadmapDetailPage = () => {
   return (
     <Layout>
       <RoadmapDetailWrapper>
+        <IconArrowBack onClick={() => navi(-1)} size={24} />
         {/* 태그 */}
         <Button
           as="span"
           designType="purpleFill"
           fontSize="var(--fonts-body-sm)"
           padding="2.2px 10px"
+          margin="2rem 0 0 0"
         >
           {roadmapDetail?.tag}
         </Button>
@@ -69,7 +92,9 @@ const RoadmapDetailPage = () => {
             <Img src={roadmapDetail?.author.profileImage} />
             <div>
               <MiniTitle sizeType="xl">{roadmapDetail?.author.userName}</MiniTitle>
-              <Paragraph sizeType="base">{roadmapDetail?.author.companyName}</Paragraph>
+              <SubText sizeType="base">
+                {roadmapDetail?.author.companyName || '지나가던 개발자'}
+              </SubText>
             </div>
           </UserInfoWrapper>
 
@@ -83,6 +108,11 @@ const RoadmapDetailPage = () => {
           )}
         </UserWrapper>
         <RoadmapDetailBody nodes={roadmapDetail!.nodes} edges={roadmapDetail!.edges} />
+
+        <LikeWrapper>
+          <IconLikeEmpty />
+          <Paragraph sizeType="base">{roadmapDetail!.likeCount}</Paragraph>
+        </LikeWrapper>
       </RoadmapDetailWrapper>
     </Layout>
   );

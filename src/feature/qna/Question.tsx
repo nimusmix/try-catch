@@ -1,4 +1,7 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import styled from 'styled-components';
+import { useMutation, useQueryClient } from 'react-query';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Button, Div, MiniTitle, Paragraph } from '../../components';
 import {
   IconBookmarkEmpty,
@@ -6,16 +9,19 @@ import {
   IconCheckCircle,
   IconLikeEmpty,
   IconLikeFill,
-  IconShare,
 } from '../../components/icons/Icons';
 import getImageUrl from '../../utils/getImageUrl';
 import elapsedTime from '../../utils/elapsed-time';
 import { COMPANY } from '../../constant/company';
 import MilkdownViewer from '../text-editor/MilkdownViewer';
 import { IQuestion } from '../../interface/qna';
+import { cancelLike, postLike } from '../../apis/like/like';
+import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
+import { isLoggedInState, toastState } from '../../recoil';
+import QuestionDropdown from './question-detail/QuestionDropdown';
 
 const QuestionDiv = styled(Div)`
-  overflow: hidden;
+  //overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -36,6 +42,7 @@ const UpperWrapper = styled.div`
   border-bottom: ${({ theme: { isDark } }) =>
       isDark ? 'var(--colors-black-100)' : 'rgb(182, 202,229)'}
     solid 1px;
+  border-radius: 0.9rem 0.9rem 0 0;
 
   .question-icons {
     display: flex;
@@ -52,10 +59,15 @@ const UpperWrapper = styled.div`
 
 const UpperTagWrapper = styled.div`
   display: flex;
+
+  .solved {
+    margin-right: 1rem;
+  }
 `;
 
 const UpperTag = styled(Button)`
   margin-right: 0.5rem;
+  height: 2rem;
 `;
 
 const Icons = styled.div`
@@ -87,6 +99,7 @@ const Like = styled.span`
   display: flex;
   align-items: center;
   margin: 1rem auto 1.5rem;
+  cursor: pointer;
   svg {
     margin-right: 0.2rem;
     color: ${({ theme }) => theme.textColor100};
@@ -123,15 +136,22 @@ const QuestionBody = styled.div`
   }
 `;
 
+const toKorean = (category: string | undefined) => {
+  if (category === 'DEV') {
+    return '개발';
+  }
+  return '커리어';
+};
+
+/*
+ * TODO 무조건 리팩토링 하기
+ * */
 const Question = ({
   tags,
-  updatedAt,
   content,
   timestamp,
-  viewCount,
   likeCount,
   answerCount,
-  answers,
   isLiked,
   title,
   errorCode,
@@ -139,62 +159,177 @@ const Question = ({
   category,
   isBookmarked,
   isSolved,
+  questionId,
+  ...rest
 }: IQuestion) => {
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [toast, setToast] = useRecoilState(toastState);
+
+  const queryClient = useQueryClient();
+  const updateLike = (type: 'up' | 'down') => {
+    const previousData = queryClient.getQueryData(['question', `${questionId}`]);
+
+    if (previousData) {
+      // previousData 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
+      queryClient.setQueryData<IQuestion>(['question', `${questionId}`], (oldData: any) => {
+        return {
+          ...oldData,
+          likeCount: type === 'up' ? likeCount + 1 : likeCount - 1,
+          isLiked: type === 'up',
+        };
+      });
+    }
+
+    return {
+      previousData,
+    };
+  };
+
+  const updateBookmark = (type: 'do' | 'cancel') => {
+    const previousData = queryClient.getQueryData(['question', `${questionId}`]);
+
+    if (previousData) {
+      // previousData 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
+      queryClient.setQueryData<IQuestion>(['question', `${questionId}`], (oldData: any) => {
+        return {
+          ...oldData,
+          isBookmarked: type === 'do',
+        };
+      });
+    }
+
+    return {
+      previousData,
+    };
+  };
+
+  const { mutate: like } = useMutation(
+    ['like', 'up'],
+    () => postLike({ id: questionId, type: 'QUESTION' }),
+    {
+      onMutate: () => updateLike('up'),
+    }
+  );
+  const { mutate: cancel } = useMutation(
+    ['like', 'down'],
+    () => cancelLike({ id: questionId, type: 'QUESTION' }),
+    {
+      onMutate: () => updateLike('down'),
+    }
+  );
+
+  const { mutate: addBookmark } = useMutation(
+    ['bookmark'],
+    () => postBookmark({ id: questionId, type: 'QUESTION' }),
+    {
+      onMutate: () => {
+        updateBookmark('do');
+      },
+    }
+  );
+
+  const { mutate: cancelBookmark } = useMutation(
+    ['cancelBookmark'],
+    () => putBookmark({ id: questionId, type: 'QUESTION' }),
+    {
+      onMutate: () => updateBookmark('cancel'),
+    }
+  );
+
+  const onClickLikeHandler = () => {
+    if (!isLoggedIn) {
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다', isVisible: true });
+      return;
+    }
+    if (isLiked) {
+      cancel();
+    } else {
+      like();
+    }
+  };
+
+  const onClickBookmarkHandler = () => {
+    if (!isLoggedIn) {
+      setToast({
+        type: 'negative',
+        isVisible: true,
+        message: '로그인 후 북마크를 이용해보세요! ',
+      });
+    } else if (isBookmarked) {
+      cancelBookmark();
+      setToast({
+        type: 'positive',
+        message: '북마크에서 제거되었습니다.',
+        isVisible: true,
+      });
+    } else {
+      addBookmark();
+      setToast({
+        type: 'positive',
+        message: '북마크에 추가되었습니다.',
+        isVisible: true,
+      });
+    }
+  };
+
   return (
     <QuestionDiv>
       <UpperWrapper>
         <div className="question-icons">
           <UpperTagWrapper>
             {/* 카테고리 */}
-            <UpperTag
-              as="span"
-              designType="purpleFill"
-              fontSize="14px"
-              padding="0.2rem 0.6rem"
-              borderRadius="10px"
-            >
-              {category}
+            <UpperTag as="span" designType="purpleFill" padding="0 0.7rem" borderRadius="10px">
+              {toKorean(category)}
             </UpperTag>
-
-            {/* 해결 여부 */}
-            {isSolved && (
-              <UpperTag
-                as="span"
-                designType="greenFill"
-                fontSize="14px"
-                padding="0.2rem 0.6rem"
-                margin="0 0 0.4rem"
-                borderRadius="10px"
-              >
-                <IconCheckCircle size="14" className="solved-icon" />
-                &nbsp;Catched
-              </UpperTag>
-            )}
+            <span className="solved">
+              {/* 해결 여부 */}
+              {isSolved && (
+                <UpperTag
+                  as="span"
+                  designType="greenFill"
+                  fontSize="14px"
+                  padding="0.2rem 0.6rem"
+                  margin="0 0 0.4rem"
+                  borderRadius="10px"
+                >
+                  <IconCheckCircle size="14" className="solved-icon" />
+                  &nbsp;Catched
+                </UpperTag>
+              )}
+            </span>
             {tags.map((tag, index) => {
               if (tag === '') return null;
               return (
-                <Button
+                <UpperTag
                   key={String(tag + index)}
                   as="span"
                   designType="blueEmpty"
-                  fontSize="var(--fonts-body-xm)"
+                  fontSize="var(--fonts-body-sm)"
                   padding="2px 10px"
                   margin="0 0.3rem 0 0"
                   borderRadius="var(--borders-radius-base)"
                 >
                   #{tag}
-                </Button>
+                </UpperTag>
               );
             })}
           </UpperTagWrapper>
 
           <Icons>
-            {/* 북마크 */}
-            {isBookmarked && <IconBookmarkFill size="20" color="var(--colors-brand-500)" />}
-            {isBookmarked || <IconBookmarkEmpty size="20" color="var(--colors-brand-500)" />}
+            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+            <span onClick={onClickBookmarkHandler}>
+              {/* 북마크 */}
+              {isBookmarked && <IconBookmarkFill size="20" color="var(--colors-brand-500)" />}
+              {isBookmarked || <IconBookmarkEmpty size="20" color="var(--colors-brand-500)" />}
+            </span>
 
-            {/* 공유 */}
-            <IconShare size="16" color="var(--colors-brand-500)" />
+            {/* TODO 드랍다운으로 */}
+            {/* 공유, 수정, 삭제 */}
+            <QuestionDropdown
+              questionId={questionId}
+              userId={author.userId}
+              answerCount={answerCount}
+            />
           </Icons>
         </div>
 
@@ -221,8 +356,8 @@ const Question = ({
         {errorCode && <MilkdownViewer width="100%" data={errorCode} />}
       </QuestionBody>
 
-      <Like>
-        {isLiked && <IconLikeFill />}
+      <Like onClick={onClickLikeHandler}>
+        {isLiked && <IconLikeFill color="var(--colors-brand-500)" />}
         {isLiked || <IconLikeEmpty />}
         <SubText sizeType="xm">{likeCount}</SubText>
       </Like>

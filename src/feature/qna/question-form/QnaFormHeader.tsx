@@ -2,6 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
+import { useParams } from 'react-router-dom';
 import { Paragraph, SubTitle } from '../../../components';
 import { isDarkState } from '../../../recoil';
 
@@ -14,10 +15,15 @@ const Wrapper = styled.div`
   }
 `;
 const QnaFormHeader = () => {
+  const { questionId } = useParams();
   const isDark = useRecoilValue(isDarkState);
   return (
     <Wrapper>
-      <SubTitle textAlign="left">질문 작성</SubTitle>
+      {questionId ? (
+        <SubTitle textAlign="left">질문 수정</SubTitle>
+      ) : (
+        <SubTitle textAlign="left">질문 작성</SubTitle>
+      )}
       <Paragraph
         color={isDark ? 'var(--colors-white-200)' : 'var(--colors-black-200)'}
         textAlign="left"

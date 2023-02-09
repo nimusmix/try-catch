@@ -1,5 +1,3 @@
-import { IAnswer, IQuestion } from './qna';
-
 /**
  * /user/{userID}/list
  * follower or followee
@@ -33,15 +31,26 @@ export interface ISimpleUserData {
 //   answers: Array<IAnswer>;
 // }
 
-export interface IUserAnswer extends Omit<IAnswer, 'author'> {
+// export interface IUserAnswer extends Omit<IAnswer, 'author'> {
+//   questionId: number;
+//   questionTitle: string;
+//   questionContent: string;
+// }
+
+export interface IUserAnswer {
+  answerId: number;
   questionId: number;
   questionTitle: string;
   questionContent: string;
+  timestamp: number;
+  likeCount: number;
+  isLiked: boolean;
+  answerContent: string;
 }
 
-export interface IUserAnswerList {
-  myAnswers: Array<IUserAnswer>;
-}
+// export interface IUserAnswerList {
+//   myAnswers: Array<IUserAnswer>;
+// }
 
 /**
  * /user/{userId}/question/list
@@ -146,7 +155,7 @@ export interface IUserDetail {
   followingCount: number;
   // followers: Array<ISimpleUserData>;
   followerCount: number;
-  introduction: string;
+  introduction?: string;
   tags: Array<string>;
   // questions: Array<IQuestion>;
   // answers: Array<IAnswer>;

@@ -1,13 +1,15 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
-import { useEffect } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { getQuestionList } from '../../../apis/qna/qna';
 import qnaCategoryState from '../../../recoil/qnaCategoryState';
 import { QuestionItem } from '../index';
+import question from '../Question';
 
-const QuestionList = () => {
+const QuestionList = ({ filter }: { filter: string }) => {
   const [activeCategory, setActiveCategory] = useRecoilState<string>(qnaCategoryState);
+  const [test, setTest] = useState(false);
   const keyword = new URLSearchParams(useLocation().search).get('keyword') || '';
   const {
     data: questionList,
@@ -29,6 +31,23 @@ const QuestionList = () => {
     {
       keepPreviousData: true,
       getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
+      // 필터 부분 select로 원하는 데이터로 만들어 줌
+      select: (data) => {
+        const filteredData = {
+          pages: data.pages.map((page) => ({
+            data: page.data.filter((item) => {
+              // 해결됨
+              if (filter === 'solved') return item.isSolved;
+              // 미해결
+              if (filter === 'unSolved') return !item.isSolved;
+              // 전체
+              return item;
+            }),
+          })),
+          pageParams: data.pageParams,
+        };
+        return { ...filteredData };
+      },
     }
   );
 
@@ -45,9 +64,10 @@ const QuestionList = () => {
 
   return (
     <ul>
-      {questionList?.pages.map((page, index) => {
+      {questionList?.pages?.map((page, index) => {
         return (
-          <>
+          // eslint-disable-next-line react/no-array-index-key
+          <Fragment key={index}>
             {page.data.map((questionItem) => {
               return (
                 <li key={questionItem.questionId}>
@@ -57,7 +77,7 @@ const QuestionList = () => {
                 </li>
               );
             })}
-          </>
+          </Fragment>
         );
       })}
     </ul>

@@ -4,7 +4,8 @@ import { MiniTitle, Paragraph } from '../../../components';
 import MilkdownEditor from '../../text-editor/MilkdownEditor';
 import useTooltip from '../../../hooks/useTooltip';
 import { Tooltip } from './QnaFormContentSection';
-import { useQuestionDispatch } from '../../../context/QnaContext';
+import { QuestionDispatch, useQuestionState } from '../../../context/QnaContext';
+import { Required } from '../../../pages/qna/QnaFormPage';
 
 const Wrapper = styled.div`
   position: relative;
@@ -16,11 +17,16 @@ const Wrapper = styled.div`
   }
 `;
 
-const QnaFormErrorCodeSection = () => {
+const QnaFormErrorCodeSection = ({
+  dispatch,
+  edit,
+}: {
+  dispatch: QuestionDispatch;
+  edit: boolean;
+}) => {
+  const { errorCode } = useQuestionState();
   const errorCodeRef = useRef<HTMLDivElement>(null);
   const [, isErrorCodeBlur] = useTooltip(errorCodeRef);
-
-  const dispatch = useQuestionDispatch();
 
   const setErrorCode = (value: string) => {
     dispatch({ type: 'SET_ERROR_CODE', errorCode: value });
@@ -28,10 +34,16 @@ const QnaFormErrorCodeSection = () => {
 
   return (
     <Wrapper>
-      <MiniTitle sizeType="xl" textAlign="left">
-        에러 코드
+      <MiniTitle sizeType="xl" textAlign="left" display="inline-flex">
+        에러 코드 <Required>*</Required>
       </MiniTitle>
-      <MilkdownEditor width="100%" ref={errorCodeRef} setState={setErrorCode} />
+      <MilkdownEditor
+        width="100%"
+        ref={errorCodeRef}
+        setState={setErrorCode}
+        data={errorCode}
+        edit={edit}
+      />
       {isErrorCodeBlur && (
         <Tooltip>
           <Paragraph sizeType="base">

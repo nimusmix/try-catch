@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { MiniTitle } from '../../../components';
-import { useQuestionDispatch, useQuestionState } from '../../../context/QnaContext';
+import { QuestionDispatch, useQuestionState } from '../../../context/QnaContext';
 import TagsInput from '../../hashtag-input/TagsInput';
 import { toastState } from '../../../recoil';
 
@@ -14,10 +14,9 @@ const Wrapper = styled.div`
 
   margin-bottom: 1.5rem;
 `;
-const QnaFormTagSection = () => {
-  const [toast, setToast] = useRecoilState(toastState);
+const QnaFormTagSection = ({ dispatch }: { dispatch: QuestionDispatch }) => {
   const { tags } = useQuestionState();
-  const dispatch = useQuestionDispatch();
+  const [toast, setToast] = useRecoilState(toastState);
 
   const addTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (tags.includes(e.currentTarget.value)) {

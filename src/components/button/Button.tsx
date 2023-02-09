@@ -9,6 +9,8 @@ export type TDesignType =
   | 'purpleEmpty'
   | 'greenFill'
   | 'greenEmpty'
+  | 'redFill'
+  | 'redEmpty'
   | 'grayFill'
   | 'grayEmpty';
 
@@ -21,6 +23,7 @@ interface IButtonProps {
   margin?: string;
   borderRadius?: string;
   width?: string;
+  backgroundColor?: string;
 }
 
 const designList = {
@@ -40,6 +43,26 @@ const designList = {
     &:hover {
       color: var(--colors-brand-600);
       border: 0.8px var(--colors-brand-600) solid;
+    }
+  `,
+
+  redFill: css`
+    background-color: var(--colors-red-500);
+    color: var(--colors-white-500);
+    border: 0.8px var(--colors-red-500) solid;
+    &:hover {
+      background-color: var(--colors-red-600);
+      border: 0.8px var(--colors-red-600) solid;
+    }
+  `,
+
+  redEmpty: css`
+    background-color: transparent;
+    color: var(--colors-red-500);
+    border: 0.8px var(--colors-red-500) solid;
+    &:hover {
+      color: var(--colors-red-600);
+      border: 0.8px var(--colors-red-600) solid;
     }
   `,
   skyFill: css`
@@ -102,6 +125,7 @@ const designList = {
 };
 
 const Button = styled.button<IButtonProps>`
+  ${({ backgroundColor }) => backgroundColor && `background-color: ${backgroundColor}`}
   ${({ designType }) => designType && designList[designType]};
   display: inline-flex;
   width: ${({ width }) => width || ''};

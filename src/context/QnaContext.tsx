@@ -19,7 +19,7 @@ type Action =
   | { type: 'RESET' };
 
 // 디스패치를 위한 타입
-type QuestionDispatch = Dispatch<Action>;
+export type QuestionDispatch = Dispatch<Action>;
 
 const initialState: IState = {
   category: 'DEV',
