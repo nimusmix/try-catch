@@ -23,6 +23,7 @@ interface IButtonProps {
   margin?: string;
   borderRadius?: string;
   width?: string;
+  backgroundColor?: string;
 }
 
 const designList = {
@@ -124,6 +125,7 @@ const designList = {
 };
 
 const Button = styled.button<IButtonProps>`
+  ${({ backgroundColor }) => backgroundColor && `background-color: ${backgroundColor}`}
   ${({ designType }) => designType && designList[designType]};
   display: inline-flex;
   width: ${({ width }) => width || ''};
