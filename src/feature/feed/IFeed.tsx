@@ -1,6 +1,6 @@
 export interface IFeedItemProps {
   id: number; // 북마크 및 최근 본 피드용 id
-  feedId: string; // 피드 고유 아이디
+  feedId: string | number; // 피드 고유 아이디 (수민: 기업 프로필 feedId number로 와서 number 추가했어요..!)
   title: string; // 피드 제목
   summary: string; // 피드 요약 ( 300자 내외 )
   companyName: string; // 회사 이름

@@ -183,7 +183,7 @@ const router = createBrowserRouter([
             ],
           },
           {
-            path: ':companyName',
+            path: 'company/:companyName',
             element: <CompanyProfilePage />,
           },
           {
