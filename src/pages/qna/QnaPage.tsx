@@ -78,7 +78,7 @@ const QnaFilterWrapper = styled.div`
   position: sticky;
   top: 8.5rem;
   opacity: 0.9;
-  background: #fff;
+  background: ${({ theme: { bgColor } }) => bgColor};
 `;
 
 const QnaPage = () => {

@@ -26,7 +26,7 @@ const QnaFormErrorCodeSection = ({
 }) => {
   const { errorCode } = useQuestionState();
   const errorCodeRef = useRef<HTMLDivElement>(null);
-  const [, isErrorCodeBlur] = useTooltip(errorCodeRef);
+  const [isErrorCodeFocus] = useTooltip(errorCodeRef);
 
   const setErrorCode = (value: string) => {
     dispatch({ type: 'SET_ERROR_CODE', errorCode: value });
@@ -44,11 +44,9 @@ const QnaFormErrorCodeSection = ({
         data={errorCode}
         edit={edit}
       />
-      {isErrorCodeBlur && (
+      {isErrorCodeFocus && (
         <Tooltip>
-          <Paragraph sizeType="base">
-            💡 입력하신 코드와 유사한 질문이 <strong>n건</strong> 존재합니다.
-          </Paragraph>
+          <Paragraph sizeType="base">💡 에러코드 작성 가이드</Paragraph>
           <ul>
             <li>
               <Paragraph sizeType="base">유사질문 1</Paragraph>

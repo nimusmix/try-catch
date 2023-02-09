@@ -29,6 +29,7 @@ import {
   AiOutlineEye as IconEye,
   AiOutlineLike as IconLikeEmpty,
 } from 'react-icons/ai';
+
 import { BiComment as IconComment } from 'react-icons/bi';
 import { FaUserCircle as IconUserCircle } from 'react-icons/fa';
 import { FiMoreVertical as IconMore } from 'react-icons/fi';
@@ -36,6 +37,7 @@ import { GiTalk as IconQuestion } from 'react-icons/gi';
 import { MdOutlineCreate as IconPen, MdOutlineFeed as IconFeed } from 'react-icons/md';
 import { RiDeleteBin6Line as IconDelete } from 'react-icons/ri';
 import { HiHashtag as IconHash } from 'react-icons/hi';
+import { ReactComponent as IconBest } from '../../assets/icon-best.svg';
 
 export {
   IconArrow,
@@ -68,4 +70,5 @@ export {
   IconDelete,
   IconPen,
   IconHash,
+  IconBest,
 };

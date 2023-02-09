@@ -61,10 +61,6 @@ const QnaDetailPage = () => {
     }
   );
 
-  if (isFetching) {
-    return <h1>Loading...</h1>;
-  }
-
   return (
     <Layout>
       <QnaDetailWrapper>

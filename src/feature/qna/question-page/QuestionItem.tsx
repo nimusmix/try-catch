@@ -14,6 +14,7 @@ import { Button, MiniTitle, Paragraph } from '../../../components';
 import { isDarkState } from '../../../recoil';
 import elapsedTime from '../../../utils/elapsed-time';
 import { IQuestion } from '../../../interface/qna';
+import categoryToKorean from '../../../utils/category-to-korean';
 
 const Wrapper = styled.article`
   max-width: 848px;
@@ -93,10 +94,21 @@ const UpperTag = styled(Button)`
 `;
 
 const Tag = styled(Button)`
-  border: 1px solid rgb(238 238 238/10);
-  background-color: ${({ theme: { bgColor } }) => bgColor};
+  border: 1px solid
+    ${({ theme: { isDark } }) => (isDark ? 'var(--colors-black-400)' : 'rgb(238 238 238/10)')};
+  background-color: ${({ theme: { isDark } }) => (isDark ? 'hsl(220deg 13% 28%)' : '#d6e4fb')};
   color: ${({ theme: { textColor } }) => textColor};
+  text-transform: capitalize;
+  transition: border 0.2s ease-in, background-color 0.2s ease-in, color 0.2s ease-in;
 
+  svg {
+    margin-right: 0.1rem;
+    color: ${({ theme: { isDark, textColor } }) =>
+      isDark ? textColor : 'var(--colors-black-100)'};
+    transition: color 0.2s ease-in;
+  }
+
+  &:hover svg,
   &:hover {
     color: #f1f1f1;
   }
@@ -109,13 +121,6 @@ const TitleWrapper = styled.div`
     margin-right: 0.5rem;
   }
 `;
-
-const toKorean = (category: string | undefined) => {
-  if (category === 'DEV') {
-    return '개발';
-  }
-  return '커리어';
-};
 
 const QuestionItem = ({
   category,
@@ -140,7 +145,7 @@ const QuestionItem = ({
         fontSize="var(--fonts-body-xm)"
         padding="2.2px 10px"
       >
-        {toKorean(category)}
+        {categoryToKorean(category)}
       </Button>
       <QuestionHeader>
         <TitleWrapper>
@@ -190,9 +195,9 @@ const QuestionItem = ({
                 as="span"
                 fontSize="var(--fonts-body-xm)"
                 padding="2px 10px"
-                borderRadius="var(--borders-radius-base)"
+                borderRadius="var(--borders-radius-lg)"
               >
-                <IconHash color="var(--colors-black-100)" />
+                <IconHash />
                 {tag}
               </Tag>
             );
