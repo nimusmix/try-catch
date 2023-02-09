@@ -22,13 +22,14 @@ const RoadmapPage = () => {
   const [activeCategory, setActiveCategory] = useState('공통');
   const history = createBrowserHistory();
   const navi = useNavigate();
-  useEffect(() => {
-    if (activeCategory === '공통') {
-      navi('/roadmap');
-    } else {
-      navi('/roadmap/list');
-    }
-  }, [navi, activeCategory]);
+  // useEffect(() => {
+  if (activeCategory === '공통') {
+    navi('/roadmap');
+  } else {
+    navi('/roadmap/list');
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   useEffect(() => {
     return history.listen((location) => {

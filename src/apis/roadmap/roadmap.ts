@@ -39,3 +39,5 @@ export const getRoadmapDetail = (userName: string) =>
   });
 
 export const getRoadmapList = () => authApi.get('/roadmap/list').then((res) => res.data);
+
+export const getPopularRoadmapList = () => authApi.get('/roadmap/popular').then((res) => res.data);
