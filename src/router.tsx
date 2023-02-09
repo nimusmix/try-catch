@@ -200,6 +200,10 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
+            path: '',
+            element: <ThemeSettingsPage />,
+          },
+          {
             path: 'alert',
             element: <AlertSettingsPage />,
           },

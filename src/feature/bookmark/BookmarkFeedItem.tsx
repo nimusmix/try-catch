@@ -1,12 +1,10 @@
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { useState } from 'react';
-import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
-import { MiniTitle, Paragraph } from '../../components';
+import { Card, MiniTitle, Paragraph } from '../../components';
 import { isDarkState } from '../../recoil';
-import { IFeedItemProps } from './IFeed';
-import FeedTag from './FeedTag';
-import { postFeedRead } from '../../apis/feed/feed';
+import { IBookmarkFeed } from '../../interface/bookmark';
+import FeedTag from '../feed/FeedTag';
 
 const DefaultDIv = styled.div`
   /* 한 줄 자르기 */
@@ -27,17 +25,9 @@ const DefaultDIv = styled.div`
 `;
 
 const Wrapper = styled.article`
-  display: flex;
-  border-bottom: 1px solid var(--colors-black-200);
-  &:hover {
-    background-color: ${({ theme: { isDark } }) =>
-      isDark ? 'var(--colors-black-400)' : 'var(--colors-white-400)'};
-  }
-`;
-
-const BlogWrapper = styled.div`
-  width: 630px;
-  padding: 1rem 1.5rem;
+  width: 800px;
+  padding: 1rem;
+  margin-left: 1rem;
 `;
 
 const FeedHeader = styled.div`
@@ -59,33 +49,6 @@ const FeedBody = styled(DefaultDIv)`
 const FeedFooter = styled(DefaultDIv)`
   line-height: 1.3;
   height: 1.6rem;
-  margin-bottom: 0.75rem;
-`;
-
-const BookmarkButton = styled.button`
-  display: flex;
-  align-items: center;
-  svg {
-    margin-left: 0.6rem;
-    cursor: pointer;
-  }
-  z-index: 2;
-`;
-
-const FeedThumbnailImg = styled.div<{ image: string }>`
-  width: 12rem;
-  height: 8rem;
-  background-image: url(${({ image }) => image});
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  border-radius: var(--borders-radius-base);
-`;
-
-const FeedThumbnailImgWrapper = styled.div`
-  background: var(--colors-brand-200);
-  border-radius: var(--borders-radius-base);
-  margin: auto 0rem auto 1.5rem;
 `;
 
 const CompanyImg = styled.img`
@@ -120,56 +83,26 @@ const LinkWrapper = ({ children, url, onClick }: LinkProps) => {
   );
 };
 
-const BlogMiniTitle = styled(MiniTitle)`
-  width: 510px;
-  :hover {
-    color: var(--colors-brand-500);
-  }
+const BlogWrapper = styled(Card)`
+  width: 100%;
+  margin: 0rem;
+  padding: 1rem 3rem;
 `;
 
-const FeedListItem = ({
+const BookmarkFeedListItem = ({
   title,
-  summary,
+  content,
   tags,
   keywords,
-  isBookmarked,
   url,
   companyName,
-  thumbnailImage,
-  createAt,
+  createdAt,
   logoSrc,
-}: IFeedItemProps) => {
+}: IBookmarkFeed) => {
   const isDark = useRecoilValue(isDarkState);
-  const [bookMarkIcon, setBookMarkIcon] = useState(isBookmarked);
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    setBookMarkIcon(!bookMarkIcon);
-    e.preventDefault();
-
-    // isBookmarked 상태 변화 보내기
-    // /bookmark
-    // body{
-    //   id: number,
-    //   type :string; // feed
-    // }
-  };
 
   return (
     <Wrapper>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <LinkWrapper url={url}>
-          <FeedThumbnailImgWrapper>
-            <FeedThumbnailImg image={thumbnailImage} />
-          </FeedThumbnailImgWrapper>
-        </LinkWrapper>
-      </div>
-
       <BlogWrapper>
         <FeedHeader>
           <LinkWrapper url={url}>
@@ -184,26 +117,21 @@ const FeedListItem = ({
                 {companyName}
               </MiniTitle>
               <Paragraph sizeType="xm" style={{ marginLeft: '0.25rem' }}>
-                · {createAt}
+                · {createdAt}
               </Paragraph>
             </div>
           </LinkWrapper>
-          <BookmarkButton onClick={handleClick}>
-            {/* 북마크 */}
-            {bookMarkIcon && <IconBookmarkFill size="27" color="var(--colors-brand-500)" />}
-            {bookMarkIcon || <IconBookmarkEmpty size="27" color="var(--colors-brand-500)" />}
-          </BookmarkButton>
         </FeedHeader>
 
         <BlogTitle>
           <LinkWrapper url={url}>
-            <BlogMiniTitle
+            <MiniTitle
               sizeType="xl"
               color={isDark ? 'var(--colors-white-500)' : 'var(--colors-dark-500)'}
               textAlign="left"
             >
               {title}
-            </BlogMiniTitle>
+            </MiniTitle>
           </LinkWrapper>
         </BlogTitle>
 
@@ -212,9 +140,8 @@ const FeedListItem = ({
             <Paragraph
               sizeType="base"
               color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-              style={{ width: '510px' }}
             >
-              {summary}
+              {content}
             </Paragraph>
           </LinkWrapper>
         </FeedBody>
@@ -227,4 +154,4 @@ const FeedListItem = ({
   );
 };
 
-export default FeedListItem;
+export default BookmarkFeedListItem;

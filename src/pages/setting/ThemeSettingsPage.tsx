@@ -8,7 +8,7 @@ export const SettingsBody = styled.section`
   padding: 0 0 0 80px;
   border-left: 1px solid;
   border-color: ${({ theme: { borderColor } }) => borderColor};
-  min-height: 70vh;
+  min-height: 75vh;
   max-width: 100%;
 `;
 

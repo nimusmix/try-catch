@@ -13,7 +13,8 @@ const IconWrapper = styled.button`
   cursor: pointer;
   border-radius: 6px;
   :hover {
-    background: rgba(2, 32, 71, 0.08);
+    background: ${({ theme: { isDark } }) =>
+      isDark ? 'rgba(255, 255, 255, 0.2)' : ' rgba(2, 32, 71, 0.08)'};
   }
 `;
 
