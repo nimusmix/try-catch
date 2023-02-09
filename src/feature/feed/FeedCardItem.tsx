@@ -6,6 +6,7 @@ import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icon
 import { IFeedItemProps } from './IFeed';
 import FeedTag from './FeedTag';
 import { isDarkState } from '../../recoil';
+import { postFeedRead } from '../../apis/feed/feed';
 
 const BookmarkButton = styled.button`
   display: flex;
