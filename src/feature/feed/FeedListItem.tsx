@@ -8,6 +8,7 @@ import { IFeedItemProps } from './IFeed';
 import FeedTag from './FeedTag';
 import getImageUrl from '../../utils/getImageUrl';
 import { COMPANY } from '../../constant/company';
+import { postFeedRead } from '../../apis/feed/feed';
 
 const DefaultDIv = styled.div`
   /* 한 줄 자르기 */
@@ -110,11 +111,12 @@ const BlogTitle = styled(DefaultDIv)`
 interface LinkProps {
   children: React.ReactNode;
   url: string;
+  onClick?: () => void;
 }
 
-const LinkWrapper = ({ children, url }: LinkProps) => {
+const LinkWrapper = ({ children, url, onClick }: LinkProps) => {
   return (
-    <a href={`${url}`} target="_blank" rel="noreferrer" style={{ zIndex: '1' }}>
+    <a href={`${url}`} target="_blank" rel="noreferrer" style={{ zIndex: '1' }} onClick={onClick}>
       {children}
     </a>
   );
