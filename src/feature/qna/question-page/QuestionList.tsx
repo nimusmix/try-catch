@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
 import { Fragment, useEffect, useState } from 'react';
@@ -7,10 +7,11 @@ import qnaCategoryState from '../../../recoil/qnaCategoryState';
 import { QuestionItem } from '../index';
 import question from '../Question';
 
-const QuestionList = ({ filter }: { filter: string }) => {
+const QuestionList = ({ filter, keyword }: { filter: string; keyword: string }) => {
   const [activeCategory, setActiveCategory] = useRecoilState<string>(qnaCategoryState);
   const [test, setTest] = useState(false);
-  const keyword = new URLSearchParams(useLocation().search).get('keyword') || '';
+
+  // TODO 나중에 search 엔드포인트 변경되면 그때 바꾸면 됨
   const {
     data: questionList,
     isFetchingNextPage,

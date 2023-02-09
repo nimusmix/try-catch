@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
+import { Dispatch } from 'react';
 import { Button, Div, MiniTitle } from '../../../components';
-import { logOnDev } from '../../../utils/logging';
 import { getPopularTags } from '../../../apis/qna/qna';
 
 const QnaPopularTagWrapper = styled(Div)`
@@ -22,14 +22,15 @@ const TagsWrapper = styled.div`
   }
 `;
 
-const QnaPopularTag = () => {
+const QnaPopularTag = ({ setKeyword }: { setKeyword: Dispatch<string> }) => {
   const { data: qnaPopularTags, isLoading } = useQuery(
     ['question', 'popular', 'tag'] as const,
     getPopularTags
   );
 
-  const handleClick = () => {
-    logOnDev.log('버튼 테스트');
+  const handleClick = (e: React.MouseEvent<HTMLSpanElement>) => {
+    const keyword = e.currentTarget.innerText.toLowerCase();
+    setKeyword(keyword);
   };
 
   // /search?type=qna&keyword=&page=&size&

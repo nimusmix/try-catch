@@ -52,7 +52,7 @@ const filterOptions = [
 ];
 
 const Ul = styled.ul`
-  margin-top: 3rem;
+  padding-top: 3rem;
   display: flex;
   max-width: 848px;
 `;
@@ -74,9 +74,17 @@ const Li = styled.li`
   }
 `;
 
+const QnaFilterWrapper = styled.div`
+  position: sticky;
+  top: 8.5rem;
+  opacity: 0.9;
+  background: #fff;
+`;
+
 const QnaPage = () => {
   const [activeCategory, setActiveCategory] = useRecoilState(qnaCategoryState);
   const [filter, setFilter] = useState<string>('all');
+  const [keyword, setKeyword] = useState<string>('');
   const dispatch = useQuestionDispatch();
   const activeIdx = navOptions.findIndex((option) => option.value === activeCategory);
 
@@ -103,8 +111,8 @@ const QnaPage = () => {
         </Aside>
         {/* 메인 컨텐츠 */}
         <section>
-          <QnaSearchBar />
-          <div>
+          <QnaSearchBar setKeyword={setKeyword} />
+          <QnaFilterWrapper>
             <Ul>
               {filterOptions.map((option) => (
                 // eslint-disable-next-line jsx-a11y/click-events-have-key-events
@@ -117,9 +125,9 @@ const QnaPage = () => {
                 </Li>
               ))}
             </Ul>
-          </div>
+          </QnaFilterWrapper>
           {/* Q&A 리스트 */}
-          <QuestionList filter={filter} />
+          <QuestionList filter={filter} keyword={keyword} />
         </section>
         <Aside>
           <Link to="form">
@@ -134,7 +142,7 @@ const QnaPage = () => {
             </Button>
           </Link>
           {/* 인기 태그 */}
-          <QnaPopularTag />
+          <QnaPopularTag setKeyword={setKeyword} />
           {/* 인기 Q&A */}
           <PopularQna />
         </Aside>

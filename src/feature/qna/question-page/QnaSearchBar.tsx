@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { useForm } from 'react-hook-form';
+import { Dispatch } from 'react';
 import { IconSearch } from '../../../components/icons/Icons';
 import { Button, Input } from '../../../components';
 import { isDarkState } from '../../../recoil';
-import { logOnDev } from '../../../utils/logging';
 
 interface ISearchValue {
   data: string;
@@ -43,18 +43,19 @@ const SearchBarForm = styled.form`
   backdrop-filter: blur(30px);
 `;
 
-const QnaSearchBar = () => {
+const QnaSearchBar = ({ setKeyword }: { setKeyword: Dispatch<string> }) => {
   const isDark = useRecoilValue(isDarkState);
   const { register, handleSubmit, resetField } = useForm<ISearchValue>();
 
-  const handleClick = () => resetField('data');
-  const onSubmit = handleSubmit(() => {
-    logOnDev.log(1);
-  });
-  const { name, ref } = register('data');
+  // const handleClick = () => resetField('data');
+  const onSubmit = (data: ISearchValue) => {
+    setKeyword(data.data);
+    resetField('data');
+  };
+  const { ...inputProps } = register('data');
 
   return (
-    <SearchBarForm onSubmit={onSubmit}>
+    <SearchBarForm onSubmit={handleSubmit(onSubmit)}>
       <StyledSearch>
         <StyledSearchBar>
           <SearchIcon>
@@ -70,11 +71,10 @@ const QnaSearchBar = () => {
             border="none"
             placeholder="Search..."
             style={{ position: 'absolute', left: '1.875rem', top: 'calc(50% - 1.125rem)' }}
-            name={name}
-            ref={ref}
+            {...inputProps}
           />
         </StyledSearchBar>
-        <Button fontSize="var(--fonts-body-base)" onClick={handleClick} padding="0.25rem 1.125rem">
+        <Button fontSize="var(--fonts-body-base)" onClick={() => {}} padding="0.25rem 1.125rem">
           검색
         </Button>
       </StyledSearch>
