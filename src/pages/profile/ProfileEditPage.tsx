@@ -7,7 +7,7 @@ import { MiniTitle, Input, Button, Paragraph } from '../../components';
 import { accToken } from '../../recoil';
 import tokenDecode from '../../utils/tokenDecode';
 import { IUserDetail } from '../../interface/user';
-import { getUserDetail } from '../../apis/profile/profile';
+import { getUserDetail, patchUserDetail } from '../../apis/profile/profile';
 
 const EditForm = styled.form`
   display: flex;
@@ -89,8 +89,12 @@ const ProfileEditPage = () => {
 
   const introductionLength = watch('introduction')?.length;
 
-  const onValid = (data: any) => {
-    console.log(data);
+  const onValid = (data: { companyName?: string; introduction?: string }) => {
+    const params = {
+      companyName: data.companyName || user?.companyName,
+      introduction: data.introduction || user?.introduction,
+    };
+    patchUserDetail(userId, params);
   };
 
   if (isLoading) {
@@ -103,12 +107,12 @@ const ProfileEditPage = () => {
         <Img src={user?.profileImg} />
 
         <InfoWrapper>
-          <InputWrapper>
+          {/* <InputWrapper>
             <MiniTitle sizeType="2xl" fontWeight="600">
               {user?.userName}
             </MiniTitle>
-            {/* <Paragraph sizeType="base">{user?.userName}</Paragraph> */}
-          </InputWrapper>
+            <Paragraph sizeType="base">{user?.userName}</Paragraph>
+          </InputWrapper> */}
 
           <InputWrapper>
             <MiniTitle sizeType="2xl" fontWeight="600">

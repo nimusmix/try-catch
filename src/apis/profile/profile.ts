@@ -32,7 +32,7 @@ export const getUserFollow = (userId: number, params: { type: string }) => {
 // 회원 정보 수정
 export const patchUserDetail = (
   userId: number,
-  params: { userName: string; companyName: string; introduction: string }
+  params: { companyName?: string; introduction?: string }
 ) => {
   authApi.post(`/user/detail/${userId}`, { params }).then((res) => res.data);
 };
