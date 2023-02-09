@@ -6,7 +6,7 @@ import { IRoadmap } from '../../interface/roadmap';
 import { getRoadmapDetail } from '../../apis/roadmap/roadmap';
 import { Layout } from '../../layout';
 import RoadmapDetailBody from '../../feature/roadmap/RoadmapDetailBody';
-import { IconArrowBack } from '../../components/icons/Icons';
+import { IconArrowBack, IconLikeEmpty } from '../../components/icons/Icons';
 
 const RoadmapDetailWrapper = styled.div`
   display: flex;
@@ -46,6 +46,16 @@ const UserWrapper = styled.div`
 
 const UserInfoWrapper = styled.div`
   display: flex;
+`;
+
+const LikeWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 2rem auto 1rem;
+
+  svg {
+    margin-right: 0.25rem;
+  }
 `;
 
 const RoadmapDetailPage = () => {
@@ -98,6 +108,11 @@ const RoadmapDetailPage = () => {
           )}
         </UserWrapper>
         <RoadmapDetailBody nodes={roadmapDetail!.nodes} edges={roadmapDetail!.edges} />
+
+        <LikeWrapper>
+          <IconLikeEmpty />
+          <Paragraph sizeType="base">{roadmapDetail!.likeCount}</Paragraph>
+        </LikeWrapper>
       </RoadmapDetailWrapper>
     </Layout>
   );
