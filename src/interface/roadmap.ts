@@ -29,6 +29,7 @@ export interface IRoadmapPost {
 }
 
 export interface IRoadmap {
+  roadmapId: number;
   author: {
     userId: number;
     userName: string;
@@ -40,6 +41,11 @@ export interface IRoadmap {
   tag: string;
   nodes: Array<INode>;
   edges: Array<IEdge>;
+  isBookmarked: boolean;
+  isLiked: boolean;
+  likeCount: number;
+  createdAt: number;
+  updatedAt: number;
 }
 
 export interface IRoadmapList {

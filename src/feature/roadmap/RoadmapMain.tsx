@@ -1,9 +1,11 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { Button } from '../../components';
 import FERoadmap from './FERoadmap';
 import BERoadmap from './BERoadmap';
+import { isLoggedInState, toastState } from '../../recoil';
 
 const ContentWrapper = styled.div`
   margin-top: 3rem;
@@ -20,6 +22,17 @@ const RoadmapMain = () => {
   const [activeBE, setActiveBE] = useState(false);
   const onClick = (bool: boolean) => {
     setActiveBE(bool);
+  };
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [toast, setToast] = useRecoilState(toastState);
+  const navi = useNavigate();
+
+  const createdRoadmapHandler = () => {
+    if (!isLoggedIn) {
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다.', isVisible: true });
+    } else {
+      navi('form');
+    }
   };
 
   return (
@@ -42,9 +55,9 @@ const RoadmapMain = () => {
             백엔드
           </Button>
         </div>
-        <Link to="form">
-          <Button borderRadius="var(--borders-radius-lg)">로드맵 생성</Button>
-        </Link>
+        <Button borderRadius="var(--borders-radius-lg)" onClick={createdRoadmapHandler}>
+          로드맵 생성
+        </Button>
       </ButtonWrapper>
       {activeBE ? <BERoadmap /> : <FERoadmap />}
     </ContentWrapper>
