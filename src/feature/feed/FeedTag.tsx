@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Button } from '../../components';
 
 interface IFeedPopularTag {
-  tags: Array<string>;
+  tags?: Array<string>;
 }
 
 const TagsWrapper = styled.div`
