@@ -25,7 +25,7 @@ const ThemeItemWrapper = styled.div`
 const DefaultTheme = () => {
   return (
     <ThemeItemWrapper>
-      <MiniTitle sizeType="xl" textAlign="left" style={{ marginBottom: '1rem' }}>
+      <MiniTitle sizeType="xl" textAlign="left" style={{ marginBottom: '1rem', fontSize: '' }}>
         시스템 설정 값
       </MiniTitle>
       <div>

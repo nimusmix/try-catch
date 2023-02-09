@@ -24,7 +24,6 @@ const FeedTag = ({ tags }: IFeedPopularTag) => {
     navigate(`/feed?keyword=${encodeKeyword}`);
     e.preventDefault();
   };
-  // /search?type=feed&keyword=&page=&size&
 
   return (
     <TagsWrapper>

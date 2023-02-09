@@ -86,6 +86,18 @@ const FeedThumbnailImgChild = styled.div<{ image: string }>`
   border-radius: var(--borders-radius-base);
 `;
 
+const StyledCard = styled(Card)`
+  margin: 0.5rem 0rem 1rem 0.5rem;
+  padding: 1rem 1rem;
+  &:hover {
+    box-shadow: ${({ theme: { isDark } }) =>
+      isDark
+        ? 'rgba(59, 130, 246, 0.16) 0px 3px 6px, rgba(59, 130, 246, 0.23) 0px 3px 6px'
+        : 'rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px'};
+    translate: 1px 1px;
+  }
+`;
+
 const FeedCardItem = ({
   title,
   companyName,
@@ -112,16 +124,7 @@ const FeedCardItem = ({
   const isDark = useRecoilValue(isDarkState);
 
   return (
-    <Card
-      // width="32%"
-      width="17.125rem"
-      // height="21.875rem"
-      as="a"
-      style={{ margin: '0.5rem 0rem 1rem 0.5rem', padding: '1rem 1rem' }}
-      href={`${url}`}
-      target="_blank"
-      rel="noreferrer"
-    >
+    <StyledCard width="17.125rem" as="a" href={`${url}`} target="_blank" rel="noreferrer">
       <CardHeader>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <img src={logoSrc} alt={companyName} />
@@ -158,7 +161,7 @@ const FeedCardItem = ({
       <CardFooter>
         <FeedTag tags={tags.length === 0 ? keywords : tags} />
       </CardFooter>
-    </Card>
+    </StyledCard>
   );
 };
 
