@@ -5,7 +5,7 @@ import { api, authApi } from '../../utils/axios-instance';
 export const postRoadmap = (data: IRoadmapPost) => authApi.post('/roadmap', data);
 
 export const getRoadmapDetail = (userName: string) =>
-  api.get(`/roadmap/${userName}`).then((res) => {
+  authApi.get(`/roadmap/${userName}`).then((res) => {
     const {
       roadmapId,
       author,

@@ -7,7 +7,7 @@ import { IRoadmap } from '../../interface/roadmap';
 import { getRoadmapDetail } from '../../apis/roadmap/roadmap';
 import { Layout } from '../../layout';
 import RoadmapDetailBody from '../../feature/roadmap/RoadmapDetailBody';
-import { IconArrowBack, IconLikeEmpty } from '../../components/icons/Icons';
+import { IconArrowBack, IconLikeEmpty, IconLikeFill } from '../../components/icons/Icons';
 import { postLike, cancelLike } from '../../apis/like/like';
 import { isLoggedInState, toastState } from '../../recoil';
 
@@ -166,7 +166,7 @@ const RoadmapDetailPage = () => {
         <RoadmapDetailBody nodes={roadmapDetail!.nodes} edges={roadmapDetail!.edges} />
 
         <LikeWrapper onClick={onClickLikeHandler}>
-          <IconLikeEmpty />
+          {roadmapDetail?.isLiked ? <IconLikeFill /> : <IconLikeEmpty />}
           <Paragraph sizeType="base">{roadmapDetail!.likeCount}</Paragraph>
         </LikeWrapper>
       </RoadmapDetailWrapper>
