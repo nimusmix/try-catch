@@ -75,19 +75,16 @@ const RoadmapDetailPage = () => {
 
   const queryClient = useQueryClient();
   const updateLike = (type: 'up' | 'down') => {
-    const prevData = queryClient.getQueryData(['roadmap', `${roadmapDetail?.roadmapId}`]);
+    const prevData = queryClient.getQueryData(['roadmap', userName]);
 
     if (prevData) {
-      queryClient.setQueryData<IRoadmap>(
-        ['roadmap', `${roadmapDetail?.roadmapId}`],
-        (oldData: any) => {
-          return {
-            ...oldData,
-            likeCount: type === 'up' ? roadmapDetail!.likeCount + 1 : roadmapDetail!.likeCount - 1,
-            isLiked: type === 'up',
-          };
-        }
-      );
+      queryClient.setQueryData<IRoadmap>(['roadmap', userName], (oldData: any) => {
+        return {
+          ...oldData,
+          likeCount: type === 'up' ? roadmapDetail!.likeCount + 1 : roadmapDetail!.likeCount - 1,
+          isLiked: type === 'up',
+        };
+      });
     }
 
     return {
