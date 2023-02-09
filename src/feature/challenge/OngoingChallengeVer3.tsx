@@ -1,7 +1,8 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import React from 'react';
 import { Button, MiniTitle, Paragraph, Card } from '../../components';
 import { IChallengeItem } from '../../interface/challenge';
+import OngoingChallengeCard, { IOngoingChallengeCardProps } from './OngoingChallegeCard';
 
 const Badge = styled.div`
   display: flex;
@@ -45,8 +46,7 @@ const ThumbnailImgWrapper = styled.div`
 `;
 
 const StyleCard = styled(Card)`
-  margin-right: 1.5rem;
-  margin-bottom: 1rem;
+  cursor: default;
   width: 322px;
   height: 448px;
   padding: 0rem;
@@ -86,11 +86,89 @@ const ChallengeItem = ({ title, content, imgSrc }: Partial<IChallengeItem>) => {
   );
 };
 
+const ThumbnailImgWrapper2 = styled.div`
+  display: flex;
+  justify-content: center;
+  background: var(--colors-brand-100);
+  border-radius: var(--borders-radius-base) var(--borders-radius-base) 0 0;
+  height: 322px;
+`;
+
+const ChallengeItem2 = ({ title, content, progress }: Partial<IChallengeItem>) => {
+  return (
+    <StyleCard>
+      <ThumbnailImgWrapper2>
+        <OngoingChallengeCard progress={progress} />
+      </ThumbnailImgWrapper2>
+      <div style={{ padding: '18px' }}>
+        <CardHeader>
+          <MiniTitle sizeType="xl" textAlign="left">
+            {title}
+          </MiniTitle>
+          <div style={{ display: 'flex', justifyContent: 'end' }}>
+            <Button designType="blueEmpty" fontSize="var(--fonts-body-sm)">
+              참여중
+            </Button>
+          </div>
+        </CardHeader>
+        <CardBody>
+          <Paragraph sizeType="base" textAlign="left">
+            {content}
+          </Paragraph>
+        </CardBody>
+      </div>
+    </StyleCard>
+  );
+};
+
 // - (Monthly) 휴일 공부 챌린지 (휴일에 깃허브 커밋으로 체크)
 // - (Monthly) 1달 10회 답변 챌린지
 // - (Monthly) 1달 10회 퇴근 후 공부 챌린지
 // - 7일 7회 답변 챌린지
 // - 커밋 연속 10회 챌린지
+
+const anim = (progressCircle: number) => keyframes`
+    100% {
+      stroke-dashoffset:  ${progressCircle};
+    }
+`;
+
+const Flip = styled.div<Partial<IOngoingChallengeCardProps>>`
+  width: 322px;
+  height: 448px;
+  position: relative;
+  margin-right: 1.5rem;
+  margin-bottom: 1rem;
+  :hover .card {
+    transform: rotateY(180deg);
+  }
+
+  :hover circle {
+    animation: ${({ progressCircle }) => anim(progressCircle || 450)} 1.5s linear forwards;
+  }
+`;
+
+const FlipInner = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: 0.4s;
+  transform-style: preserve-3d;
+`;
+
+const FrontBack = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Back = styled(FrontBack)`
+  transform: rotateY(180deg);
+`;
 
 const OngoingChallengeVer3 = () => {
   const MChallengeInfoList = [
@@ -101,6 +179,7 @@ const OngoingChallengeVer3 = () => {
       content: '2월 한 달 동안 휴일에 깃허브 커밋하기',
       imgSrc:
         'https://img.freepik.com/free-photo/reminder-notification-with-bell-pencil-calendar-event-planner-new-note-icon-3d-illustration-purple-background_56104-1773.jpg',
+      progress: 50,
     },
     {
       challengeId: 2,
@@ -108,14 +187,30 @@ const OngoingChallengeVer3 = () => {
       title: '답변 챌린지',
       content: '1달동안 TryCatch에서 10회 답변하기',
       imgSrc: 'https://img.freepik.com/free-psd/3d-space-rocket-with-smoke_23-2148938939.jpg',
+      progress: 0,
     },
   ];
 
   return (
     <StyledWrapper>
-      {MChallengeInfoList.map((challengeInfo) => {
-        return <ChallengeItem key={`${challengeInfo.challengeId}`} {...challengeInfo} />;
-      })}
+      {MChallengeInfoList &&
+        MChallengeInfoList.map((challengeInfo) => {
+          const progressCircle = 450 * (1 - challengeInfo.progress * 0.01);
+          return (
+            <Flip key={`${challengeInfo.challengeId}`} progressCircle={progressCircle}>
+              <FlipInner className="card">
+                {/* <!-- 앞면 --> */}
+                <FrontBack>
+                  <ChallengeItem {...challengeInfo} />
+                </FrontBack>
+                {/* <!-- 뒷면 --> */}
+                <Back>
+                  <ChallengeItem2 {...challengeInfo} />
+                </Back>
+              </FlipInner>
+            </Flip>
+          );
+        })}
     </StyledWrapper>
   );
 };

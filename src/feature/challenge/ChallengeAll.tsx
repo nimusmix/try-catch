@@ -33,6 +33,7 @@ const FeedThumbnailImgWrapper = styled.div`
 `;
 
 const StyledCard = styled(Card)`
+  cursor: default;
   margin: 0 1.7rem 1rem 0rem;
   display: flex;
   width: 540px;
