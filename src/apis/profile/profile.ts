@@ -34,5 +34,5 @@ export const patchUserDetail = (
   userId: number,
   params: { companyName?: string; introduction?: string }
 ) => {
-  authApi.post(`/user/detail/${userId}`, { params }).then((res) => res.data);
+  authApi.patch(`/user/detail/${userId}`, { params }).then((res) => res.data);
 };

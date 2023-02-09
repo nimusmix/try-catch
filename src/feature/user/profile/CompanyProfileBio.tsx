@@ -1,8 +1,5 @@
-import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { getCompanyDetail, getCompanyId } from '../../../apis/profile/companyProfile';
-import { MiniTitle, Paragraph } from '../../../components';
+import { Button, MiniTitle, Paragraph } from '../../../components';
 import { ICompany } from '../../../interface/user';
 
 const BioWrapper = styled.div`
@@ -41,28 +38,38 @@ const SubscriptionWrapper = styled.div`
 const UrlText = styled(Paragraph)`
   color: ${({ theme }) => theme.textColor100};
   margin: 0.25rem 0;
+  border-bottom: 1px solid ${({ theme }) => theme.textColor100};
 `;
 
-const CompanyProfileBio = () => {
-  const { companyName } = useParams();
-  const { data: id } = useQuery<number>(['companyId'], () => getCompanyId(companyName!));
-  const { data: company } = useQuery<ICompany>(['companyDetail'], () => getCompanyDetail(id!), {
-    enabled: !!id,
-  });
-
+const CompanyProfileBio = ({
+  companyLogo,
+  companyName,
+  subscriptionCount,
+  isSubscribe,
+  companyBlog,
+}: Partial<ICompany>) => {
   return (
     <BioWrapper>
       <InfoWrapper>
-        <ProfileImg src={company?.companyLogo} />
-        <MiniTitle sizeType="3xl">{company?.companyName}</MiniTitle>
+        <ProfileImg src={companyLogo} />
+        <MiniTitle sizeType="3xl">{companyName}</MiniTitle>
         <SubscriptionWrapper>
           <Paragraph sizeType="lg">구독</Paragraph>
           <Paragraph sizeType="lg" fontWeight="600">
-            {company?.subscriptionCount}
+            {subscriptionCount}
           </Paragraph>
         </SubscriptionWrapper>
-        <UrlText sizeType="sm">{company?.companyBlog}</UrlText>
+        <UrlText sizeType="sm" as="a" href={companyBlog}>
+          {companyBlog}
+        </UrlText>
       </InfoWrapper>
+      <Button
+        designType={isSubscribe ? 'blueFill' : 'blueEmpty'}
+        padding="0.25rem 1rem"
+        borderRadius="var(--borders-radius-lg)"
+      >
+        {isSubscribe ? '구독중' : '구독'}
+      </Button>
     </BioWrapper>
   );
 };

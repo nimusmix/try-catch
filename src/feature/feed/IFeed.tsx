@@ -1,5 +1,5 @@
 export interface IFeedItemProps {
-  feedId: string; // 피드 고유 아이디
+  feedId: string | number; // 피드 고유 아이디
   title: string; // 피드 제목
   summary: string; // 피드 요약 ( 300자 내외 )
   companyName: string; // 회사 이름
