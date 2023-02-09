@@ -87,18 +87,31 @@ export interface IRecentList {
   recentFeeds: Array<IFeed>;
 }
 
+export interface ICompanyFeed {
+  feedId: number;
+  title: string;
+  summary: string;
+  companyName: string;
+  createdAt: number;
+  url: string;
+  thumbnailImage: string;
+  tags: Array<string>;
+  keywords: Array<string>;
+  isBookmarked: boolean;
+}
+
 /**
  * /user/{userId}/subscription/list
  */
 
 // 기업 유저 정보
-export interface ICompanyUser {
+export interface ICompany {
   companyId: number;
-  name: string;
-  image: string;
-  subscriberCount: number;
-  subscribers: Array<Omit<ISimpleUserData, 'isFollow'>>;
-  feeds: Array<IFeed>;
+  companyName: string;
+  companyLogo: string;
+  isSubscribed: boolean;
+  subscriptionCount: number;
+  companyFeed: Array<ICompanyFeed>;
 }
 
 // "유저의" 구독 기업 정보
