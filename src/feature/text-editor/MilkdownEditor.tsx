@@ -26,9 +26,9 @@ import { refractor } from 'refractor/lib/common';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import MilkDownWrapper from './MilkdownWrapper';
+import { useQuestionDispatch } from '../../context/QnaContext';
 import { IQuestion } from '../../interface/qna';
 import { getQuestionDetail } from '../../apis/qna/qna';
-import { useQuestionDispatch } from '../../context/QnaContext';
 
 const MilkdownEditor = (
   {

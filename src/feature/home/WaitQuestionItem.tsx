@@ -7,6 +7,7 @@ import { Button, MiniTitle, Paragraph } from '../../components';
 import { isDarkState } from '../../recoil';
 import elapsedTime from '../../utils/elapsed-time';
 import { IQuestion } from '../../interface/qna';
+import categoryToKorean from '../../utils/category-to-korean';
 
 const Wrapper = styled.article`
   max-width: 848px;
@@ -71,13 +72,6 @@ const InfoWrapper = styled.div`
   }
 `;
 
-const toKorean = (category: string | undefined) => {
-  if (category === 'DEV') {
-    return '개발';
-  }
-  return '커리어';
-};
-
 const QuestionItem = ({
   category,
   title,
@@ -123,7 +117,7 @@ const QuestionItem = ({
             fontSize="var(--fonts-body-xm)"
             padding="2.2px 10px"
           >
-            {toKorean(category)}
+            {categoryToKorean(category)}
           </Button>
           {tags?.map((tag) => {
             if (tag === '') return null;

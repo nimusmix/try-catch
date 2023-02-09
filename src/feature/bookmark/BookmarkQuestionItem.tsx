@@ -7,6 +7,7 @@ import { Button, MiniTitle, Paragraph } from '../../components';
 import { isDarkState } from '../../recoil';
 import elapsedTime from '../../utils/elapsed-time';
 import { IBookmarkQuestion } from '../../interface/bookmark';
+import categoryToKorean from '../../utils/category-to-korean';
 
 const Wrapper = styled.article`
   width: 800px;
@@ -70,13 +71,6 @@ const InfoWrapper = styled.div`
   }
 `;
 
-const toKorean = (category: string | undefined) => {
-  if (category === 'DEV') {
-    return '개발';
-  }
-  return '커리어';
-};
-
 const BookmarkQuestionItem = ({
   title,
   content,
@@ -121,7 +115,7 @@ const BookmarkQuestionItem = ({
             fontSize="var(--fonts-body-xm)"
             padding="2.2px 10px"
           >
-            {toKorean(category)}
+            {categoryToKorean(category)}
           </Button>
           {tags?.map((tag) => {
             if (tag === '') return null;
