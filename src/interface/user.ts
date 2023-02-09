@@ -10,33 +10,6 @@ export interface ISimpleUserData {
   isFollowed: boolean;
 }
 
-/**
- * /user/{userId}/github
- */
-// 그냥 타입 정의 필요없이 바로
-
-/**
- * /user/{userId}/answer/list
- */
-// export interface IAnswer {
-//   author: ISimpleUserData;
-//   answerId: number;
-//   answerContent: string;
-//   timestamp: number;
-//   likeCount: number;
-//   isLiked: boolean;
-// }
-
-// export interface IAnswerList {
-//   answers: Array<IAnswer>;
-// }
-
-// export interface IUserAnswer extends Omit<IAnswer, 'author'> {
-//   questionId: number;
-//   questionTitle: string;
-//   questionContent: string;
-// }
-
 export interface IUserAnswer {
   answerId: number;
   questionId: number;
@@ -149,17 +122,10 @@ export interface IUserDetail {
   userName: string;
   profileImg?: string;
   companyName?: string;
-  // subscriptions: Array<ISubscription>;
   subscriptionCount: number;
-  // followings: Array<ISimpleUserData>;
   followingCount: number;
-  // followers: Array<ISimpleUserData>;
   followerCount: number;
   introduction?: string;
   tags: Array<string>;
-  // questions: Array<IQuestion>;
-  // answers: Array<IAnswer>;
-  // recentFeeds: Array<IFeed>;
-  // history: [];
   isFollowed: boolean;
 }
