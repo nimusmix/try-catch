@@ -1,4 +1,5 @@
 export interface IFeedItemProps {
+  id: number; // 북마크 및 최근 본 피드용 id
   feedId: string; // 피드 고유 아이디
   title: string; // 피드 제목
   summary: string; // 피드 요약 ( 300자 내외 )
@@ -11,6 +12,12 @@ export interface IFeedItemProps {
   keywords: Array<string>; // 인공지능 모델을 통해 추출한 태그
   isBookmarked: boolean; // 북마크 여부
   checkedItemsProps: Array<number>;
+
+  // 북마크 낙관적 update시 props
+  keyword: string;
+  paramSort: 'date' | 'user';
+  subscribe: boolean;
+  advanced: boolean;
 }
 
 export interface IFeedListProps {
