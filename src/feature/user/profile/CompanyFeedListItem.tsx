@@ -181,7 +181,7 @@ const CompanyFeedListItem = ({
         </FeedBody>
 
         <FeedFooter>
-          <FeedTag tags={tags.length === 0 ? keywords : tags} />
+          <FeedTag tags={tags || keywords} />
         </FeedFooter>
       </BlogWrapper>
     </Wrapper>
