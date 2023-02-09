@@ -23,11 +23,11 @@ import {
 import {
   AiFillLike as IconLikeFill,
   AiOutlineAlert as IconReport,
+  AiOutlineArrowLeft as IconArrowLeft,
+  AiOutlineArrowRight as IconArrowRight,
   AiOutlineCopy as IconShare,
   AiOutlineEye as IconEye,
   AiOutlineLike as IconLikeEmpty,
-  AiOutlineArrowLeft as IconArrowLeft,
-  AiOutlineArrowRight as IconArrowRight,
 } from 'react-icons/ai';
 import { BiComment as IconComment } from 'react-icons/bi';
 import { FaUserCircle as IconUserCircle } from 'react-icons/fa';
@@ -35,6 +35,7 @@ import { FiMoreVertical as IconMore } from 'react-icons/fi';
 import { GiTalk as IconQuestion } from 'react-icons/gi';
 import { MdOutlineCreate as IconPen, MdOutlineFeed as IconFeed } from 'react-icons/md';
 import { RiDeleteBin6Line as IconDelete } from 'react-icons/ri';
+import { HiHashtag as IconHash } from 'react-icons/hi';
 
 export {
   IconArrow,
@@ -66,4 +67,5 @@ export {
   IconReport,
   IconDelete,
   IconPen,
+  IconHash,
 };

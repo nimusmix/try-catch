@@ -64,3 +64,15 @@ export const putQuestion = (id: number, data: IPostQuestion & { hidden: boolean 
 export const getQuestQuestionList = () => {
   return api.get('/question/quest').then((res: AxiosResponse<Array<IQuestion>>) => res.data);
 };
+
+export const getPopularTags = () => {
+  return api
+    .get(`/question/popular-tag`)
+    .then((res: AxiosResponse<{ tags: Array<string> }>) => res.data);
+};
+
+export const getPopularQuestion = (params: { category?: 'DEV' | 'CAREER'; size: number }) => () => {
+  return api
+    .get(`/question/popular`, { params })
+    .then((res: AxiosResponse<Array<IQuestion>>) => res.data);
+};

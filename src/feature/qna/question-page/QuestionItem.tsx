@@ -6,9 +6,9 @@ import {
   IconCheckCircle,
   IconComment,
   IconEye,
+  IconHash,
   IconLikeEmpty,
   IconLikeFill,
-  IconTrying,
 } from '../../../components/icons/Icons';
 import { Button, MiniTitle, Paragraph } from '../../../components';
 import { isDarkState } from '../../../recoil';
@@ -23,6 +23,9 @@ const Wrapper = styled.article`
   &:hover {
     background-color: ${({ theme: { isDark } }) =>
       isDark ? 'var(--colors-black-400)' : 'var(--colors-white-400)'};
+  }
+  & > span {
+    margin-bottom: 1rem;
   }
 `;
 
@@ -64,7 +67,7 @@ const QuestionFooter = styled.div`
 
 const TagsWrapper = styled.div`
   & > span {
-    display: inline-block;
+    display: inline-flex;
     margin-right: 0.5rem;
   }
 `;
@@ -87,6 +90,16 @@ const InfoWrapper = styled.div`
 
 const UpperTag = styled(Button)`
   border: 1px solid #00000010;
+`;
+
+const Tag = styled(Button)`
+  border: 1px solid rgb(238 238 238/10);
+  background-color: ${({ theme: { bgColor } }) => bgColor};
+  color: ${({ theme: { textColor } }) => textColor};
+
+  &:hover {
+    color: #f1f1f1;
+  }
 `;
 
 const TitleWrapper = styled.div`
@@ -121,6 +134,14 @@ const QuestionItem = ({
 
   return (
     <Wrapper>
+      <Button
+        as="span"
+        designType="purpleFill"
+        fontSize="var(--fonts-body-xm)"
+        padding="2.2px 10px"
+      >
+        {toKorean(category)}
+      </Button>
       <QuestionHeader>
         <TitleWrapper>
           <MiniTitle
@@ -137,25 +158,10 @@ const QuestionItem = ({
               designType="greenFill"
               fontSize="14px"
               padding="0.2rem 0.6rem"
-              margin="0 0 0.4rem"
               borderRadius="10px"
             >
               <IconCheckCircle size="14" className="solved-icon" />
               &nbsp;Catched
-            </UpperTag>
-          )}
-          {/* 미해결 질문 */}
-          {isSolved || (
-            <UpperTag
-              as="span"
-              designType="skyFill"
-              fontSize="14px"
-              padding="0.2rem 0.6rem"
-              margin="0 0 0.4rem"
-              borderRadius="10px"
-            >
-              <IconTrying size="14" className="unsolved-icon" />
-              &nbsp;Trying
             </UpperTag>
           )}
         </TitleWrapper>
@@ -176,27 +182,19 @@ const QuestionItem = ({
 
       <QuestionFooter>
         <TagsWrapper>
-          <Button
-            as="span"
-            designType="purpleFill"
-            fontSize="var(--fonts-body-xm)"
-            padding="2.2px 10px"
-          >
-            {toKorean(category)}
-          </Button>
           {tags?.map((tag) => {
             if (tag === '') return null;
             return (
-              <Button
+              <Tag
                 key={tag}
                 as="span"
-                designType="blueEmpty"
                 fontSize="var(--fonts-body-xm)"
                 padding="2px 10px"
                 borderRadius="var(--borders-radius-base)"
               >
+                <IconHash color="var(--colors-black-100)" />
                 {tag}
-              </Button>
+              </Tag>
             );
           })}
         </TagsWrapper>
