@@ -50,7 +50,7 @@ const QnaPopularTag = ({ setKeyword }: { setKeyword: Dispatch<string> }) => {
               designType="grayFill"
               fontSize="var(--fonts-body-sm)"
               padding="	0.125rem 0.5rem"
-              borderRadius="var(--borders-radius-base)"
+              borderRadius="var(--borders-radius-xl)"
               style={{ marginBottom: '0.5rem', fontWeight: '500' }}
               onClick={handleClick}
             >
