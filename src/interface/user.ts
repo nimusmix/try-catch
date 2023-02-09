@@ -109,8 +109,9 @@ export interface ICompany {
   companyId: number;
   companyName: string;
   companyLogo: string;
-  isSubscribed: boolean;
+  isSubscribe: boolean;
   subscriptionCount: number;
+  companyBlog: string;
   companyFeed: Array<ICompanyFeed>;
 }
 
