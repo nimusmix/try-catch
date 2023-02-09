@@ -89,6 +89,10 @@ const ProfileEditPage = () => {
 
   const introductionLength = watch('introduction')?.length;
 
+  const onValid = (data: any) => {
+    console.log(data);
+  };
+
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -103,15 +107,12 @@ const ProfileEditPage = () => {
             <MiniTitle sizeType="2xl" fontWeight="600">
               닉네임
             </MiniTitle>
-            <InfoInput
-              {...register('userName', { minLength: 5, maxLength: 50 })}
-              placeholder={user?.userName}
-            />
+            <Paragraph sizeType="base">{user?.userName}</Paragraph>
           </InputWrapper>
 
           <InputWrapper>
             <MiniTitle sizeType="2xl" fontWeight="600">
-              재직중인 회사
+              현 직장
             </MiniTitle>
             <InfoInput {...register('companyName')} placeholder={user?.companyName} />
           </InputWrapper>
@@ -126,7 +127,7 @@ const ProfileEditPage = () => {
             <IntroductionInput
               as="textarea"
               {...register('introduction', { maxLength: 200 })}
-              placeholder={user?.introduction}
+              placeholder={user?.introduction || '자기소개를 입력해주세요.'}
             />
           </InputWrapper>
         </InfoWrapper>
