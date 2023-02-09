@@ -40,7 +40,7 @@ const QnaDetailPage = () => {
   const qnaCategory = useRecoilValue(qnaCategoryState);
   const dispatch = useQuestionDispatch();
   const isLogin = useRecoilValue(isLoggedInState);
-  const { isLoading, data: questionDetail } = useQuery<IQuestion>(
+  const { isFetching, data: questionDetail } = useQuery<IQuestion>(
     ['question', questionId] as const,
     getQuestionDetail(Number(questionId)),
     {
@@ -61,7 +61,7 @@ const QnaDetailPage = () => {
     }
   );
 
-  if (isLoading) {
+  if (isFetching) {
     return <h1>Loading...</h1>;
   }
 
