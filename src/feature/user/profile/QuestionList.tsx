@@ -12,19 +12,19 @@ const QuestionWrapper = styled.section`
 const QuestionList = () => {
   const { userName } = useParams();
   const { data: userId, isLoading: userIdLoading } = useQuery<number>(
-    ['myQuestionList', 'userId'] as const,
+    ['questionList', 'userId'] as const,
     () => getUserId(userName!)
   );
 
-  const { data: questionList, isLoading: myQuestionLoading } = useQuery<Array<IQuestion>>(
-    ['myQuestionList'],
+  const { data: questionList, isLoading: questionLoading } = useQuery<Array<IQuestion>>(
+    ['questionList'],
     () => getUserQuestion(userId!),
     {
       enabled: !!userId,
     }
   );
 
-  if (userIdLoading || myQuestionLoading) {
+  if (userIdLoading || questionLoading) {
     return <p>Loading...</p>;
   }
 

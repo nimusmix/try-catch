@@ -7,12 +7,12 @@ import AnswerListItem from './AnswerListItem';
 const AnswerList = () => {
   const { userName } = useParams();
   const { data: userId, isLoading: userIdLoading } = useQuery<number>(
-    ['myAnswerList', 'userId'] as const,
+    ['answerList', 'userId'] as const,
     () => getUserId(userName!)
   );
 
   const { data: answerList, isLoading: myAnswerLoading } = useQuery<Array<IUserAnswer>>(
-    ['myAnswerList'],
+    ['annswerList'],
     () => getUserAnswer(userId!),
     {
       enabled: !!userId,
