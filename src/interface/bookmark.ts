@@ -1,3 +1,4 @@
+import { number, string } from 'yargs';
 import { IEdge, INode } from './roadmap';
 
 export interface IBookmarkBody {
@@ -33,4 +34,17 @@ export interface IBookmarkRoadMap {
   likeCount: number;
   createdAt: number;
   updatedAt: number;
+}
+
+export interface IBookmarkFeed {
+  id: number;
+  feedId: string;
+  title: string;
+  content: string;
+  createdAt: string;
+  companyName: string;
+  tags: Array<string>;
+  url: string;
+  keywords: Array<string>;
+  logoSrc: string;
 }
