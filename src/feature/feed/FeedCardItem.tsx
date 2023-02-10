@@ -154,7 +154,17 @@ const FeedCardItem = ({
   };
 
   return (
-    <StyledCard width="17.125rem" as="a" href={`${url}`} target="_blank" rel="noreferrer">
+    <StyledCard
+      width="17.125rem"
+      as="a"
+      href={`${url}`}
+      target="_blank"
+      rel="noreferrer"
+      // TODO 백엔드 구현되면, 주석 풀기
+      // onClick={() => {
+      //   postFeedRead({ feedId: id });
+      // }}
+    >
       <CardHeader>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <img src={logoSrc} alt={companyName} />
