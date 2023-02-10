@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -67,7 +67,7 @@ const Introduction = styled.div`
   padding: 3rem 0;
 `;
 
-const ProfileBio = ({ changeFn }: any) => {
+const ProfileBio = () => {
   const { userName } = useParams();
   const queryClient = useQueryClient();
   const { data: userId } = useQuery<number>(['profileBio', userName] as const, () =>
@@ -82,9 +82,8 @@ const ProfileBio = ({ changeFn }: any) => {
     }
   );
 
-  const { data: loginedUserName } = useQuery(['loginedUserName'] as const, getName);
+  const { data: loginedUserName } = useQuery(['loginedUserName', 'profileBio'] as const, getName);
   const isMine = isMyself(loginedUserName, userName!);
-  changeFn(isMine);
 
   // 로그인 여부 (모달 띄우기 방지 위함)
   const isLoggedIn = useRecoilValue(isLoggedInState);
