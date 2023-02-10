@@ -7,10 +7,17 @@ import { IRoadmap } from '../../interface/roadmap';
 import { getRoadmapDetail } from '../../apis/roadmap/roadmap';
 import { Layout } from '../../layout';
 import RoadmapDetailBody from '../../feature/roadmap/RoadmapDetailBody';
-import { IconArrowBack, IconLikeEmpty, IconLikeFill } from '../../components/icons/Icons';
+import {
+  IconArrowBack,
+  IconLikeEmpty,
+  IconLikeFill,
+  IconBookmarkEmpty,
+  IconBookmarkFill,
+} from '../../components/icons/Icons';
 import { cancelLike, postLike } from '../../apis/like/like';
 import { isLoggedInState, toastState } from '../../recoil';
 import { postFollow, putFollow } from '../../apis/user/user';
+import { putBookmark, postBookmark } from '../../apis/bookmark/bookmark';
 
 const RoadmapDetailWrapper = styled.div`
   display: flex;
@@ -20,7 +27,7 @@ const RoadmapDetailWrapper = styled.div`
   margin: 3rem auto;
 
   h2 {
-    margin: 0.725rem 0 1.5rem;
+    margin: 0.725rem 0;
   }
 
   & > svg {
@@ -40,12 +47,29 @@ const SubText = styled(Paragraph)`
   color: ${({ theme }) => theme.textColor100};
 `;
 
+const TitleBookmarkWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+    color: var(--colors-brand-500);
+  }
+`;
+
+const BookmarkIcon = styled.span`
+  cursor: pointer;
+`;
+
 const UserWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: 2rem;
+  margin: 0.5rem 0 2rem;
 `;
 
 const UserInfoWrapper = styled.div`
@@ -141,14 +165,22 @@ const RoadmapDetailPage = () => {
     return { prevData };
   };
 
-  const { mutate: follow } = useMutation(['post', 'follow'], () => postFollow(userId!), {
-    onMutate: () => updateFollow('post'),
-  });
-  const { mutate: unfollow } = useMutation(['put', 'follow'], () => putFollow(userId!), {
-    onMutate: () => updateFollow('put'),
-  });
+  const { mutate: follow } = useMutation(
+    ['post', 'follow'],
+    () => postFollow(roadmapDetail!.author.userId!),
+    {
+      onMutate: () => updateFollow('post'),
+    }
+  );
+  const { mutate: unfollow } = useMutation(
+    ['put', 'follow'],
+    () => putFollow(roadmapDetail!.author.userId!),
+    {
+      onMutate: () => updateFollow('put'),
+    }
+  );
 
-  const clickFollowBtn = () => {
+  const onClickFollowHandler = () => {
     if (!isLoggedIn) {
       setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다.', isVisible: true });
       return;
@@ -158,6 +190,43 @@ const RoadmapDetailPage = () => {
       unfollow();
     } else {
       follow();
+    }
+  };
+
+  const unBookmark = useMutation(putBookmark, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['roadmap', userName]);
+    },
+  });
+
+  const bookmark = useMutation(postBookmark, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['roadmap', userName]);
+    },
+  });
+
+  const onClickBookmarkHandler = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    if (!isLoggedIn) {
+      setToast({
+        type: 'negative',
+        isVisible: true,
+        message: '로그인 후 북마크를 이용해보세요! ',
+      });
+    } else if (roadmapDetail?.isBookmarked) {
+      unBookmark.mutate({ id: roadmapDetail!.roadmapId, type: 'ROADMAP' });
+      setToast({
+        type: 'positive',
+        message: '북마크에서 제거되었습니다.',
+        isVisible: true,
+      });
+    } else {
+      bookmark.mutate({ id: roadmapDetail!.roadmapId, type: 'ROADMAP' });
+      setToast({
+        type: 'positive',
+        message: '북마크에 추가되었습니다.',
+        isVisible: true,
+      });
     }
   };
 
@@ -180,7 +249,13 @@ const RoadmapDetailPage = () => {
           {roadmapDetail?.tag}
         </Button>
 
-        <SubTitle>{roadmapDetail?.title}</SubTitle>
+        <TitleBookmarkWrapper>
+          <SubTitle>{roadmapDetail?.title}</SubTitle>
+          <BookmarkIcon onClick={onClickBookmarkHandler}>
+            {roadmapDetail?.isBookmarked && <IconBookmarkFill />}
+            {roadmapDetail?.isBookmarked || <IconBookmarkEmpty />}
+          </BookmarkIcon>
+        </TitleBookmarkWrapper>
 
         <UserWrapper>
           <UserInfoWrapper>
@@ -198,7 +273,7 @@ const RoadmapDetailPage = () => {
             designType={roadmapDetail?.author.isFollowed ? 'blueFill' : 'blueEmpty'}
             padding="0.25rem 1rem"
             borderRadius="var(--borders-radius-lg)"
-            onClick={clickFollowBtn}
+            onClick={onClickFollowHandler}
           >
             {roadmapDetail?.author.isFollowed ? '팔로잉' : '팔로우'}
           </Button>
