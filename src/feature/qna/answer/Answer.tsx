@@ -104,6 +104,7 @@ const SubText = styled(Paragraph)`
 `;
 
 const FollowButton = styled(Button)`
+  transition: background-color 0.5s ease;
   padding: 0.1rem 0.25rem;
   font-size: var(--fonts-body-sm);
 `;
