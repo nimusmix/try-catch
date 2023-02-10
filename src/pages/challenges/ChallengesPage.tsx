@@ -4,11 +4,10 @@ import { MiniTitle, Paragraph, SubTitle } from '../../components';
 import { header_challenge } from '../../assets';
 import { QuestionPageBody as ChallengePageBody } from '../qna/QnaPage';
 import {
+  ChallengeAll,
   ChallengeRank,
-  OngoingChallenge,
   OngoingChallengeVer3,
   RecommendChallenge,
-  ChallengeAll,
 } from '../../feature/challenge';
 
 const ChallengeRecommend = () => {

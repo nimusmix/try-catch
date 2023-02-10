@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useForm } from 'react-hook-form';
-import { Dispatch } from 'react';
-import { IconSearch } from '../../../components/icons/Icons';
-import { Button, Input } from '../../../components';
+import { IconRefresh, IconSearch } from '../../../components/icons/Icons';
+import { Button, Input, Paragraph } from '../../../components';
 import { isDarkState } from '../../../recoil';
+import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
 
 interface ISearchValue {
   data: string;
@@ -31,6 +31,20 @@ const StyledSearchBar = styled.div`
 const StyledSearch = styled.div`
   display: flex;
   width: 41.25rem;
+  padding-bottom: 1rem;
+`;
+
+const KeywordWrapper = styled.span`
+  display: flex;
+  justify-content: space-between;
+
+  & > div {
+    display: flex;
+  }
+
+  p {
+    margin-right: 0.25rem;
+  }
 `;
 
 const SearchBarForm = styled.form`
@@ -43,13 +57,13 @@ const SearchBarForm = styled.form`
   backdrop-filter: blur(30px);
 `;
 
-const QnaSearchBar = ({ setKeyword }: { setKeyword: Dispatch<string> }) => {
+const QnaSearchBar = () => {
+  const [keyword, setKeyword] = useRecoilState(qnaSearchKeywordState);
   const isDark = useRecoilValue(isDarkState);
   const { register, handleSubmit, resetField } = useForm<ISearchValue>();
 
-  // const handleClick = () => resetField('data');
   const onSubmit = (data: ISearchValue) => {
-    setKeyword(data.data);
+    setKeyword(data.data.toLocaleLowerCase());
     resetField('data');
   };
   const { ...inputProps } = register('data');
@@ -78,6 +92,50 @@ const QnaSearchBar = ({ setKeyword }: { setKeyword: Dispatch<string> }) => {
           검색
         </Button>
       </StyledSearch>
+      <KeywordWrapper>
+        <div>
+          <Paragraph sizeType="lg">현재 검색 키워드: </Paragraph>
+          <Paragraph sizeType="base">
+            {keyword.length > 0 ? (
+              <Button
+                as="span"
+                designType="grayFill"
+                fontSize="var(--fonts-body-sm)"
+                padding="0 0.5rem"
+                borderRadius="var(--borders-radius-base)"
+                style={{ marginBottom: '0.5rem', fontWeight: '500' }}
+              >
+                {keyword}
+              </Button>
+            ) : (
+              <Button
+                as="span"
+                designType="grayFill"
+                fontSize="var(--fonts-body-sm)"
+                padding="0 0.5rem"
+                borderRadius="var(--borders-radius-base)"
+                style={{ marginBottom: '0.5rem', fontWeight: '500' }}
+              >
+                없음
+              </Button>
+            )}
+          </Paragraph>
+        </div>
+        {keyword.length > 0 ? (
+          <Button
+            onClick={() => setKeyword('')}
+            as="span"
+            designType="redFill"
+            fontSize="var(--fonts-body-sm)"
+            padding="0 0.5rem"
+            borderRadius="var(--borders-radius-base)"
+            style={{ marginBottom: '0.5rem', fontWeight: '500' }}
+          >
+            초기화
+            <IconRefresh />
+          </Button>
+        ) : null}
+      </KeywordWrapper>
     </SearchBarForm>
   );
 };

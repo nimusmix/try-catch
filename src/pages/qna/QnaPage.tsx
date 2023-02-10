@@ -15,6 +15,7 @@ import { useQuestionDispatch } from '../../context/QnaContext';
 import QnaListSkeleton from '../../feature/qna/skeleton/QnaListSkeleton';
 import QnaPopularTagsSkeleton from '../../feature/qna/skeleton/QnaPopularTagsSkeleton';
 import { isLoggedInState, toastState } from '../../recoil';
+import qnaSearchKeywordState from '../../recoil/qnaSearchKeywordState';
 
 const DetailPage = loadable(() => import('./QnaDetailPage'));
 
@@ -74,15 +75,15 @@ const Li = styled.li`
 
 const QnaFilterWrapper = styled.div`
   position: sticky;
-  top: 8.5rem;
+  top: 11.6rem;
   opacity: 0.9;
   background: ${({ theme: { bgColor } }) => bgColor};
 `;
 
 const QnaPage = () => {
   const [activeCategory, setActiveCategory] = useRecoilState(qnaCategoryState);
+  const keyword = useRecoilValue(qnaSearchKeywordState);
   const [filter, setFilter] = useState<string>('all');
-  const [keyword, setKeyword] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const isLogin = useRecoilValue(isLoggedInState);
   const setToast = useSetRecoilState(toastState);
@@ -121,7 +122,7 @@ const QnaPage = () => {
         </Aside>
         {/* 메인 컨텐츠 */}
         <section>
-          <QnaSearchBar setKeyword={setKeyword} />
+          <QnaSearchBar />
           <QnaFilterWrapper>
             <Ul>
               {filterOptions.map((option) => (
@@ -139,7 +140,7 @@ const QnaPage = () => {
           {/* 로딩 시 스켈레톤 */}
           {isLoading && <QnaListSkeleton />}
           {/* Q&A 리스트 */}
-          <QuestionList filter={filter} keyword={keyword} setIsLoading={setIsLoading} />
+          <QuestionList filter={filter} setIsLoading={setIsLoading} />
         </section>
         <Aside>
           <Button
@@ -154,7 +155,7 @@ const QnaPage = () => {
           </Button>
           {/* 인기 태그 */}
           {isLoading && <QnaPopularTagsSkeleton />}
-          {isLoading || <QnaPopularTag setKeyword={setKeyword} />}
+          {isLoading || <QnaPopularTag />}
           {/* 인기 Q&A */}
           <PopularQna />
         </Aside>

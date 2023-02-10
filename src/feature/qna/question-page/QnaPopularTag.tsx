@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
-import { Dispatch } from 'react';
+import { useSetRecoilState } from 'recoil';
 import { Button, Div, MiniTitle } from '../../../components';
 import { getPopularTags } from '../../../apis/qna/qna';
+import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
 
 const QnaPopularTagWrapper = styled(Div)`
   border-radius: 0.5rem;
@@ -22,7 +23,8 @@ const TagsWrapper = styled.div`
   }
 `;
 
-const QnaPopularTag = ({ setKeyword }: { setKeyword: Dispatch<string> }) => {
+const QnaPopularTag = () => {
+  const setKeyword = useSetRecoilState(qnaSearchKeywordState);
   const { data: qnaPopularTags, isLoading } = useQuery(
     ['question', 'popular', 'tag'] as const,
     getPopularTags

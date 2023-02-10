@@ -1,22 +1,27 @@
 import { Link } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Dispatch, Fragment, useEffect } from 'react';
 import { getQuestionList } from '../../../apis/qna/qna';
 import qnaCategoryState from '../../../recoil/qnaCategoryState';
 import { QuestionItem } from '../index';
 import question from '../Question';
+import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
+import { logOnDev } from '../../../utils/logging';
 
 const QuestionList = ({
   filter,
-  keyword,
   setIsLoading,
 }: {
   filter: string;
-  keyword: string;
   setIsLoading: Dispatch<boolean>;
 }) => {
   const [activeCategory, setActiveCategory] = useRecoilState<string>(qnaCategoryState);
+  const keyword = useRecoilValue(qnaSearchKeywordState);
+
+  useEffect(() => {
+    logOnDev.log(keyword);
+  }, [keyword]);
 
   // TODO 나중에 search 엔드포인트 변경되면 그때 바꾸면 됨
   const {
@@ -31,7 +36,7 @@ const QuestionList = ({
         query: keyword,
         page: pageParam,
         category: activeCategory as 'DEV' | 'CAREER' | 'BALANCE',
-        size: 10,
+        size: 20,
       };
       return getQuestionList(params);
     },
@@ -40,19 +45,50 @@ const QuestionList = ({
       getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
       // 필터 부분 select로 원하는 데이터로 만들어 줌
       select: (data) => {
-        const filteredData = {
-          pages: data.pages.map((page) => ({
-            data: page.data.filter((item) => {
-              // 해결됨
-              if (filter === 'solved') return item.isSolved;
-              // 미해결
-              if (filter === 'unSolved') return !item.isSolved;
-              // 전체
-              return item;
-            }),
-          })),
-          pageParams: data.pageParams,
-        };
+        let filteredData;
+        if (keyword === '') {
+          filteredData = {
+            pages: data.pages.map((page) => ({
+              data: page.data.filter((item) => {
+                // 해결됨
+                if (filter === 'solved') return item.isSolved;
+                // 미해결
+                if (filter === 'unSolved') return !item.isSolved;
+                // 전체
+                return item;
+              }),
+            })),
+            pageParams: data.pageParams,
+          };
+        } else {
+          filteredData = {
+            pages: data.pages.map((page) => ({
+              data: page.data.filter((item) => {
+                // 해결됨
+                if (filter === 'solved')
+                  return (
+                    (item.isSolved &&
+                      (item.title.includes(keyword) || item.content.includes(keyword))) ||
+                    item.tags.some((tag) => tag.toLocaleLowerCase() === keyword)
+                  );
+                // 미해결
+                if (filter === 'unSolved')
+                  return (
+                    (!item.isSolved &&
+                      (item.title.includes(keyword) || item.content.includes(keyword))) ||
+                    item.tags.some((tag) => tag.toLocaleLowerCase() === keyword)
+                  );
+                // 전체
+                return (
+                  item.title.includes(keyword) ||
+                  item.content.includes(keyword) ||
+                  item.tags.some((tag) => tag.toLocaleLowerCase() === keyword)
+                );
+              }),
+            })),
+            pageParams: data.pageParams,
+          };
+        }
         return { ...filteredData };
       },
     }
