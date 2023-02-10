@@ -36,7 +36,7 @@ const AnswerItem = styled.li`
 `;
 
 const UpperWrapper = styled.div`
-  flex-direction: column;
+  //flex-direction: column;
   display: flex;
   justify-content: space-between;
   background-color: ${({ theme: { isDark } }) =>
@@ -415,6 +415,7 @@ const Answer = ({
             </SubTextWrapper>
           </UserInfoWrapper>
         </AuthorWrapper>
+
         {isMe && <TbEdit className="edit" onClick={() => setIsEdit((prev) => !prev)} />}
       </UpperWrapper>
 
