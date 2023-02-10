@@ -32,8 +32,8 @@ const Badge = styled.div`
 `;
 
 const UserProfilePage = () => {
-  const [activeMenu, setActiveMenu] = useState('질문');
   const [isMine, setIsMine] = useState('false');
+  console.log('프로필 페이지 렌더링');
 
   return (
     <Layout>
