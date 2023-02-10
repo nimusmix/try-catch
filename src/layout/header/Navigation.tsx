@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { ReactComponent as LogoDarkTheme } from '../../assets/horizontal_logo_dark_theme.svg';
 import { ReactComponent as LogoLightTheme } from '../../assets/horizontal_logo_light_theme.svg';
 import { HOME_PAGE_NAME } from '../../constant';
-import { isDarkState, isLoggedInState } from '../../recoil';
+import { isDarkState, isLoggedInState, isSystemThemeState } from '../../recoil';
 import { Header, MemberNavMenu, NavMenu, NonMemberNavMenu } from '../index';
 
 const Logo = styled.div`
@@ -37,6 +37,24 @@ export const NavWrapper = styled.div`
 const Navigation = () => {
   const [isDark, setIsDark] = useRecoilState(isDarkState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
+
+  /** 테마: 시스템 설정 */
+  const [isSystemTheme, setSystemTheme] = useRecoilState(isSystemThemeState);
+  const mql = window.matchMedia('(prefers-color-scheme: dark)');
+
+  const ChangeEventTheme = (e: any) => {
+    if (!isSystemTheme) {
+      // 아무것도 안함
+    } else if (e.matches) {
+      // 해당 미디어 쿼리가 참인 경우 (다크모드)
+      setIsDark(true);
+    } else {
+      // 해당 미디어 쿼리가 거짓인 경우
+      setIsDark(false);
+    }
+  };
+  mql.addEventListener('change', ChangeEventTheme, { once: true });
+
   return (
     <Header>
       <Nav>
