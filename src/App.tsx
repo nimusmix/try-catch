@@ -24,6 +24,21 @@ const GlobalStyles = createGlobalStyle`
     background-color: ${({ theme: { bgColor } }) => bgColor};
   }
 
+  body::-webkit-scrollbar {
+    width: 8px;  /* 스크롤바의 너비 */
+  }
+
+  body::-webkit-scrollbar-thumb {
+    height: 30%; /* 스크롤바의 길이 */
+    background: var(--colors-brand-500); /* 스크롤바의 색상 */
+
+    border-radius: 10px;
+  }
+
+  body::-webkit-scrollbar-track {
+    background: var(--colors-brand-200);  /*스크롤바 뒷 배경 색상*/
+  }
+
   
 `;
 
