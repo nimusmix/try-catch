@@ -15,6 +15,7 @@ import {
   BsBellFill as IconBellFill,
   BsCheck as IconCheck,
   BsCheckCircleFill as IconCheckCircle,
+  BsDot as IconDot,
   BsFillReplyFill as IconReply,
   BsGrid as IconCard,
   BsQuestionDiamondFill as IconTrying,
@@ -71,4 +72,5 @@ export {
   IconPen,
   IconHash,
   IconBest,
+  IconDot,
 };

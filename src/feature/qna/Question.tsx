@@ -2,6 +2,7 @@
 import styled from 'styled-components';
 import { useMutation, useQueryClient } from 'react-query';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 import { Button, Div, MiniTitle, Paragraph } from '../../components';
 import {
   IconBookmarkEmpty,
@@ -43,7 +44,7 @@ const UpperWrapper = styled.div`
   border-bottom: ${({ theme: { isDark } }) =>
       isDark ? 'var(--colors-black-100)' : 'rgb(182, 202,229)'}
     solid 1px;
-  border-radius: 0.9rem 0.9rem 0 0;
+  border-radius: 0.7rem 0.7rem 0 0;
 
   .question-icons {
     display: flex;
@@ -51,6 +52,7 @@ const UpperWrapper = styled.div`
   }
 
   .author {
+    cursor: pointer;
     display: flex;
     margin-right: 1rem;
     align-items: center;
@@ -97,6 +99,10 @@ const CompanyImg = styled.img`
 `;
 
 const Like = styled.span`
+  padding: 0.5rem 2rem;
+  border: ${({ theme: { isDark } }) => (isDark ? 'var(--colors-black-100)' : 'rgb(182, 202,229)')}
+    solid 1px;
+  border-radius: var(--borders-radius-2xl);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -188,6 +194,7 @@ const Question = ({
 }: IQuestion) => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const [toast, setToast] = useRecoilState(toastState);
+  const navigate = useNavigate();
 
   const queryClient = useQueryClient();
   const updateLike = (type: 'up' | 'down') => {
@@ -344,7 +351,8 @@ const Question = ({
           {title}
         </MiniTitle>
 
-        <div className="author">
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+        <div className="author" onClick={() => navigate(`/profile/${author.userName}`)}>
           <ProfileImg src={author.profileImage} />
           <SubText sizeType="sm" margin="0 0.2rem 0 0.3rem">
             {author.userName}

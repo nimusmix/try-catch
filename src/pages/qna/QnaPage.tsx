@@ -26,11 +26,6 @@ const navOptions = [
     option: '커리어',
     value: 'CAREER',
   },
-  {
-    id: 3,
-    option: '밸런스 게임',
-    value: 'BALANCE',
-  },
 ];
 
 export const QuestionPageBody = styled.section`
