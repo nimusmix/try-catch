@@ -22,7 +22,7 @@ const FollowersPage = () => {
   if (userIdLoading || contentLoading) {
     return <p>Loading...</p>;
   }
-  console.logI(followers);
+  console.log(followers);
   return (
     <ModalWrapper>
       <NavWrapper>
