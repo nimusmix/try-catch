@@ -1,14 +1,14 @@
-import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { useParams, useNavigate } from 'react-router';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useNavigate, useParams } from 'react-router';
 import styled from 'styled-components';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Button, MiniTitle, Paragraph, SubTitle } from '../../components';
 import { IRoadmap } from '../../interface/roadmap';
 import { getRoadmapDetail } from '../../apis/roadmap/roadmap';
 import { Layout } from '../../layout';
 import RoadmapDetailBody from '../../feature/roadmap/RoadmapDetailBody';
 import { IconArrowBack, IconLikeEmpty, IconLikeFill } from '../../components/icons/Icons';
-import { postLike, cancelLike } from '../../apis/like/like';
+import { cancelLike, postLike } from '../../apis/like/like';
 import { isLoggedInState, toastState } from '../../recoil';
 
 const RoadmapDetailWrapper = styled.div`
@@ -109,7 +109,7 @@ const RoadmapDetailPage = () => {
 
   const onClickLikeHandler = () => {
     if (!isLoggedIn) {
-      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다', isVisible: true });
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있어요', isVisible: true });
       return;
     }
     if (roadmapDetail?.isLiked) {

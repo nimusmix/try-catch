@@ -269,7 +269,7 @@ const Question = ({
 
   const onClickLikeHandler = () => {
     if (!isLoggedIn) {
-      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다', isVisible: true });
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있어요', isVisible: true });
       return;
     }
     if (isLiked) {

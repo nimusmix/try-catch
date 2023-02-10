@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Button } from '../../components';
 import FERoadmap from './FERoadmap';
 import BERoadmap from './BERoadmap';
@@ -29,7 +29,7 @@ const RoadmapMain = () => {
 
   const createdRoadmapHandler = () => {
     if (!isLoggedIn) {
-      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다.', isVisible: true });
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있어요', isVisible: true });
     } else {
       navi('form');
     }

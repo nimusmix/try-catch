@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import loadable from '@loadable/component';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { HeaderImage, Layout } from '../../layout';
 import { Button, Paragraph, SubTitle } from '../../components';
 import { PopularQna, QnaPopularTag, QnaSearchBar } from '../../feature/qna';
@@ -14,6 +14,7 @@ import { IconPen } from '../../components/icons/Icons';
 import { useQuestionDispatch } from '../../context/QnaContext';
 import QnaListSkeleton from '../../feature/qna/skeleton/QnaListSkeleton';
 import QnaPopularTagsSkeleton from '../../feature/qna/skeleton/QnaPopularTagsSkeleton';
+import { isLoggedInState, toastState } from '../../recoil';
 
 const DetailPage = loadable(() => import('./QnaDetailPage'));
 
@@ -83,8 +84,19 @@ const QnaPage = () => {
   const [filter, setFilter] = useState<string>('all');
   const [keyword, setKeyword] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const isLogin = useRecoilValue(isLoggedInState);
+  const setToast = useSetRecoilState(toastState);
   const dispatch = useQuestionDispatch();
   const activeIdx = navOptions.findIndex((option) => option.value === activeCategory);
+  const navigate = useNavigate();
+
+  const onClickWriteButton = () => {
+    if (!isLogin) {
+      setToast({ type: 'negative', message: '로그인 후 이용할 수 있어요', isVisible: true });
+      return;
+    }
+    navigate('form');
+  };
 
   // 디테일 페이지를 미리 로드 (효과가 있는지 잘 모르겠음..)
   useEffect(() => {
@@ -130,17 +142,16 @@ const QnaPage = () => {
           <QuestionList filter={filter} keyword={keyword} setIsLoading={setIsLoading} />
         </section>
         <Aside>
-          <Link to="form">
-            <Button
-              width="100%"
-              fontSize="var(--fonts-body-base)"
-              padding="0.455rem 1.125rem"
-              margin="0 0 1rem 0"
-            >
-              <IconPen />
-              &nbsp;&nbsp;질문 작성하기
-            </Button>
-          </Link>
+          <Button
+            width="100%"
+            fontSize="var(--fonts-body-base)"
+            padding="0.455rem 1.125rem"
+            margin="0 0 1rem 0"
+            onClick={onClickWriteButton}
+          >
+            <IconPen />
+            &nbsp;&nbsp;질문 작성하기
+          </Button>
           {/* 인기 태그 */}
           {isLoading && <QnaPopularTagsSkeleton />}
           {isLoading || <QnaPopularTag setKeyword={setKeyword} />}
