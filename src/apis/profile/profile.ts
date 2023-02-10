@@ -26,7 +26,10 @@ export const getUserSubscription = (userId: number) =>
 
 // 팔로잉, 팔로워 목록 조회
 export const getUserFollow = (userId: number, params: { type: string }) => {
-  authApi.get(`/user/${userId}/list`, { params }).then((res) => res.data);
+  return authApi.get(`/user/${userId}/list`, { params }).then((res) => {
+    console.log('여기', res.data);
+    return res.data;
+  });
 };
 
 // 회원 정보 수정

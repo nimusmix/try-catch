@@ -13,16 +13,19 @@ const FollowersPage = () => {
     ['myAnswerList', 'userId'] as const,
     () => getUserId(userName!)
   );
-  const { data: followers, isLoading: contentLoading } = useQuery<any>(
+
+  const { data: followers, isLoading: contentLoading } = useQuery<Array<ISimpleUserData>>(
     ['user', 'follower'],
     () => getUserFollow(userId!, { type: 'follower' }),
-    { enabled: !!userId }
+    {
+      enabled: !!userId,
+    }
   );
 
   if (userIdLoading || contentLoading) {
     return <p>Loading...</p>;
   }
-  console.log(followers);
+
   return (
     <ModalWrapper>
       <NavWrapper>

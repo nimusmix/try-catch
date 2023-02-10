@@ -39,6 +39,7 @@ export const NavItem = styled.div<{ toggle?: boolean }>`
 
 export const ItemWrapper = styled.div`
   margin-top: 3rem;
+  padding: 0.5rem 2.25rem;
   overflow-y: auto;
 `;
 
