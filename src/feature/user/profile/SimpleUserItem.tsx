@@ -64,13 +64,13 @@ const SimpleUserItem = ({
       </InfoWrapper>
 
       <Button
-        designType={isFollowedState ? 'blueFill' : 'blueEmpty'}
+        designType={isFollowedState === true ? 'blueFill' : 'blueEmpty'}
         padding="0.15rem 0.75rem"
         fontSize="14px"
         borderRadius="var(--borders-radius-base)"
         onClick={followBtnHandler}
       >
-        {isFollowedState ? '팔로잉' : '팔로우'}
+        {isFollowedState === true ? '팔로잉' : '팔로우'}
       </Button>
     </UserItemWrapper>
   );

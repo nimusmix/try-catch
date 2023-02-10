@@ -69,15 +69,17 @@ const Introduction = styled.div`
 
 const ProfileBio = ({ changeFn }: any) => {
   const { userName } = useParams();
-  const { data: userId } = useQuery<number>(['profileBio', 'userId'] as const, () =>
+  const queryClient = useQueryClient();
+  const { data: userId } = useQuery<number>(['profileBio', userName] as const, () =>
     getUserId(userName!)
   );
 
   const { data: user } = useQuery<IUserDetail>(
-    ['userDetail', userName] as const,
+    ['userDetail', userId] as const,
     () => getUserDetail(userId!),
     {
       enabled: !!userId,
+      onSuccess: () => queryClient.removeQueries(['profileBio', userName]),
     }
   );
 
@@ -95,10 +97,8 @@ const ProfileBio = ({ changeFn }: any) => {
     } else {
       setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다.', isVisible: true });
     }
-    setIsModalOpened(true);
   };
 
-  const queryClient = useQueryClient();
   const updateFollow = (type: 'post' | 'put') => {
     const prevData = queryClient.getQueryData(['userDetail', userName]);
 
