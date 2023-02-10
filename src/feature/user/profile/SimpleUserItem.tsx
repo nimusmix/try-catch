@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
+import { Link } from 'react-router-dom';
 import { ISimpleUserData } from '../../../interface/user';
 import { Button, Paragraph } from '../../../components';
 import getImageUrl from '../../../utils/getImageUrl';
@@ -39,8 +40,28 @@ const SimpleUserItem = ({
   companyName,
   isFollowed,
 }: ISimpleUserData) => {
-  const { mutate: follow } = useMutation(['post', 'follow'], () => postFollow(userId!));
-  const { mutate: unfollow } = useMutation(['put', 'follow'], () => putFollow(userId!));
+  const queryClient = useQueryClient();
+  const updateFollow = (type: 'post' | 'put') => {
+    const prevData = queryClient.getQueryData(['userDetail', userName]);
+
+    if (prevData) {
+      queryClient.setQueryData<ISimpleUserData>(['userDetail', userName], (oldData: any) => {
+        return {
+          ...oldData,
+          isFollowed: type === 'post',
+        };
+      });
+    }
+
+    return { prevData };
+  };
+
+  const { mutate: follow } = useMutation(['post', 'follow'], () => postFollow(userId!), {
+    onMutate: () => updateFollow('post'),
+  });
+  const { mutate: unfollow } = useMutation(['put', 'follow'], () => putFollow(userId!), {
+    onMutate: () => updateFollow('put'),
+  });
 
   const followBtnHandler = () => {
     if (isFollowed) {
@@ -52,7 +73,7 @@ const SimpleUserItem = ({
 
   return (
     <UserItemWrapper>
-      <InfoWrapper>
+      <InfoWrapper as={Link} to={`/profile/${userName}`}>
         <ProfileImg src={profileImage} />
         <Paragraph sizeType="base">{userName}</Paragraph>
         {companyName && <CompanyImg src={getImageUrl(COMPANY[companyName], 'logo', 'png')} />}
