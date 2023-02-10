@@ -1,5 +1,6 @@
 const elapsedTime = (time: number) => {
-  const written = new Date(time);
+  const offset = new Date().getTimezoneOffset();
+  const written = new Date(time - offset * 60 * 1000);
   const now = new Date();
   const diff = (Number(now) - Number(written)) / 1000;
 

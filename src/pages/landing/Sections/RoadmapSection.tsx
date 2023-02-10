@@ -53,7 +53,7 @@ const ThirdSection = styled.section`
     justify-content: flex-start;
   }
 `;
-const FeedSection = () => {
+const RoadmapSection = () => {
   const navigate = useNavigate();
   const { ref, inView } = useInView();
   return (
@@ -62,15 +62,15 @@ const FeedSection = () => {
         <div>
           <SubTitle textAlign="left" display="inline-flex" className="title">
             <IconFeed />
-            &nbsp;Feed
+            &nbsp;로드맵
           </SubTitle>
-          <SubTitle textAlign="right">기술 블로그를 한눈에 보고싶은데...</SubTitle>
+          <SubTitle textAlign="right">나만의 로드맵을 소개해보세요</SubTitle>
         </div>
         <MiniTitle sizeType="xl" textAlign="right">
-          피드 탭을 이용해보세요
+          로드맵 탭을 이용해보세요
         </MiniTitle>
         <Paragraph sizeType="lg" textAlign="right">
-          다양한 기업의 블로그를 보며 기술 트렌드 파악을 쉽게 할 수 있어요
+          선후배 개발자들의 발자취를 따라가볼 수 있어요
         </Paragraph>
       </div>
       <div className="card-container">
@@ -122,4 +122,4 @@ const FeedSection = () => {
   );
 };
 
-export default FeedSection;
+export default RoadmapSection;
