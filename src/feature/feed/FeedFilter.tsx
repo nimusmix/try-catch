@@ -15,13 +15,9 @@ interface IFeedFilterProps {
 
 const Item = styled.button<{ option: string }>`
   padding: 0 0.8rem;
-  //transition: color, background-color 0.1s ease-in;
-  border-right: 0.8px solid;
   align-items: center;
   border-color: ${({ theme: { isDark } }) =>
     isDark ? 'var(--colors-brand-100)' : 'var(--colors-black-100)'};
-
-  border-right: ${({ option }) => (option === '최신순' ? 'none' : '0.8px solid')};
 
   &.active > h3,
   &:hover > h3 {
@@ -34,6 +30,14 @@ const Item = styled.button<{ option: string }>`
       isDark ? 'var(--colors-brand-100)' : 'var(--colors-black-100)'};
     font-weight: 400;
   }
+`;
+
+const FilterLine = styled.div`
+  height: 1.2rem;
+  width: 1px;
+  background-color: ${({ theme: { isDark } }) =>
+    isDark ? 'var(--colors-brand-100)' : 'var(--colors-black-100)'};
+  margin: auto 0;
 `;
 
 const FeedFilter = ({ filterOptions, changeOption }: IFeedFilterProps) => {
@@ -61,24 +65,27 @@ const FeedFilter = ({ filterOptions, changeOption }: IFeedFilterProps) => {
     <>
       {filterOptions.map(({ id, option }: IFeedFilterOptions) => {
         return (
-          <Item
-            key={id}
-            onClick={handleFilterOptionClick}
-            className={activeFilterOption === option ? 'active' : ''}
-            option={option}
-          >
-            <MiniTitle
-              sizeType="xl"
-              color="var(--colors-black-100)"
-              data-name={option}
-              style={{
-                fontSize: 'var(--fonts-body-base)',
-                lineHeight: 'var(--fonts-body-base)',
-              }}
+          <>
+            <Item
+              key={id}
+              onClick={handleFilterOptionClick}
+              className={activeFilterOption === option ? 'active' : ''}
+              option={option}
             >
-              {option}
-            </MiniTitle>
-          </Item>
+              <MiniTitle
+                sizeType="xl"
+                color="var(--colors-black-100)"
+                data-name={option}
+                style={{
+                  fontSize: 'var(--fonts-body-base)',
+                  lineHeight: 'var(--fonts-body-base)',
+                }}
+              >
+                {option}
+              </MiniTitle>
+            </Item>
+            {id === 1 && <FilterLine />}
+          </>
         );
       })}
     </>

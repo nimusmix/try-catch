@@ -90,6 +90,7 @@ const BlogWrapper = styled(Card)`
 `;
 
 const BookmarkFeedListItem = ({
+  id,
   title,
   content,
   tags,
@@ -100,12 +101,16 @@ const BookmarkFeedListItem = ({
   logoSrc,
 }: IBookmarkFeed) => {
   const isDark = useRecoilValue(isDarkState);
+  const handleFeedRead = () => {
+    // TODO 백엔드 구현되면, 주석 풀기
+    // postFeedRead({ feedId: id });
+  };
 
   return (
     <Wrapper>
       <BlogWrapper>
         <FeedHeader>
-          <LinkWrapper url={url}>
+          <LinkWrapper url={url} onClick={handleFeedRead}>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
               <CompanyImg src={logoSrc} alt={companyName} />
               <MiniTitle
@@ -124,7 +129,7 @@ const BookmarkFeedListItem = ({
         </FeedHeader>
 
         <BlogTitle>
-          <LinkWrapper url={url}>
+          <LinkWrapper url={url} onClick={handleFeedRead}>
             <MiniTitle
               sizeType="xl"
               color={isDark ? 'var(--colors-white-500)' : 'var(--colors-dark-500)'}
@@ -136,7 +141,7 @@ const BookmarkFeedListItem = ({
         </BlogTitle>
 
         <FeedBody>
-          <LinkWrapper url={url}>
+          <LinkWrapper url={url} onClick={handleFeedRead}>
             <Paragraph
               sizeType="base"
               color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
