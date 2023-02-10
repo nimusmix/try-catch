@@ -116,6 +116,7 @@ const BlogMiniTitle = styled(MiniTitle)`
 `;
 
 const CompanyFeedListItem = ({
+  id,
   title,
   summary,
   tags,
@@ -131,6 +132,11 @@ const CompanyFeedListItem = ({
     e.preventDefault();
   };
 
+  const handleFeedRead = () => {
+    // TODO 백엔드 구현되면, 주석 풀기
+    // postFeedRead({ feedId: id });
+  };
+
   return (
     <Wrapper>
       <div
@@ -141,7 +147,7 @@ const CompanyFeedListItem = ({
           justifyContent: 'center',
         }}
       >
-        <LinkWrapper url={url!}>
+        <LinkWrapper url={url!} onClick={handleFeedRead}>
           <FeedThumbnailImgWrapper>
             <FeedThumbnailImg image={thumbnailImage!} />
           </FeedThumbnailImgWrapper>
@@ -152,7 +158,7 @@ const CompanyFeedListItem = ({
         <TitleBookmarkWrapper>
           <BlogTitle>
             {/* 북마크 */}
-            <LinkWrapper url={url!}>
+            <LinkWrapper url={url!} onClick={handleFeedRead}>
               <BlogMiniTitle
                 sizeType="xl"
                 color={isDark ? 'var(--colors-white-500)' : 'var(--colors-dark-500)'}
@@ -169,7 +175,7 @@ const CompanyFeedListItem = ({
         </TitleBookmarkWrapper>
 
         <FeedBody>
-          <LinkWrapper url={url!}>
+          <LinkWrapper url={url!} onClick={handleFeedRead}>
             <Paragraph
               sizeType="base"
               color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
