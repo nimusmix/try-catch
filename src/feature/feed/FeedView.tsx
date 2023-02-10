@@ -14,7 +14,7 @@ const IconWrapper = styled.button`
   border-radius: 6px;
   :hover {
     background: ${({ theme: { isDark } }) =>
-      isDark ? 'rgba(255, 255, 255, 0.2)' : ' rgba(2, 32, 71, 0.08)'};
+      isDark ? 'var(--colors-black-400)' : 'var(--colors-white-400)'};
   }
 `;
 
