@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import animationData from '../../assets/cat-ch-404.json';
 
 export interface AnimationLoaderProps {
   width?: string;
   height?: string;
+  animationData: any;
+  autoplay: boolean;
+  loop: boolean;
 }
 
 const Container = styled.div`
@@ -16,7 +18,13 @@ const Container = styled.div`
   bottom: 0;
   z-index: -1;
 `;
-const AnimationLoader = ({ width, height }: AnimationLoaderProps) => {
+const AnimationLoader = ({
+  width,
+  height,
+  animationData,
+  autoplay,
+  loop,
+}: AnimationLoaderProps) => {
   const container = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -24,8 +32,8 @@ const AnimationLoader = ({ width, height }: AnimationLoaderProps) => {
       (Lottie as any).loadAnimation({
         container: container.current,
         renderer: 'svg',
-        autoplay: true,
-        loop: true,
+        autoplay,
+        loop,
         animationData,
       });
     });
@@ -35,7 +43,7 @@ const AnimationLoader = ({ width, height }: AnimationLoaderProps) => {
         (Lottie as any).destroy();
       });
     };
-  }, []);
+  }, [animationData, autoplay, loop]);
 
   return <Container ref={container} />;
 };

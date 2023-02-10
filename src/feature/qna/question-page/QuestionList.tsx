@@ -8,6 +8,7 @@ import { QuestionItem } from '../index';
 import question from '../Question';
 import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
 import { logOnDev } from '../../../utils/logging';
+import QuestionNoContent from './QuestionNoContent';
 
 const QuestionList = ({
   filter,
@@ -109,25 +110,29 @@ const QuestionList = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, [fetchNextPage, isFetchingNextPage]);
 
+  console.log();
   return (
-    <ul>
-      {questionList?.pages?.map((page, index) => {
-        return (
-          // eslint-disable-next-line react/no-array-index-key
-          <Fragment key={index}>
-            {page.data.map((questionItem) => {
-              return (
-                <li key={questionItem.questionId}>
-                  <Link to={`${questionItem.questionId}`}>
-                    <QuestionItem {...questionItem} />
-                  </Link>
-                </li>
-              );
-            })}
-          </Fragment>
-        );
-      })}
-    </ul>
+    <>
+      {questionList?.pages[0].data.length === 0 && <QuestionNoContent />}
+      <ul>
+        {questionList?.pages?.map((page, index) => {
+          return (
+            // eslint-disable-next-line react/no-array-index-key
+            <Fragment key={index}>
+              {page.data.map((questionItem) => {
+                return (
+                  <li key={questionItem.questionId}>
+                    <Link to={`${questionItem.questionId}`}>
+                      <QuestionItem {...questionItem} />
+                    </Link>
+                  </li>
+                );
+              })}
+            </Fragment>
+          );
+        })}
+      </ul>
+    </>
   );
 };
 

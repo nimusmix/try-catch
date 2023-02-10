@@ -6,6 +6,7 @@ import { Button, SubTitle } from '../../components';
 import { darkTheme, lightTheme } from '../../styles/theme';
 import { isDarkState } from '../../recoil';
 import AnimationLoader from '../../components/animation/AnimationLoader';
+import animationData from '../../assets/lottie/cat-ch-404.json';
 
 const Main = styled.main`
   position: relative;
@@ -66,7 +67,7 @@ const NotFound = () => {
   return (
     <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
       <Main>
-        <AnimationLoader />
+        <AnimationLoader animationData={animationData} autoplay loop />
         <Header>
           <Span>4</Span>
           <Bug width="55px" height="70px" />
