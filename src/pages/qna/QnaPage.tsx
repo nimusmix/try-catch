@@ -12,6 +12,8 @@ import SideNavbar from '../../components/side-navbar/SideNavbar';
 import qnaCategoryState from '../../recoil/qnaCategoryState';
 import { IconPen } from '../../components/icons/Icons';
 import { useQuestionDispatch } from '../../context/QnaContext';
+import QnaListSkeleton from '../../feature/qna/skeleton/QnaListSkeleton';
+import QnaPopularTagsSkeleton from '../../feature/qna/skeleton/QnaPopularTagsSkeleton';
 
 const DetailPage = loadable(() => import('./QnaDetailPage'));
 
@@ -80,6 +82,7 @@ const QnaPage = () => {
   const [activeCategory, setActiveCategory] = useRecoilState(qnaCategoryState);
   const [filter, setFilter] = useState<string>('all');
   const [keyword, setKeyword] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const dispatch = useQuestionDispatch();
   const activeIdx = navOptions.findIndex((option) => option.value === activeCategory);
 
@@ -121,8 +124,10 @@ const QnaPage = () => {
               ))}
             </Ul>
           </QnaFilterWrapper>
+          {/* 로딩 시 스켈레톤 */}
+          {isLoading && <QnaListSkeleton />}
           {/* Q&A 리스트 */}
-          <QuestionList filter={filter} keyword={keyword} />
+          <QuestionList filter={filter} keyword={keyword} setIsLoading={setIsLoading} />
         </section>
         <Aside>
           <Link to="form">
@@ -137,7 +142,8 @@ const QnaPage = () => {
             </Button>
           </Link>
           {/* 인기 태그 */}
-          <QnaPopularTag setKeyword={setKeyword} />
+          {isLoading && <QnaPopularTagsSkeleton />}
+          {isLoading || <QnaPopularTag setKeyword={setKeyword} />}
           {/* 인기 Q&A */}
           <PopularQna />
         </Aside>

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { QnaCardSkeleton } from './QnaDetailSkeleton';
+import { QnaCardSkeleton } from './QnaListSkeleton';
 
 const DivBackground = styled.div`
   background-color: ${({ theme: { isDark } }) => (isDark ? 'var(--colors-black-200)' : '#ededed')};
@@ -43,7 +43,6 @@ const QnaContent = styled(DivBackground)`
 const CardSkeleton = styled(QnaCardSkeleton)`
   padding: 2rem;
   width: 288px;
-  height: 100%;
   margin-bottom: 1rem;
   @keyframes loading {
     to {

@@ -1,13 +1,21 @@
 import { Link } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
 import { useRecoilState } from 'recoil';
-import { Fragment, useEffect } from 'react';
+import { Dispatch, Fragment, useEffect } from 'react';
 import { getQuestionList } from '../../../apis/qna/qna';
 import qnaCategoryState from '../../../recoil/qnaCategoryState';
 import { QuestionItem } from '../index';
 import question from '../Question';
 
-const QuestionList = ({ filter, keyword }: { filter: string; keyword: string }) => {
+const QuestionList = ({
+  filter,
+  keyword,
+  setIsLoading,
+}: {
+  filter: string;
+  keyword: string;
+  setIsLoading: Dispatch<boolean>;
+}) => {
   const [activeCategory, setActiveCategory] = useRecoilState<string>(qnaCategoryState);
 
   // TODO 나중에 search 엔드포인트 변경되면 그때 바꾸면 됨
@@ -15,6 +23,7 @@ const QuestionList = ({ filter, keyword }: { filter: string; keyword: string }) 
     data: questionList,
     isFetchingNextPage,
     fetchNextPage,
+    isLoading,
   } = useInfiniteQuery(
     ['question', 'questionList', activeCategory] as const,
     ({ pageParam = 0 }) => {
@@ -48,6 +57,10 @@ const QuestionList = ({ filter, keyword }: { filter: string; keyword: string }) 
       },
     }
   );
+
+  useEffect(() => {
+    setIsLoading(isLoading);
+  }, [isLoading, setIsLoading]);
 
   useEffect(() => {
     const handleScroll = () => {

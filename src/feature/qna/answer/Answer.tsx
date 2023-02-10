@@ -36,9 +36,9 @@ const AnswerItem = styled.li`
 `;
 
 const UpperWrapper = styled.div`
+  flex-direction: column;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   background-color: ${({ theme: { isDark } }) =>
     isDark ? 'rgba(36, 42, 54, 1)' : 'var(--colors-brand-200)'};
   height: 100%;
@@ -168,6 +168,21 @@ const AnswerForm = styled.textarea<{ isEdit: boolean }>`
 const SubTextWrapper = styled.span`
   display: flex;
   margin-top: 0.2rem;
+`;
+
+const AcceptedSign = styled.div`
+  display: flex;
+  margin: 0 0 1rem 0.5rem;
+  align-items: baseline;
+
+  & * {
+    color: ${({ theme: { isDark, successColor } }) => (isDark ? successColor : '#0db821')};
+  }
+
+  svg {
+    margin-right: 0.5rem;
+    translate: 0 2px;
+  }
 `;
 
 const Answer = ({
@@ -348,6 +363,12 @@ const Answer = ({
   return (
     <AnswerItem>
       <UpperWrapper>
+        {answer.accepted && (
+          <AcceptedSign>
+            <IconCheckCircle className="selected" />
+            <SubText sizeType="base">채택된 답변</SubText>
+          </AcceptedSign>
+        )}
         <AuthorWrapper
           onClick={() => {
             navigate(`/profile/${answer.author.userName}`);
@@ -394,11 +415,7 @@ const Answer = ({
             </SubTextWrapper>
           </UserInfoWrapper>
         </AuthorWrapper>
-        {answer.accepted ? (
-          <IconCheckCircle className="selected" />
-        ) : (
-          isMe && <TbEdit className="edit" onClick={() => setIsEdit((prev) => !prev)} />
-        )}
+        {isMe && <TbEdit className="edit" onClick={() => setIsEdit((prev) => !prev)} />}
       </UpperWrapper>
 
       <AnswerBody>
