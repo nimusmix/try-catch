@@ -74,7 +74,7 @@ const ProfileBio = ({ changeFn }: any) => {
   );
 
   const { data: user } = useQuery<IUserDetail>(
-    ['userDetail'] as const,
+    ['userDetail', userName] as const,
     () => getUserDetail(userId!),
     {
       enabled: !!userId,
@@ -90,11 +90,12 @@ const ProfileBio = ({ changeFn }: any) => {
   const [toast, setToast] = useRecoilState(toastState);
   const [isModalOpened, setIsModalOpened] = useState(false);
   const modalClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (isLoggedIn) {
-      setIsModalOpened(true);
-    } else {
-      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다.', isVisible: true });
-    }
+    // if (isLoggedIn) {
+    //   setIsModalOpened(true);
+    // } else {
+    //   setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다.', isVisible: true });
+    // }
+    setIsModalOpened(true);
   };
 
   // const createImageUrl = (companyName: string) => {
@@ -103,10 +104,10 @@ const ProfileBio = ({ changeFn }: any) => {
 
   const queryClient = useQueryClient();
   const updateFollow = (type: 'post' | 'put') => {
-    const prevData = queryClient.getQueryData(['userDetail']);
+    const prevData = queryClient.getQueryData(['userDetail', userName]);
 
     if (prevData) {
-      queryClient.setQueryData<IUserDetail>(['userDetail'], (oldData: any) => {
+      queryClient.setQueryData<IUserDetail>(['userDetail', userName], (oldData: any) => {
         return {
           ...oldData,
           isFollowed: type === 'post',
