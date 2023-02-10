@@ -10,6 +10,7 @@ import RoadmapDetailBody from '../../feature/roadmap/RoadmapDetailBody';
 import { IconArrowBack, IconLikeEmpty, IconLikeFill } from '../../components/icons/Icons';
 import { cancelLike, postLike } from '../../apis/like/like';
 import { isLoggedInState, toastState } from '../../recoil';
+import { postFollow, putFollow } from '../../apis/user/user';
 
 const RoadmapDetailWrapper = styled.div`
   display: flex;
@@ -49,8 +50,13 @@ const UserWrapper = styled.div`
 
 const UserInfoWrapper = styled.div`
   display: flex;
-`;
 
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`;
 const LikeWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -119,6 +125,42 @@ const RoadmapDetailPage = () => {
     }
   };
 
+  const updateFollow = (type: 'post' | 'put') => {
+    const prevData = queryClient.getQueryData(['roadmap', userName]);
+
+    if (prevData) {
+      queryClient.setQueryData<IRoadmap>(['roadmap', userName], (oldData: any) => {
+        return {
+          ...oldData,
+          isFollowed: type === 'post',
+          followerCount: type === 'post' ? oldData.followerCount + 1 : oldData.followerCount - 1,
+        };
+      });
+    }
+
+    return { prevData };
+  };
+
+  const { mutate: follow } = useMutation(['post', 'follow'], () => postFollow(userId!), {
+    onMutate: () => updateFollow('post'),
+  });
+  const { mutate: unfollow } = useMutation(['put', 'follow'], () => putFollow(userId!), {
+    onMutate: () => updateFollow('put'),
+  });
+
+  const clickFollowBtn = () => {
+    if (!isLoggedIn) {
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다.', isVisible: true });
+      return;
+    }
+
+    if (roadmapDetail?.author.isFollowed) {
+      unfollow();
+    } else {
+      follow();
+    }
+  };
+
   if (isLoading) {
     return <Paragraph sizeType="base">Loading...</Paragraph>;
   }
@@ -152,13 +194,14 @@ const RoadmapDetailPage = () => {
           </UserInfoWrapper>
 
           {/* 팔로우 버튼 */}
-          {roadmapDetail?.author.isFollowed ? (
-            <Button designType="blueFill" borderRadius="var(--borders-radius-lg)">
-              팔로잉
-            </Button>
-          ) : (
-            <Button borderRadius="var(--borders-radius-lg)">팔로우</Button>
-          )}
+          <Button
+            designType={roadmapDetail?.author.isFollowed ? 'blueFill' : 'blueEmpty'}
+            padding="0.25rem 1rem"
+            borderRadius="var(--borders-radius-lg)"
+            onClick={clickFollowBtn}
+          >
+            {roadmapDetail?.author.isFollowed ? '팔로잉' : '팔로우'}
+          </Button>
         </UserWrapper>
         <RoadmapDetailBody nodes={roadmapDetail!.nodes} edges={roadmapDetail!.edges} />
 
