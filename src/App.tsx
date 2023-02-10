@@ -22,10 +22,11 @@ const GlobalStyles = createGlobalStyle`
   
   body {
     background-color: ${({ theme: { bgColor } }) => bgColor};
+    overflow-y: scroll;
   }
 
   body::-webkit-scrollbar {
-    width: 8px;  /* 스크롤바의 너비 */
+    width: 3px;
   }
 
   body::-webkit-scrollbar-thumb {
@@ -36,7 +37,8 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body::-webkit-scrollbar-track {
-    background: var(--colors-brand-200);  /*스크롤바 뒷 배경 색상*/
+    background-color: ${({ theme: { isDark } }) =>
+      isDark ? 'var(--colors-black-100)' : 'var(--colors-brand-200)'};
   }
 
   
