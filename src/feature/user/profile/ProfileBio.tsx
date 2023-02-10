@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Link, Outlet, useParams } from 'react-router-dom';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { getName } from '../../../apis/auth/auth';
 import { getUserDetail, getUserId } from '../../../apis/profile/profile';
@@ -95,7 +95,7 @@ const ProfileBio = ({ changeFn }: any) => {
     if (isLoggedIn) {
       setIsModalOpened(true);
     } else {
-      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다.', isVisible: true });
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있어요', isVisible: true });
     }
   };
 

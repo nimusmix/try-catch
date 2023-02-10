@@ -4,7 +4,13 @@ import { useMutation, useQueryClient } from 'react-query';
 import { TbEdit } from 'react-icons/tb';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { IconCheckCircle, IconLikeEmpty, IconLikeFill } from '../../../components/icons/Icons';
+import { useNavigate } from 'react-router-dom';
+import {
+  IconCheckCircle,
+  IconDot,
+  IconLikeEmpty,
+  IconLikeFill,
+} from '../../../components/icons/Icons';
 import { Button, Paragraph } from '../../../components';
 import { IAnswer, IQuestion } from '../../../interface/qna';
 import getImageUrl from '../../../utils/getImageUrl';
@@ -14,6 +20,7 @@ import useIsMe from '../../../hooks/useIsMe';
 import { postFollow, putFollow } from '../../../apis/user/user';
 import { putAnswer, selectAnswer } from '../../../apis/answer/answer';
 import { isLoggedInState, toastState } from '../../../recoil';
+import elapsedTime from '../../../utils/elapsed-time';
 
 const AnswerItem = styled.li`
   display: flex;
@@ -29,13 +36,17 @@ const AnswerItem = styled.li`
 `;
 
 const UpperWrapper = styled.div`
+  flex-direction: column;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   background-color: ${({ theme: { isDark } }) =>
     isDark ? 'rgba(36, 42, 54, 1)' : 'var(--colors-brand-200)'};
   height: 100%;
   padding: 1rem;
+
+  button {
+    padding: 0.2rem 0.7rem;
+  }
 
   .selected {
     color: ${({ theme: { isDark } }) =>
@@ -53,6 +64,7 @@ const UpperWrapper = styled.div`
 `;
 
 const AuthorWrapper = styled.div`
+  cursor: pointer;
   display: flex;
   align-items: center;
 `;
@@ -135,18 +147,6 @@ const AnswerFooter = styled.div`
   }
 `;
 
-// const ReplyIconWrapper = styled.span`
-//   display: inline-flex;
-//   justify-content: center;
-//   align-items: center;
-//   width: 2rem;
-//   height: 2rem;
-//
-//   &:hover {
-//     cursor: pointer;
-//   }
-// `;
-
 const TextAreaFocus = css`
   &:focus {
     outline: 2px solid var(--colors-brand-500);
@@ -163,6 +163,26 @@ const AnswerForm = styled.textarea<{ isEdit: boolean }>`
   outline: none;
   padding: 1rem;
   ${({ isEdit }) => isEdit && TextAreaFocus}
+`;
+
+const SubTextWrapper = styled.span`
+  display: flex;
+  margin-top: 0.2rem;
+`;
+
+const AcceptedSign = styled.div`
+  display: flex;
+  margin: 0 0 1rem 0.5rem;
+  align-items: baseline;
+
+  & * {
+    color: ${({ theme: { isDark, successColor } }) => (isDark ? successColor : '#0db821')};
+  }
+
+  svg {
+    margin-right: 0.5rem;
+    translate: 0 2px;
+  }
 `;
 
 const Answer = ({
@@ -183,6 +203,7 @@ const Answer = ({
   const setToast = useSetRecoilState(toastState);
   const [isEdit, setIsEdit] = useState(false);
   const [answerInput, setAnswerInput] = useState(() => answer.content);
+  const navigate = useNavigate();
 
   const queryClient = useQueryClient();
   const updateLike = (type: 'up' | 'down') => {
@@ -310,7 +331,7 @@ const Answer = ({
 
   const onClickLikeHandler = () => {
     if (!isLogin) {
-      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다', isVisible: true });
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있어요', isVisible: true });
       return;
     }
     if (answer.isLiked) {
@@ -326,9 +347,10 @@ const Answer = ({
     setAnswerInput(e.target.value);
   };
 
-  const onClickFollowHandler = () => {
+  const onClickFollowHandler = (e: React.MouseEvent<HTMLSpanElement>) => {
+    e.stopPropagation();
     if (!isLogin) {
-      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다', isVisible: true });
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있어요', isVisible: true });
       return;
     }
     if (answer.author.isFollowed) {
@@ -341,13 +363,23 @@ const Answer = ({
   return (
     <AnswerItem>
       <UpperWrapper>
-        <AuthorWrapper>
+        {answer.accepted && (
+          <AcceptedSign>
+            <IconCheckCircle className="selected" />
+            <SubText sizeType="base">채택된 답변</SubText>
+          </AcceptedSign>
+        )}
+        <AuthorWrapper
+          onClick={() => {
+            navigate(`/profile/${answer.author.userName}`);
+          }}
+        >
           <ImageWrapper>
             <ProfileImg src={answer.author.profileImage} />
           </ImageWrapper>
           <UserInfoWrapper>
             <UserInfo>
-              <Paragraph sizeType="base">{answer.author.userName}</Paragraph>
+              <Paragraph sizeType="lg">{answer.author.userName}</Paragraph>
               <CompanyImg
                 src={
                   answer.author.companyName &&
@@ -372,18 +404,18 @@ const Answer = ({
                 </span>
               )}
             </UserInfo>
-            <SubText sizeType="xm">
-              {answer.author.companyName === 'default'
-                ? '지나가던 개발자'
-                : answer.author.companyName}
-            </SubText>
+            <SubTextWrapper>
+              <SubText sizeType="xm">
+                {answer.author.companyName === 'default'
+                  ? '지나가던 개발자'
+                  : answer.author.companyName}
+              </SubText>
+              <IconDot />
+              <SubText sizeType="xm">{elapsedTime(answer.timestamp)}</SubText>
+            </SubTextWrapper>
           </UserInfoWrapper>
         </AuthorWrapper>
-        {answer.accepted ? (
-          <IconCheckCircle className="selected" />
-        ) : (
-          isMe && <TbEdit className="edit" onClick={() => setIsEdit((prev) => !prev)} />
-        )}
+        {isMe && <TbEdit className="edit" onClick={() => setIsEdit((prev) => !prev)} />}
       </UpperWrapper>
 
       <AnswerBody>

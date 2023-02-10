@@ -44,7 +44,7 @@ export interface IQuestionList {
 
 export interface IQuestionSearch {
   query: string;
-  category: 'DEV' | 'CAREER' | 'BALANCE';
+  // category: 'DEV' | 'CAREER' | 'BALANCE';
   page: number;
   size: number;
 }

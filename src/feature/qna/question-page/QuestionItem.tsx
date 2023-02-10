@@ -28,6 +28,12 @@ const Wrapper = styled.article`
   & > span {
     margin-bottom: 1rem;
   }
+
+  & > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
 `;
 
 const QuestionHeader = styled.div`
@@ -139,14 +145,23 @@ const QuestionItem = ({
 
   return (
     <Wrapper>
-      <Button
-        as="span"
-        designType="purpleFill"
-        fontSize="var(--fonts-body-xm)"
-        padding="2.2px 10px"
-      >
-        {categoryToKorean(category)}
-      </Button>
+      <div>
+        <Button
+          as="span"
+          designType="purpleFill"
+          fontSize="var(--fonts-body-xm)"
+          padding="2.2px 10px"
+        >
+          {categoryToKorean(category)}
+        </Button>
+        <Paragraph
+          as="span"
+          sizeType="sm"
+          color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
+        >
+          {timestamp ? elapsedTime(timestamp) : null}
+        </Paragraph>
+      </div>
       <QuestionHeader>
         <TitleWrapper>
           <MiniTitle
@@ -170,13 +185,6 @@ const QuestionItem = ({
             </UpperTag>
           )}
         </TitleWrapper>
-        <Paragraph
-          as="span"
-          sizeType="sm"
-          color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-        >
-          {timestamp ? elapsedTime(timestamp) : null}
-        </Paragraph>
       </QuestionHeader>
 
       <QuestionBody>

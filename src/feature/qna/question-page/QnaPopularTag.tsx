@@ -39,10 +39,8 @@ const QnaPopularTag = ({ setKeyword }: { setKeyword: Dispatch<string> }) => {
       <QnaPopularTagTitle sizeType="xl" textAlign="left">
         인기 태그
       </QnaPopularTagTitle>
-      {isLoading && <div>로딩중..</div>}
       {isLoading || (
         <TagsWrapper>
-          {qnaPopularTags?.tags.length === 0 && '태그가 없어요..'}
           {qnaPopularTags?.tags.map((tag) => (
             <Button
               key={tag}

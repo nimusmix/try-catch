@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import loadable from '@loadable/component';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { HeaderImage, Layout } from '../../layout';
 import { Button, Paragraph, SubTitle } from '../../components';
 import { PopularQna, QnaPopularTag, QnaSearchBar } from '../../feature/qna';
@@ -12,6 +12,9 @@ import SideNavbar from '../../components/side-navbar/SideNavbar';
 import qnaCategoryState from '../../recoil/qnaCategoryState';
 import { IconPen } from '../../components/icons/Icons';
 import { useQuestionDispatch } from '../../context/QnaContext';
+import QnaListSkeleton from '../../feature/qna/skeleton/QnaListSkeleton';
+import QnaPopularTagsSkeleton from '../../feature/qna/skeleton/QnaPopularTagsSkeleton';
+import { isLoggedInState, toastState } from '../../recoil';
 
 const DetailPage = loadable(() => import('./QnaDetailPage'));
 
@@ -25,11 +28,6 @@ const navOptions = [
     id: 2,
     option: '커리어',
     value: 'CAREER',
-  },
-  {
-    id: 3,
-    option: '밸런스 게임',
-    value: 'BALANCE',
   },
 ];
 
@@ -85,8 +83,20 @@ const QnaPage = () => {
   const [activeCategory, setActiveCategory] = useRecoilState(qnaCategoryState);
   const [filter, setFilter] = useState<string>('all');
   const [keyword, setKeyword] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const isLogin = useRecoilValue(isLoggedInState);
+  const setToast = useSetRecoilState(toastState);
   const dispatch = useQuestionDispatch();
   const activeIdx = navOptions.findIndex((option) => option.value === activeCategory);
+  const navigate = useNavigate();
+
+  const onClickWriteButton = () => {
+    if (!isLogin) {
+      setToast({ type: 'negative', message: '로그인 후 이용할 수 있어요', isVisible: true });
+      return;
+    }
+    navigate('form');
+  };
 
   // 디테일 페이지를 미리 로드 (효과가 있는지 잘 모르겠음..)
   useEffect(() => {
@@ -126,23 +136,25 @@ const QnaPage = () => {
               ))}
             </Ul>
           </QnaFilterWrapper>
+          {/* 로딩 시 스켈레톤 */}
+          {isLoading && <QnaListSkeleton />}
           {/* Q&A 리스트 */}
-          <QuestionList filter={filter} keyword={keyword} />
+          <QuestionList filter={filter} keyword={keyword} setIsLoading={setIsLoading} />
         </section>
         <Aside>
-          <Link to="form">
-            <Button
-              width="100%"
-              fontSize="var(--fonts-body-base)"
-              padding="0.455rem 1.125rem"
-              margin="0 0 1rem 0"
-            >
-              <IconPen />
-              &nbsp;&nbsp;질문 작성하기
-            </Button>
-          </Link>
+          <Button
+            width="100%"
+            fontSize="var(--fonts-body-base)"
+            padding="0.455rem 1.125rem"
+            margin="0 0 1rem 0"
+            onClick={onClickWriteButton}
+          >
+            <IconPen />
+            &nbsp;&nbsp;질문 작성하기
+          </Button>
           {/* 인기 태그 */}
-          <QnaPopularTag setKeyword={setKeyword} />
+          {isLoading && <QnaPopularTagsSkeleton />}
+          {isLoading || <QnaPopularTag setKeyword={setKeyword} />}
           {/* 인기 Q&A */}
           <PopularQna />
         </Aside>

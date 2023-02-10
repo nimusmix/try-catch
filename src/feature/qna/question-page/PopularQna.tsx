@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Div, MiniTitle } from '../../../components';
 import StyledSlider from '../../../components/carousel/Slider';
 
-const PopularQnaWrapper = styled(Div)`
+export const PopularQnaWrapper = styled(Div)`
   margin-top: 1rem;
   border-radius: var(--borders-radius-base);
   overflow: hidden;

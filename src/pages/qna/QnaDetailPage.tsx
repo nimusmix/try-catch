@@ -11,6 +11,7 @@ import { IQuestion } from '../../interface/qna';
 import qnaCategoryState from '../../recoil/qnaCategoryState';
 import { isLoggedInState } from '../../recoil';
 import { useQuestionDispatch } from '../../context/QnaContext';
+import QnaDetailSkeleton from '../../feature/qna/skeleton/QnaDetailSkeleton';
 
 const QnaDetailWrapper = styled.section`
   margin-top: 3rem;
@@ -40,7 +41,7 @@ const QnaDetailPage = () => {
   const qnaCategory = useRecoilValue(qnaCategoryState);
   const dispatch = useQuestionDispatch();
   const isLogin = useRecoilValue(isLoggedInState);
-  const { isFetching, data: questionDetail } = useQuery<IQuestion>(
+  const { isLoading, data: questionDetail } = useQuery<IQuestion>(
     ['question', questionId] as const,
     getQuestionDetail(Number(questionId)),
     {
@@ -65,9 +66,11 @@ const QnaDetailPage = () => {
     <Layout>
       <QnaDetailWrapper>
         <QnaDetailMain>
-          {/* 질문 부분 */}
+          {/* 질문 로딩 */}
+          {isLoading && <QnaDetailSkeleton />}
+          {/* 질문 */}
           {questionDetail && <Question {...questionDetail} />}
-          {/* 답변 form 부분 */}
+          {/* 답변 form */}
           {isLogin && <AnswerForm questionId={questionId as string} />}
           <ul>
             {questionDetail &&

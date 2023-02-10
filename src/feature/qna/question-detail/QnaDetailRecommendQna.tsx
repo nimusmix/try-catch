@@ -32,7 +32,7 @@ const PopularQnaWrapper = styled(Div)`
   min-width: 288px;
   margin-bottom: 1rem;
   cursor: pointer;
-  padding: 1.5rem;
+  padding: 0.5rem 1.5rem 1.5rem 1.5rem;
 
   .best {
     svg {
