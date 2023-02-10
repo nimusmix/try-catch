@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { useMutation, useQueryClient } from 'react-query';
+import { useState } from 'react';
+import { useMutation } from 'react-query';
 import { Link } from 'react-router-dom';
 import { ISimpleUserData } from '../../../interface/user';
 import { Button, Paragraph } from '../../../components';
@@ -40,35 +41,18 @@ const SimpleUserItem = ({
   companyName,
   isFollowed,
 }: ISimpleUserData) => {
-  const queryClient = useQueryClient();
-  const updateFollow = (type: 'post' | 'put') => {
-    const prevData = queryClient.getQueryData(['userDetail', userName]);
+  const [isFollowedState, setIsFollowedState] = useState(isFollowed);
 
-    if (prevData) {
-      queryClient.setQueryData<ISimpleUserData>(['userDetail', userName], (oldData: any) => {
-        return {
-          ...oldData,
-          isFollowed: type === 'post',
-        };
-      });
-    }
-
-    return { prevData };
-  };
-
-  const { mutate: follow } = useMutation(['post', 'follow'], () => postFollow(userId!), {
-    onMutate: () => updateFollow('post'),
-  });
-  const { mutate: unfollow } = useMutation(['put', 'follow'], () => putFollow(userId!), {
-    onMutate: () => updateFollow('put'),
-  });
+  const { mutate: follow } = useMutation(['post', 'follow'], () => postFollow(userId!));
+  const { mutate: unfollow } = useMutation(['put', 'follow'], () => putFollow(userId!));
 
   const followBtnHandler = () => {
-    if (isFollowed) {
+    if (isFollowedState) {
       unfollow();
     } else {
       follow();
     }
+    setIsFollowedState(!isFollowedState);
   };
 
   return (
@@ -80,13 +64,13 @@ const SimpleUserItem = ({
       </InfoWrapper>
 
       <Button
-        designType={isFollowed ? 'blueFill' : 'blueEmpty'}
+        designType={isFollowedState ? 'blueFill' : 'blueEmpty'}
         padding="0.15rem 0.75rem"
         fontSize="14px"
         borderRadius="var(--borders-radius-base)"
         onClick={followBtnHandler}
       >
-        {isFollowed ? '팔로잉' : '팔로우'}
+        {isFollowedState ? '팔로잉' : '팔로우'}
       </Button>
     </UserItemWrapper>
   );
