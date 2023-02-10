@@ -15,7 +15,6 @@ import { useQuestionDispatch } from '../../context/QnaContext';
 import QnaListSkeleton from '../../feature/qna/skeleton/QnaListSkeleton';
 import QnaPopularTagsSkeleton from '../../feature/qna/skeleton/QnaPopularTagsSkeleton';
 import { isLoggedInState, toastState } from '../../recoil';
-import qnaSearchKeywordState from '../../recoil/qnaSearchKeywordState';
 
 const DetailPage = loadable(() => import('./QnaDetailPage'));
 
@@ -82,7 +81,6 @@ const QnaFilterWrapper = styled.div`
 
 const QnaPage = () => {
   const [activeCategory, setActiveCategory] = useRecoilState(qnaCategoryState);
-  const keyword = useRecoilValue(qnaSearchKeywordState);
   const [filter, setFilter] = useState<string>('all');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const isLogin = useRecoilValue(isLoggedInState);

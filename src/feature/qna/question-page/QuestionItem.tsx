@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import {
@@ -15,6 +15,7 @@ import { isDarkState } from '../../../recoil';
 import elapsedTime from '../../../utils/elapsed-time';
 import { IQuestion } from '../../../interface/qna';
 import categoryToKorean from '../../../utils/category-to-korean';
+import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
 
 const Wrapper = styled.article`
   max-width: 848px;
@@ -150,6 +151,7 @@ const QuestionItem = ({
   ...rest
 }: Partial<IQuestion>) => {
   const isDark = useRecoilValue(isDarkState);
+  const setKeyword = useSetRecoilState(qnaSearchKeywordState);
 
   return (
     <Wrapper>
@@ -212,6 +214,7 @@ const QuestionItem = ({
                 fontSize="var(--fonts-body-xm)"
                 padding="2px 10px"
                 borderRadius="var(--borders-radius-lg)"
+                onClick={() => setKeyword(tag.toLocaleLowerCase())}
               >
                 <IconHash />
                 {tag}

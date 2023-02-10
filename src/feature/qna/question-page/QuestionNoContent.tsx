@@ -10,7 +10,7 @@ const Wrapper = styled.article`
   padding-top: 2rem;
   position: relative;
   width: 100%;
-  height: 500px;
+  height: 80%;
   cursor: pointer;
   z-index: 1000;
   background-color: ${({ theme: { isDark } }) =>

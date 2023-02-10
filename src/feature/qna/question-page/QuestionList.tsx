@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Dispatch, Fragment, useEffect } from 'react';
@@ -19,6 +19,7 @@ const QuestionList = ({
 }) => {
   const [activeCategory, setActiveCategory] = useRecoilState<string>(qnaCategoryState);
   const keyword = useRecoilValue(qnaSearchKeywordState);
+  const navigate = useNavigate();
 
   useEffect(() => {
     logOnDev.log(keyword);
@@ -110,7 +111,12 @@ const QuestionList = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, [fetchNextPage, isFetchingNextPage]);
 
-  console.log();
+  const questionItemClickHandler =
+    (questionId: number) => (e: React.MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation();
+      navigate(`${questionId}`);
+    };
+
   return (
     <>
       {questionList?.pages[0].data.length === 0 && <QuestionNoContent />}
@@ -121,10 +127,12 @@ const QuestionList = ({
             <Fragment key={index}>
               {page.data.map((questionItem) => {
                 return (
-                  <li key={questionItem.questionId}>
-                    <Link to={`${questionItem.questionId}`}>
-                      <QuestionItem {...questionItem} />
-                    </Link>
+                  // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+                  <li
+                    key={questionItem.questionId}
+                    onClick={() => questionItemClickHandler(questionItem.questionId)}
+                  >
+                    <QuestionItem {...questionItem} />
                   </li>
                 );
               })}
