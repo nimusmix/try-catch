@@ -1,20 +1,29 @@
 import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
+import React, { useState } from 'react';
 import { MiniTitle } from '../../components';
 import { SettingHeader as ThemeHeader } from '../../feature/settings';
-import { isDarkState } from '../../recoil';
+import { isDarkState, isSystemThemeState } from '../../recoil';
 
 export const SettingsBody = styled.section`
-  padding: 0 0 0 80px;
+  padding: 0 0 20px 80px;
   border-left: 1px solid;
   border-color: ${({ theme: { borderColor } }) => borderColor};
-  min-height: 75vh;
-  max-width: 100%;
+  min-height: 80vh;
+  width: 578px;
 `;
 
 const ThemeWrapper = styled.div`
   margin: 2rem 0;
   display: flex;
+`;
+
+const ThemeOuter = styled.div`
+  border-radius: 12px;
+  box-shadow: ${({ theme: { isDark } }) =>
+    isDark
+      ? 'rgba(59, 130, 246, 0.16) 0px 3px 6px, rgba(59, 130, 246, 0.23) 0px 3px 6px'
+      : 'rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px'};
 `;
 
 const ThemeItemWrapper = styled.div`
@@ -28,7 +37,7 @@ const DefaultTheme = () => {
       <MiniTitle sizeType="xl" textAlign="left" style={{ marginBottom: '1rem', fontSize: '' }}>
         시스템 설정 값
       </MiniTitle>
-      <div>
+      <ThemeOuter>
         <svg
           width="350"
           height="178"
@@ -65,18 +74,18 @@ const DefaultTheme = () => {
             </clipPath>
           </defs>
         </svg>
-      </div>
+      </ThemeOuter>
     </ThemeItemWrapper>
   );
 };
 
 const DarkTheme = () => {
   return (
-    <ThemeItemWrapper style={{ marginRight: '4rem' }}>
+    <ThemeItemWrapper>
       <MiniTitle sizeType="xl" textAlign="left" style={{ marginBottom: '1rem' }}>
         다크모드
       </MiniTitle>
-      <div>
+      <ThemeOuter>
         <svg
           width="350"
           height="178"
@@ -97,7 +106,7 @@ const DarkTheme = () => {
             </clipPath>
           </defs>
         </svg>
-      </div>
+      </ThemeOuter>
     </ThemeItemWrapper>
   );
 };
@@ -108,7 +117,7 @@ const LightTheme = () => {
       <MiniTitle sizeType="xl" textAlign="left" style={{ marginBottom: '1rem' }}>
         라이트 모드
       </MiniTitle>
-      <div>
+      <ThemeOuter>
         <svg
           width="350"
           height="178"
@@ -129,7 +138,7 @@ const LightTheme = () => {
             </clipPath>
           </defs>
         </svg>
-      </div>
+      </ThemeOuter>
     </ThemeItemWrapper>
   );
 };
@@ -147,30 +156,69 @@ const CheckMark = () => {
 
 const ThemeSettingsPage = () => {
   const [isDark, setIsDark] = useRecoilState(isDarkState);
+  const [isSystemTheme, setSystemTheme] = useRecoilState(isSystemThemeState);
+  /**
+   * TODO
+   * 사용자에게 theme 초기 설정 저장
+   * or
+   * local 에 isDark 처럼 저장해오기..! // Recoil
+   */
+
+  const handleTheme = () => {
+    setSystemTheme(true);
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setIsDark(true);
+    } else {
+      setIsDark(false);
+    }
+  };
   return (
     <SettingsBody>
       <ThemeHeader title="테마" />
       <ThemeWrapper>
-        <DefaultTheme />
+        <button
+          type="button"
+          style={{ cursor: 'pointer', position: 'relative' }}
+          onClick={handleTheme}
+        >
+          <DefaultTheme />
+          {isSystemTheme && (
+            <div style={{ position: 'absolute', top: '54px', right: '15px' }}>
+              <CheckMark />
+            </div>
+          )}
+        </button>
       </ThemeWrapper>
       <ThemeWrapper>
         <button
           type="button"
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: 'pointer', position: 'relative', marginRight: '4rem' }}
           onClick={() => {
+            setSystemTheme(false);
             return setIsDark(true);
           }}
         >
           <DarkTheme />
+          {!isSystemTheme && isDark && (
+            <div style={{ position: 'absolute', top: '54px', right: '15px' }}>
+              <CheckMark />
+            </div>
+          )}
         </button>
         <button
           type="button"
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: 'pointer', position: 'relative' }}
           onClick={() => {
+            setSystemTheme(false);
             return setIsDark(false);
           }}
         >
           <LightTheme />
+          {!isSystemTheme && !isDark && (
+            <div style={{ position: 'absolute', top: '54px', right: '15px' }}>
+              <CheckMark />
+            </div>
+          )}
         </button>
       </ThemeWrapper>
     </SettingsBody>
