@@ -5,11 +5,10 @@ import { useInView } from 'react-intersection-observer';
 import { Button, MiniTitle, Paragraph, SubTitle } from '../../../components';
 import QnaCard from './QnaCard';
 import { IconQuestion } from '../../../components/icons/Icons';
-import TagList from '../tags-loop-slider/TagList';
 
 const SecondSection = styled.section`
   align-self: flex-end;
-  height: 100vh;
+  height: 80vh;
   width: 100%;
 
   opacity: 0;
@@ -55,17 +54,8 @@ const SecondSection = styled.section`
     justify-content: flex-end;
     margin-bottom: 2rem;
   }
-
-  .tag-wrapper {
-    display: flex;
-
-    .description {
-      flex: 1;
-      align-self: center;
-    }
-  }
 `;
-const QnASection = () => {
+const ChallengeSection = () => {
   const navigate = useNavigate();
   const { ref, inView } = useInView();
 
@@ -113,17 +103,8 @@ const QnASection = () => {
       <div className="button-wrapper">
         <Button onClick={() => navigate('/question')}>더 보기</Button>
       </div>
-      <div className="tag-wrapper">
-        <TagList />
-        <div className="description">
-          <MiniTitle sizeType="3xl" textAlign="right">
-            TryCatch에서 <br />
-            다양한 태그를 활용해보세요!
-          </MiniTitle>
-        </div>
-      </div>
     </SecondSection>
   );
 };
 
-export default QnASection;
+export default ChallengeSection;

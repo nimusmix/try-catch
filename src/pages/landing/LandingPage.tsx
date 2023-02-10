@@ -12,7 +12,8 @@ import { QuestionPageBody } from '../qna/QnaPage';
 import IntroSection from './Sections/IntroSection';
 import QnASection from './Sections/QnASection';
 import FeedSection from './Sections/FeedSection';
-import LastSection from './Sections/LastSection';
+import RoadmapSection from './Sections/RoadmapSection';
+import ChallengeSection from './Sections/ChallengeSection';
 
 const LandingPageBody = styled(QuestionPageBody)`
   flex-direction: column;
@@ -20,15 +21,21 @@ const LandingPageBody = styled(QuestionPageBody)`
 
 const LogoWrapper = styled.div`
   align-self: flex-start;
+  opacity: 0;
+  transition: all 5s ease;
+
+  &.active {
+    opacity: 1;
+  }
 `;
 
 const LandingPage = () => {
   const isDark = useRecoilValue(isDarkState);
-  const { ref: myRef, inView: myElementIsVisible } = useInView();
-
   const setAccToken = useSetRecoilState(accToken);
   const setRefToken = useSetRecoilState(refToken);
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+
+  const { ref: logoRef, inView } = useInView();
 
   useEffect(() => {
     if (!window.location.search) return;
@@ -45,7 +52,7 @@ const LandingPage = () => {
     <Layout>
       <MarqueeLogoCard />
       <LandingPageBody>
-        <LogoWrapper ref={myRef}>
+        <LogoWrapper ref={logoRef} className={inView ? 'active' : ''}>
           {isDark && <LogoDarkTheme width="100%" height="200" />}
           {isDark || <LogoLightTheme width="100%" height="200" />}
         </LogoWrapper>
@@ -53,7 +60,8 @@ const LandingPage = () => {
         <IntroSection />
         <FeedSection />
         <QnASection />
-        <LastSection />
+        <RoadmapSection />
+        <ChallengeSection />
       </LandingPageBody>
     </Layout>
   );

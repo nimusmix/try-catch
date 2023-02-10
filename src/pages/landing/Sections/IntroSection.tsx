@@ -1,12 +1,20 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useInView } from 'react-intersection-observer';
 import { Button, MiniTitle, Paragraph, SubTitle } from '../../../components';
 
 const FirstSection = styled.section`
   align-self: flex-start;
   height: 80vh;
   width: 100%;
+
+  opacity: 0;
+  transition: all 5s ease;
+
+  &.active {
+    opacity: 1;
+  }
 
   & > div {
     display: flex;
@@ -33,8 +41,9 @@ const FirstSection = styled.section`
 `;
 const IntroSection = () => {
   const navigate = useNavigate();
+  const { ref, inView } = useInView();
   return (
-    <FirstSection>
+    <FirstSection ref={ref} className={inView ? 'active' : ''}>
       <div>
         <div className="description">
           <SubTitle textAlign="left">이제는 혼자 개발하지 말고,</SubTitle>
