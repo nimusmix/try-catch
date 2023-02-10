@@ -79,7 +79,6 @@ const ProfileBio = ({ changeFn }: any) => {
     () => getUserDetail(userId!),
     {
       enabled: !!userId,
-      onSuccess: () => queryClient.removeQueries(['profileBio', userName]),
     }
   );
 
