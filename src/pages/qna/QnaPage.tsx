@@ -62,7 +62,7 @@ const Li = styled.li`
   border-bottom: 1px solid ${({ theme }) => theme.textColor100};
   color: ${({ theme }) => theme.textColor100};
   cursor: pointer;
-  transition: color, background-color 0.1s ease-in;
+  transition: color 0.4s ease-in, border 0.2s ease-in;
 
   &:hover,
   &.active {

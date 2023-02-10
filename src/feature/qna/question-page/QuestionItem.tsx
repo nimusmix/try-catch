@@ -18,12 +18,20 @@ import categoryToKorean from '../../../utils/category-to-korean';
 
 const Wrapper = styled.article`
   max-width: 848px;
-  padding: 2rem 2.25rem 1rem;
+  padding: 1rem 2.25rem 1rem;
   border-bottom: 1px solid ${({ theme }) => theme.borderColor};
   cursor: pointer;
+
+  h3 {
+    transition: color 0.3s ease-in;
+  }
   &:hover {
     background-color: ${({ theme: { isDark } }) =>
       isDark ? 'var(--colors-black-400)' : 'var(--colors-white-400)'};
+  }
+
+  &:hover h3 {
+    color: var(--colors-brand-500);
   }
   & > span {
     margin-bottom: 1rem;
@@ -32,7 +40,7 @@ const Wrapper = styled.article`
   & > div:first-child {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 0.5rem;
+    margin: 0.5rem 0 0.6rem;
   }
 `;
 
