@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { MiniTitle } from '../../components';
-import { isLoggedInState } from '../../recoil';
+import { isLoggedInState, toastState } from '../../recoil';
 
 interface IFeedFilterOptions {
   id: number;
@@ -38,6 +38,7 @@ const Item = styled.button<{ option: string }>`
 
 const FeedFilter = ({ filterOptions, changeOption }: IFeedFilterProps) => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [toast, setToast] = useRecoilState(toastState);
 
   const [activeFilterOption, setActiveFilterOption] = useState<string | null>(
     () => filterOptions[1].option
@@ -47,15 +48,10 @@ const FeedFilter = ({ filterOptions, changeOption }: IFeedFilterProps) => {
     const target = event.target as Element;
     const filterOptionName = target.getAttribute('data-name');
 
-    // 비로그인 상태
-    if (!isLoggedIn) {
-      /** TODO 비로그인 상태일 때 토스트 생성 */
-      if (filterOptionName === '최신순') {
-        setActiveFilterOption(filterOptionName);
-        changeOption(`${filterOptionName}`);
-      }
+    // 비로그인 상태 & 나의 관심도순 일 때 안됨!
+    if (!isLoggedIn && filterOptionName === '나의 관심순') {
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있어요', isVisible: true });
     } else {
-      // 로그인 상태
       setActiveFilterOption(filterOptionName);
       changeOption(`${filterOptionName}`);
     }
