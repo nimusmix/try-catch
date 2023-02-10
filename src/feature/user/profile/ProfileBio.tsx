@@ -126,6 +126,11 @@ const ProfileBio = ({ changeFn }: any) => {
   });
 
   const clickFollowBtn = () => {
+    if (!isLoggedIn) {
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다.', isVisible: true });
+      return;
+    }
+
     if (user?.isFollowed) {
       unfollow();
     } else {
