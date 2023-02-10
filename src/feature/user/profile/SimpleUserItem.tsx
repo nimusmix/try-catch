@@ -1,12 +1,14 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import { ISimpleUserData } from '../../../interface/user';
 import { Button, Paragraph } from '../../../components';
 import getImageUrl from '../../../utils/getImageUrl';
 import { COMPANY } from '../../../constant/company';
 import { postFollow, putFollow } from '../../../apis/user/user';
+import isModalOpenedState from '../../../recoil/isModalOpenedState';
 
 const UserItemWrapper = styled.div`
   display: flex;
@@ -42,6 +44,7 @@ const SimpleUserItem = ({
   isFollowed,
 }: ISimpleUserData) => {
   const [isFollowedState, setIsFollowedState] = useState(isFollowed);
+  const [isModalOpened, setIsModalOpened] = useRecoilState(isModalOpenedState);
 
   const { mutate: follow } = useMutation(['post', 'follow'], () => postFollow(userId!));
   const { mutate: unfollow } = useMutation(['put', 'follow'], () => putFollow(userId!));
@@ -55,9 +58,16 @@ const SimpleUserItem = ({
     setIsFollowedState(!isFollowedState);
   };
 
+  const navi = useNavigate();
+  const infoHandler = () => {
+    setIsModalOpened(false);
+    navi(`/profile/${userName}`);
+  };
+
   return (
     <UserItemWrapper>
-      <InfoWrapper as={Link} to={`/profile/${userName}`}>
+      {/* <InfoWrapper as={Link} to={`/profile/${userName}`}> */}
+      <InfoWrapper onClick={infoHandler}>
         <ProfileImg src={profileImage} />
         <Paragraph sizeType="base">{userName}</Paragraph>
         {companyName && <CompanyImg src={getImageUrl(COMPANY[companyName], 'logo', 'png')} />}

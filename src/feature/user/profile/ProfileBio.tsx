@@ -12,6 +12,7 @@ import { isLoggedInState, toastState } from '../../../recoil';
 import { postFollow, putFollow } from '../../../apis/user/user';
 import getImageUrl from '../../../utils/getImageUrl';
 import { COMPANY } from '../../../constant/company';
+import isModalOpenedState from '../../../recoil/isModalOpenedState';
 
 const BioWrapper = styled.div`
   display: flex;
@@ -88,7 +89,7 @@ const ProfileBio = () => {
   // 로그인 여부 (모달 띄우기 방지 위함)
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const [toast, setToast] = useRecoilState(toastState);
-  const [isModalOpened, setIsModalOpened] = useState(false);
+  const [isModalOpened, setIsModalOpened] = useRecoilState(isModalOpenedState);
   const modalClick = (e: React.MouseEvent<HTMLElement>) => {
     if (isLoggedIn) {
       setIsModalOpened(true);
