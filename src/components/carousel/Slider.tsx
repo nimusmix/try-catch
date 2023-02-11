@@ -1,16 +1,21 @@
 import styled from 'styled-components';
 import { useState, useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
+import { Link } from 'react-router-dom';
+import remarkGfm from 'remark-gfm';
+import ReactMarkdown from 'react-markdown';
 import SlideButton from './SlideButton';
 import MiniTitle from '../font/MiniTitle';
 import Paragraph from '../font/Paragraph';
 import { isDarkState } from '../../recoil';
+import { IQuestion } from '../../interface/qna';
 
 export const SliderArea = styled.div`
   position: relative;
   overflow: hidden;
   height: auto;
   max-width: 18rem;
+  margin-bottom: 1.25rem;
 `;
 
 export const Slider = styled.div`
@@ -48,39 +53,69 @@ export const SliderItemDiv = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 7.5rem;
+  background-color: ${({ theme: { isDark } }) => (isDark ? 'rgba(46, 52, 64, 1)' : '#f7f8ff')};
+  border: ${({ theme: { isDark } }) => (isDark ? '' : '1px solid var(--colors-brand-200)')};
+  border-radius: var(--borders-radius-base);
+  cursor: pointer;
+  padding: 1rem 1.5rem;
 `;
 
-interface ICardCarouselProps {
-  title: string;
-  content: string;
-}
+const QuestionBody = styled.div`
+  margin: 0.5rem 0 0.5rem;
+  max-height: 75px;
+  overflow: hidden;
 
-const Card = ({ title, content }: Partial<ICardCarouselProps>) => {
+  .markdown * {
+    background: unset;
+    margin: unset;
+    font: unset;
+    font-size: var(--fonts-body-sm);
+  }
+
+  > * {
+    display: -webkit-box;
+    height: 38px;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+`;
+
+const Card = ({ questionId, title, content, answerCount }: Partial<IQuestion>) => {
   const isDark = useRecoilValue(isDarkState);
   return (
     <SliderItemDiv>
-      <MiniTitle
-        textAlign="left"
-        sizeType="xl"
-        style={{
-          fontSize: '1rem',
-          fontWeight: '500',
-          lineHeight: '1.25rem',
-          marginBottom: '0.5rem',
-        }}
-      >
-        {title}
-      </MiniTitle>
-      <Paragraph
-        sizeType="sm"
-        style={{
-          fontWeight: '400',
-          lineHeight: '1rem',
-        }}
-        color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-      >
-        {content}
-      </Paragraph>
+      <Link to={`/question/${questionId}`}>
+        <MiniTitle
+          textAlign="left"
+          sizeType="xl"
+          style={{
+            fontSize: '1rem',
+            fontWeight: '500',
+            lineHeight: '1.25rem',
+            marginBottom: '0.5rem',
+          }}
+        >
+          {title}
+        </MiniTitle>
+        <QuestionBody>
+          <ReactMarkdown className="markdown" remarkPlugins={[remarkGfm]}>
+            {content as string}
+          </ReactMarkdown>
+        </QuestionBody>
+        <Paragraph
+          sizeType="xm"
+          style={{
+            fontWeight: '400',
+            // lineHeight: '1rem',
+          }}
+          color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
+        >
+          답변 {answerCount}
+        </Paragraph>
+      </Link>
     </SliderItemDiv>
   );
 };
@@ -102,53 +137,14 @@ const useInterval = (callback: () => void, delay: number | null) => {
     return () => {};
   }, [delay]);
 };
-const items = [
-  {
-    id: 1,
-    title: 'react-hook-form 정규표현식 관리방법',
-    content:
-      '안녕하세요. react-hook-form을 사용해서 프로젝트를 하고 있습니다. 정규 표현식을\n' +
-      'react-hook-form...',
-  },
-  {
-    id: 2,
-    title: 'react-hook-form 정규표현식 관리방법2',
-    content:
-      '안녕하세요. react-hook-form을 사용해서 프로젝트를 하고 있습니다. 정규 표현식을\n' +
-      'react-hook-form...',
-  },
-  {
-    id: 3,
-    title: 'react-hook-form 정규표현식 관리방법3',
-    content:
-      '안녕하세요. react-hook-form을 사용해서 프로젝트를 하고 있습니다. 정규 표현식을\n' +
-      'react-hook-form...',
-  },
-  {
-    id: 4,
-    title: 'react-hook-form 정규표현식 관리방법4',
-    content:
-      '안녕하세요. react-hook-form을 사용해서 프로젝트를 하고 있습니다. 정규 표현식을\n' +
-      'react-hook-form...',
-  },
-  {
-    id: 5,
-    title: 'react-hook-form 정규표현식 관리방법5',
-    content:
-      '안녕하세요. react-hook-form을 사용해서 프로젝트를 하고 있습니다. 정규 표현식을\n' +
-      'react-hook-form...',
-  },
-  {
-    id: 6,
-    title: 'react-hook-form 정규표현식 관리방법6',
-    content:
-      '안녕하세요. react-hook-form을 사용해서 프로젝트를 하고 있습니다. 정규 표현식을\n' +
-      'react-hook-form...',
-  },
-];
 
-const StyledSlider = () => {
+interface IPopularQnaProps {
+  items: Array<IQuestion>;
+}
+
+const StyledSlider = ({ items }: IPopularQnaProps) => {
   const [currentIndex, setCurrentIndex] = useState(2); // 현재 슬라이드의 index를 저장할 state
+
   const itemSize = items.length;
 
   const transitionTime = 500;
@@ -163,8 +159,8 @@ const StyledSlider = () => {
     const addedLast = [];
     let index = 0;
     while (index < addSlideNum) {
-      addedLast.push(items[index % items.length]);
-      addedFront.unshift(items[items.length - 1 - (index % items.length)]);
+      addedLast.push(items[index % itemSize]);
+      addedFront.unshift(items[itemSize - 1 - (index % itemSize)]);
       index += 1;
     }
 
@@ -223,7 +219,7 @@ const StyledSlider = () => {
 
               return (
                 <SliderItem key={newKeyId}>
-                  <Card title={slide.title} content={slide.content} />
+                  <Card {...slide} />
                 </SliderItem>
               );
             })}
