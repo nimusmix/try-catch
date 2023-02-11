@@ -36,8 +36,8 @@ const AnswerItem = styled.li`
 `;
 
 const UpperWrapper = styled.div`
-  //flex-direction: column;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   background-color: ${({ theme: { isDark } }) =>
     isDark ? 'rgba(36, 42, 54, 1)' : 'var(--colors-brand-200)'};
