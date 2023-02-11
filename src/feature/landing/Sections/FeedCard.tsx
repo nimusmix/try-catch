@@ -114,7 +114,6 @@ const FeedCard = ({
   logoSrc,
   tags,
   url,
-  isBookmarked,
   thumbnailImage,
   keywords,
   delay,

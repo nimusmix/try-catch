@@ -129,7 +129,7 @@ const FeedSection = () => {
         ))}
       </div>
       <div className="button-wrapper">
-        <Button onClick={() => navigate('/feed')}>더 보기</Button>
+        <Button onClick={() => navigate('/feed')}>피드 둘러보기</Button>
       </div>
     </ThirdSection>
   );

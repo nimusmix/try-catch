@@ -1,8 +1,8 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { useInView } from 'react-intersection-observer';
-import { Button, MiniTitle, Paragraph, SubTitle } from '../../../components';
+import { MiniTitle, Paragraph, SubTitle } from '../../../components';
+import IntroLottie from '../IntroLottie';
 
 const fadeFromLeft = keyframes`
   0% {
@@ -17,17 +17,23 @@ const fadeFromLeft = keyframes`
   }
 `;
 
+const fadeFromRight = keyframes`
+  0% {
+    filter: alpha(opacity=0);
+    opacity: .1;
+    transform: translateX(100%);
+  }
+  100% {
+    filter: alpha(opacity=100);
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
 const FirstSection = styled.section`
   align-self: flex-start;
   height: 80vh;
   width: 100%;
-
-  visibility: hidden;
-
-  &.active {
-    visibility: visible;
-    animation: ${fadeFromLeft} 1s;
-  }
 
   & > div {
     display: flex;
@@ -36,6 +42,7 @@ const FirstSection = styled.section`
 
   .description {
     flex: 1;
+    z-index: 10;
     h2 {
       margin-bottom: 0.1rem;
     }
@@ -46,19 +53,30 @@ const FirstSection = styled.section`
     p {
       margin-bottom: 0.4rem;
     }
+    visibility: hidden;
+
+    &.active {
+      visibility: visible;
+      animation: ${fadeFromLeft} 1s;
+    }
   }
 
   .image {
-    flex: 1;
+    visibility: hidden;
+
+    &.active {
+      visibility: visible;
+      animation: ${fadeFromRight} 1s;
+    }
   }
 `;
 const IntroSection = () => {
-  const navigate = useNavigate();
-  const { ref, inView } = useInView();
+  const { ref: descRef, inView: descInView } = useInView();
+  const { ref: imageRef, inView: imageInView } = useInView({ rootMargin: '0px 0px -200px 0px' });
   return (
-    <FirstSection ref={ref} className={inView ? 'active' : ''}>
+    <FirstSection>
       <div>
-        <div className="description">
+        <div ref={descRef} className={`description ${descInView ? 'active' : ''}`}>
           <SubTitle textAlign="left">이제는 혼자 개발하지 말고,</SubTitle>
           <MiniTitle sizeType="3xl" textAlign="left">
             트라이캐치와 함께 하세요!
@@ -71,12 +89,7 @@ const IntroSection = () => {
             이어가세요.
           </Paragraph>
         </div>
-        <div className="image">그림</div>
-      </div>
-      <div className="button-wrapper">
-        <Button onClick={() => navigate('/home')} width="120px">
-          둘러보기
-        </Button>
+        <IntroLottie innerRef={imageRef} className={`image ${imageInView ? 'active' : ''}`} />
       </div>
     </FirstSection>
   );

@@ -160,7 +160,7 @@ const QnASection = () => {
         </div>
       </div>
       <div className="button-wrapper">
-        <Button onClick={() => navigate('/question')}>더 보기</Button>
+        <Button onClick={() => navigate('/question')}>Q&A 둘러보기</Button>
       </div>
     </SecondSection>
   );

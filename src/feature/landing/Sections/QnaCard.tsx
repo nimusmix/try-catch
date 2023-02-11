@@ -15,6 +15,7 @@ interface IQnaCard {
 }
 
 const Wrapper = styled(Card)`
+  padding-top: 1rem;
   background-color: ${({ theme: { isDark } }) =>
     isDark ? 'rgb(46, 52, 64)' : 'rgb(247, 248, 255)'};
   height: 100%;
@@ -51,6 +52,11 @@ const CardHeader = styled.div`
       translate: -4px 9px;
     }
   }
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 
 const CardBody = styled.div`
@@ -83,17 +89,21 @@ const UpperTag = styled(Button)`
 `;
 
 const Tag = styled(Button)`
-  max-width: 100px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  word-break: break-all;
+  margin-bottom: 0.1rem;
   border: 1px solid
     ${({ theme: { isDark } }) => (isDark ? 'var(--colors-black-400)' : 'rgb(238 238 238/10)')};
   background-color: ${({ theme: { isDark } }) => (isDark ? 'hsl(220deg 13% 28%)' : '#d6e4fb')};
   color: ${({ theme: { textColor } }) => textColor};
   text-transform: capitalize;
   transition: border 0.2s ease-in, background-color 0.2s ease-in, color 0.2s ease-in;
+
+  .tag-text {
+    max-width: 80px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
+  }
 
   svg {
     margin-right: 0.1rem;
@@ -117,23 +127,25 @@ const QnaCard = ({ title, content, timestamp, tags, questionId }: IQnaCard) => {
             <span className="best">
               <IconBest width="14px" height="14px" />
             </span>
-            <UpperTag
-              designType="purpleFill"
-              fontSize="12px"
-              padding="0.125rem 0.5rem"
-              borderRadius="var(--borders-radius-base)"
-              style={{ marginBottom: '0.5rem' }}
-            >
-              인기
-            </UpperTag>
+            <div className="top">
+              <UpperTag
+                designType="purpleFill"
+                fontSize="12px"
+                padding="0.125rem 0.5rem"
+                borderRadius="var(--borders-radius-base)"
+                style={{ marginBottom: '0.5rem' }}
+              >
+                인기
+              </UpperTag>
+              <Paragraph as="span" sizeType="sm">
+                {timestamp}
+              </Paragraph>
+            </div>
           </div>
           <div>
             <MiniTitle sizeType="xl" textAlign="left">
               {title}
             </MiniTitle>
-            <Paragraph as="span" sizeType="sm">
-              {timestamp}
-            </Paragraph>
           </div>
         </CardHeader>
         <CardBody>
@@ -154,12 +166,22 @@ const QnaCard = ({ title, content, timestamp, tags, questionId }: IQnaCard) => {
                     borderRadius="var(--borders-radius-lg)"
                   >
                     <IconHash />
-                    {tag}
+                    <span className="tag-text">{tag}</span>
                   </Tag>
                 );
               }
               return null;
             })}
+            {tags.length > 5 && (
+              <Tag
+                as="span"
+                fontSize="var(--fonts-body-xm)"
+                padding="2px 10px"
+                borderRadius="var(--borders-radius-lg)"
+              >
+                <span className="tag-text">+ {tags.length - 5}</span>
+              </Tag>
+            )}
           </TagsWrapper>
         </CardFooter>
       </Link>
