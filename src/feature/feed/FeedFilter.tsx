@@ -35,8 +35,7 @@ const Item = styled.button<{ option: string }>`
 const FilterLine = styled.div`
   height: 1.2rem;
   width: 1px;
-  background-color: ${({ theme: { isDark } }) =>
-    isDark ? 'var(--colors-brand-100)' : 'var(--colors-black-100)'};
+  background-color: ${({ theme: { borderColor } }) => borderColor};
   margin: auto 0;
 `;
 
@@ -65,9 +64,8 @@ const FeedFilter = ({ filterOptions, changeOption }: IFeedFilterProps) => {
     <>
       {filterOptions.map(({ id, option }: IFeedFilterOptions) => {
         return (
-          <>
+          <div key={id} style={{ display: 'flex' }}>
             <Item
-              key={id}
               onClick={handleFilterOptionClick}
               className={activeFilterOption === option ? 'active' : ''}
               option={option}
@@ -85,7 +83,7 @@ const FeedFilter = ({ filterOptions, changeOption }: IFeedFilterProps) => {
               </MiniTitle>
             </Item>
             {id === 1 && <FilterLine />}
-          </>
+          </div>
         );
       })}
     </>

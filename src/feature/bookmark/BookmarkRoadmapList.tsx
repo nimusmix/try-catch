@@ -9,43 +9,28 @@ import { getBookmarkRoadmapList, putBookmark } from '../../apis/bookmark/bookmar
 import BookmarkEmpty from './BookmarkEmpty';
 import BookmarkRoadmapItem from './BookmarkRoadmapItem';
 import { toastState } from '../../recoil';
-
-const Wrapper = styled.div`
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-`;
+import { Wrapper, ButtonWrapper, Btn } from './BookmarkQuestionList';
 
 const RoadmapItemWrapper = styled.li`
   display: flex;
 `;
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  & :first-child {
-    margin-bottom: 0.5rem;
-  }
-`;
-
-const Btn = styled(Button)<{ checked: boolean }>``;
-
 // loacl UI 확인용 목업
 // const bookmarkRoadmapList = [
 //   {
-//     roadmapId: 27,
+//     roadmapId: 25,
 //     author: {
-//       userId: 4,
-//       userName: 'hyeonaseome',
-//       profileImage: 'https://avatars.githubusercontent.com/hyeonaseome',
-//       companyName: 'default',
+//       userId: 2,
+//       userName: 'nimusmix',
+//       profileImage: 'https://avatars.githubusercontent.com/nimusmix',
+//       companyName: '지나가던 개발자',
 //       isFollowed: false,
 //     },
-//     title: '세젤귀 로드맵',
-//     tag: '풀스택',
+//     title: '나의 첫 번째 로드맵',
+//     tag: '가보자고',
 //     likeCount: 0,
-//     createdAt: 1675696486000,
-//     updatedAt: 1675728886000,
+//     createdAt: 1675652541000,
+//     updatedAt: 1675684943000,
 //   },
 // ];
 
@@ -114,7 +99,7 @@ const BookmarkRoadmapList = () => {
       {/* 북마크 로드맵 아이템이 있을 때 */}
       {bookmarkRoadmapList && bookmarkRoadmapList?.length > 0 && (
         <>
-          <ul>
+          <div>
             {bookmarkRoadmapList?.map((item) => {
               const isChecked = !!checkedItems.includes(item.roadmapId);
 
@@ -131,7 +116,7 @@ const BookmarkRoadmapList = () => {
                 </RoadmapItemWrapper>
               );
             })}
-          </ul>
+          </div>
           <ButtonWrapper>
             <Btn
               designType="blueEmpty"

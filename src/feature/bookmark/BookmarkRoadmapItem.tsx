@@ -1,15 +1,14 @@
-// import { useMutation, useQueryClient } from 'react-query';
 import styled from 'styled-components';
 import { IBookmarkRoadMap } from '../../interface/bookmark';
-// import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
-import { Div, Paragraph, MiniTitle, Button } from '../../components';
+import { Paragraph, MiniTitle, Button, Card } from '../../components';
+import { IconLikeEmpty } from '../../components/icons/Icons';
 
-const ItemWrapper = styled(Div)`
+const ItemWrapper = styled(Card)`
   display: flex;
   align-items: center;
   width: 460px;
   padding: 1.5rem 2rem;
-  margin: 1rem;
+  margin: 1rem 1rem 1rem 2rem;
 `;
 
 const Img = styled.img`
@@ -17,12 +16,6 @@ const Img = styled.img`
   height: 128px;
   border-radius: 50%;
   margin-right: 1.5rem;
-`;
-
-const BookmarkWrapper = styled.button`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
 `;
 
 const SubText = styled(Paragraph)`
@@ -42,10 +35,26 @@ const InfoWrapper = styled.div`
   width: 300px;
 
   h3 {
+    display: inline-block;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     margin: 0.1rem 0 0.5rem;
+  }
+`;
+
+const BottomWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 250px;
+`;
+
+const LikeWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  p {
+    margin: 0 0.25rem;
   }
 `;
 
@@ -66,21 +75,25 @@ const BookmarkRoadmapItem = ({
       )}
 
       <InfoWrapper>
-        <BookmarkWrapper>
-          <Paragraph sizeType="lg" fontWeight="500">
-            {author?.userName}
-          </Paragraph>
-        </BookmarkWrapper>
-        <SubText sizeType="sm">
-          {author?.companyName === 'default' ? author?.companyName : '지니가던 개발자'}
-        </SubText>
+        <Paragraph sizeType="lg" fontWeight="500">
+          {author?.userName}
+        </Paragraph>
+
+        <SubText sizeType="sm">{author?.companyName}</SubText>
         <Line />
+
         <MiniTitle sizeType="xl" fontWeight="600">
           {title}
         </MiniTitle>
-        <Button designType="purpleFill" fontSize="var(--fonts-body-xm)" padding="2.2px 10px">
-          {tag}
-        </Button>
+        <BottomWrapper>
+          <Button designType="purpleFill" fontSize="var(--fonts-body-xm)" padding="2.2px 10px">
+            {tag}
+          </Button>
+          <LikeWrapper>
+            <IconLikeEmpty size={14} color="var(--colors-black-100)" />
+            <Paragraph sizeType="sm">{likeCount}</Paragraph>
+          </LikeWrapper>
+        </BottomWrapper>
       </InfoWrapper>
     </ItemWrapper>
   );
