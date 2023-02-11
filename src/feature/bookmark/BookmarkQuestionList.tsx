@@ -10,7 +10,7 @@ import BookmarkQuestionItem from './BookmarkQuestionItem';
 import BookmarkEmpty from './BookmarkEmpty';
 import { toastState } from '../../recoil';
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -21,15 +21,18 @@ const QuestionItemWrapper = styled.li`
   border-bottom: 1px solid ${({ theme }) => theme.borderColor};
 `;
 
-const ButtonWrapper = styled.div`
+export const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  & > button {
+    margin-left: 1rem;
+  }
   & :first-child {
     margin-bottom: 0.5rem;
   }
 `;
 
-const Btn = styled(Button)<{ checked: boolean }>``;
+export const Btn = styled(Button)<{ checked: boolean }>``;
 
 const BookmarkQuestionList = () => {
   const [toast, setToast] = useRecoilState(toastState);

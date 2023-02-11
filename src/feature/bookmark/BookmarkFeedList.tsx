@@ -8,26 +8,11 @@ import { putBookmark, getBookmarkFeedList } from '../../apis/bookmark/bookmark';
 import { Button, Checkbox } from '../../components';
 import BookmarkFeedItem from './BookmarkFeedItem';
 import { IBookmarkFeed } from '../../interface/bookmark';
-
-const Wrapper = styled.div`
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-`;
+import { Wrapper, ButtonWrapper, Btn } from './BookmarkQuestionList';
 
 const FeedItemWrapper = styled.li`
   display: flex;
 `;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  & :first-child {
-    margin-bottom: 0.5rem;
-  }
-`;
-
-const Btn = styled(Button)<{ checked: boolean }>``;
 
 const BookmarkFeedList = () => {
   const [toast, setToast] = useRecoilState(toastState);

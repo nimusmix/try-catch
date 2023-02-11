@@ -16,10 +16,6 @@ const navOptions = [
 
 const BookmarkWrapper = styled.div`
   display: flex;
-
-  button {
-    margin-left: 1rem;
-  }
 `;
 
 const ContentWrapper = styled.div`
