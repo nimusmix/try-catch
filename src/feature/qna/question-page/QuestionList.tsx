@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Dispatch, Fragment, useEffect } from 'react';
@@ -8,6 +7,7 @@ import { QuestionItem } from '../index';
 import question from '../Question';
 import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
 import { logOnDev } from '../../../utils/logging';
+import QuestionNoContent from './QuestionNoContent';
 
 const QuestionList = ({
   filter,
@@ -110,22 +110,25 @@ const QuestionList = ({
   }, [fetchNextPage, isFetchingNextPage]);
 
   return (
-    <ul>
-      {questionList?.pages?.map((page, index) => {
-        return (
-          // eslint-disable-next-line react/no-array-index-key
-          <Fragment key={index}>
-            {page.data.map((questionItem) => {
-              return (
-                <li key={questionItem.questionId}>
-                  <QuestionItem {...questionItem} />
-                </li>
-              );
-            })}
-          </Fragment>
-        );
-      })}
-    </ul>
+    <>
+      {questionList?.pages[0].data.length === 0 && <QuestionNoContent />}
+      <ul>
+        {questionList?.pages?.map((page, index) => {
+          return (
+            // eslint-disable-next-line react/no-array-index-key
+            <Fragment key={index}>
+              {page.data.map((questionItem) => {
+                return (
+                  <li key={questionItem.questionId}>
+                    <QuestionItem {...questionItem} />
+                  </li>
+                );
+              })}
+            </Fragment>
+          );
+        })}
+      </ul>
+    </>
   );
 };
 
