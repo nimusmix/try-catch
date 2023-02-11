@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { useNavigate } from 'react-router-dom';
 import {
   IconCheckCircle,
   IconComment,
@@ -152,9 +153,14 @@ const QuestionItem = ({
 }: Partial<IQuestion>) => {
   const isDark = useRecoilValue(isDarkState);
   const setKeyword = useSetRecoilState(qnaSearchKeywordState);
+  const navigate = useNavigate();
 
   return (
-    <Wrapper>
+    <Wrapper
+      onClick={() => {
+        navigate(`${rest.questionId}`);
+      }}
+    >
       <div>
         <Button
           as="span"
@@ -214,7 +220,10 @@ const QuestionItem = ({
                 fontSize="var(--fonts-body-xm)"
                 padding="2px 10px"
                 borderRadius="var(--borders-radius-lg)"
-                onClick={() => setKeyword(tag.toLocaleLowerCase())}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setKeyword(tag.toLocaleLowerCase());
+                }}
               >
                 <IconHash />
                 {tag}

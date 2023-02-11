@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Dispatch, Fragment, useEffect } from 'react';
@@ -8,7 +8,6 @@ import { QuestionItem } from '../index';
 import question from '../Question';
 import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
 import { logOnDev } from '../../../utils/logging';
-import QuestionNoContent from './QuestionNoContent';
 
 const QuestionList = ({
   filter,
@@ -19,7 +18,6 @@ const QuestionList = ({
 }) => {
   const [activeCategory, setActiveCategory] = useRecoilState<string>(qnaCategoryState);
   const keyword = useRecoilValue(qnaSearchKeywordState);
-  const navigate = useNavigate();
 
   useEffect(() => {
     logOnDev.log(keyword);
@@ -111,36 +109,23 @@ const QuestionList = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, [fetchNextPage, isFetchingNextPage]);
 
-  const questionItemClickHandler =
-    (questionId: number) => (e: React.MouseEvent<HTMLDivElement>) => {
-      e.stopPropagation();
-      navigate(`${questionId}`);
-    };
-
   return (
-    <>
-      {questionList?.pages[0].data.length === 0 && <QuestionNoContent />}
-      <ul>
-        {questionList?.pages?.map((page, index) => {
-          return (
-            // eslint-disable-next-line react/no-array-index-key
-            <Fragment key={index}>
-              {page.data.map((questionItem) => {
-                return (
-                  // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-                  <li
-                    key={questionItem.questionId}
-                    onClick={() => questionItemClickHandler(questionItem.questionId)}
-                  >
-                    <QuestionItem {...questionItem} />
-                  </li>
-                );
-              })}
-            </Fragment>
-          );
-        })}
-      </ul>
-    </>
+    <ul>
+      {questionList?.pages?.map((page, index) => {
+        return (
+          // eslint-disable-next-line react/no-array-index-key
+          <Fragment key={index}>
+            {page.data.map((questionItem) => {
+              return (
+                <li key={questionItem.questionId}>
+                  <QuestionItem {...questionItem} />
+                </li>
+              );
+            })}
+          </Fragment>
+        );
+      })}
+    </ul>
   );
 };
 
