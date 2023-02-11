@@ -104,7 +104,6 @@ const SubText = styled(Paragraph)`
 `;
 
 const FollowButton = styled(Button)`
-  transition: background-color 0.5s ease;
   padding: 0.1rem 0.25rem;
   font-size: var(--fonts-body-sm);
 `;
@@ -392,16 +391,12 @@ const Answer = ({
               {isMe || (
                 // eslint-disable-next-line jsx-a11y/click-events-have-key-events
                 <span onClick={onClickFollowHandler}>
-                  {answer.author.isFollowed && (
-                    <FollowButton designType="blueFill" fontSize="14px">
-                      팔로잉
-                    </FollowButton>
-                  )}
-                  {answer.author.isFollowed || (
-                    <FollowButton designType="blueEmpty" fontSize="14px">
-                      팔로우
-                    </FollowButton>
-                  )}
+                  <FollowButton
+                    designType={answer.author.isFollowed ? 'blueFill' : 'blueEmpty'}
+                    fontSize="14px"
+                  >
+                    {answer.author.isFollowed ? '팔로잉' : '팔로우'}
+                  </FollowButton>
                 </span>
               )}
             </UserInfo>
