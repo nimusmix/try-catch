@@ -27,6 +27,7 @@ const GlobalStyles = createGlobalStyle`
 
   body::-webkit-scrollbar {
     width: 3px;
+    height: 3px;
   }
 
   body::-webkit-scrollbar-thumb {
