@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
 import { Button, MiniTitle, Paragraph, SubTitle } from '../../../components';
 import QnaCard from './QnaCard';
-import { IconQuestion } from '../../../components/icons/Icons';
+import { IconChallenge } from '../../../components/icons/Icons';
 
-const SecondSection = styled.section`
+const FourthSection = styled.section`
   align-self: flex-end;
   height: 80vh;
   width: 100%;
@@ -60,18 +60,18 @@ const ChallengeSection = () => {
   const { ref, inView } = useInView();
 
   return (
-    <SecondSection ref={ref} className={inView ? 'active' : ''}>
+    <FourthSection ref={ref} className={inView ? 'active' : ''}>
       <div className="description">
         <div>
-          <SubTitle textAlign="left">혼자 개발하다 막히셨나요?</SubTitle>
+          <SubTitle textAlign="left">도전과제를 달성하며 재밌게 학습해보세요</SubTitle>
           <SubTitle textAlign="right" display="inline-flex" className="title">
-            <IconQuestion />
-            &nbsp;Q&A
+            <IconChallenge />
+            &nbsp;챌린지
           </SubTitle>
         </div>
         <div>
           <MiniTitle sizeType="xl" textAlign="left">
-            Q&A 탭을 이용해보세요
+            챌린지 탭을 이용해보세요
           </MiniTitle>
           <Paragraph sizeType="lg" textAlign="left">
             좋은 질문과 답변으로 지식을 쌓을 수 있어요
@@ -84,26 +84,22 @@ const ChallengeSection = () => {
           timestamp="1분 전"
           content="내용 요약... Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error eum ex
               optio quidem ullam vitae voluptas"
-          tags={[
-            { id: 1, tagName: 'react' },
-            { id: 2, tagName: 'react-hook-form' },
-          ]}
+          tags={[]}
+          questionId={1}
         />
         <QnaCard
           title="Q&A 제목이 들어올 곳"
           timestamp="1분 전"
           content="내용 요약... Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error eum ex
               optio quidem ullam vitae voluptas"
-          tags={[
-            { id: 1, tagName: 'react' },
-            { id: 2, tagName: 'react-hook-form' },
-          ]}
+          tags={[]}
+          questionId={2}
         />
       </div>
       <div className="button-wrapper">
         <Button onClick={() => navigate('/question')}>더 보기</Button>
       </div>
-    </SecondSection>
+    </FourthSection>
   );
 };
 

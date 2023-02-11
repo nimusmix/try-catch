@@ -1,6 +1,7 @@
 import { useRecoilValue } from 'recoil';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import React from 'react';
 import { isDarkState } from '../../../recoil';
 import { Button, Div, MiniTitle, Paragraph } from '../../../components';
 import { IconBest } from '../../../components/icons/Icons';
@@ -70,7 +71,7 @@ const QnaDetailRecommendQna = ({
           borderRadius="var(--borders-radius-base)"
           style={{ marginBottom: '0.5rem' }}
         >
-          추천
+          인기
         </UpperTag>
         <MiniTitle
           textAlign="left"

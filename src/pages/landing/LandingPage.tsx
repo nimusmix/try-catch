@@ -1,31 +1,43 @@
+import styled, { keyframes } from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import styled from 'styled-components';
 import { useInView } from 'react-intersection-observer';
 import { useEffect } from 'react';
 import Layout from '../../layout/Layout';
-import MarqueeLogoCard from './marquee-logo-wall/MarqueeLogoCard';
-import LandingTitle from './landing-title/LandingTitle';
+import MarqueeLogoCard from '../../feature/landing/marquee-logo-wall/MarqueeLogoCard';
+import LandingTitle from '../../feature/landing/landing-title/LandingTitle';
 import { ReactComponent as LogoDarkTheme } from '../../assets/vertical_logo_dark_theme.svg';
 import { ReactComponent as LogoLightTheme } from '../../assets/vertical_logo_light_theme.svg';
 import { accToken, isDarkState, isLoggedInState, refToken } from '../../recoil';
 import { QuestionPageBody } from '../qna/QnaPage';
-import IntroSection from './Sections/IntroSection';
-import QnASection from './Sections/QnASection';
-import FeedSection from './Sections/FeedSection';
-import RoadmapSection from './Sections/RoadmapSection';
-import ChallengeSection from './Sections/ChallengeSection';
+import IntroSection from '../../feature/landing/Sections/IntroSection';
+import QnASection from '../../feature/landing/Sections/QnASection';
+import FeedSection from '../../feature/landing/Sections/FeedSection';
+import RoadmapSection from '../../feature/landing/Sections/RoadmapSection';
+import ChallengeSection from '../../feature/landing/Sections/ChallengeSection';
 
 const LandingPageBody = styled(QuestionPageBody)`
   flex-direction: column;
 `;
 
+const fadeUp = keyframes`
+  0% {
+    filter: alpha(opacity=0);
+    opacity: .1;
+    transform: translateY(100px);
+  }
+  100% {
+    filter: alpha(opacity=100);
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
 const LogoWrapper = styled.div`
   align-self: flex-start;
-  opacity: 0;
-  transition: all 5s ease;
-
+  visibility: hidden;
   &.active {
-    opacity: 1;
+    visibility: visible;
+    animation: ${fadeUp} 1s;
   }
 `;
 

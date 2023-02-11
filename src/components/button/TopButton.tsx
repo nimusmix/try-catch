@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
 import { IconArrowUp } from '../icons/Icons';
 
 const StyledButton = styled.button`
@@ -28,7 +29,9 @@ const StyledButton = styled.button`
 `;
 
 const TopButton = () => {
+  const location = useLocation();
   const [showButton, setShowButton] = useState(false);
+  const [top, setTop] = useState(0);
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -40,11 +43,19 @@ const TopButton = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (location.pathname === '/') {
+      setTop(0);
+    } else {
+      setTop(180);
+    }
+  }, [location.pathname]);
+
   // // 1. timeout을 줘서 스크롤이 끝난 후 작동하게 하는 방법
   const scrollToTop = () => {
     setTimeout(() => {
       window.scrollTo({
-        top: 0,
+        top,
         behavior: 'smooth', // for smoothly scrolling
       });
     }, 300);

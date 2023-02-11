@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
 import React from 'react';
@@ -11,6 +11,7 @@ import { IQuestion } from '../../interface/qna';
 import { isLoggedInState } from '../../recoil';
 import { useQuestionDispatch } from '../../context/QnaContext';
 import QnaDetailSkeleton from '../../feature/qna/skeleton/QnaDetailSkeleton';
+import qnaCategoryState from '../../recoil/qnaCategoryState';
 
 const QnaDetailWrapper = styled.section`
   margin-top: 3rem;
@@ -38,6 +39,8 @@ const QnaDetailPage = () => {
   const { questionId } = useParams<string>();
   const dispatch = useQuestionDispatch();
   const isLogin = useRecoilValue(isLoggedInState);
+  const queryClient = useQueryClient();
+  const qnaCategory = useRecoilValue(qnaCategoryState);
   const { isLoading, data: questionDetail } = useQuery<IQuestion>(
     ['question', questionId] as const,
     getQuestionDetail(Number(questionId)),
@@ -49,13 +52,14 @@ const QnaDetailPage = () => {
         dispatch({ type: 'SET_ERROR_CODE', errorCode: q.errorCode });
         dispatch({ type: 'SET_TAGS', tags: q.tags });
       },
-      // initialData: () => {
-      //   const questionDetail = queryClient
-      //     .getQueryData(['question', 'questionList', qnaCategory])
-      //     .pages.flatMap((page: Array<IQuestion>) => page.find((item) => Number(item.questionId) === Number(questionId));
-      //
-      //   return questionDetail;
-      // },
+      initialData: () => {
+        const questionDetail = queryClient
+          .getQueryData<any>(['question', 'questionList', qnaCategory])
+          ?.pages.find((page: { data: Array<IQuestion> }) => page.data)
+          .data.find((item: IQuestion) => item.questionId === Number(questionId));
+
+        return questionDetail;
+      },
     }
   );
 

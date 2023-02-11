@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useInView } from 'react-intersection-observer';
 import { Button, MiniTitle, Paragraph, SubTitle } from '../../../components';
-import FeedCard from './FeedCard';
-import { IconFeed } from '../../../components/icons/Icons';
+import { IconRoadmap } from '../../../components/icons/Icons';
 
 const ThirdSection = styled.section`
   align-self: flex-end;
@@ -61,7 +60,7 @@ const RoadmapSection = () => {
       <div className="description">
         <div>
           <SubTitle textAlign="left" display="inline-flex" className="title">
-            <IconFeed />
+            <IconRoadmap />
             &nbsp;로드맵
           </SubTitle>
           <SubTitle textAlign="right">나만의 로드맵을 소개해보세요</SubTitle>
@@ -73,50 +72,9 @@ const RoadmapSection = () => {
           선후배 개발자들의 발자취를 따라가볼 수 있어요
         </Paragraph>
       </div>
-      <div className="card-container">
-        <FeedCard
-          title="Feed 제목"
-          company="naver"
-          content="내용 요약... Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error eum ex
-              optio quidem ullam vitae voluptas"
-          tags={[
-            { id: 1, tagName: 'react' },
-            { id: 2, tagName: 'react-hook-form' },
-          ]}
-        />
-        <FeedCard
-          title="Feed 제목"
-          company="kakao"
-          content="내용 요약... Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error eum ex
-              optio quidem ullam vitae voluptas"
-          tags={[
-            { id: 1, tagName: 'react' },
-            { id: 2, tagName: 'react-hook-form' },
-          ]}
-        />
-        <FeedCard
-          title="Feed 제목"
-          company="kakao"
-          content="내용 요약... Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error eum ex
-              optio quidem ullam vitae voluptas"
-          tags={[
-            { id: 1, tagName: 'react' },
-            { id: 2, tagName: 'react-hook-form' },
-          ]}
-        />
-        <FeedCard
-          title="Feed 제목"
-          company="daangn"
-          content="내용 요약... Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error eum ex
-              optio quidem ullam vitae voluptas"
-          tags={[
-            { id: 1, tagName: 'react' },
-            { id: 2, tagName: 'react-hook-form' },
-          ]}
-        />
-      </div>
+      <div className="card-container" />
       <div className="button-wrapper">
-        <Button onClick={() => navigate('/feed')}>더 보기</Button>
+        <Button onClick={() => navigate('/roadmap')}>더 보기</Button>
       </div>
     </ThirdSection>
   );

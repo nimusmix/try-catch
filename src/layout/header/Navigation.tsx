@@ -3,7 +3,6 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { ReactComponent as LogoDarkTheme } from '../../assets/horizontal_logo_dark_theme.svg';
 import { ReactComponent as LogoLightTheme } from '../../assets/horizontal_logo_light_theme.svg';
-import { HOME_PAGE_NAME } from '../../constant';
 import { isDarkState, isLoggedInState, isSystemThemeState } from '../../recoil';
 import { Header, MemberNavMenu, NavMenu, NonMemberNavMenu } from '../index';
 
@@ -60,7 +59,7 @@ const Navigation = () => {
       <Nav>
         <NavWrapper>
           <Logo>
-            <NavLink to={`/${HOME_PAGE_NAME}`}>
+            <NavLink to="/">
               {isDark && <LogoDarkTheme width="100%" height="60" />}
               {isDark || <LogoLightTheme width="100%" height="60" />}
             </NavLink>

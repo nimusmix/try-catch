@@ -2,15 +2,18 @@ import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 export interface AnimationLoaderProps {
-  width?: string;
-  height?: string;
+  width?: number;
+  height?: number;
   animationData: any;
   autoplay: boolean;
   loop: boolean;
+  opacity?: number;
 }
 
-const Container = styled.div`
-  opacity: 0.3;
+const Container = styled.div<{ opacity?: number; width?: number; height?: number }>`
+  opacity: ${({ opacity }) => opacity || '0.3'};
+  ${({ width }) => width && `width: ${width}px`};
+  ${({ height }) => height && `height: ${height}px`};
   position: absolute;
   top: 0;
   left: 0;
@@ -24,6 +27,7 @@ const AnimationLoader = ({
   animationData,
   autoplay,
   loop,
+  opacity,
 }: AnimationLoaderProps) => {
   const container = useRef<HTMLDivElement>(null);
 
@@ -45,7 +49,7 @@ const AnimationLoader = ({
     };
   }, [animationData, autoplay, loop]);
 
-  return <Container ref={container} />;
+  return <Container ref={container} opacity={opacity} width={width} height={height} />;
 };
 
 export default AnimationLoader;

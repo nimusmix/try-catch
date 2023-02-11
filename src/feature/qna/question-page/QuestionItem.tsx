@@ -124,6 +124,14 @@ const Tag = styled(Button)`
     transition: color 0.2s ease-in;
   }
 
+  .tag-text {
+    max-width: 80px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
+  }
+
   &:hover svg,
   &:hover {
     color: #f1f1f1;
@@ -226,7 +234,7 @@ const QuestionItem = ({
                 }}
               >
                 <IconHash />
-                {tag}
+                <span className="tag-text">{tag}</span>
               </Tag>
             );
           })}
