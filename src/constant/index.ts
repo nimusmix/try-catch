@@ -2,7 +2,6 @@
 const { VITE_API_URL: API_URL } = import.meta.env;
 
 // route paths
-const HOME_PAGE_NAME = 'home';
 const QNA_PAGE_NAME = 'question';
 const FEED_PAGE_NAME = 'feed';
 const CHALLENGES_PAGE_NAME = 'challenges';
@@ -25,7 +24,6 @@ const TAGS_PER_ROW = 8;
 
 export {
   API_URL,
-  HOME_PAGE_NAME,
   QNA_PAGE_NAME,
   FEED_PAGE_NAME,
   CHALLENGES_PAGE_NAME,

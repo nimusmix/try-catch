@@ -1,19 +1,32 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useInView } from 'react-intersection-observer';
 import { Button, MiniTitle, Paragraph, SubTitle } from '../../../components';
+
+const fadeFromLeft = keyframes`
+  0% {
+    filter: alpha(opacity=0);
+    opacity: .1;
+    transform: translateX(-100%);
+  }
+  100% {
+    filter: alpha(opacity=100);
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
 
 const FirstSection = styled.section`
   align-self: flex-start;
   height: 80vh;
   width: 100%;
 
-  opacity: 0;
-  transition: all 5s ease;
+  visibility: hidden;
 
   &.active {
-    opacity: 1;
+    visibility: visible;
+    animation: ${fadeFromLeft} 1s;
   }
 
   & > div {
