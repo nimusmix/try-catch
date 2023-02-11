@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useWindowSize from '../../hooks/useWindowSize';
 import MiniTitle from '../font/MiniTitle';
+import useInterval from '../../hooks/useInterval';
 
 interface ICarouselProps {
   active: string;
@@ -79,24 +80,6 @@ const Card = ({ title }: Partial<ICarouselProps>) => {
       </MiniTitle>
     </SliderItemDiv>
   );
-};
-
-const useInterval = (callback: () => void, delay: number | null) => {
-  const savedCallback = useRef<() => void>(() => {});
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-
-  useEffect(() => {
-    const tick = () => {
-      savedCallback.current();
-    };
-    if (delay !== null) {
-      const id = setInterval(tick, delay);
-      return () => clearInterval(id); // clean-up
-    }
-    return () => {};
-  }, [delay]);
 };
 
 const SlideshowDots = styled.div`

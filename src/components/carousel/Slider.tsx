@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { Link } from 'react-router-dom';
 import remarkGfm from 'remark-gfm';
@@ -9,6 +9,7 @@ import MiniTitle from '../font/MiniTitle';
 import Paragraph from '../font/Paragraph';
 import { isDarkState } from '../../recoil';
 import { IQuestion } from '../../interface/qna';
+import useInterval from '../../hooks/useInterval';
 
 export const SliderArea = styled.div`
   position: relative;
@@ -118,24 +119,6 @@ const Card = ({ questionId, title, content, answerCount }: Partial<IQuestion>) =
       </Link>
     </SliderItemDiv>
   );
-};
-
-const useInterval = (callback: () => void, delay: number | null) => {
-  const savedCallback = useRef<() => void>(() => {});
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-
-  useEffect(() => {
-    const tick = () => {
-      savedCallback.current();
-    };
-    if (delay !== null) {
-      const id = setInterval(tick, delay);
-      return () => clearInterval(id); // clean-up
-    }
-    return () => {};
-  }, [delay]);
 };
 
 interface IPopularQnaProps {
