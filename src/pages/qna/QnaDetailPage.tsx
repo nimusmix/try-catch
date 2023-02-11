@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
 import React from 'react';
@@ -8,7 +8,6 @@ import { Answer, QnaDetailPopularQna, Question } from '../../feature/qna';
 import { getQuestionDetail } from '../../apis/qna/qna';
 import { AnswerForm } from '../../feature';
 import { IQuestion } from '../../interface/qna';
-import qnaCategoryState from '../../recoil/qnaCategoryState';
 import { isLoggedInState } from '../../recoil';
 import { useQuestionDispatch } from '../../context/QnaContext';
 import QnaDetailSkeleton from '../../feature/qna/skeleton/QnaDetailSkeleton';
@@ -37,8 +36,6 @@ const Aside = styled.aside`
 
 const QnaDetailPage = () => {
   const { questionId } = useParams<string>();
-  const queryClient = useQueryClient();
-  const qnaCategory = useRecoilValue(qnaCategoryState);
   const dispatch = useQuestionDispatch();
   const isLogin = useRecoilValue(isLoggedInState);
   const { isLoading, data: questionDetail } = useQuery<IQuestion>(
