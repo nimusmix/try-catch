@@ -1,7 +1,9 @@
 import styled from 'styled-components';
-import { ReactFlow, Controls, Handle, Position } from 'reactflow';
+import { useMemo } from 'react';
+import { ReactFlow, Controls } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { INode, IEdge } from '../../interface/roadmap';
+import ContentNode from './node-style/ContentNode';
 
 interface IRoadmapDetailProps {
   nodes: Array<INode>;
@@ -13,37 +15,21 @@ const DetailWrapper = styled.div`
   height: 800px;
   border: 1px solid ${({ theme }) => theme.borderColor};
   border-radius: var(--borders-radius-base);
-`;
 
-const Content = styled.div`
-  width: 160px;
-  height: 42px;
-  padding: 0.5rem;
-  color: ${({ theme }) => theme.textColor};
-  background-color: ${({ theme }) => theme.bgColor};
-  text-align: center;
-  border: 1px var(--colors-brand-500) solid;
-  border-radius: var(--borders-radius-base);
+  .react-flow__node-default {
+    border: 1px solid var(--colors-brand-500);
+    border-radius: var(--borders-radius-base);
+    background-color: ${({ theme }) => theme.bgColor};
+  }
 `;
-
-const ContentNode = ({ data }: { data: any }) => {
-  return (
-    <>
-      <Handle type="target" position={Position.Top} id="t" />
-      <Handle type="target" position={Position.Left} id="l" />
-      <Content>{data.label}</Content>
-      <Handle type="source" position={Position.Bottom} id="b" />
-      <Handle type="source" position={Position.Right} id="r" />
-    </>
-  );
-};
 
 const RoadmapDetailBody = ({ nodes, edges }: IRoadmapDetailProps) => {
   nodes.map((node: INode) => Object.assign(node, { type: 'content' }));
+  const nodeTypes = useMemo(() => ({ default: ContentNode }), []);
 
   return (
     <DetailWrapper>
-      <ReactFlow nodes={nodes} edges={edges} fitView>
+      <ReactFlow nodes={nodes} edges={edges} nodeTypes={nodeTypes} fitView>
         <Controls />
       </ReactFlow>
     </DetailWrapper>
