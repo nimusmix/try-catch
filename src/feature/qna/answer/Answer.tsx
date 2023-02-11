@@ -23,6 +23,7 @@ import { isLoggedInState, toastState } from '../../../recoil';
 import elapsedTime from '../../../utils/elapsed-time';
 
 const AnswerItem = styled.li`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -54,8 +55,11 @@ const UpperWrapper = styled.div`
   }
 
   .edit {
+    position: absolute;
     color: var(--colors-brand-500);
     cursor: pointer;
+    top: 1rem;
+    right: 1rem;
   }
 
   svg {
@@ -369,6 +373,8 @@ const Answer = ({
             <SubText sizeType="base">채택된 답변</SubText>
           </AcceptedSign>
         )}
+        {answer.accepted ||
+          (isMe && <TbEdit className="edit" onClick={() => setIsEdit((prev) => !prev)} />)}
         <AuthorWrapper
           onClick={() => {
             navigate(`/profile/${answer.author.userName}`);
@@ -411,8 +417,6 @@ const Answer = ({
             </SubTextWrapper>
           </UserInfoWrapper>
         </AuthorWrapper>
-
-        {isMe && <TbEdit className="edit" onClick={() => setIsEdit((prev) => !prev)} />}
       </UpperWrapper>
 
       <AnswerBody>
