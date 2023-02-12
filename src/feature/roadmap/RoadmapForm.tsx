@@ -6,7 +6,7 @@ import ReactFlow, { Background, Controls, Edge, useEdges, useNodes, useReactFlow
 import 'reactflow/dist/style.css';
 import styled from 'styled-components';
 import { Button, Input, MiniTitle } from '../../components';
-import { postRoadmap, getRoadmapDetail } from '../../apis/roadmap/roadmap';
+import { postRoadmap, putRoadmap, getRoadmapDetail } from '../../apis/roadmap/roadmap';
 import { logOnDev } from '../../utils/logging';
 import { INode, IEdge, IRoadmap } from '../../interface/roadmap';
 import TextUpdaterNode from './node-style/TextUpdaterNode';
@@ -112,6 +112,10 @@ const RoadmapForm = () => {
     onSuccess: (data) => navi(`/roadmap/${data.data.author.userName}`),
     onError: (error) => logOnDev.log(error),
   });
+  const editRoadmap = useMutation(putRoadmap, {
+    onSuccess: (data) => navi(`/roadmap/${data.data.author.userName}`),
+    onError: (error) => logOnDev.log(error),
+  });
 
   const saveData = (data: any) => {
     // const rstNodes = newNodes.map((node) => Object.assign(node, { type: 'output' }));
@@ -121,7 +125,12 @@ const RoadmapForm = () => {
       nodes: JSON.stringify(newNodes),
       edges: JSON.stringify(newEdges),
     };
-    saveRoadmap.mutate(roadmap);
+
+    if (isEditPage) {
+      editRoadmap.mutate(roadmap);
+    } else {
+      saveRoadmap.mutate(roadmap);
+    }
   };
 
   const nodeTypes = useMemo(() => ({ textUpdater: TextUpdaterNode }), []);
