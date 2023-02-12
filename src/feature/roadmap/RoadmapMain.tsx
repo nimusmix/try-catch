@@ -30,8 +30,10 @@ const RoadmapMain = () => {
   const [toast, setToast] = useRecoilState(toastState);
   const navi = useNavigate();
 
-  const userName = useQuery<string>(['userName'], () => getName());
-  const haveRoadmap = useQuery<boolean>(['roadmapStatus', userName], () => getRoadmapStatus());
+  const { data: userName } = useQuery<string>(['userName'], () => getName());
+  const { data: haveRoadmap } = useQuery<boolean>(['roadmapStatus', userName], () =>
+    getRoadmapStatus()
+  );
   const createdRoadmapHandler = () => {
     if (!isLoggedIn) {
       setToast({ type: 'negative', message: '로그인 후 이용하실 수 있어요', isVisible: true });
