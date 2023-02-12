@@ -173,7 +173,7 @@ const MemberNavMenu = () => {
                 설정
               </DropLi>
               <Line />
-              <DropLi as="button" onClick={logout}>
+              <DropLi as="div" onClick={logout}>
                 로그아웃
               </DropLi>
             </DropUl>
