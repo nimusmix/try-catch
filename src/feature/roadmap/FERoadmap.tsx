@@ -27,7 +27,7 @@ const nodes = [
     id: '1-3',
     position: { x: 520, y: 170 },
     data: { label: 'JavaScript' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -35,7 +35,7 @@ const nodes = [
     id: '2',
     position: { x: 290, y: 110 },
     data: { label: 'BEM' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -43,7 +43,7 @@ const nodes = [
     id: '3-1',
     position: { x: 750, y: 110 },
     data: { label: 'Sass' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -51,7 +51,7 @@ const nodes = [
     id: '3-2',
     position: { x: 750, y: 170 },
     data: { label: 'PostCSS' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -59,7 +59,7 @@ const nodes = [
     id: '3-3',
     position: { x: 750, y: 230 },
     data: { label: 'cssnext' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -67,7 +67,7 @@ const nodes = [
     id: '4-1',
     position: { x: 290, y: 230 },
     data: { label: 'Webpack' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -75,7 +75,7 @@ const nodes = [
     id: '4-2',
     position: { x: 290, y: 290 },
     data: { label: 'Rollup' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -83,7 +83,7 @@ const nodes = [
     id: '4-3',
     position: { x: 290, y: 350 },
     data: { label: 'Parcel' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -91,7 +91,7 @@ const nodes = [
     id: '5-1',
     position: { x: 750, y: 350 },
     data: { label: 'Prettier' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -99,7 +99,7 @@ const nodes = [
     id: '5-2',
     position: { x: 750, y: 410 },
     data: { label: 'ESLint' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -107,7 +107,7 @@ const nodes = [
     id: '6',
     position: { x: 120, y: 530 },
     data: { label: 'React' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -115,7 +115,7 @@ const nodes = [
     id: '7',
     position: { x: 520, y: 530 },
     data: { label: 'Vue' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -123,7 +123,7 @@ const nodes = [
     id: '8',
     position: { x: 920, y: 530 },
     data: { label: 'Angular' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -131,7 +131,7 @@ const nodes = [
     id: '9-1',
     position: { x: 20, y: 590 },
     data: { label: 'Redux' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -139,7 +139,7 @@ const nodes = [
     id: '9-2',
     position: { x: 20, y: 650 },
     data: { label: 'Recoil' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -147,7 +147,7 @@ const nodes = [
     id: '10',
     position: { x: 220, y: 590 },
     data: { label: 'Next.js' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -155,7 +155,7 @@ const nodes = [
     id: '11',
     position: { x: 420, y: 590 },
     data: { label: 'VueX' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -163,7 +163,7 @@ const nodes = [
     id: '12',
     position: { x: 620, y: 590 },
     data: { label: 'Nuxt.js' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -171,7 +171,7 @@ const nodes = [
     id: '13-1',
     position: { x: 820, y: 590 },
     data: { label: 'RxJS' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -179,7 +179,7 @@ const nodes = [
     id: '13-2',
     position: { x: 820, y: 650 },
     data: { label: 'NgRx' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -187,7 +187,7 @@ const nodes = [
     id: '14',
     position: { x: 1020, y: 590 },
     data: { label: 'Universal' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -195,7 +195,7 @@ const nodes = [
     id: '15-1',
     position: { x: 290, y: 770 },
     data: { label: 'Styled Components' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -203,7 +203,7 @@ const nodes = [
     id: '15-2',
     position: { x: 290, y: 830 },
     data: { label: 'CSS Modules' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -211,7 +211,7 @@ const nodes = [
     id: '15-3',
     position: { x: 290, y: 890 },
     data: { label: 'Styled JSX' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -219,7 +219,7 @@ const nodes = [
     id: '15-4',
     position: { x: 290, y: 950 },
     data: { label: 'Emotion' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -227,7 +227,7 @@ const nodes = [
     id: '16-1',
     position: { x: 520, y: 770 },
     data: { label: 'Reactstra' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -235,7 +235,7 @@ const nodes = [
     id: '16-2',
     position: { x: 520, y: 830 },
     data: { label: 'MUI' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -243,7 +243,7 @@ const nodes = [
     id: '16-3',
     position: { x: 520, y: 890 },
     data: { label: 'Tailwind CSS' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -251,7 +251,7 @@ const nodes = [
     id: '16-4',
     position: { x: 520, y: 950 },
     data: { label: 'Chakra UI' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -259,7 +259,7 @@ const nodes = [
     id: '17-1',
     position: { x: 750, y: 770 },
     data: { label: 'Bootstrap' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -267,7 +267,7 @@ const nodes = [
     id: '17-2',
     position: { x: 750, y: 830 },
     data: { label: 'Materialize CSS' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -275,7 +275,7 @@ const nodes = [
     id: '17-3',
     position: { x: 750, y: 890 },
     data: { label: 'Bulma' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -291,7 +291,7 @@ const nodes = [
     id: '19-1',
     position: { x: 190, y: 1130 },
     data: { label: 'Apollo' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -299,7 +299,7 @@ const nodes = [
     id: '19-2',
     position: { x: 390, y: 1130 },
     data: { label: 'Relay Mode' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -315,7 +315,7 @@ const nodes = [
     id: '21-1',
     position: { x: 650, y: 1130 },
     data: { label: 'React Native' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -323,7 +323,7 @@ const nodes = [
     id: '21-2',
     position: { x: 650, y: 1190 },
     data: { label: 'NativeScript' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -331,7 +331,7 @@ const nodes = [
     id: '21-3',
     position: { x: 840, y: 1130 },
     data: { label: 'Flutter' },
-    type: 'dafault',
+    type: 'default',
   },
   {
     width: 160,
@@ -339,7 +339,7 @@ const nodes = [
     id: '21-4',
     position: { x: 840, y: 1190 },
     data: { label: 'Ionic' },
-    type: 'dafault',
+    type: 'default',
   },
 ];
 
@@ -390,14 +390,6 @@ const edges = [
     target: '4-3',
     targetHandle: 't',
     id: 'reactflow__edge-4-2b-4-3t',
-    selected: false,
-  },
-  {
-    source: '5-1',
-    sourceHandle: 'b',
-    target: '5-2',
-    targetHandle: 't',
-    id: 'reactflow__edge-5-1b-5-2t',
     selected: false,
   },
   {
