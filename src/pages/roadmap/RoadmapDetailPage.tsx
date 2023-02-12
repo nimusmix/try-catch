@@ -288,10 +288,16 @@ const RoadmapDetailPage = () => {
 
           {isMine && (
             <ButtonWrapper>
-              <Button as={Link} to="edit">
+              <Button
+                as={Link}
+                to="/roadmap/edit"
+                designType="blueEmpty"
+                borderRadius="var(--borders-radius-lg)"
+                margin="0 0.5rem 0 0"
+              >
                 수정
               </Button>
-              <Button>삭제</Button>
+              <Button borderRadius="var(--borders-radius-lg)">삭제</Button>
             </ButtonWrapper>
           )}
 
