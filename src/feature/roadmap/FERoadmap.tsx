@@ -401,14 +401,6 @@ const edges = [
     selected: false,
   },
   {
-    source: '5-1',
-    sourceHandle: 'b',
-    target: '5-2',
-    targetHandle: 't',
-    id: 'reactflow__edge-5-1b-5-2t',
-    selected: false,
-  },
-  {
     source: '1-3',
     sourceHandle: 'b',
     target: '6',
