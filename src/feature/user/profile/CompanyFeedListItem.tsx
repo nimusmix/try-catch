@@ -1,12 +1,13 @@
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
-import { useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { useMutation, useQueryClient } from 'react-query';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../../components/icons/Icons';
-import { isDarkState } from '../../../recoil';
+import { isDarkState, isLoggedInState, toastState } from '../../../recoil';
 import { IFeedItemProps } from '../../feed/IFeed';
 import FeedTag from '../../feed/FeedTag';
 import { postFeedRead } from '../../../apis/feed/feed';
 import { MiniTitle, Paragraph } from '../../../components';
+import { postBookmark, putBookmark } from '../../../apis/bookmark/bookmark';
 
 const DefaultDIv = styled.div`
   /* 한 줄 자르기 */
@@ -126,10 +127,46 @@ const CompanyFeedListItem = ({
   thumbnailImage,
 }: Partial<IFeedItemProps>) => {
   const isDark = useRecoilValue(isDarkState);
-  const [bookMarkIcon, setBookMarkIcon] = useState(isBookmarked);
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    setBookMarkIcon(!bookMarkIcon);
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [toast, setToast] = useRecoilState(toastState);
+
+  const queryClient = useQueryClient();
+
+  const unBookmark = useMutation(putBookmark, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('companyDetail');
+    },
+  });
+
+  const bookmark = useMutation(postBookmark, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('companyDetail');
+    },
+  });
+
+  const onClickBookmarkHandler = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
+    if (!isLoggedIn) {
+      setToast({
+        type: 'negative',
+        isVisible: true,
+        message: '로그인 후 북마크를 이용해보세요! ',
+      });
+    } else if (isBookmarked) {
+      unBookmark.mutate({ id: id!, type: 'FEED' });
+      setToast({
+        type: 'positive',
+        message: '북마크에서 제거되었습니다.',
+        isVisible: true,
+      });
+    } else {
+      bookmark.mutate({ id: id!, type: 'FEED' });
+      setToast({
+        type: 'positive',
+        message: '북마크에 추가되었습니다.',
+        isVisible: true,
+      });
+    }
   };
 
   const handleFeedRead = () => {
@@ -167,9 +204,9 @@ const CompanyFeedListItem = ({
               </BlogMiniTitle>
             </LinkWrapper>
           </BlogTitle>
-          <BookmarkButton onClick={handleClick}>
-            {bookMarkIcon && <IconBookmarkFill size="27" color="var(--colors-brand-500)" />}
-            {bookMarkIcon || <IconBookmarkEmpty size="27" color="var(--colors-brand-500)" />}
+          <BookmarkButton onClick={onClickBookmarkHandler}>
+            {isBookmarked && <IconBookmarkFill size="27" color="var(--colors-brand-500)" />}
+            {isBookmarked || <IconBookmarkEmpty size="27" color="var(--colors-brand-500)" />}
           </BookmarkButton>
         </TitleBookmarkWrapper>
 
