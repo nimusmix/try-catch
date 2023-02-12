@@ -90,7 +90,7 @@ const ProfileEditPage = () => {
   );
 
   const navi = useNavigate();
-  const editProfile = useMutation(['editProfile', userId], patchUserDetail, {
+  const editProfile = useMutation(patchUserDetail, {
     onSuccess: () => navi(`/profile/${user?.userName}`),
     onError: (error) => logOnDev.log(error),
   });

@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Link, Outlet, useParams } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -80,6 +79,9 @@ const ProfileBio = () => {
     () => getUserDetail(userId!),
     {
       enabled: !!userId,
+      onSuccess: () => {
+        queryClient.invalidateQueries(['profileBio', userName]);
+      },
     }
   );
 
