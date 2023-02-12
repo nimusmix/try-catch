@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { useQuery } from 'react-query';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { IconBellFill, IconBookmarkFill, IconUserCircle } from '../../components/icons/Icons';
 import { BOOKMARK_PAGE_NAME } from '../../constant';
 import { Paragraph } from '../../components';
@@ -10,6 +10,7 @@ import { accToken, isDarkState } from '../../recoil';
 import { getImage, getName } from '../../apis/auth/auth';
 import { Ul } from './NavMenu';
 import useNotifications from '../../hooks/useNotifications';
+import { logOnDev } from '../../utils/logging';
 
 const Alert = styled.div``;
 
@@ -97,12 +98,15 @@ const Line = styled.div`
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
   const acc = useRecoilValue(accToken);
-  const { followNotifications, answerRegistrationNotifications, answerAcceptanceNotifications } =
-    useNotifications();
+  const notifications = useNotifications();
   const { data: profileImage } = useQuery(['user', 'profileImage'] as const, () => getImage(acc));
   const { data: userName } = useQuery(['user', 'userName'] as const, getName, {
     enabled: !!profileImage,
   });
+
+  useEffect(() => {
+    logOnDev.log(notifications);
+  }, [notifications, notifications.length]);
 
   const navi = useNavigate();
   const goToProfile = (e: React.MouseEvent) => {

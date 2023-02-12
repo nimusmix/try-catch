@@ -3,13 +3,20 @@ import { useRecoilValue } from 'recoil';
 import { logOnDev } from '../utils/logging';
 import { accToken, isLoggedInState } from '../recoil';
 import { API_URL } from '../constant';
+import elapsedTime from '../utils/elapsed-time';
+
+interface INotification {
+  id: number;
+  from: number;
+  type: 'follow' | 'answerAcceptance' | 'answerRegistration';
+  title: string;
+  timestamp: number;
+}
 
 const useNotifications = () => {
   const isLoggined = useRecoilValue(isLoggedInState);
   const acc = useRecoilValue(accToken);
-  const [followNotifications, setFollowNotifications] = useState([]);
-  const [answerAcceptanceNotifications, setAnswerAcceptanceNotifications] = useState([]);
-  const [answerRegistrationNotifications, setAnswerRegistrationNotifications] = useState([]);
+  const [notifications, setNotifications] = useState<Array<INotification>>([]);
 
   const BASE_URL = `https://${API_URL}/v1`;
   const notificationURL = `${BASE_URL}/connect?token=${acc}`;
@@ -37,34 +44,51 @@ const useNotifications = () => {
           sseEvents.addEventListener('message', (e) => {
             logOnDev.log('sse message 이벤트');
             const data = JSON.parse(e.data);
-            console.log(data);
-            // switch (data.type) {
-            //   // 팔로우
-            //   case 'follow':
-            //     setFollowNotifications((prevFollowNotifications) => [
-            //       ...prevFollowNotifications,
-            //       data.message,
-            //     ]);
-            //     break;
-            //
-            //   // 답변 채택
-            //   case 'answer_acceptance':
-            //     setAnswerAcceptanceNotifications((prevAnswerAcceptanceNotifications) => [
-            //       ...prevAnswerAcceptanceNotifications,
-            //       data.message,
-            //     ]);
-            //     break;
-            //
-            //   // 내 글에 답변 등록
-            //   case 'answer_registration':
-            //     setAnswerRegistrationNotifications((prevAnswerRegistrationNotifications) => [
-            //       ...prevAnswerRegistrationNotifications,
-            //       data.message,
-            //     ]);
-            //     break;
-            //   default:
-            //     break;
-            // }
+            switch (data.type) {
+              // 팔로우
+              case 'follow':
+                {
+                  const followNotification: INotification = {
+                    ...data,
+                    timestamp: elapsedTime(data.timestamp),
+                    title: `${data.title}님이 팔로우 했어요`,
+                  };
+                  setNotifications((prevNotification) => [followNotification, ...prevNotification]);
+                }
+                break;
+
+              // 답변 채택
+              case 'answerAcceptance':
+                {
+                  const answerAcceptanceNotification: INotification = {
+                    ...data,
+                    timestamp: elapsedTime(data.timestamp),
+                    title: `${data.title}글에 작성한 답변이 채택됐어요`,
+                  };
+                  setNotifications((prevNotification) => [
+                    answerAcceptanceNotification,
+                    ...prevNotification,
+                  ]);
+                }
+                break;
+
+              // 내 글에 답변 등록
+              case 'answerRegistration':
+                {
+                  const answerRegistrationNotification: INotification = {
+                    ...data,
+                    timestamp: elapsedTime(data.timestamp),
+                    title: `${data.title}글에 누군가 답변을 해줬어요`,
+                  };
+                  setNotifications((prevNotification) => [
+                    answerRegistrationNotification,
+                    ...prevNotification,
+                  ]);
+                }
+                break;
+              default:
+                break;
+            }
           });
         } catch (error) {
           logOnDev.log(error);
@@ -77,9 +101,9 @@ const useNotifications = () => {
         sseEvents.close();
       };
     }
-  }, []);
+  }, [isLoggined, notificationURL]);
 
-  return { followNotifications, answerAcceptanceNotifications, answerRegistrationNotifications };
+  return notifications;
 };
 
 export default useNotifications;
