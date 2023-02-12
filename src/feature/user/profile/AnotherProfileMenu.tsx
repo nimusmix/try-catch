@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { IMenuOption } from './MyProfileMenu';
+import { IMenuOption, MenuWrapper } from './MyProfileMenu';
 import QuestionList from './QuestionList';
 import AnswerList from './AnswerList';
 
@@ -45,7 +45,7 @@ const AnotherProfileMenu = () => {
   };
 
   return (
-    <>
+    <MenuWrapper>
       <Ul>
         {menu.map(({ id, option }: IMenuOption) => {
           return (
@@ -61,7 +61,7 @@ const AnotherProfileMenu = () => {
       </Ul>
       {activeMenu === '질문' && <QuestionList />}
       {activeMenu === '답변' && <AnswerList />}
-    </>
+    </MenuWrapper>
   );
 };
 

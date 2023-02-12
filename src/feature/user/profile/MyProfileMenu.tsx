@@ -24,6 +24,12 @@ const menu = [
   },
 ];
 
+export const MenuWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5rem;
+`;
+
 const Ul = styled.ul`
   width: 800px;
   display: flex;
@@ -55,7 +61,7 @@ const MyProfileMenu = () => {
   };
 
   return (
-    <>
+    <MenuWrapper>
       <Ul>
         {menu.map(({ id, option }: IMenuOption) => {
           return (
@@ -72,7 +78,7 @@ const MyProfileMenu = () => {
       {activeMenu === '질문' && <QuestionList />}
       {activeMenu === '답변' && <AnswerList />}
       {activeMenu === '최근 본 피드' && <RecentList />}
-    </>
+    </MenuWrapper>
   );
 };
 

@@ -1,10 +1,12 @@
 import { useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../../layout/Layout';
 import { MiniTitle, Input, Button, Paragraph } from '../../components';
 import { accToken } from '../../recoil';
+import { logOnDev } from '../../utils/logging';
 import tokenDecode from '../../utils/tokenDecode';
 import { IUserDetail } from '../../interface/user';
 import { getUserDetail, patchUserDetail } from '../../apis/profile/profile';
@@ -87,6 +89,12 @@ const ProfileEditPage = () => {
     }
   );
 
+  const navi = useNavigate();
+  const editProfile = useMutation(['editProfile', userId], patchUserDetail, {
+    onSuccess: () => navi(`/profile/${user?.userName}`),
+    onError: (error) => logOnDev.log(error),
+  });
+
   const introductionLength = watch('introduction')?.length;
 
   const onValid = (data: { companyName?: string; introduction?: string }) => {
@@ -94,7 +102,7 @@ const ProfileEditPage = () => {
       companyName: data.companyName || user?.companyName,
       introduction: data.introduction || user?.introduction,
     };
-    patchUserDetail(params);
+    editProfile.mutate(params);
   };
 
   if (isLoading) {
