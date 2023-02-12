@@ -4,7 +4,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Outlet } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { accToken, isDarkState, isLoggedInState, toastState } from './recoil';
 import { darkTheme, lightTheme } from './styles/theme';
 import Toast from './feature/toast/Toast';
@@ -60,37 +60,36 @@ const queryClient = new QueryClient({
 function App() {
   const isDark = useRecoilValue(isDarkState);
   const { isVisible } = useRecoilValue(toastState);
-
-  const [sseUrl, setSseUrl] = useState('');
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const acc = useRecoilValue(accToken);
-  const [notifications, setNotifications] = useRecoilState(notificationsState);
-  useEffect(() => {
-    const BASE_URL = `https://${API_URL}/v1`;
-    setSseUrl(`${BASE_URL}/connect?token=${acc}`);
-  }, [acc]);
 
-  // eslint-disable-next-line consistent-return
-  useEffect(() => {
-    if (!isLoggedIn) {
-      return;
-    }
-    // 이벤트를 전달 받기 위해서 서버로 접속을 시작하려면 우선, 이벤트를 생성하는 서버측 스크립트를 URI로 지정하여 새로운 EventSource 객체를 생성한다
-    // EventSource 생성자에 전달 된 URL이 절대 URL 인 경우 해당 출처 (scheme, domain, port)가 호출 페이지의 출처와 일치해야 한다.
-    const sseEvents = new EventSource(sseUrl);
+  const [isConnected, setIsConnected] = useState(false); // State to track the connection status
+  const [notifications, setNotifications] = useRecoilState(notificationsState);
+
+  const BASE_URL = `https://${API_URL}/v1`;
+  const sseEvents = useRef<EventSource | null>(null);
+
+  const connect = useCallback(() => {
+    sseEvents.current = new EventSource(`${BASE_URL}/connect?token=${acc}`);
     // connection 되면
-    sseEvents.addEventListener('open', (e) => {
+    sseEvents.current.addEventListener('open', (e) => {
       logOnDev.log('sse 연결됨');
+      setIsConnected(true);
       logOnDev.dir(e);
     });
     // error 발생시
-    sseEvents.addEventListener('error', (e) => {
+    sseEvents.current.addEventListener('error', (error: any) => {
+      if (error.target?.readyState === EventSource.CLOSED) {
+        setIsConnected(false); // Update the isConnected state to false when the 'error' event is triggered and the ready state is CLOSED
+        sseEvents.current!.close(); // Close the SSE connection when the 'error' event is triggered
+      }
       logOnDev.log('sse 에러');
-      logOnDev.log(e);
-      sseEvents.close();
+      logOnDev.log(error);
+      setIsConnected(false);
+      sseEvents.current!.close();
     });
 
-    sseEvents.addEventListener('message', (e) => {
+    sseEvents.current.addEventListener('message', (e) => {
       logOnDev.log('sse message 이벤트');
       const data = JSON.parse(e.data);
       switch (data.type) {
@@ -139,13 +138,34 @@ function App() {
           break;
       }
     });
+  }, [BASE_URL, acc, setNotifications]);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      return;
+    }
+    connect();
 
     // eslint-disable-next-line consistent-return
     return () => {
       logOnDev.log('sse 연결 종료');
-      sseEvents.close();
+      sseEvents.current!.close();
     };
-  }, [isLoggedIn, setNotifications, sseUrl]);
+  }, [connect, isLoggedIn, sseEvents]);
+
+  // 재연결
+  useEffect(() => {
+    let reconnectTimeout: NodeJS.Timeout;
+    if (!isConnected) {
+      reconnectTimeout = setTimeout(() => {
+        connect();
+      }, 5000);
+    }
+
+    return () => {
+      clearTimeout(reconnectTimeout);
+    };
+  }, [connect, isConnected]);
 
   useEffect(() => {
     logOnDev.log('알림 정보');
