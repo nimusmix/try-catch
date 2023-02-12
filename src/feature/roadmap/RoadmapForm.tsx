@@ -61,7 +61,7 @@ const initialNodes = [
 ];
 
 const initialEdges: Edge<any>[] = [];
-let nodeId = 3;
+let nodeId = 9999;
 
 const RoadmapForm = () => {
   const { pathname } = useLocation();
