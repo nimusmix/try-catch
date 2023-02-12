@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 import React from 'react';
 import { Button, MiniTitle, Paragraph, Card } from '../../components';
-import { IChallengeItem } from '../../interface/challenge';
+import { IChallengeAllProps, IChallengeItem } from '../../interface/challenge';
 import OngoingChallengeCard, { IOngoingChallengeCardProps } from './OngoingChallegeCard';
 
 const Badge = styled.div`
@@ -60,6 +60,8 @@ const StyleCard = styled(Card)`
 `;
 
 const ChallengeItem = ({ title, content, imgSrc }: Partial<IChallengeItem>) => {
+  const category = title ? title.split(' ') : '';
+
   return (
     <StyleCard>
       <ThumbnailImgWrapper>
@@ -68,7 +70,7 @@ const ChallengeItem = ({ title, content, imgSrc }: Partial<IChallengeItem>) => {
       <div style={{ padding: '18px' }}>
         <CardHeader>
           <MiniTitle sizeType="xl" textAlign="left">
-            {title}
+            {`${category[category.length - 2]} 챌린지`}
           </MiniTitle>
           <div style={{ display: 'flex', justifyContent: 'end' }}>
             <Button designType="blueEmpty" fontSize="var(--fonts-body-sm)">
@@ -78,7 +80,7 @@ const ChallengeItem = ({ title, content, imgSrc }: Partial<IChallengeItem>) => {
         </CardHeader>
         <CardBody>
           <Paragraph sizeType="base" textAlign="left">
-            {content}
+            {title}
           </Paragraph>
         </CardBody>
       </div>
@@ -113,11 +115,24 @@ const ChallengeItem2 = ({ title, content, progress }: Partial<IChallengeItem>) =
         </CardHeader>
         <CardBody>
           <Paragraph sizeType="base" textAlign="left">
-            {content}
+            {title}
           </Paragraph>
         </CardBody>
       </div>
     </StyleCard>
+  );
+};
+
+const NonOngoing = () => {
+  /** TODO 진행중인 챌린지가 없을 때 만들기 */
+  return (
+    <div style={{ padding: ' 0px' }}>
+      <CardHeader>
+        <MiniTitle sizeType="xl" textAlign="left">
+          진행중인 챌린지가 없어요.. ㅠ
+        </MiniTitle>
+      </CardHeader>
+    </div>
   );
 };
 
@@ -170,13 +185,13 @@ const Back = styled(FrontBack)`
   transform: rotateY(180deg);
 `;
 
-const OngoingChallengeVer3 = () => {
+const OngoingChallengeVer3 = ({ challengeList }: IChallengeAllProps) => {
   const MChallengeInfoList = [
     {
       challengeId: 1,
       badge: '뱃지',
       title: '휴일 공부 챌린지',
-      content: '2월 한 달 동안 휴일에 깃허브 커밋하기',
+      content: '1달동안 휴일에 깃허브 커밋하기',
       imgSrc:
         'https://img.freepik.com/free-photo/reminder-notification-with-bell-pencil-calendar-event-planner-new-note-icon-3d-illustration-purple-background_56104-1773.jpg',
       progress: 50,
@@ -191,27 +206,36 @@ const OngoingChallengeVer3 = () => {
     },
   ];
 
+  const onGoingChallengeList = challengeList.filter((item) => item.state === 'ONGOING');
+
   return (
-    <StyledWrapper>
-      {MChallengeInfoList &&
-        MChallengeInfoList.map((challengeInfo) => {
-          const progressCircle = 450 * (1 - challengeInfo.progress * 0.01);
-          return (
-            <Flip key={`${challengeInfo.challengeId}`} progressCircle={progressCircle}>
-              <FlipInner className="card">
-                {/* <!-- 앞면 --> */}
-                <FrontBack>
-                  <ChallengeItem {...challengeInfo} />
-                </FrontBack>
-                {/* <!-- 뒷면 --> */}
-                <Back>
-                  <ChallengeItem2 {...challengeInfo} />
-                </Back>
-              </FlipInner>
-            </Flip>
-          );
-        })}
-    </StyledWrapper>
+    <div style={{ margin: '0 2rem' }}>
+      <MiniTitle sizeType="2xl" textAlign="left" padding="0rem 0rem 2rem 0rem" fontWeight="600">
+        진행 중인 챌린지
+      </MiniTitle>
+
+      <StyledWrapper>
+        {onGoingChallengeList &&
+          onGoingChallengeList.map((challengeInfo) => {
+            const progressCircle = 450 * (1 - challengeInfo.progress * 0.01);
+            return (
+              <Flip key={`${challengeInfo.challengeId}`} progressCircle={progressCircle}>
+                <FlipInner className="card">
+                  {/* <!-- 앞면 --> */}
+                  <FrontBack>
+                    <ChallengeItem {...challengeInfo} />
+                  </FrontBack>
+                  {/* <!-- 뒷면 --> */}
+                  <Back>
+                    <ChallengeItem2 {...challengeInfo} />
+                  </Back>
+                </FlipInner>
+              </Flip>
+            );
+          })}
+      </StyledWrapper>
+      <NonOngoing />
+    </div>
   );
 };
 

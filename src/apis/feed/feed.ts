@@ -12,4 +12,5 @@ export const getFeedSearchList = async (params: IFeedSearch) => {
   });
 };
 
-export const postFeedRead = (params: { feedId: number }) => authApi.post('/feed/read', { params });
+export const postFeedRead = (params: { feedId: number }) =>
+  authApi.post('/feed/read', null, { params });
