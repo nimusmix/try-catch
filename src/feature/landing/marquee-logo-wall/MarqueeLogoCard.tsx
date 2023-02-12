@@ -110,7 +110,7 @@ const MarqueeWrapper = styled.div`
   position: relative;
   height: 45vh;
   width: 100%;
-  margin-bottom: 3rem;
+  margin-bottom: 6rem;
 `;
 
 const MarqueeContainer = styled.div`
