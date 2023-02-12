@@ -77,7 +77,7 @@ const useNotifications = () => {
         sseEvents.close();
       };
     }
-  }, [acc, isLoggined, notificationURL]);
+  }, []);
 
   return { followNotifications, answerAcceptanceNotifications, answerRegistrationNotifications };
 };

@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HeaderImage, Layout } from '../../layout';
 import { header_roadmap } from '../../assets';
-import { SubTitle, Paragraph, MiniTitle } from '../../components';
+import { MiniTitle, Paragraph, SubTitle } from '../../components';
 import SideNavbar from '../../components/side-navbar/SideNavbar';
 import { Aside } from '../qna/QnaPage';
 import { navOptions, RoadmapWrapper } from './RoadmapPage';
@@ -31,15 +31,22 @@ const TitleWrapper = styled.div`
 
 const RoadmapListPage = () => {
   const [activeCategory, setActiveCategory] = useState('커스텀');
+  const [isFirstRender, setIsFirstRender] = useState(true);
   const navi = useNavigate();
-  // useEffect(() => {
-  if (activeCategory === '공통') {
-    navi('/roadmap');
-  } else {
-    navi('/roadmap/list');
-  }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+
+  useEffect(() => {
+    if (isFirstRender) {
+      setIsFirstRender(false);
+      return;
+    }
+
+    if (activeCategory === '공통') {
+      navi('/roadmap');
+    } else {
+      navi('/roadmap/list');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeCategory]);
 
   return (
     <Layout>
