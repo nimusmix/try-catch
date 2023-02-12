@@ -117,10 +117,12 @@ const MemberNavMenu = () => {
   const setAccToken = useSetRecoilState(accToken);
   const setRefToken = useSetRecoilState(refToken);
   const logout = (e: React.MouseEvent) => {
+    console.log('로그아웃 누름');
     e.preventDefault();
     setIsLoggedIn(false);
     setAccToken('');
     setRefToken('');
+    navi('/');
   };
 
   return (
