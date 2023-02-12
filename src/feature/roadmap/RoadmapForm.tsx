@@ -131,6 +131,7 @@ const RoadmapForm = ({ title, tag, nodes, edges }: IRoadmapFormProps) => {
   return (
     <form onSubmit={handleSubmit(saveData)}>
       <InputWrapper>
+        <p>테스트 {title}</p>
         <MiniTitle sizeType="2xl" fontWeight="600">
           제목
         </MiniTitle>

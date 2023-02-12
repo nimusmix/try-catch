@@ -18,6 +18,8 @@ const RoadmapEditPage = () => {
   );
 
   console.log('로드맵 디테일!!!', roadmapDetail);
+  console.log(roadmapDetail?.title);
+  console.log(roadmapDetail?.tag);
   return (
     <Layout>
       <EditPageWrapper>
