@@ -2,22 +2,14 @@ import React, { useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import ReactFlow, {
-  Background,
-  Controls,
-  Edge,
-  Handle,
-  Position,
-  useEdges,
-  useNodes,
-  useReactFlow,
-} from 'reactflow';
+import ReactFlow, { Background, Controls, Edge, useEdges, useNodes, useReactFlow } from 'reactflow';
 import 'reactflow/dist/style.css';
 import styled from 'styled-components';
 import { Button, Input, MiniTitle } from '../../components';
 import { postRoadmap } from '../../apis/roadmap/roadmap';
 import { logOnDev } from '../../utils/logging';
 import { INode, IEdge } from '../../interface/roadmap';
+import TextUpdaterNode from './node-style/TextUpdaterNode';
 
 interface IRoadmapFormProps {
   title?: string;
@@ -25,16 +17,6 @@ interface IRoadmapFormProps {
   nodes?: Array<INode>;
   edges?: Array<IEdge>;
 }
-
-const StyledInput = styled.input`
-  width: 160px;
-  padding: 0.5rem;
-  color: ${({ theme }) => theme.textColor};
-  background-color: ${({ theme }) => theme.bgColor};
-  text-align: center;
-  border: 1px var(--colors-brand-500) solid;
-  border-radius: var(--borders-radius-base);
-`;
 
 const InputWrapper = styled.div`
   display: flex;
@@ -85,29 +67,6 @@ const initialNodes = [
 ];
 
 const initialEdges: Edge<any>[] = [];
-
-// 사용자 정의
-const TextUpdaterNode = ({ data }: any) => {
-  const onChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      // eslint-disable-next-line no-param-reassign
-      data.label = e.target.value;
-    },
-    [data]
-  );
-
-  return (
-    <>
-      <Handle type="target" position={Position.Top} id="t" />
-      <Handle type="target" position={Position.Left} id="l" />
-      <div>
-        <StyledInput id="text" name="text" onChange={onChange} />
-      </div>
-      <Handle type="source" position={Position.Bottom} id="b" />
-      <Handle type="source" position={Position.Right} id="r" />
-    </>
-  );
-};
 
 let nodeId = 3;
 
