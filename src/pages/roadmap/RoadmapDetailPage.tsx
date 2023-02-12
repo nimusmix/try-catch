@@ -1,7 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import styled from 'styled-components';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { Link } from 'react-router-dom';
 import { Button, MiniTitle, Paragraph, SubTitle } from '../../components';
 import { IRoadmap } from '../../interface/roadmap';
@@ -21,6 +22,7 @@ import { postFollow, putFollow } from '../../apis/user/user';
 import { putBookmark, postBookmark } from '../../apis/bookmark/bookmark';
 import { getName } from '../../apis/auth/auth';
 import isMyself from '../../utils/isMyself';
+import RoadmapDeleteModal from '../../feature/roadmap/RoadmapDeleteModal';
 
 const RoadmapDetailWrapper = styled.div`
   display: flex;
@@ -254,6 +256,8 @@ const RoadmapDetailPage = () => {
     }
   };
 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
   if (isLoading) {
     return <Paragraph sizeType="base">Loading...</Paragraph>;
   }
@@ -303,7 +307,11 @@ const RoadmapDetailPage = () => {
               >
                 수정
               </Button>
-              <Button designType="blueEmpty" borderRadius="var(--borders-radius-lg)">
+              <Button
+                onClick={() => setIsDeleteModalOpen(true)}
+                designType="blueEmpty"
+                borderRadius="var(--borders-radius-lg)"
+              >
                 삭제
               </Button>
             </ButtonWrapper>
@@ -328,6 +336,8 @@ const RoadmapDetailPage = () => {
           <Paragraph sizeType="base">{roadmapDetail!.likeCount}</Paragraph>
         </LikeWrapper>
       </RoadmapDetailWrapper>
+
+      {isDeleteModalOpen && <RoadmapDeleteModal />}
     </Layout>
   );
 };

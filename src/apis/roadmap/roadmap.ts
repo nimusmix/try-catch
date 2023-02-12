@@ -6,6 +6,10 @@ export const postRoadmap = (data: IRoadmapPost) => authApi.post('/roadmap', data
 
 export const putRoadmap = (data: IRoadmapPost) => authApi.put('/roadmap', data);
 
+export const deleteRoadmap = () => () => {
+  return authApi.delete(`/roadmap`).then((res) => res.data);
+};
+
 export const getRoadmapDetail = (userName: string) =>
   authApi.get(`/roadmap/${userName}`).then((res) => {
     const {
