@@ -156,7 +156,13 @@ const RoadmapDetailPage = () => {
       queryClient.setQueryData<IRoadmap>(['roadmap', userName], (oldData: any) => {
         return {
           ...oldData,
-          author: { isFollowed: type === 'post' },
+          author: {
+            userId: roadmapDetail!.author.userId,
+            userName: roadmapDetail!.author.userName,
+            profileImage: roadmapDetail!.author.profileImage,
+            companyName: roadmapDetail!.author.companyName,
+            isFollowed: type === 'post',
+          },
         };
       });
     }
