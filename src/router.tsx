@@ -30,6 +30,7 @@ import {
   QnaDetailPage,
   QnaFormPage,
   QnaPage,
+  RoadmapEditPage,
   RoadmapDetailPage,
   RoadmapFormPage,
   RoadmapListPage,
@@ -130,6 +131,10 @@ const router = createBrowserRouter([
           {
             path: 'list',
             element: <RoadmapListPage />,
+          },
+          {
+            path: 'edit',
+            element: <RoadmapEditPage />,
           },
           {
             path: ':userName',
