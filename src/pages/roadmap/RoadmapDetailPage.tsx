@@ -102,9 +102,16 @@ const ButtonWrapper = styled.div`
 
 const RoadmapDetailPage = () => {
   const { userName } = useParams();
+  const queryClient = useQueryClient();
+
   const { data: roadmapDetail, isLoading } = useQuery<IRoadmap>(
     ['roadmap', userName] as const,
-    () => getRoadmapDetail(userName!)
+    () => getRoadmapDetail(userName!),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['roadmap', userName]);
+      },
+    }
   );
 
   const { data: myName } = useQuery<string>(['myName'], () => getName());
@@ -114,7 +121,6 @@ const RoadmapDetailPage = () => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const [toast, setToast] = useRecoilState(toastState);
 
-  const queryClient = useQueryClient();
   const updateLike = (type: 'up' | 'down') => {
     const prevData = queryClient.getQueryData(['roadmap', userName]);
 
