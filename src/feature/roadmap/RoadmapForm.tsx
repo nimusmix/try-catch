@@ -112,6 +112,11 @@ const TextUpdaterNode = ({ data }: any) => {
 let nodeId = 3;
 
 const RoadmapForm = ({ title, tag, nodes, edges }: IRoadmapFormProps) => {
+  console.log('타이틀', title);
+  console.log('태그', tag);
+  console.log('노드', nodes);
+  console.log('엣지', edges);
+
   const {
     register,
     handleSubmit,
