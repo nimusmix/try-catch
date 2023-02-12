@@ -114,7 +114,6 @@ const RoadmapForm = () => {
   });
 
   const saveData = (data: any) => {
-    // const rstNodes = newNodes.map((node) => Object.assign(node, { type: 'output' }));
     const roadmap = {
       title: data.title,
       tag: data.tag,
@@ -130,6 +129,10 @@ const RoadmapForm = () => {
   };
 
   const nodeTypes = useMemo(() => ({ textUpdater: TextUpdaterNode }), []);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <form onSubmit={handleSubmit(saveData)}>
@@ -154,8 +157,8 @@ const RoadmapForm = () => {
 
       <FlowWrapper>
         <ReactFlow
-          defaultNodes={isEditPage ? oldRoadmap!.nodes : initialNodes}
-          defaultEdges={isEditPage ? oldRoadmap!.edges : initialEdges}
+          defaultNodes={isEditPage ? oldRoadmap?.nodes : initialNodes}
+          defaultEdges={isEditPage ? oldRoadmap?.edges : initialEdges}
           nodeTypes={nodeTypes}
         >
           <Controls />
