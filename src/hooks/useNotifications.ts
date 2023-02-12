@@ -101,8 +101,7 @@ const useNotifications = () => {
         sseEvents.close();
       };
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isLoggined, notificationURL]);
 
   return notifications;
 };
