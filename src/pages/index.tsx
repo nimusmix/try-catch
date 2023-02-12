@@ -17,6 +17,7 @@ const ChallengesDetailPage = loadable(() => import('./challenges/ChallengesDetai
 const RoadmapFormPage = loadable(() => import('./roadmap/RoadmapFormPage'));
 const RoadmapListPage = loadable(() => import('./roadmap/RoadmapListPage'));
 const RoadmapDetailPage = loadable(() => import('./roadmap/RoadmapDetailPage'));
+const RoadmapEditPage = loadable(() => import('./roadmap/RoadmapEditPage'));
 const UserProfilePage = loadable(() => import('./profile/UserProfilePage'));
 const CompanyProfilePage = loadable(() => import('./profile/CompanyProfilePage'));
 const ProfileEditPage = loadable(() => import('./profile/ProfileEditPage'));
@@ -43,6 +44,7 @@ export {
   RoadmapFormPage,
   RoadmapListPage,
   RoadmapDetailPage,
+  RoadmapEditPage,
   UserProfilePage,
   CompanyProfilePage,
   ProfileEditPage,
