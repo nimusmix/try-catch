@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components';
 import React from 'react';
 import { Button, MiniTitle, Paragraph, Card } from '../../components';
 import { IChallengeAllProps, IChallengeItem } from '../../interface/challenge';
-import OngoingChallengeCard, { IOngoingChallengeCardProps } from './OngoingChallegeCard';
+import OngoingChallengeCard, { IOngoingChallengeCardProps } from './OngoingChallengeCard';
 
 const Badge = styled.div`
   display: flex;
@@ -59,31 +59,43 @@ const StyleCard = styled(Card)`
   }
 `;
 
-const ChallengeItem = ({ title, content, imgSrc }: Partial<IChallengeItem>) => {
-  const category = title ? title.split(' ') : '';
+const ChallengeItemContent = ({ title, startFrom, endAt }: Partial<IChallengeItem>) => {
+  function getToday(checkDate: number) {
+    const date = new Date(checkDate);
+    const year = date.getFullYear();
+    const month = `0${1 + date.getMonth()}`.slice(-2);
+    const day = `0${date.getDate()}`.slice(-2);
 
+    return `${year}-${month}-${day}`;
+  }
+  return (
+    <div style={{ padding: '18px' }}>
+      <CardHeader>
+        <MiniTitle sizeType="xl" textAlign="left">
+          {title}
+        </MiniTitle>
+        <div style={{ display: 'flex', justifyContent: 'end' }}>
+          <Button designType="blueEmpty" fontSize="var(--fonts-body-sm)">
+            참여중
+          </Button>
+        </div>
+      </CardHeader>
+      <CardBody style={{ display: 'flex' }}>
+        <Paragraph sizeType="base" textAlign="left">
+          ⌛ {startFrom ? getToday(startFrom) : null} ~ {endAt ? getToday(endAt) : null}
+        </Paragraph>
+      </CardBody>
+    </div>
+  );
+};
+
+const ChallengeItem = ({ title, startFrom, endAt, imgSrc }: Partial<IChallengeItem>) => {
   return (
     <StyleCard>
       <ThumbnailImgWrapper>
         <ThumbnailImg imgSrc={imgSrc} />
       </ThumbnailImgWrapper>
-      <div style={{ padding: '18px' }}>
-        <CardHeader>
-          <MiniTitle sizeType="xl" textAlign="left">
-            {`${category[category.length - 2]} 챌린지`}
-          </MiniTitle>
-          <div style={{ display: 'flex', justifyContent: 'end' }}>
-            <Button designType="blueEmpty" fontSize="var(--fonts-body-sm)">
-              참여중
-            </Button>
-          </div>
-        </CardHeader>
-        <CardBody>
-          <Paragraph sizeType="base" textAlign="left">
-            {title}
-          </Paragraph>
-        </CardBody>
-      </div>
+      <ChallengeItemContent title={title} startFrom={startFrom} endAt={endAt} />
     </StyleCard>
   );
 };
@@ -96,29 +108,13 @@ const ThumbnailImgWrapper2 = styled.div`
   height: 322px;
 `;
 
-const ChallengeItem2 = ({ title, content, progress }: Partial<IChallengeItem>) => {
+const ChallengeItem2 = ({ title, startFrom, endAt, progress }: Partial<IChallengeItem>) => {
   return (
     <StyleCard>
       <ThumbnailImgWrapper2>
         <OngoingChallengeCard progress={progress} />
       </ThumbnailImgWrapper2>
-      <div style={{ padding: '18px' }}>
-        <CardHeader>
-          <MiniTitle sizeType="xl" textAlign="left">
-            {title}
-          </MiniTitle>
-          <div style={{ display: 'flex', justifyContent: 'end' }}>
-            <Button designType="blueEmpty" fontSize="var(--fonts-body-sm)">
-              참여중
-            </Button>
-          </div>
-        </CardHeader>
-        <CardBody>
-          <Paragraph sizeType="base" textAlign="left">
-            {title}
-          </Paragraph>
-        </CardBody>
-      </div>
+      <ChallengeItemContent title={title} startFrom={startFrom} endAt={endAt} />
     </StyleCard>
   );
 };
@@ -233,8 +229,8 @@ const OngoingChallengeVer3 = ({ challengeList }: IChallengeAllProps) => {
               </Flip>
             );
           })}
+        {onGoingChallengeList.length === 0 && <NonOngoing />}
       </StyledWrapper>
-      <NonOngoing />
     </div>
   );
 };

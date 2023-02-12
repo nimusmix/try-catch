@@ -5,9 +5,9 @@ export interface IChallengeItem {
   imgSrc: string; // 챌린지 뱃지 이미지 경로
   state: 'BEFORE' | 'ONGOING' | 'SUCCESS' | 'FAIL'; // 챌린지 참여 및 성공 상태
   progress: number; // 진행도 (100% 기준)
-  startFrom: number; // 챌린지 시작 timestamp
-  endAt: number; // 챌린지 끝 timestamp
-  earnedAt: number; // 챌린지 성공 timestamp
+  startFrom: number | null; // 챌린지 시작 timestamp
+  endAt: number | null; // 챌린지 끝 timestamp
+  earnedAt: number | null; // 챌린지 성공 timestamp
 }
 
 export interface IChallengeAllProps {
