@@ -2,10 +2,13 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { useQuery } from 'react-query';
 import { Button } from '../../components';
 import FERoadmap from './FERoadmap';
 import BERoadmap from './BERoadmap';
 import { isLoggedInState, toastState } from '../../recoil';
+import { getName } from '../../apis/auth/auth';
+import { getRoadmapStatus } from '../../apis/roadmap/roadmap';
 
 const ContentWrapper = styled.div`
   margin-top: 3rem;
@@ -27,9 +30,15 @@ const RoadmapMain = () => {
   const [toast, setToast] = useRecoilState(toastState);
   const navi = useNavigate();
 
+  const { data: userName } = useQuery<string>(['userName'], () => getName());
+  const { data: haveRoadmap } = useQuery<boolean>(['roadmapStatus', userName], () =>
+    getRoadmapStatus()
+  );
   const createdRoadmapHandler = () => {
     if (!isLoggedIn) {
       setToast({ type: 'negative', message: '로그인 후 이용하실 수 있어요', isVisible: true });
+    } else if (haveRoadmap) {
+      navi(`${userName}`);
     } else {
       navi('form');
     }
@@ -56,7 +65,7 @@ const RoadmapMain = () => {
           </Button>
         </div>
         <Button borderRadius="var(--borders-radius-lg)" onClick={createdRoadmapHandler}>
-          로드맵 생성
+          내 로드맵
         </Button>
       </ButtonWrapper>
       {activeBE ? <BERoadmap /> : <FERoadmap />}

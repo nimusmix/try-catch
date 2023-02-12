@@ -1,8 +1,14 @@
-import { INode, IRoadmapPost } from '../../interface/roadmap';
+import { IRoadmapPost } from '../../interface/roadmap';
 import { api, authApi } from '../../utils/axios-instance';
 
 // 로드맵
 export const postRoadmap = (data: IRoadmapPost) => authApi.post('/roadmap', data);
+
+export const putRoadmap = (data: IRoadmapPost) => authApi.put('/roadmap', data);
+
+export const deleteRoadmap = () => () => {
+  return authApi.delete(`/roadmap`).then((res) => res.data);
+};
 
 export const getRoadmapDetail = (userName: string) =>
   authApi.get(`/roadmap/${userName}`).then((res) => {
@@ -20,7 +26,6 @@ export const getRoadmapDetail = (userName: string) =>
       updatedAt,
     } = res.data;
     const newNodes = JSON.parse(nodes);
-    // newNodes.map((node: INode) => Object.assign(node, { type: 'content' }));
     const newEdges = JSON.parse(edges);
 
     return {
@@ -41,3 +46,5 @@ export const getRoadmapDetail = (userName: string) =>
 export const getRoadmapList = () => authApi.get('/roadmap/list').then((res) => res.data);
 
 export const getPopularRoadmapList = () => authApi.get('/roadmap/popular').then((res) => res.data);
+
+export const getRoadmapStatus = () => authApi.get('/user/roadmap').then((res) => res.data);

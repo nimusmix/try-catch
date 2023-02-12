@@ -1,8 +1,8 @@
 import styled, { keyframes } from 'styled-components';
 import React from 'react';
 import { Button, MiniTitle, Paragraph, Card } from '../../components';
-import { IChallengeItem } from '../../interface/challenge';
-import OngoingChallengeCard, { IOngoingChallengeCardProps } from './OngoingChallegeCard';
+import { IChallengeAllProps, IChallengeItem } from '../../interface/challenge';
+import OngoingChallengeCard, { IOngoingChallengeCardProps } from './OngoingChallengeCard';
 
 const Badge = styled.div`
   display: flex;
@@ -59,29 +59,43 @@ const StyleCard = styled(Card)`
   }
 `;
 
-const ChallengeItem = ({ title, content, imgSrc }: Partial<IChallengeItem>) => {
+const ChallengeItemContent = ({ title, startFrom, endAt }: Partial<IChallengeItem>) => {
+  function getToday(checkDate: number) {
+    const date = new Date(checkDate);
+    const year = date.getFullYear();
+    const month = `0${1 + date.getMonth()}`.slice(-2);
+    const day = `0${date.getDate()}`.slice(-2);
+
+    return `${year}-${month}-${day}`;
+  }
+  return (
+    <div style={{ padding: '18px' }}>
+      <CardHeader>
+        <MiniTitle sizeType="xl" textAlign="left">
+          {title}
+        </MiniTitle>
+        <div style={{ display: 'flex', justifyContent: 'end' }}>
+          <Button designType="blueEmpty" fontSize="var(--fonts-body-sm)">
+            참여중
+          </Button>
+        </div>
+      </CardHeader>
+      <CardBody style={{ display: 'flex' }}>
+        <Paragraph sizeType="base" textAlign="left">
+          ⌛ {startFrom ? getToday(startFrom) : null} ~ {endAt ? getToday(endAt) : null}
+        </Paragraph>
+      </CardBody>
+    </div>
+  );
+};
+
+const ChallengeItem = ({ title, startFrom, endAt, imgSrc }: Partial<IChallengeItem>) => {
   return (
     <StyleCard>
       <ThumbnailImgWrapper>
         <ThumbnailImg imgSrc={imgSrc} />
       </ThumbnailImgWrapper>
-      <div style={{ padding: '18px' }}>
-        <CardHeader>
-          <MiniTitle sizeType="xl" textAlign="left">
-            {title}
-          </MiniTitle>
-          <div style={{ display: 'flex', justifyContent: 'end' }}>
-            <Button designType="blueEmpty" fontSize="var(--fonts-body-sm)">
-              참여중
-            </Button>
-          </div>
-        </CardHeader>
-        <CardBody>
-          <Paragraph sizeType="base" textAlign="left">
-            {content}
-          </Paragraph>
-        </CardBody>
-      </div>
+      <ChallengeItemContent title={title} startFrom={startFrom} endAt={endAt} />
     </StyleCard>
   );
 };
@@ -94,30 +108,27 @@ const ThumbnailImgWrapper2 = styled.div`
   height: 322px;
 `;
 
-const ChallengeItem2 = ({ title, content, progress }: Partial<IChallengeItem>) => {
+const ChallengeItem2 = ({ title, startFrom, endAt, progress }: Partial<IChallengeItem>) => {
   return (
     <StyleCard>
       <ThumbnailImgWrapper2>
         <OngoingChallengeCard progress={progress} />
       </ThumbnailImgWrapper2>
-      <div style={{ padding: '18px' }}>
-        <CardHeader>
-          <MiniTitle sizeType="xl" textAlign="left">
-            {title}
-          </MiniTitle>
-          <div style={{ display: 'flex', justifyContent: 'end' }}>
-            <Button designType="blueEmpty" fontSize="var(--fonts-body-sm)">
-              참여중
-            </Button>
-          </div>
-        </CardHeader>
-        <CardBody>
-          <Paragraph sizeType="base" textAlign="left">
-            {content}
-          </Paragraph>
-        </CardBody>
-      </div>
+      <ChallengeItemContent title={title} startFrom={startFrom} endAt={endAt} />
     </StyleCard>
+  );
+};
+
+const NonOngoing = () => {
+  /** TODO 진행중인 챌린지가 없을 때 만들기 */
+  return (
+    <div style={{ padding: ' 0px' }}>
+      <CardHeader>
+        <MiniTitle sizeType="xl" textAlign="left">
+          진행중인 챌린지가 없어요.. ㅠ
+        </MiniTitle>
+      </CardHeader>
+    </div>
   );
 };
 
@@ -170,13 +181,13 @@ const Back = styled(FrontBack)`
   transform: rotateY(180deg);
 `;
 
-const OngoingChallengeVer3 = () => {
+const OngoingChallengeVer3 = ({ challengeList }: IChallengeAllProps) => {
   const MChallengeInfoList = [
     {
       challengeId: 1,
       badge: '뱃지',
       title: '휴일 공부 챌린지',
-      content: '2월 한 달 동안 휴일에 깃허브 커밋하기',
+      content: '1달동안 휴일에 깃허브 커밋하기',
       imgSrc:
         'https://img.freepik.com/free-photo/reminder-notification-with-bell-pencil-calendar-event-planner-new-note-icon-3d-illustration-purple-background_56104-1773.jpg',
       progress: 50,
@@ -191,27 +202,36 @@ const OngoingChallengeVer3 = () => {
     },
   ];
 
+  const onGoingChallengeList = challengeList.filter((item) => item.state === 'ONGOING');
+
   return (
-    <StyledWrapper>
-      {MChallengeInfoList &&
-        MChallengeInfoList.map((challengeInfo) => {
-          const progressCircle = 450 * (1 - challengeInfo.progress * 0.01);
-          return (
-            <Flip key={`${challengeInfo.challengeId}`} progressCircle={progressCircle}>
-              <FlipInner className="card">
-                {/* <!-- 앞면 --> */}
-                <FrontBack>
-                  <ChallengeItem {...challengeInfo} />
-                </FrontBack>
-                {/* <!-- 뒷면 --> */}
-                <Back>
-                  <ChallengeItem2 {...challengeInfo} />
-                </Back>
-              </FlipInner>
-            </Flip>
-          );
-        })}
-    </StyledWrapper>
+    <div style={{ margin: '0 2rem' }}>
+      <MiniTitle sizeType="2xl" textAlign="left" padding="0rem 0rem 2rem 0rem" fontWeight="600">
+        진행 중인 챌린지
+      </MiniTitle>
+
+      <StyledWrapper>
+        {onGoingChallengeList &&
+          onGoingChallengeList.map((challengeInfo) => {
+            const progressCircle = 450 * (1 - challengeInfo.progress * 0.01);
+            return (
+              <Flip key={`${challengeInfo.challengeId}`} progressCircle={progressCircle}>
+                <FlipInner className="card">
+                  {/* <!-- 앞면 --> */}
+                  <FrontBack>
+                    <ChallengeItem {...challengeInfo} />
+                  </FrontBack>
+                  {/* <!-- 뒷면 --> */}
+                  <Back>
+                    <ChallengeItem2 {...challengeInfo} />
+                  </Back>
+                </FlipInner>
+              </Flip>
+            );
+          })}
+        {onGoingChallengeList.length === 0 && <NonOngoing />}
+      </StyledWrapper>
+    </div>
   );
 };
 

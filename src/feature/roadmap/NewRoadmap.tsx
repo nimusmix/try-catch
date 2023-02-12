@@ -30,8 +30,9 @@ const RoadmapItemWrapper = styled.div`
 `;
 
 const NewRoadmap = () => {
-  const { data: roadmapList } = useQuery<Array<IRoadmapListItem>>(['roadmapList'] as const, () =>
-    getRoadmapList()
+  const { data: roadmapList } = useQuery<Array<IRoadmapListItem>>(
+    ['roadmapList', 'new'] as const,
+    () => getRoadmapList()
   );
 
   return (

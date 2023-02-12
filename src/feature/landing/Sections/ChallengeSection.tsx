@@ -2,9 +2,12 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
+import { useQuery } from 'react-query';
 import { Button, MiniTitle, Paragraph, SubTitle } from '../../../components';
 import { IconChallenge } from '../../../components/icons/Icons';
 import { ChallengeItem } from '../../challenge/ChallengeAll';
+import { IChallengeItem } from '../../../interface/challenge';
+import { getChallengeList } from '../../../apis/challenge/challenge';
 
 const fadeUp = keyframes`
   0% {
@@ -57,8 +60,12 @@ const FourthSection = styled.section`
 
   .card-container {
     display: flex;
-    gap: 2rem;
+    justify-content: space-between;
     margin-bottom: 1rem;
+
+    & > div {
+      margin: 0;
+    }
   }
 
   .button-wrapper {
@@ -90,6 +97,10 @@ const MChallengeInfoList = [
 const ChallengeSection = () => {
   const navigate = useNavigate();
   const { ref, inView } = useInView();
+  const { data: challengeList, isLoading } = useQuery<Array<IChallengeItem>>(
+    ['challengeList'] as const,
+    getChallengeList
+  );
 
   return (
     <FourthSection ref={ref} className={inView ? 'active' : ''}>
@@ -111,9 +122,10 @@ const ChallengeSection = () => {
         </div>
       </div>
       <div className="card-container">
-        {MChallengeInfoList.map((challengeInfo) => {
-          return <ChallengeItem key={`${challengeInfo.challengeId}`} {...challengeInfo} />;
-        })}
+        {challengeList &&
+          challengeList.map((challengeInfo) => {
+            return <ChallengeItem key={`${challengeInfo.challengeId}`} {...challengeInfo} />;
+          })}
       </div>
       <div className="button-wrapper">
         <Button onClick={() => navigate('/question')}>챌린지 둘러보기</Button>

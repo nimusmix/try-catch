@@ -24,7 +24,7 @@ const DetailWrapper = styled.div`
 `;
 
 const RoadmapDetailBody = ({ nodes, edges }: IRoadmapDetailProps) => {
-  nodes.map((node: INode) => Object.assign(node, { type: 'content' }));
+  nodes.map((node: INode) => Object.assign(node, { type: 'default' }));
   const nodeTypes = useMemo(() => ({ default: ContentNode }), []);
 
   return (

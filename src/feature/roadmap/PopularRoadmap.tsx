@@ -42,7 +42,7 @@ const ContentBox = styled.div<{ trans: string }>`
 
 const PopularRoadmap = () => {
   const { data: popularRoadmapList } = useQuery<Array<IRoadmapListItem>>(
-    ['roadmapList'] as const,
+    ['roadmapList', 'popular'] as const,
     () => getPopularRoadmapList()
   );
   const [translateState, setTranslateState] = useState(0);

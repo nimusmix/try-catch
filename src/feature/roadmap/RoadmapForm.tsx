@@ -1,32 +1,16 @@
 import React, { useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
-import ReactFlow, {
-  Background,
-  Controls,
-  Edge,
-  Handle,
-  Position,
-  useEdges,
-  useNodes,
-  useReactFlow,
-} from 'reactflow';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useMutation, useQuery } from 'react-query';
+import ReactFlow, { Background, Controls, Edge, useEdges, useNodes, useReactFlow } from 'reactflow';
 import 'reactflow/dist/style.css';
 import styled from 'styled-components';
 import { Button, Input, MiniTitle } from '../../components';
-import { postRoadmap } from '../../apis/roadmap/roadmap';
+import { postRoadmap, putRoadmap, getRoadmapDetail } from '../../apis/roadmap/roadmap';
 import { logOnDev } from '../../utils/logging';
-
-const StyledInput = styled.input`
-  width: 160px;
-  padding: 0.5rem;
-  color: ${({ theme }) => theme.textColor};
-  background-color: ${({ theme }) => theme.bgColor};
-  text-align: center;
-  border: 1px var(--colors-brand-500) solid;
-  border-radius: var(--borders-radius-base);
-`;
+import { INode, IEdge, IRoadmap } from '../../interface/roadmap';
+import TextUpdaterNode from './node-style/TextUpdaterNode';
+import { getName } from '../../apis/auth/auth';
 
 const InputWrapper = styled.div`
   display: flex;
@@ -77,38 +61,20 @@ const initialNodes = [
 ];
 
 const initialEdges: Edge<any>[] = [];
-
-// 사용자 정의
-const TextUpdaterNode = ({ data }: any) => {
-  const onChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      // eslint-disable-next-line no-param-reassign
-      data.label = e.target.value;
-    },
-    [data]
-  );
-
-  return (
-    <>
-      <Handle type="target" position={Position.Top} id="t" />
-      <Handle type="target" position={Position.Left} id="l" />
-      <div>
-        <StyledInput id="text" name="text" onChange={onChange} />
-      </div>
-      <Handle type="source" position={Position.Bottom} id="b" />
-      <Handle type="source" position={Position.Right} id="r" />
-    </>
-  );
-};
-
-let nodeId = 3;
+let nodeId = 9999;
 
 const RoadmapForm = () => {
-  const {
-    register,
-    handleSubmit,
-    // formState: { errors },
-  } = useForm();
+  const { pathname } = useLocation();
+  const isEditPage = pathname === '/roadmap/edit';
+
+  const { data: myName } = useQuery<string>(['myName'], () => getName(), { enabled: !!isEditPage });
+  const { data: oldRoadmap, isLoading } = useQuery<IRoadmap>(
+    ['oldRoadmap', myName] as const,
+    () => getRoadmapDetail(myName!),
+    { enabled: !!isEditPage && !!myName }
+  );
+
+  const { register, handleSubmit } = useForm();
 
   const newNodes = useNodes();
   const newEdges = useEdges();
@@ -128,7 +94,7 @@ const RoadmapForm = () => {
           y: Math.random() * 500,
         },
         data: {
-          label: `Node ${id}`,
+          label: '',
         },
         type: 'textUpdater',
       };
@@ -139,22 +105,35 @@ const RoadmapForm = () => {
 
   const navi = useNavigate();
   const saveRoadmap = useMutation(postRoadmap, {
-    onSuccess: (data) => navi(`/roadmap/${data.data.author.userName}`),
+    onSuccess: () => navi(`/roadmap/${myName}`),
+    onError: (error) => logOnDev.log(error),
+  });
+
+  const editRoadmap = useMutation(putRoadmap, {
+    onSuccess: () => navi(`/roadmap/${myName}`),
     onError: (error) => logOnDev.log(error),
   });
 
   const saveData = (data: any) => {
-    // const rstNodes = newNodes.map((node) => Object.assign(node, { type: 'output' }));
     const roadmap = {
       title: data.title,
       tag: data.tag,
       nodes: JSON.stringify(newNodes),
       edges: JSON.stringify(newEdges),
     };
-    saveRoadmap.mutate(roadmap);
+
+    if (isEditPage) {
+      editRoadmap.mutate(roadmap);
+    } else {
+      saveRoadmap.mutate(roadmap);
+    }
   };
 
   const nodeTypes = useMemo(() => ({ textUpdater: TextUpdaterNode }), []);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <form onSubmit={handleSubmit(saveData)}>
@@ -162,7 +141,10 @@ const RoadmapForm = () => {
         <MiniTitle sizeType="2xl" fontWeight="600">
           제목
         </MiniTitle>
-        <InfoInput {...register('title', { required: '제목은 필수 항목입니다.' })} />
+        <InfoInput
+          {...register('title', { required: '제목은 필수 항목입니다.' })}
+          defaultValue={isEditPage ? oldRoadmap?.title : ''}
+        />
       </InputWrapper>
 
       <RoadmapTitleWrapper>
@@ -175,7 +157,11 @@ const RoadmapForm = () => {
       </RoadmapTitleWrapper>
 
       <FlowWrapper>
-        <ReactFlow defaultNodes={initialNodes} defaultEdges={initialEdges} nodeTypes={nodeTypes}>
+        <ReactFlow
+          defaultNodes={isEditPage ? oldRoadmap?.nodes : initialNodes}
+          defaultEdges={isEditPage ? oldRoadmap?.edges : initialEdges}
+          nodeTypes={nodeTypes}
+        >
           <Controls />
           <Background />
         </ReactFlow>
@@ -185,7 +171,11 @@ const RoadmapForm = () => {
         <MiniTitle sizeType="2xl" fontWeight="600">
           태그
         </MiniTitle>
-        <InfoInput width="100px" {...register('tag', { required: '태그는 필수 항목입니다.' })} />
+        <InfoInput
+          width="100px"
+          {...register('tag', { required: '태그는 필수 항목입니다.' })}
+          defaultValue={isEditPage ? oldRoadmap?.tag : ''}
+        />
       </InputWrapper>
 
       <Button borderRadius="var(--borders-radius-lg)">저장</Button>

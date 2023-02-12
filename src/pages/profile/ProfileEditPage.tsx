@@ -1,10 +1,12 @@
 import { useForm } from 'react-hook-form';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../../layout/Layout';
 import { MiniTitle, Input, Button, Paragraph } from '../../components';
 import { accToken } from '../../recoil';
+import { logOnDev } from '../../utils/logging';
 import tokenDecode from '../../utils/tokenDecode';
 import { IUserDetail } from '../../interface/user';
 import { getUserDetail, patchUserDetail } from '../../apis/profile/profile';
@@ -87,6 +89,12 @@ const ProfileEditPage = () => {
     }
   );
 
+  const navi = useNavigate();
+  const editProfile = useMutation(patchUserDetail, {
+    onSuccess: () => navi(`/profile/${user?.userName}`),
+    onError: (error) => logOnDev.log(error),
+  });
+
   const introductionLength = watch('introduction')?.length;
 
   const onValid = (data: { companyName?: string; introduction?: string }) => {
@@ -94,7 +102,7 @@ const ProfileEditPage = () => {
       companyName: data.companyName || user?.companyName,
       introduction: data.introduction || user?.introduction,
     };
-    patchUserDetail(userId, params);
+    editProfile.mutate(params);
   };
 
   if (isLoading) {
@@ -103,22 +111,15 @@ const ProfileEditPage = () => {
 
   return (
     <Layout>
-      <EditForm onClick={handleSubmit(onValid)}>
+      <EditForm onSubmit={handleSubmit(onValid)}>
         <Img src={user?.profileImg} />
 
         <InfoWrapper>
-          {/* <InputWrapper>
-            <MiniTitle sizeType="2xl" fontWeight="600">
-              {user?.userName}
-            </MiniTitle>
-            <Paragraph sizeType="base">{user?.userName}</Paragraph>
-          </InputWrapper> */}
-
           <InputWrapper>
             <MiniTitle sizeType="2xl" fontWeight="600">
               현 직장
             </MiniTitle>
-            <InfoInput {...register('companyName')} placeholder={user?.companyName} />
+            <InfoInput {...register('companyName')} defaultValue={user?.companyName} />
           </InputWrapper>
 
           <InputWrapper>
@@ -131,7 +132,8 @@ const ProfileEditPage = () => {
             <IntroductionInput
               as="textarea"
               {...register('introduction', { maxLength: 200 })}
-              placeholder={user?.introduction || '자기소개를 입력해주세요.'}
+              defaultValue={user?.introduction}
+              placeholder="자기소개를 입력해주세요."
             />
           </InputWrapper>
         </InfoWrapper>

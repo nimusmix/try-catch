@@ -1,7 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import styled from 'styled-components';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { Link } from 'react-router-dom';
 import { Button, MiniTitle, Paragraph, SubTitle } from '../../components';
 import { IRoadmap } from '../../interface/roadmap';
 import { getRoadmapDetail } from '../../apis/roadmap/roadmap';
@@ -18,6 +20,9 @@ import { cancelLike, postLike } from '../../apis/like/like';
 import { isLoggedInState, toastState } from '../../recoil';
 import { postFollow, putFollow } from '../../apis/user/user';
 import { putBookmark, postBookmark } from '../../apis/bookmark/bookmark';
+import { getName } from '../../apis/auth/auth';
+import isMyself from '../../utils/isMyself';
+import RoadmapDeleteModal from '../../feature/roadmap/RoadmapDeleteModal';
 
 const RoadmapDetailWrapper = styled.div`
   display: flex;
@@ -81,6 +86,7 @@ const UserInfoWrapper = styled.div`
     align-items: flex-start;
   }
 `;
+
 const LikeWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -92,18 +98,31 @@ const LikeWrapper = styled.div`
   }
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+`;
+
 const RoadmapDetailPage = () => {
   const { userName } = useParams();
+  const queryClient = useQueryClient();
+
   const { data: roadmapDetail, isLoading } = useQuery<IRoadmap>(
     ['roadmap', userName] as const,
-    () => getRoadmapDetail(userName!)
+    () => getRoadmapDetail(userName!),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['roadmap', userName]);
+      },
+    }
   );
+
+  const { data: myName } = useQuery<string>(['myName'], () => getName());
+  const isMine = isMyself(myName!, userName!);
 
   const navi = useNavigate();
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const [toast, setToast] = useRecoilState(toastState);
 
-  const queryClient = useQueryClient();
   const updateLike = (type: 'up' | 'down') => {
     const prevData = queryClient.getQueryData(['roadmap', userName]);
 
@@ -129,6 +148,7 @@ const RoadmapDetailPage = () => {
       onMutate: () => updateLike('up'),
     }
   );
+
   const { mutate: cancel } = useMutation(
     ['like', 'down'],
     () => cancelLike({ id: roadmapDetail!.roadmapId, type: 'ROADMAP' }),
@@ -177,6 +197,7 @@ const RoadmapDetailPage = () => {
       onMutate: () => updateFollow('post'),
     }
   );
+
   const { mutate: unfollow } = useMutation(
     ['put', 'follow'],
     () => putFollow(roadmapDetail!.author.userId!),
@@ -235,6 +256,8 @@ const RoadmapDetailPage = () => {
     }
   };
 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
   if (isLoading) {
     return <Paragraph sizeType="base">Loading...</Paragraph>;
   }
@@ -273,15 +296,38 @@ const RoadmapDetailPage = () => {
             </div>
           </UserInfoWrapper>
 
+          {isMine && (
+            <ButtonWrapper>
+              <Button
+                as={Link}
+                to="/roadmap/edit"
+                designType="blueEmpty"
+                borderRadius="var(--borders-radius-lg)"
+                margin="0 0.5rem 0 0"
+              >
+                수정
+              </Button>
+              <Button
+                onClick={() => setIsDeleteModalOpen(true)}
+                designType="blueEmpty"
+                borderRadius="var(--borders-radius-lg)"
+              >
+                삭제
+              </Button>
+            </ButtonWrapper>
+          )}
+
           {/* 팔로우 버튼 */}
-          <Button
-            designType={roadmapDetail?.author.isFollowed ? 'blueFill' : 'blueEmpty'}
-            padding="0.25rem 1rem"
-            borderRadius="var(--borders-radius-lg)"
-            onClick={onClickFollowHandler}
-          >
-            {roadmapDetail?.author.isFollowed ? '팔로잉' : '팔로우'}
-          </Button>
+          {isMine || (
+            <Button
+              designType={roadmapDetail?.author.isFollowed ? 'blueFill' : 'blueEmpty'}
+              padding="0.25rem 1rem"
+              borderRadius="var(--borders-radius-lg)"
+              onClick={onClickFollowHandler}
+            >
+              {roadmapDetail?.author.isFollowed ? '팔로잉' : '팔로우'}
+            </Button>
+          )}
         </UserWrapper>
         <RoadmapDetailBody nodes={roadmapDetail!.nodes} edges={roadmapDetail!.edges} />
 
@@ -290,6 +336,8 @@ const RoadmapDetailPage = () => {
           <Paragraph sizeType="base">{roadmapDetail!.likeCount}</Paragraph>
         </LikeWrapper>
       </RoadmapDetailWrapper>
+
+      {isDeleteModalOpen && <RoadmapDeleteModal />}
     </Layout>
   );
 };

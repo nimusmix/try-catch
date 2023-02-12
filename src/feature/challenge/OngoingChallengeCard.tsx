@@ -50,13 +50,6 @@ const Circle = styled.circle<Partial<IOngoingChallengeCardProps>>`
   stroke-width: 20px;
   stroke-dasharray: 450;
   stroke-dashoffset: 450;
-  /* animation: ${({ progressCircle }) => anim(progressCircle || 0)} 2s linear forwards; */
-
-  /* @keyframes anim {
-    100% {
-      stroke-dashoffset: ${({ progress }) => (progress ? 450 * (1 - progress * 0.01) : 157.5)};
-    }
-  } */
 `;
 
 const ProgressNum = styled.div`

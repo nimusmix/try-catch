@@ -39,9 +39,14 @@ import {
   MdOutlineCreate as IconPen,
   MdOutlineFeed as IconFeed,
   MdOutlineFollowTheSigns as IconRoadmap,
+  MdOutlineMail as IconEmail,
   MdRefresh as IconRefresh,
 } from 'react-icons/md';
-import { RiDeleteBin6Line as IconDelete } from 'react-icons/ri';
+import {
+  RiDeleteBin6Line as IconDelete,
+  RiGithubFill as IconGithub,
+  RiGitlabFill as IconGitlab,
+} from 'react-icons/ri';
 import { HiHashtag as IconHash } from 'react-icons/hi';
 import { ReactComponent as IconBest } from '../../assets/icon-best.svg';
 
@@ -81,4 +86,7 @@ export {
   IconDot,
   IconRefresh,
   IconRoadmap,
+  IconGithub,
+  IconGitlab,
+  IconEmail,
 };

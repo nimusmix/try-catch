@@ -1,9 +1,7 @@
 import styled from 'styled-components';
-import { useEffect } from 'react';
 import Navigation from './header/Navigation';
 import { TopButton } from '../components';
-import useNotifications from '../hooks/useNotifications';
-import { logOnDev } from '../utils/logging';
+import { Footer } from './index';
 
 export interface ILayoutProps {
   children: React.ReactNode;
@@ -18,15 +16,12 @@ export const Main = styled.main`
 `;
 
 const Layout = ({ children }: ILayoutProps) => {
-  const notifications = useNotifications();
-  useEffect(() => {
-    logOnDev.log(notifications);
-  }, [notifications, notifications.length]);
   return (
     <>
       <Navigation />
       <Main>{children}</Main>
       <TopButton />
+      <Footer />
     </>
   );
 };

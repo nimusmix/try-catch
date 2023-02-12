@@ -99,8 +99,7 @@ const LandingPage = () => {
   const setAccToken = useSetRecoilState(accToken);
   const setRefToken = useSetRecoilState(refToken);
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
-
-  const { ref: logoRef, inView } = useInView();
+  const { ref: logoRef, inView } = useInView({ triggerOnce: true });
 
   useEffect(() => {
     if (!window.location.search) return;
