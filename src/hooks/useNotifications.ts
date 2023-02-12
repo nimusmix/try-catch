@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { EventSourcePolyfill } from 'event-source-polyfill';
 import { logOnDev } from '../utils/logging';
 import { accToken, isLoggedInState } from '../recoil';
 import { API_URL } from '../constant';
@@ -13,20 +12,17 @@ const useNotifications = () => {
   const [answerRegistrationNotifications, setAnswerRegistrationNotifications] = useState([]);
 
   const BASE_URL = `https://${API_URL}/v1`;
-  const notificationURL = `${BASE_URL}/connect`;
+  const notificationURL = `${BASE_URL}/connect?token=${acc}`;
 
   // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (isLoggined) {
-      let sseEvents: EventSourcePolyfill;
+      let sseEvents: EventSource;
       const fetchSSE = async () => {
         try {
           // 이벤트를 전달 받기 위해서 서버로 접속을 시작하려면 우선, 이벤트를 생성하는 서버측 스크립트를 URI로 지정하여 새로운 EventSource 객체를 생성한다
           // EventSource 생성자에 전달 된 URL이 절대 URL 인 경우 해당 출처 (scheme, domain, port)가 호출 페이지의 출처와 일치해야 한다.
-          sseEvents = new EventSourcePolyfill(notificationURL, {
-            headers: {
-              Authorization: acc,
-            },
+          sseEvents = new EventSource(notificationURL, {
             withCredentials: true,
           });
           // connection 되면
