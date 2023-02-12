@@ -154,8 +154,8 @@ const RoadmapForm = () => {
 
       <FlowWrapper>
         <ReactFlow
-          defaultNodes={isEditPage ? oldRoadmap?.nodes : initialNodes}
-          defaultEdges={isEditPage ? oldRoadmap?.edges : initialEdges}
+          defaultNodes={isEditPage ? oldRoadmap!.nodes : initialNodes}
+          defaultEdges={isEditPage ? oldRoadmap!.edges : initialEdges}
           nodeTypes={nodeTypes}
         >
           <Controls />
