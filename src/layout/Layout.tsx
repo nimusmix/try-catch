@@ -109,7 +109,9 @@ const Layout = ({ children }: ILayoutProps) => {
   }, [isLoggedIn, setNotifications, sseUrl]);
 
   useEffect(() => {
-    logOnDev.log('알림 정보', notifications);
+    logOnDev.log('알림 정보');
+    logOnDev.log(notifications);
+    logOnDev.log('-------------');
   }, [notifications, notifications.length]);
 
   return (
