@@ -18,7 +18,7 @@ export const Wrapper = styled.div`
 
 const QuestionItemWrapper = styled.li`
   display: flex;
-  border-bottom: 1px solid ${({ theme }) => theme.borderColor};
+  /* border-bottom: 1px solid ${({ theme }) => theme.borderColor}; */
 `;
 
 export const ButtonWrapper = styled.div`

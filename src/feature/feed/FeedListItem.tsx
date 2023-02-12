@@ -29,12 +29,20 @@ const DefaultDIv = styled.div`
   -webkit-box-orient: vertical;
 `;
 
+const BlogMiniTitle = styled(MiniTitle)`
+  width: 510px;
+`;
+
 const Wrapper = styled.article`
   display: flex;
   border-bottom: 1px solid var(--colors-black-200);
   &:hover {
     background-color: ${({ theme: { isDark } }) =>
       isDark ? 'var(--colors-black-400)' : 'var(--colors-white-400)'};
+    ${BlogMiniTitle} {
+      color: var(--colors-brand-500);
+      transition: color 0.3s ease-in;
+    }
   }
 `;
 
@@ -122,13 +130,6 @@ const LinkWrapper = ({ children, url, onClick }: LinkProps) => {
     </a>
   );
 };
-
-const BlogMiniTitle = styled(MiniTitle)`
-  width: 510px;
-  :hover {
-    color: var(--colors-brand-500);
-  }
-`;
 
 const FeedListItem = ({
   id,
@@ -233,8 +234,7 @@ const FeedListItem = ({
   };
 
   const handleFeedRead = () => {
-    // TODO 백엔드 구현되면, 주석 풀기
-    // postFeedRead({ feedId: id });
+    postFeedRead({ feedId: id });
   };
 
   return (
