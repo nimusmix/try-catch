@@ -21,7 +21,7 @@ const Layout = ({ children }: ILayoutProps) => {
   const notifications = useNotifications();
   useEffect(() => {
     logOnDev.log(notifications);
-  }, [notifications, notifications.length]);
+  }, [notifications, notifications.length, children]);
   return (
     <>
       <Navigation />
