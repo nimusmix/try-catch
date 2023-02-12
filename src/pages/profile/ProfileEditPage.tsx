@@ -103,22 +103,15 @@ const ProfileEditPage = () => {
 
   return (
     <Layout>
-      <EditForm onClick={handleSubmit(onValid)}>
+      <EditForm onSubmit={handleSubmit(onValid)}>
         <Img src={user?.profileImg} />
 
         <InfoWrapper>
-          {/* <InputWrapper>
-            <MiniTitle sizeType="2xl" fontWeight="600">
-              {user?.userName}
-            </MiniTitle>
-            <Paragraph sizeType="base">{user?.userName}</Paragraph>
-          </InputWrapper> */}
-
           <InputWrapper>
             <MiniTitle sizeType="2xl" fontWeight="600">
               현 직장
             </MiniTitle>
-            <InfoInput {...register('companyName')} placeholder={user?.companyName} />
+            <InfoInput {...register('companyName')} defaultValue={user?.companyName} />
           </InputWrapper>
 
           <InputWrapper>
@@ -131,7 +124,7 @@ const ProfileEditPage = () => {
             <IntroductionInput
               as="textarea"
               {...register('introduction', { maxLength: 200 })}
-              placeholder={user?.introduction || '자기소개를 입력해주세요.'}
+              defaultValue={user?.introduction}
             />
           </InputWrapper>
         </InfoWrapper>
