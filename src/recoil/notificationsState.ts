@@ -1,5 +1,12 @@
 import { atom } from 'recoil';
-import { INotification } from '../pages/landing/LandingPage';
+
+export interface INotification {
+  id: number;
+  from: number;
+  type: 'follow' | 'answerAcceptance' | 'answerRegistration';
+  title: string;
+  timestamp: number;
+}
 
 const notificationsState = atom<Array<INotification>>({
   key: 'notificationsState',
