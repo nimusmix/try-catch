@@ -74,12 +74,7 @@ const RoadmapForm = () => {
     { enabled: !!isEditPage && !!myName }
   );
 
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      title: isEditPage ? oldRoadmap?.title : '',
-      tag: isEditPage ? oldRoadmap?.tag : '',
-    },
-  });
+  const { register, handleSubmit } = useForm();
 
   const newNodes = useNodes();
   const newEdges = useEdges();
@@ -142,7 +137,10 @@ const RoadmapForm = () => {
         <MiniTitle sizeType="2xl" fontWeight="600">
           제목
         </MiniTitle>
-        <InfoInput {...register('title', { required: '제목은 필수 항목입니다.' })} />
+        <InfoInput
+          {...register('title', { required: '제목은 필수 항목입니다.' })}
+          defaultValue={isEditPage ? oldRoadmap?.title : ''}
+        />
       </InputWrapper>
 
       <RoadmapTitleWrapper>
@@ -169,7 +167,11 @@ const RoadmapForm = () => {
         <MiniTitle sizeType="2xl" fontWeight="600">
           태그
         </MiniTitle>
-        <InfoInput width="100px" {...register('tag', { required: '태그는 필수 항목입니다.' })} />
+        <InfoInput
+          width="100px"
+          {...register('tag', { required: '태그는 필수 항목입니다.' })}
+          defaultValue={isEditPage ? oldRoadmap?.tag : ''}
+        />
       </InputWrapper>
 
       <Button borderRadius="var(--borders-radius-lg)">저장</Button>
