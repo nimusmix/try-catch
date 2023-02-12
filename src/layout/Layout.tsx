@@ -18,7 +18,7 @@ export const Main = styled.main`
 `;
 
 const Layout = ({ children }: ILayoutProps) => {
-  const notifications = useNotifications();
+  const notifications = useNotifications(children);
   useEffect(() => {
     logOnDev.log(notifications);
   }, [notifications, notifications.length, children]);
