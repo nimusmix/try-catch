@@ -139,7 +139,7 @@ const RoadmapDetailPage = () => {
 
   const onClickLikeHandler = () => {
     if (!isLoggedIn) {
-      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있어요', isVisible: true });
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다.', isVisible: true });
       return;
     }
     if (roadmapDetail?.isLiked) {
@@ -156,8 +156,7 @@ const RoadmapDetailPage = () => {
       queryClient.setQueryData<IRoadmap>(['roadmap', userName], (oldData: any) => {
         return {
           ...oldData,
-          isFollowed: type === 'post',
-          followerCount: type === 'post' ? oldData.followerCount + 1 : oldData.followerCount - 1,
+          author: { isFollowed: type === 'post' },
         };
       });
     }
