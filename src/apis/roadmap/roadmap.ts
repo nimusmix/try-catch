@@ -4,6 +4,8 @@ import { api, authApi } from '../../utils/axios-instance';
 // 로드맵
 export const postRoadmap = (data: IRoadmapPost) => authApi.post('/roadmap', data);
 
+export const putRoadmap = (data: IRoadmapPost) => authApi.put('/roadmap', data);
+
 export const getRoadmapDetail = (userName: string) =>
   authApi.get(`/roadmap/${userName}`).then((res) => {
     const {
