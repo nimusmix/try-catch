@@ -130,7 +130,7 @@ const QnASection = () => {
         </div>
         <div>
           <MiniTitle sizeType="xl" textAlign="left">
-            Q&A 탭을 이용해보세요
+            <span className="emph">Q&A</span> 탭을 이용해보세요
           </MiniTitle>
           <Paragraph sizeType="lg" textAlign="left">
             좋은 질문과 답변으로 지식을 쌓을 수 있어요

@@ -1,19 +1,32 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useInView } from 'react-intersection-observer';
 import { Button, MiniTitle, Paragraph, SubTitle } from '../../../components';
 import { IconRoadmap } from '../../../components/icons/Icons';
+
+const fadeUp = keyframes`
+  0% {
+    filter: alpha(opacity=0);
+    opacity: .1;
+    transform: translateY(100px);
+  }
+  100% {
+    filter: alpha(opacity=100);
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 const ThirdSection = styled.section`
   align-self: flex-end;
   height: 80vh;
   width: 100%;
-  opacity: 0;
-  transition: all 5s ease;
+  visibility: hidden;
 
   &.active {
-    opacity: 1;
+    visibility: visible;
+    animation: ${fadeUp} 2s;
   }
 
   .description {
@@ -66,7 +79,7 @@ const RoadmapSection = () => {
           <SubTitle textAlign="right">나만의 로드맵을 소개해보세요</SubTitle>
         </div>
         <MiniTitle sizeType="xl" textAlign="right">
-          로드맵 탭을 이용해보세요
+          <span className="emph">로드맵</span> 탭을 이용해보세요
         </MiniTitle>
         <Paragraph sizeType="lg" textAlign="right">
           선후배 개발자들의 발자취를 따라가볼 수 있어요
