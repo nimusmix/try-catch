@@ -13,7 +13,7 @@ interface INotification {
   timestamp: number;
 }
 
-const useNotifications = () => {
+const useNotifications = (children: React.ReactNode) => {
   const isLoggined = useRecoilValue(isLoggedInState);
   const acc = useRecoilValue(accToken);
   const [notifications, setNotifications] = useState<Array<INotification>>([]);
@@ -101,7 +101,7 @@ const useNotifications = () => {
         sseEvents.close();
       };
     }
-  }, [isLoggined, notificationURL]);
+  }, [isLoggined, notificationURL, children]);
 
   return notifications;
 };
