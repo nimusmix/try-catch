@@ -26,7 +26,7 @@ const TextUpdaterNode = ({ data }: any) => {
       <Handle type="target" position={Position.Top} id="t" />
       <Handle type="target" position={Position.Left} id="l" />
       <div>
-        <StyledInput id="text" name="text" onChange={onChange} value={data.label || ''} />
+        <StyledInput id="text" name="text" onChange={onChange} defaultValue={data.label || ''} />
       </div>
       <Handle type="source" position={Position.Bottom} id="b" />
       <Handle type="source" position={Position.Right} id="r" />
