@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
 import React from 'react';
 import { IconBellFill, IconBookmarkFill, IconUserCircle } from '../../components/icons/Icons';
 import { BOOKMARK_PAGE_NAME } from '../../constant';
 import { Paragraph } from '../../components';
-import { accToken, isDarkState } from '../../recoil';
+import { accToken, refToken, isDarkState, isLoggedInState } from '../../recoil';
 import { getImage, getName } from '../../apis/auth/auth';
 import { Ul } from './NavMenu';
 
@@ -102,13 +102,24 @@ const MemberNavMenu = () => {
   });
 
   const navi = useNavigate();
+
   const goToProfile = (e: React.MouseEvent) => {
     e.preventDefault();
     navi(`/profile/${userName}`);
   };
+
   const goToSettings = (e: React.MouseEvent) => {
     e.preventDefault();
     navi('/settings');
+  };
+
+  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  const setAccToken = useSetRecoilState(accToken);
+  const setRefToken = useSetRecoilState(refToken);
+  const logout = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsLoggedIn(false);
+    setAccToken('');
   };
 
   return (
@@ -159,7 +170,9 @@ const MemberNavMenu = () => {
                 설정
               </DropLi>
               <Line />
-              <DropLi>로그아웃</DropLi>
+              <DropLi as="button" onClick={logout}>
+                로그아웃
+              </DropLi>
             </DropUl>
           </DropLiContainer>
         </Dropdown>
