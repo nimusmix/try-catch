@@ -8,4 +8,15 @@ import {
   NonMemberNavMenu,
 } from './header/index';
 
-export { Header, HeaderImage, Layout, MemberNavMenu, Navigation, NavMenu, NonMemberNavMenu };
+import Footer from './footer/Footer';
+
+export {
+  Header,
+  HeaderImage,
+  Layout,
+  MemberNavMenu,
+  Navigation,
+  NavMenu,
+  NonMemberNavMenu,
+  Footer,
+};

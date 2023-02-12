@@ -82,7 +82,7 @@ const IntroSection = () => {
             <span className="emph blue">트라이캐치</span>와 함께 하세요!
           </MiniTitle>
           <Paragraph sizeType="lg">
-            트라이캐치는 개인 추천~~ blah blah blah blah <br /> 개발자 커뮤니티 입니다.
+            트라이캐치는 깃허브 기반 개인 추천~~ blah blah blah blah <br /> 개발자 커뮤니티 입니다.
           </Paragraph>
           <Paragraph sizeType="lg">
             다양한 기업의 개발 블로그 부터 Q&A 까지 <br /> 양질의 다양한 컨텐츠와 함께 공부를

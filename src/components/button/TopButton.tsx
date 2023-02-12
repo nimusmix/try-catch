@@ -22,6 +22,7 @@ const StyledButton = styled.button`
   align-items: center;
   justify-content: center;
   transform: translateY(100px);
+  z-index: 100;
 
   &.scrolled {
     transform: translateY(0);

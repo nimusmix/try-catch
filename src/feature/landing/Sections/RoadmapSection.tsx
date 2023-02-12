@@ -1,9 +1,13 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { useInView } from 'react-intersection-observer';
+import { useQuery } from 'react-query';
 import { Button, MiniTitle, Paragraph, SubTitle } from '../../../components';
 import { IconRoadmap } from '../../../components/icons/Icons';
+import { IRoadmapListItem } from '../../roadmap/NewRoadmap';
+import { getPopularRoadmapList } from '../../../apis/roadmap/roadmap';
+import RoadmapListCard from './RoadmapListCard';
 
 const fadeUp = keyframes`
   0% {
@@ -59,6 +63,11 @@ const ThirdSection = styled.section`
     display: flex;
     gap: 1rem;
     margin-bottom: 1rem;
+    justify-content: space-between;
+
+    & > a {
+      width: 33%;
+    }
   }
   .button-wrapper {
     display: flex;
@@ -68,6 +77,10 @@ const ThirdSection = styled.section`
 const RoadmapSection = () => {
   const navigate = useNavigate();
   const { ref, inView } = useInView();
+  const { data: popularRoadmapList } = useQuery<Array<IRoadmapListItem>>(
+    ['roadmapList'] as const,
+    () => getPopularRoadmapList()
+  );
   return (
     <ThirdSection ref={ref} className={inView ? 'active' : ''}>
       <div className="description">
@@ -85,7 +98,13 @@ const RoadmapSection = () => {
           선후배 개발자들의 발자취를 따라가볼 수 있어요
         </Paragraph>
       </div>
-      <div className="card-container" />
+      <div className="card-container">
+        {popularRoadmapList?.map((roadmap) => (
+          <Link to={`/roadmap/${roadmap.author.userName}`} key={roadmap.author.userId}>
+            <RoadmapListCard roadmap={roadmap} />
+          </Link>
+        ))}
+      </div>
       <div className="button-wrapper">
         <Button onClick={() => navigate('/roadmap')}>로드맵 둘러보기</Button>
       </div>
