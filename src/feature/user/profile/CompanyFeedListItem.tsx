@@ -133,8 +133,7 @@ const CompanyFeedListItem = ({
   };
 
   const handleFeedRead = () => {
-    // TODO 백엔드 구현되면, 주석 풀기
-    // postFeedRead({ feedId: id });
+    postFeedRead({ feedId: id! });
   };
 
   return (

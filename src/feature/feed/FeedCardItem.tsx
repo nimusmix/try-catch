@@ -97,6 +97,10 @@ const StyledCard = styled(Card)`
         ? 'rgba(59, 130, 246, 0.16) 0px 3px 6px, rgba(59, 130, 246, 0.23) 0px 3px 6px'
         : 'rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px'};
     translate: 1px 1px;
+    /* ${CardBody} > h3 {
+      color: var(--colors-brand-500);
+      transition: color 0.3s ease-in;
+    } */
   }
 `;
 
@@ -160,10 +164,9 @@ const FeedCardItem = ({
       href={`${url}`}
       target="_blank"
       rel="noreferrer"
-      // TODO 백엔드 구현되면, 주석 풀기
-      // onClick={() => {
-      //   postFeedRead({ feedId: id });
-      // }}
+      onClick={() => {
+        postFeedRead({ feedId: id });
+      }}
     >
       <CardHeader>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>

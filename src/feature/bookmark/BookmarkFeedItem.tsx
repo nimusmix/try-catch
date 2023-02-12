@@ -1,20 +1,18 @@
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { useState } from 'react';
 import { Card, MiniTitle, Paragraph } from '../../components';
 import { isDarkState } from '../../recoil';
 import { IBookmarkFeed } from '../../interface/bookmark';
+import { postFeedRead } from '../../apis/feed/feed';
 import FeedTag from '../feed/FeedTag';
 
-const DefaultDIv = styled.div`
-  /* 한 줄 자르기 */
+export const DefaultDiv = styled.div`
   display: inline-block;
   width: 98%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 
-  /* 여러 줄 자르기 추가 스타일 */
   white-space: normal;
   line-height: 1.8;
   height: 1.8rem;
@@ -37,7 +35,7 @@ const FeedHeader = styled.div`
   margin: 0.6rem 0 0.5rem;
 `;
 
-const FeedBody = styled(DefaultDIv)`
+const FeedBody = styled(DefaultDiv)`
   line-height: 1.5;
   height: 3rem;
   text-align: left;
@@ -46,7 +44,7 @@ const FeedBody = styled(DefaultDIv)`
   display: -webkit-box;
 `;
 
-const FeedFooter = styled(DefaultDIv)`
+const FeedFooter = styled(DefaultDiv)`
   line-height: 1.3;
   height: 1.6rem;
 `;
@@ -64,7 +62,7 @@ const CompanyImg = styled.img`
       : 'rgba(0, 0, 0, 0.16) 0px 1px 4px'};
 `;
 
-const BlogTitle = styled(DefaultDIv)`
+const BlogTitle = styled(DefaultDiv)`
   display: -webkit-box;
   margin: 0.6rem 0 0.5rem;
 `;
@@ -102,8 +100,7 @@ const BookmarkFeedListItem = ({
 }: IBookmarkFeed) => {
   const isDark = useRecoilValue(isDarkState);
   const handleFeedRead = () => {
-    // TODO 백엔드 구현되면, 주석 풀기
-    // postFeedRead({ feedId: id });
+    postFeedRead({ feedId: id });
   };
 
   return (
