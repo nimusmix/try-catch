@@ -1,65 +1,29 @@
 import styled from 'styled-components';
+import { useQuery } from 'react-query';
+import { useState } from 'react';
 import { HeaderImage, Layout } from '../../layout';
 import { MiniTitle, Paragraph, SubTitle } from '../../components';
 import { header_challenge } from '../../assets';
 import { QuestionPageBody as ChallengePageBody } from '../qna/QnaPage';
-import {
-  ChallengeAll,
-  ChallengeRank,
-  OngoingChallengeVer3,
-  RecommendChallenge,
-} from '../../feature/challenge';
-
-const ChallengeRecommend = () => {
-  return (
-    <div style={{ margin: '0 2rem' }}>
-      <MiniTitle sizeType="xl" textAlign="left" padding="1.25rem 0rem 1rem 0rem">
-        42good님을 위한 추천 챌린지
-      </MiniTitle>
-      <RecommendChallenge />
-    </div>
-  );
-};
-
-const ChallengeRankWrapper = () => {
-  return (
-    <div>
-      <MiniTitle sizeType="xl" textAlign="left" padding="1.25rem 0rem 1rem 0rem">
-        챌린지 랭킹
-      </MiniTitle>
-      <ChallengeRank />
-    </div>
-  );
-};
-
-const ChallengeOngoing = () => {
-  return (
-    <div style={{ margin: '0 2rem' }}>
-      <MiniTitle sizeType="2xl" textAlign="left" padding="0rem 0rem 2rem 0rem" fontWeight="600">
-        진행 중인 챌린지
-      </MiniTitle>
-      <OngoingChallengeVer3 />
-    </div>
-  );
-};
-
-const ChallengeAllWrapper = () => {
-  return (
-    <div style={{ margin: '0 2rem' }}>
-      <MiniTitle sizeType="2xl" textAlign="left" padding="1.25rem 0rem 2rem 0rem" fontWeight="600">
-        전체 챌린지
-      </MiniTitle>
-      <ChallengeAll />
-    </div>
-  );
-};
+import { ChallengeAll, OngoingChallengeVer3 } from '../../feature/challenge';
+import { IChallengeItem } from '../../interface/challenge';
+import { getChallengeList } from '../../apis/challenge/challenge';
 
 const ChallengeHeader = styled(ChallengePageBody)``;
-const ChallengeOngoingWrapper = styled(ChallengePageBody)`
+const ChallengeBodyWrapper = styled(ChallengePageBody)`
   margin-top: 2rem;
 `;
 
 const ChallengesPage = () => {
+  const { data: challengeList, isLoading } = useQuery<Array<IChallengeItem>>(
+    ['challengeList'] as const,
+    getChallengeList
+  );
+
+  /** TODO 챌린지 페이지 로딩 스켈레톤 만들기 */
+  if (isLoading) {
+    return <h1>isLoading...</h1>;
+  }
   return (
     <Layout>
       <HeaderImage image={header_challenge}>
@@ -69,16 +33,12 @@ const ChallengesPage = () => {
       <ChallengePageBody
         style={{ margin: '3rem 1.5rem', flexDirection: 'column', width: '1200px' }}
       >
-        {/* <ChallengeHeader>
-          <ChallengeRecommend />
-          <ChallengeRankWrapper />
-        </ChallengeHeader> */}
         <ChallengeHeader>
-          <ChallengeOngoing />
+          {challengeList && <OngoingChallengeVer3 challengeList={challengeList} />}
         </ChallengeHeader>
-        <ChallengeOngoingWrapper>
-          <ChallengeAllWrapper />
-        </ChallengeOngoingWrapper>
+        <ChallengeBodyWrapper>
+          {challengeList && <ChallengeAll challengeList={challengeList} />}
+        </ChallengeBodyWrapper>
       </ChallengePageBody>
     </Layout>
   );

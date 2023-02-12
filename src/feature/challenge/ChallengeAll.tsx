@@ -1,8 +1,12 @@
+import { useMutation, useQueryClient } from 'react-query';
 import styled from 'styled-components';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Button, Card, MiniTitle, Paragraph } from '../../components';
-import { IChallengeItem } from '../../interface/challenge';
+import { IChallengeAllProps, IChallengeItem } from '../../interface/challenge';
+import { isLoggedInState, toastState } from '../../recoil';
+import { postChallenge } from '../../apis/challenge/challenge';
 
-const Wrapper = styled.section`
+const ChallengeListWrapper = styled.section`
   display: flex;
   flex-wrap: wrap;
 `;
@@ -47,7 +51,33 @@ const StyledCard = styled(Card)`
   }
 `;
 
-export const ChallengeItem = ({ title, content, imgSrc }: Partial<IChallengeItem>) => {
+export const ChallengeItem = ({ challengeId, title, content, imgSrc, state }: IChallengeItem) => {
+  const isLogin = useRecoilValue(isLoggedInState);
+  const setToast = useSetRecoilState(toastState);
+
+  const queryClient = useQueryClient();
+  const { mutate: startChallenge } = useMutation(['startChallenge'], postChallenge(challengeId), {
+    onSuccess: () => {
+      queryClient.invalidateQueries([`challengeList`]);
+      setToast({ type: 'positive', message: '챌린지를 시작했어요', isVisible: true });
+    },
+  });
+
+  // const { mutate: select } = useMutation(['select'], selectAnswer(questionId, answer.answerId), {
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries(['question', `${questionId}`]);
+  //     setToast({ type: 'positive', message: '댓글을 채택했어요', isVisible: true });
+  //   },
+  // });
+
+  const handleBefore = () => {
+    if (!isLogin) {
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있어요', isVisible: true });
+      return;
+    }
+    startChallenge();
+  };
+
   return (
     <StyledCard>
       <FeedThumbnailImgWrapper>
@@ -74,7 +104,23 @@ export const ChallengeItem = ({ title, content, imgSrc }: Partial<IChallengeItem
             </Paragraph>
           </CardBody>
           <div style={{ display: 'flex', justifyContent: 'end' }}>
-            <Button fontSize="var(--fonts-body-sm)">챌린지 도전</Button>
+            {/* state: 'BEFORE' | 'ONGOING' | 'SUCCESS' | 'FAIL'; // 챌린지 참여 및 성공 상태 */}
+            {state === 'BEFORE' && (
+              <Button fontSize="var(--fonts-body-sm)" onClick={handleBefore}>
+                챌린지 도전
+              </Button>
+            )}
+            {state === 'ONGOING' && <Button fontSize="var(--fonts-body-sm)">참여중</Button>}
+            {state === 'SUCCESS' && (
+              <Button designType="purpleFill" fontSize="var(--fonts-body-sm)" disabled>
+                챌린지 성공
+              </Button>
+            )}
+            {state === 'FAIL' && (
+              <Button designType="redFill" fontSize="var(--fonts-body-sm)">
+                재 도전
+              </Button>
+            )}
           </div>
         </div>
       </div>
@@ -88,7 +134,7 @@ export const ChallengeItem = ({ title, content, imgSrc }: Partial<IChallengeItem
 // - 7일 7회 답변 챌린지
 // - 커밋 연속 10회 챌린지
 
-const ChallengeAll = () => {
+const ChallengeAll = ({ challengeList }: IChallengeAllProps) => {
   const MChallengeInfoList = [
     {
       challengeId: 1,
@@ -127,7 +173,7 @@ const ChallengeAll = () => {
     {
       challengeId: 5,
       badge: '뱃지',
-      title: '커밋 연속 10회 챌린지',
+      title: '연속 10회 커밋 챌린지',
       content: '꾸준히 공부하는 습관을 기르기 위한 첫 시작! 깃허브에 잔디를 10회 연속 심어보세요!',
       imgSrc:
         'https://img.freepik.com/free-photo/purple-calendar-clock-icon-3d-reminder-notification-concept-website-ui-purple-background-3d-rendering-illustration_56104-1317.jpg',
@@ -135,11 +181,16 @@ const ChallengeAll = () => {
   ];
 
   return (
-    <Wrapper>
-      {MChallengeInfoList.map((challengeInfo) => {
-        return <ChallengeItem key={`${challengeInfo.challengeId}`} {...challengeInfo} />;
-      })}
-    </Wrapper>
+    <div style={{ margin: '0 2rem' }}>
+      <MiniTitle sizeType="2xl" textAlign="left" padding="1.25rem 0rem 2rem 0rem" fontWeight="600">
+        전체 챌린지
+      </MiniTitle>
+      <ChallengeListWrapper>
+        {challengeList.map((challengeInfo) => {
+          return <ChallengeItem key={`${challengeInfo.challengeId}`} {...challengeInfo} />;
+        })}
+      </ChallengeListWrapper>
+    </div>
   );
 };
 
