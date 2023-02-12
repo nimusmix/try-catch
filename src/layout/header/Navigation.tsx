@@ -19,7 +19,7 @@ const Logo = styled.div`
 `;
 
 const Nav = styled.nav`
-  padding-right: 2rem;
+  padding: 0 3rem 0 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
