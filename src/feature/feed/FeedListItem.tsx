@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { useRecoilValue, useRecoilState } from 'recoil';
-import { useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
 import { MiniTitle, Paragraph } from '../../components';
@@ -153,60 +152,18 @@ const FeedListItem = ({
   const [toast, setToast] = useRecoilState(toastState);
 
   const queryClient = useQueryClient();
-  const updateBookmark = (type: 'do' | 'cancel') => {
-    const previousData = queryClient.getQueryData<IFeedListProps>([
-      'feed',
-      keyword,
-      paramSort,
-      subscribe,
-      advanced,
-    ]);
 
-    const newFeedList = previousData?.feedList?.map((feed) => {
-      if (feed.id === id) {
-        return {
-          ...feed,
-          isBookmarked: type === 'do',
-        };
-      }
-      return feed;
-    });
+  const unBookmark = useMutation(putBookmark, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('feed');
+    },
+  });
 
-    if (previousData) {
-      // previousData 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
-      queryClient.setQueryData<IFeedItemProps>(
-        ['feed', keyword, paramSort, subscribe, advanced],
-        (oldData: any) => {
-          return {
-            ...oldData,
-            feedList: newFeedList,
-          };
-        }
-      );
-    }
-
-    return {
-      previousData,
-    };
-  };
-
-  const { mutate: addBookmark } = useMutation(
-    ['bookmark'],
-    () => postBookmark({ id, type: 'FEED' }),
-    {
-      onMutate: () => {
-        updateBookmark('do');
-      },
-    }
-  );
-
-  const { mutate: cancelBookmark } = useMutation(
-    ['cancelBookmark'],
-    () => putBookmark({ id, type: 'FEED' }),
-    {
-      onMutate: () => updateBookmark('cancel'),
-    }
-  );
+  const bookmark = useMutation(postBookmark, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('feed');
+    },
+  });
 
   const onClickBookmarkHandler = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -217,14 +174,14 @@ const FeedListItem = ({
         message: '로그인 후 북마크를 이용해보세요! ',
       });
     } else if (isBookmarked) {
-      cancelBookmark();
+      unBookmark.mutate({ id, type: 'FEED' });
       setToast({
         type: 'positive',
         message: '북마크에서 제거되었습니다.',
         isVisible: true,
       });
     } else {
-      addBookmark();
+      bookmark.mutate({ id, type: 'FEED' });
       setToast({
         type: 'positive',
         message: '북마크에 추가되었습니다.',
