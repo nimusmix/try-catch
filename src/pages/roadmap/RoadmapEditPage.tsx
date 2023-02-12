@@ -27,7 +27,12 @@ const RoadmapEditPage = () => {
         </TitleWrapper>
 
         <ReactFlowProvider>
-          <RoadmapForm nodes={roadmapDetail?.nodes} edges={roadmapDetail?.edges} />
+          <RoadmapForm
+            title={roadmapDetail!.title}
+            tag={roadmapDetail!.tag}
+            nodes={roadmapDetail!.nodes}
+            edges={roadmapDetail!.edges}
+          />
         </ReactFlowProvider>
       </EditPageWrapper>
     </Layout>
