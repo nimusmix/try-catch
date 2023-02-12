@@ -13,7 +13,7 @@ const tokenInterceptor = (instance: AxiosInstance) => {
     (config) => {
       const axiosConfig = config;
       // const token = getItem('jwt_token')
-      const token = JSON.parse(window.sessionStorage.getItem('accToken')!);
+      const token = JSON.parse(window.sessionStorage.getItem('accToken')!)?.accToken;
       console.log('여기다!', token);
       logOnDev.dir(token);
       axiosConfig.headers = new AxiosHeaders({
