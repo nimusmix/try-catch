@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from 'react-query';
 import styled from 'styled-components';
-import { IconBookmarkEmpty, IconBookmarkFill, IconLikeEmpty } from '../../components/icons/Icons';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { IconBookmarkEmpty, IconBookmarkFill, IconLikeEmpty } from '../../components/icons/Icons';
 import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
-import { Div, Paragraph, MiniTitle, Button } from '../../components';
+import { Div, Paragraph, MiniTitle, Button, Card } from '../../components';
 import { isDarkState, isLoggedInState, toastState } from '../../recoil';
 
 interface IRoadmapItemProps {
@@ -24,7 +24,7 @@ interface IRoadmapItemProps {
   updatedAt: number;
 }
 
-const ItemWrapper = styled(Div)`
+const ItemWrapper = styled(Card)`
   display: flex;
   align-items: center;
   width: 460px;
