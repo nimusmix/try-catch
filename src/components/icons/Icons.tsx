@@ -32,12 +32,13 @@ import {
 } from 'react-icons/ai';
 
 import { BiComment as IconComment } from 'react-icons/bi';
-import { FaUserCircle as IconUserCircle } from 'react-icons/fa';
+import { FaMedal as IconChallenge, FaUserCircle as IconUserCircle } from 'react-icons/fa';
 import { FiMoreVertical as IconMore } from 'react-icons/fi';
 import { GiTalk as IconQuestion } from 'react-icons/gi';
 import {
   MdOutlineCreate as IconPen,
   MdOutlineFeed as IconFeed,
+  MdOutlineFollowTheSigns as IconRoadmap,
   MdRefresh as IconRefresh,
 } from 'react-icons/md';
 import { RiDeleteBin6Line as IconDelete } from 'react-icons/ri';
@@ -45,6 +46,7 @@ import { HiHashtag as IconHash } from 'react-icons/hi';
 import { ReactComponent as IconBest } from '../../assets/icon-best.svg';
 
 export {
+  IconChallenge,
   IconArrow,
   IconArrowDown,
   IconArrowUp,
@@ -78,4 +80,5 @@ export {
   IconBest,
   IconDot,
   IconRefresh,
+  IconRoadmap,
 };

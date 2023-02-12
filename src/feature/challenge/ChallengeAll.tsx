@@ -47,7 +47,7 @@ const StyledCard = styled(Card)`
   }
 `;
 
-const ChallengeItem = ({ title, content, imgSrc }: Partial<IChallengeItem>) => {
+export const ChallengeItem = ({ title, content, imgSrc }: Partial<IChallengeItem>) => {
   return (
     <StyledCard>
       <FeedThumbnailImgWrapper>

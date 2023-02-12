@@ -1,16 +1,28 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useInView } from 'react-intersection-observer';
 import { SubTitle } from '../../../components';
+
+const fadeUp = keyframes`
+  0% {
+    filter: alpha(opacity=0);
+    opacity: .1;
+    transform: translateY(100px);
+  }
+  100% {
+    filter: alpha(opacity=100);
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 const Wrapper = styled.div`
   margin: 3rem 0 10rem;
   align-self: flex-start;
-  opacity: 0;
-  transition: all 5s ease;
-
+  visibility: hidden;
   &.active {
-    opacity: 1;
+    visibility: visible;
+    animation: ${fadeUp} 1s;
   }
 `;
 

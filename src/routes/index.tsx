@@ -11,9 +11,8 @@ import Roadmap from './Roadmap';
 // const Roadmap = loadable(() => import('./Roadmap'));
 
 const Error = loadable(() => import('./Error'));
-const Home = loadable(() => import('./Home'));
 const Bookmark = loadable(() => import('./Bookmark'));
 const Profile = loadable(() => import('./Profile'));
 const Settings = loadable(() => import('./Settings'));
 
-export { Error, Home, QnA, Feed, Challenges, Roadmap, Bookmark, Profile, Settings };
+export { Error, QnA, Feed, Challenges, Roadmap, Bookmark, Profile, Settings };

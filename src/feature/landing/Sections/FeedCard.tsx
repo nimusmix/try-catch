@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { useRecoilValue, useRecoilState } from 'recoil';
-import { useMutation, useQueryClient } from 'react-query';
-import { Card, MiniTitle } from '../../components';
-import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
-import { IFeedItemProps } from './IFeed';
-import FeedTag from './FeedTag';
-import { isLoggedInState, toastState } from '../../recoil';
-import { postFeedRead } from '../../apis/feed/feed';
-import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
+import React, { useEffect, useState } from 'react';
+import styled, { keyframes } from 'styled-components';
+import { useInView } from 'react-intersection-observer';
+import { Card, MiniTitle } from '../../../components';
+import { IFeedItemProps } from '../../feed/IFeed';
+import FeedTag from '../../feed/FeedTag';
 
-const BookmarkButton = styled.button`
-  display: flex;
-  svg {
-    cursor: pointer;
+const fadeUp = keyframes`
+  0% {
+    filter: alpha(opacity=0);
+    opacity: .1;
+    transform: translateY(100px);
+  }
+  100% {
+    filter: alpha(opacity=100);
+    opacity: 1;
+    transform: translateY(0);
   }
 `;
 
@@ -89,6 +90,12 @@ const FeedThumbnailImgChild = styled.div<{ image: string }>`
 `;
 
 const StyledCard = styled(Card)`
+  visibility: hidden;
+
+  &.active {
+    visibility: visible;
+    animation: ${fadeUp} 1s;
+  }
   margin: 0.5rem 0rem 1rem 0.5rem;
   padding: 1rem 1rem;
   &:hover {
@@ -97,66 +104,34 @@ const StyledCard = styled(Card)`
         ? 'rgba(59, 130, 246, 0.16) 0px 3px 6px, rgba(59, 130, 246, 0.23) 0px 3px 6px'
         : 'rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px'};
     translate: 1px 1px;
-    /* ${CardBody} > h3 {
-      color: var(--colors-brand-500);
-      transition: color 0.3s ease-in;
-    } */
   }
 `;
 
-const FeedCardItem = ({
+const FeedCard = ({
   id,
   title,
   companyName,
   logoSrc,
   tags,
   url,
-  isBookmarked,
   thumbnailImage,
   keywords,
-}: IFeedItemProps) => {
-  const isLoggedIn = useRecoilValue(isLoggedInState);
-  const [toast, setToast] = useRecoilState(toastState);
+  delay,
+}: IFeedItemProps & { delay: number }) => {
+  const { ref, inView } = useInView();
+  const [show, setShow] = useState(false);
 
-  const queryClient = useQueryClient();
-
-  const unBookmark = useMutation(putBookmark, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('feed');
-    },
-  });
-
-  const bookmark = useMutation(postBookmark, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('feed');
-    },
-  });
-
-  const onClickBookmarkHandler = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    if (!isLoggedIn) {
-      setToast({
-        type: 'negative',
-        isVisible: true,
-        message: '로그인 후 북마크를 이용해보세요! ',
-      });
-    } else if (isBookmarked) {
-      unBookmark.mutate({ id, type: 'FEED' });
-      setToast({
-        type: 'positive',
-        message: '북마크에서 제거되었습니다.',
-        isVisible: true,
-      });
-    } else {
-      bookmark.mutate({ id, type: 'FEED' });
-      setToast({
-        type: 'positive',
-        message: '북마크에 추가되었습니다.',
-        isVisible: true,
-      });
+  setTimeout(() => {
+    if (inView) {
+      setShow(true);
     }
-  };
+  }, delay);
 
+  useEffect(() => {
+    if (!inView) {
+      setShow(false);
+    }
+  }, [inView, setShow]);
   return (
     <StyledCard
       width="17.125rem"
@@ -164,9 +139,8 @@ const FeedCardItem = ({
       href={`${url}`}
       target="_blank"
       rel="noreferrer"
-      onClick={() => {
-        postFeedRead({ feedId: id });
-      }}
+      ref={ref}
+      className={show ? 'active' : ''}
     >
       <CardHeader>
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -180,11 +154,6 @@ const FeedCardItem = ({
             {companyName}
           </MiniTitle>
         </div>
-        <BookmarkButton onClick={onClickBookmarkHandler}>
-          {/* 북마크 */}
-          {isBookmarked && <IconBookmarkFill size="22" color="var(--colors-brand-500)" />}
-          {isBookmarked || <IconBookmarkEmpty size="22" color="var(--colors-brand-500)" />}
-        </BookmarkButton>
       </CardHeader>
 
       <FeedThumbnailImg>
@@ -208,4 +177,4 @@ const FeedCardItem = ({
   );
 };
 
-export default FeedCardItem;
+export default FeedCard;

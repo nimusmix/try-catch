@@ -36,7 +36,7 @@ const QuestionList = ({
         query: keyword,
         page: pageParam,
         category: activeCategory as 'DEV' | 'CAREER' | 'BALANCE',
-        size: 20,
+        size: 10,
       };
       return getQuestionList(params);
     },
@@ -111,7 +111,7 @@ const QuestionList = ({
 
   return (
     <>
-      {questionList?.pages[0].data.length === 0 && <QuestionNoContent />}
+      {questionList?.pages.flat().length === 0 && <QuestionNoContent />}
       <ul>
         {questionList?.pages?.map((page, index) => {
           return (
