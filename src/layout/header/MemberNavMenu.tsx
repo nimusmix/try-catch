@@ -120,6 +120,7 @@ const MemberNavMenu = () => {
     e.preventDefault();
     setIsLoggedIn(false);
     setAccToken('');
+    setRefToken('');
   };
 
   return (
