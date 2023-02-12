@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
-import { useState } from 'react';
 import { HeaderImage, Layout } from '../../layout';
-import { MiniTitle, Paragraph, SubTitle } from '../../components';
+import { Paragraph, SubTitle } from '../../components';
 import { header_challenge } from '../../assets';
 import { QuestionPageBody as ChallengePageBody } from '../qna/QnaPage';
 import { ChallengeAll, OngoingChallengeVer3 } from '../../feature/challenge';
@@ -13,6 +12,33 @@ const ChallengeHeader = styled(ChallengePageBody)``;
 const ChallengeBodyWrapper = styled(ChallengePageBody)`
   margin-top: 2rem;
 `;
+
+// local 디자인 확인용 목업
+// const challengeList = [
+//   {
+//     challengeId: 1,
+//     title: '7일 7회 답변 챌린지',
+//     content: '일주일 동안 7회의 답변을 남겨보세요! 당신의 지식 나눔이 질문자에게 큰 도움이 됩니다!',
+//     imgSrc: 'https://raw.githubusercontent.com/trycatch-ssafy/logo/main/challengeId1.jpg',
+//     state: 'ONGOING' as 'BEFORE' | 'ONGOING' | 'SUCCESS' | 'FAIL',
+//     progress: 0,
+//     startFrom: 1676176660000,
+//     endAt: 1676695060000,
+//     earnedAt: 1676176660000,
+//   },
+//   {
+//     challengeId: 2,
+//     title: '한 달 10회 답변 챌린지',
+//     content:
+//       '한 달 동안 TryCatch에서 10회 답변하며 지식을 나눠보세요! 꾸준한 답변을 남기다 보면 본인의 실력도 향상될 거예요!',
+//     imgSrc: 'https://raw.githubusercontent.com/trycatch-ssafy/logo/main/challengeId2.jpg',
+//     state: 'BEFORE' as 'BEFORE' | 'ONGOING' | 'SUCCESS' | 'FAIL',
+//     progress: 0,
+//     startFrom: null,
+//     endAt: null,
+//     earnedAt: null,
+//   },
+// ];
 
 const ChallengesPage = () => {
   const { data: challengeList, isLoading } = useQuery<Array<IChallengeItem>>(
