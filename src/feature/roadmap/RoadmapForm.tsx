@@ -1,22 +1,16 @@
 import React, { useCallback, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useMutation, useQuery } from 'react-query';
 import ReactFlow, { Background, Controls, Edge, useEdges, useNodes, useReactFlow } from 'reactflow';
 import 'reactflow/dist/style.css';
 import styled from 'styled-components';
 import { Button, Input, MiniTitle } from '../../components';
-import { postRoadmap } from '../../apis/roadmap/roadmap';
+import { postRoadmap, getRoadmapDetail } from '../../apis/roadmap/roadmap';
 import { logOnDev } from '../../utils/logging';
-import { INode, IEdge } from '../../interface/roadmap';
+import { INode, IEdge, IRoadmap } from '../../interface/roadmap';
 import TextUpdaterNode from './node-style/TextUpdaterNode';
-
-interface IRoadmapFormProps {
-  title?: string;
-  tag?: string;
-  nodes?: Array<INode>;
-  edges?: Array<IEdge>;
-}
+import { getName } from '../../apis/auth/auth';
 
 const InputWrapper = styled.div`
   display: flex;
@@ -67,14 +61,18 @@ const initialNodes = [
 ];
 
 const initialEdges: Edge<any>[] = [];
-
 let nodeId = 3;
 
-const RoadmapForm = ({ title, tag, nodes, edges }: IRoadmapFormProps) => {
-  console.log('타이틀', title);
-  console.log('태그', tag);
-  console.log('노드', nodes);
-  console.log('엣지', edges);
+const RoadmapForm = () => {
+  const { pathname } = useLocation();
+  const isEditPage = pathname === '/roadmap/edit';
+
+  const { data: myName } = useQuery<string>(['myName'], () => getName(), { enabled: !!isEditPage });
+  const { data: oldRoadmap, isLoading } = useQuery<IRoadmap>(
+    ['oldRoadmap', myName] as const,
+    () => getRoadmapDetail(myName!),
+    { enabled: !!isEditPage && !!myName }
+  );
 
   const {
     register,
@@ -131,13 +129,12 @@ const RoadmapForm = ({ title, tag, nodes, edges }: IRoadmapFormProps) => {
   return (
     <form onSubmit={handleSubmit(saveData)}>
       <InputWrapper>
-        <p>테스트 {title}</p>
         <MiniTitle sizeType="2xl" fontWeight="600">
           제목
         </MiniTitle>
         <InfoInput
           {...register('title', { required: '제목은 필수 항목입니다.' })}
-          value={title || ''}
+          value={oldRoadmap?.title || ''}
         />
       </InputWrapper>
 
@@ -152,8 +149,8 @@ const RoadmapForm = ({ title, tag, nodes, edges }: IRoadmapFormProps) => {
 
       <FlowWrapper>
         <ReactFlow
-          nodes={nodes || initialNodes}
-          edges={edges || initialEdges}
+          nodes={oldRoadmap?.nodes || initialNodes}
+          edges={oldRoadmap?.edges || initialEdges}
           nodeTypes={nodeTypes}
         >
           <Controls />
@@ -168,7 +165,7 @@ const RoadmapForm = ({ title, tag, nodes, edges }: IRoadmapFormProps) => {
         <InfoInput
           width="100px"
           {...register('tag', { required: '태그는 필수 항목입니다.' })}
-          value={tag || ''}
+          value={oldRoadmap?.tag || ''}
         />
       </InputWrapper>
 
