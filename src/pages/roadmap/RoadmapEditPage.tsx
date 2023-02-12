@@ -17,6 +17,7 @@ const RoadmapEditPage = () => {
     { enabled: !!myName }
   );
 
+  console.log('로드맵 디테일!!!', roadmapDetail);
   return (
     <Layout>
       <EditPageWrapper>
