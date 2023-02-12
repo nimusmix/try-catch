@@ -32,9 +32,6 @@ export const getUserFollow = (userId: number, params: { type: string }) => {
 };
 
 // 회원 정보 수정
-export const patchUserDetail = (
-  userId: number,
-  params: { companyName?: string; introduction?: string }
-) => {
-  authApi.patch(`/user/detail/${userId}`, { params }).then((res) => res.data);
+export const patchUserDetail = (params: { companyName?: string; introduction?: string }) => {
+  authApi.patch('/user/detail', { params }).then((res) => res.data);
 };

@@ -94,7 +94,7 @@ const ProfileEditPage = () => {
       companyName: data.companyName || user?.companyName,
       introduction: data.introduction || user?.introduction,
     };
-    patchUserDetail(userId, params);
+    patchUserDetail(params);
   };
 
   if (isLoading) {
@@ -125,6 +125,7 @@ const ProfileEditPage = () => {
               as="textarea"
               {...register('introduction', { maxLength: 200 })}
               defaultValue={user?.introduction}
+              placeholder="자기소개를 입력해주세요."
             />
           </InputWrapper>
         </InfoWrapper>
