@@ -94,7 +94,7 @@ const RoadmapForm = () => {
           y: Math.random() * 500,
         },
         data: {
-          label: `Node ${id}`,
+          label: '',
         },
         type: 'textUpdater',
       };
@@ -154,8 +154,8 @@ const RoadmapForm = () => {
 
       <FlowWrapper>
         <ReactFlow
-          nodes={oldRoadmap?.nodes || initialNodes}
-          edges={oldRoadmap?.edges || initialEdges}
+          defaultNodes={isEditPage ? oldRoadmap?.nodes : initialNodes}
+          defaultEdges={isEditPage ? oldRoadmap?.edges : initialEdges}
           nodeTypes={nodeTypes}
         >
           <Controls />
