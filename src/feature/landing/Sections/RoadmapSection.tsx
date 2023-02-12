@@ -74,7 +74,7 @@ const RoadmapSection = () => {
       </div>
       <div className="card-container" />
       <div className="button-wrapper">
-        <Button onClick={() => navigate('/roadmap')}>더 보기</Button>
+        <Button onClick={() => navigate('/roadmap')}>로드맵 둘러보기</Button>
       </div>
     </ThirdSection>
   );

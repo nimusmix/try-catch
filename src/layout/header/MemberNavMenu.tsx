@@ -9,6 +9,7 @@ import { Paragraph } from '../../components';
 import { accToken, isDarkState } from '../../recoil';
 import { getImage, getName } from '../../apis/auth/auth';
 import { Ul } from './NavMenu';
+import useNotifications from '../../hooks/useNotifications';
 
 const Alert = styled.div``;
 
@@ -96,9 +97,8 @@ const Line = styled.div`
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
   const acc = useRecoilValue(accToken);
-  // TODO 알림기능
-  // const { followNotifications, answerRegistrationNotifications, answerAcceptanceNotifications } =
-  //   useNotifications();
+  const { followNotifications, answerRegistrationNotifications, answerAcceptanceNotifications } =
+    useNotifications();
   const { data: profileImage } = useQuery(['user', 'profileImage'] as const, () => getImage(acc));
   const { data: userName } = useQuery(['user', 'userName'] as const, getName, {
     enabled: !!profileImage,
