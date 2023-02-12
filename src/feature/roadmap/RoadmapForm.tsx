@@ -17,6 +17,14 @@ import styled from 'styled-components';
 import { Button, Input, MiniTitle } from '../../components';
 import { postRoadmap } from '../../apis/roadmap/roadmap';
 import { logOnDev } from '../../utils/logging';
+import { INode, IEdge } from '../../interface/roadmap';
+
+interface IRoadmapFormProps {
+  title?: string;
+  tag?: string;
+  nodes?: Array<INode>;
+  edges?: Array<IEdge>;
+}
 
 const StyledInput = styled.input`
   width: 160px;
@@ -103,7 +111,7 @@ const TextUpdaterNode = ({ data }: any) => {
 
 let nodeId = 3;
 
-const RoadmapForm = () => {
+const RoadmapForm = ({ title, tag, nodes, edges }: IRoadmapFormProps) => {
   const {
     register,
     handleSubmit,
@@ -162,7 +170,10 @@ const RoadmapForm = () => {
         <MiniTitle sizeType="2xl" fontWeight="600">
           제목
         </MiniTitle>
-        <InfoInput {...register('title', { required: '제목은 필수 항목입니다.' })} />
+        <InfoInput
+          {...register('title', { required: '제목은 필수 항목입니다.' })}
+          value={title || ''}
+        />
       </InputWrapper>
 
       <RoadmapTitleWrapper>
@@ -175,7 +186,11 @@ const RoadmapForm = () => {
       </RoadmapTitleWrapper>
 
       <FlowWrapper>
-        <ReactFlow defaultNodes={initialNodes} defaultEdges={initialEdges} nodeTypes={nodeTypes}>
+        <ReactFlow
+          nodes={nodes || initialNodes}
+          edges={edges || initialEdges}
+          nodeTypes={nodeTypes}
+        >
           <Controls />
           <Background />
         </ReactFlow>
@@ -185,7 +200,11 @@ const RoadmapForm = () => {
         <MiniTitle sizeType="2xl" fontWeight="600">
           태그
         </MiniTitle>
-        <InfoInput width="100px" {...register('tag', { required: '태그는 필수 항목입니다.' })} />
+        <InfoInput
+          width="100px"
+          {...register('tag', { required: '태그는 필수 항목입니다.' })}
+          value={tag || ''}
+        />
       </InputWrapper>
 
       <Button borderRadius="var(--borders-radius-lg)">저장</Button>

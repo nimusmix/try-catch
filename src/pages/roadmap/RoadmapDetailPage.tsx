@@ -297,7 +297,9 @@ const RoadmapDetailPage = () => {
               >
                 수정
               </Button>
-              <Button borderRadius="var(--borders-radius-lg)">삭제</Button>
+              <Button designType="blueEmpty" borderRadius="var(--borders-radius-lg)">
+                삭제
+              </Button>
             </ButtonWrapper>
           )}
 
