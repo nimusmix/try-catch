@@ -105,9 +105,10 @@ const RoadmapForm = () => {
 
   const navi = useNavigate();
   const saveRoadmap = useMutation(postRoadmap, {
-    onSuccess: (data) => navi(`/roadmap/${data.data.author.userName}`),
+    onSuccess: () => navi(`/roadmap/${myName}`),
     onError: (error) => logOnDev.log(error),
   });
+
   const editRoadmap = useMutation(putRoadmap, {
     onSuccess: () => navi(`/roadmap/${myName}`),
     onError: (error) => logOnDev.log(error),
