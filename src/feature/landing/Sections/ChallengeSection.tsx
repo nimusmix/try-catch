@@ -57,8 +57,12 @@ const FourthSection = styled.section`
 
   .card-container {
     display: flex;
-    gap: 2rem;
+    justify-content: space-between;
     margin-bottom: 1rem;
+
+    & > div {
+      margin: 0;
+    }
   }
 
   .button-wrapper {

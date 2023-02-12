@@ -43,7 +43,8 @@ const MiniTitle = styled.h3<IMiniTitleProps>`
   color: ${({ color, theme: { textColor } }) => color || textColor || `var(--colors-black-500)`};
   
   .emph{
-    color ${({ theme: { emphColor } }) => emphColor}
+    color ${({ theme: { brandColor } }) => brandColor};
+    font-weight: 800;
   }
   
   .blue {

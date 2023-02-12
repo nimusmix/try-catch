@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import Navigation from './header/Navigation';
 import { TopButton } from '../components';
+import { Footer } from './index';
 
 export interface ILayoutProps {
   children: React.ReactNode;
@@ -20,6 +21,7 @@ const Layout = ({ children }: ILayoutProps) => {
       <Navigation />
       <Main>{children}</Main>
       <TopButton />
+      <Footer />
     </>
   );
 };

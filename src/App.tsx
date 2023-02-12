@@ -15,7 +15,7 @@ import elapsedTime from './utils/elapsed-time';
 
 const GlobalStyles = createGlobalStyle`
   *{
-    transition: background-color 0.2s ease-in;
+    transition: background-color 0.3s ease-in;
   }
   #root {
     background-color: ${({ theme: { bgColor } }) => bgColor};
