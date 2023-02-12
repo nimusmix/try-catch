@@ -27,14 +27,17 @@ const useNotifications = () => {
           });
           // connection 되면
           sseEvents.addEventListener('open', (e) => {
+            logOnDev.log('sse 연결됨');
             logOnDev.dir(e);
           });
           // error 발생시
           sseEvents.addEventListener('error', (e) => {
+            logOnDev.log('sse 에러');
             logOnDev.log(e);
           });
 
           sseEvents.addEventListener('message', (e) => {
+            logOnDev.log('sse message 이벤트');
             const data = JSON.parse(e.data);
             console.log(data);
             // switch (data.type) {
@@ -72,6 +75,7 @@ const useNotifications = () => {
 
       fetchSSE();
       return () => {
+        logOnDev.log('sse 연결 종료');
         sseEvents.close();
       };
     }
