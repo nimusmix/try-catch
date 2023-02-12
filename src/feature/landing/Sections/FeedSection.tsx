@@ -117,7 +117,7 @@ const FeedSection = () => {
           <SubTitle textAlign="right">기술 블로그를 한눈에 보고싶은데...</SubTitle>
         </div>
         <MiniTitle sizeType="xl" textAlign="right">
-          피드 탭을 이용해보세요
+          <span className="emph">피드</span> 탭을 이용해보세요
         </MiniTitle>
         <Paragraph sizeType="lg" textAlign="right">
           다양한 기업의 블로그를 보며 기술 트렌드 파악을 쉽게 할 수 있어요

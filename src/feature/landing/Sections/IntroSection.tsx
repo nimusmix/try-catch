@@ -79,7 +79,7 @@ const IntroSection = () => {
         <div ref={descRef} className={`description ${descInView ? 'active' : ''}`}>
           <SubTitle textAlign="left">이제는 혼자 개발하지 말고,</SubTitle>
           <MiniTitle sizeType="3xl" textAlign="left">
-            트라이캐치와 함께 하세요!
+            <span className="emph blue">트라이캐치</span>와 함께 하세요!
           </MiniTitle>
           <Paragraph sizeType="lg">
             트라이캐치는 개인 추천~~ blah blah blah blah <br /> 개발자 커뮤니티 입니다.
