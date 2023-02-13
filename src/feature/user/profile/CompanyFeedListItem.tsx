@@ -117,7 +117,7 @@ const BlogMiniTitle = styled(MiniTitle)`
 `;
 
 const CompanyFeedListItem = ({
-  id,
+  feedId,
   title,
   summary,
   tags,
@@ -134,13 +134,13 @@ const CompanyFeedListItem = ({
 
   const unBookmark = useMutation(putBookmark, {
     onSuccess: () => {
-      queryClient.invalidateQueries('companyDetail');
+      queryClient.invalidateQueries(['companyDetail']);
     },
   });
 
   const bookmark = useMutation(postBookmark, {
     onSuccess: () => {
-      queryClient.invalidateQueries('companyDetail');
+      queryClient.invalidateQueries(['companyDetail']);
     },
   });
 
@@ -153,14 +153,14 @@ const CompanyFeedListItem = ({
         message: '로그인 후 북마크를 이용해보세요! ',
       });
     } else if (isBookmarked) {
-      unBookmark.mutate({ id: id!, type: 'FEED' });
+      unBookmark.mutate({ id: Number(feedId), type: 'FEED' });
       setToast({
         type: 'positive',
         message: '북마크에서 제거되었습니다.',
         isVisible: true,
       });
     } else {
-      bookmark.mutate({ id: id!, type: 'FEED' });
+      bookmark.mutate({ id: Number(feedId), type: 'FEED' });
       setToast({
         type: 'positive',
         message: '북마크에 추가되었습니다.',
@@ -170,7 +170,7 @@ const CompanyFeedListItem = ({
   };
 
   const handleFeedRead = () => {
-    postFeedRead({ feedId: id! });
+    postFeedRead({ feedId: Number(feedId) });
   };
 
   return (
