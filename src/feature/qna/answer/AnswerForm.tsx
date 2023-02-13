@@ -57,6 +57,7 @@ const Editor = styled.textarea`
 // TODO 답변 작성 후 바로 조회하기
 const AnswerForm = ({ questionId }: { questionId: string }) => {
   const [answerInput, setAnswerInput] = useState('');
+  const [answerId, setAnswerId] = useState<number>();
   const [isCommitModalOpened, setIsCommitModalOpened] = useRecoilState(isModalOpenedState);
 
   const queryClient = useQueryClient();
@@ -72,6 +73,7 @@ const AnswerForm = ({ questionId }: { questionId: string }) => {
           answerCommit(Number(questionId), data.answerId);
           // 레포 체크 안 되었으면 모달 오픈
         } else if (!data.repoChecked) {
+          setAnswerId(data.answerId);
           setIsCommitModalOpened(true);
         }
       },
@@ -80,7 +82,6 @@ const AnswerForm = ({ questionId }: { questionId: string }) => {
   );
 
   // 에러면 토스트
-
   const onClickAddAnswer = () => {
     addAnswer();
   };
@@ -96,7 +97,9 @@ const AnswerForm = ({ questionId }: { questionId: string }) => {
           등&nbsp;&nbsp;록
         </Button>
       </Wrapper>
-      {isCommitModalOpened && <CommitCheckModal />}
+      {isCommitModalOpened && (
+        <CommitCheckModal questionId={Number(questionId)} answerId={answerId!} />
+      )}
     </>
   );
 };
