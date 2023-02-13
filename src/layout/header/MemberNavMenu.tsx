@@ -3,14 +3,13 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
 import React from 'react';
-import { IconBellFill, IconBookmarkFill, IconUserCircle } from '../../components/icons/Icons';
+import { IconBookmarkFill, IconUserCircle } from '../../components/icons/Icons';
 import { BOOKMARK_PAGE_NAME } from '../../constant';
 import { Paragraph } from '../../components';
-import { accToken, refToken, isDarkState, isLoggedInState } from '../../recoil';
+import { accToken, isDarkState, isLoggedInState, refToken } from '../../recoil';
 import { getImage, getName } from '../../apis/auth/auth';
 import { Ul } from './NavMenu';
-
-const Alert = styled.div``;
+import NoticeBell from './NoticeBell';
 
 const Bookmark = styled(NavLink)``;
 
@@ -76,7 +75,7 @@ export const DropLiContainer = styled.div`
   border: 1px solid ${({ theme }) => theme.borderColor};
   border-radius: var(--borders-radius-base);
   background-color: ${({ theme }) => theme.bgColor};
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   margin-top: 4px;
   padding: 1rem;
   position: absolute;
@@ -128,12 +127,7 @@ const MemberNavMenu = () => {
   return (
     <Ul>
       <Li>
-        <Alert>
-          <IconBellFill
-            color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-            size="20"
-          />
-        </Alert>
+        <NoticeBell />
       </Li>
 
       <Li>
@@ -150,10 +144,12 @@ const MemberNavMenu = () => {
             {profileImage ? (
               <Img src={profileImage} />
             ) : (
-              <IconUserCircle
-                color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-                size="24"
-              />
+              <span>
+                <IconUserCircle
+                  color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
+                  size="24"
+                />
+              </span>
             )}
             <Paragraph
               as="span"

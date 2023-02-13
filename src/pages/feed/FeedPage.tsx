@@ -64,7 +64,9 @@ const FeedPage = () => {
     <Layout>
       <HeaderImage image={header_feed}>
         <SubTitle>피드</SubTitle>
-        <Paragraph sizeType="base">Feed 게시판에 대한 설명이 들어갈 자리입니다.</Paragraph>
+        <Paragraph sizeType="base">
+          다양한 기업의 블로그를 보며 기술 트렌드를 쉽게 파악해보세요
+        </Paragraph>
       </HeaderImage>
       <FeedPageBody>
         <Aside>

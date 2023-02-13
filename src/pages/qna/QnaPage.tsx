@@ -107,7 +107,7 @@ const QnaPage = () => {
     <Layout>
       <HeaderImage image={header_qna}>
         <SubTitle>Q&A</SubTitle>
-        <Paragraph sizeType="base">좋은 멘트 추천 받습니다.</Paragraph>
+        <Paragraph sizeType="base">좋은 질문과 답변으로 지식을 쌓아보세요</Paragraph>
       </HeaderImage>
       <QuestionPageBody>
         {/* 왼쪽 네비게이션 */}

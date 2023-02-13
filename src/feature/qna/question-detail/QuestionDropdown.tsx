@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { Dropdown, DropLi, DropLiContainer, DropUl } from '../../../layout/header/MemberNavMenu';
@@ -79,7 +78,6 @@ const QuestionDropdown = ({
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const queryClient = useQueryClient();
   const isMe = useIsMe(userId);
   const setToast = useSetRecoilState(toastState);
   const navigate = useNavigate();

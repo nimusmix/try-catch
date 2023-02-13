@@ -36,7 +36,7 @@ const fadeUp = keyframes`
 
 const SecondSection = styled.section`
   align-self: flex-end;
-  height: 100vh;
+  height: 140vh;
   width: 100%;
   visibility: hidden;
 
