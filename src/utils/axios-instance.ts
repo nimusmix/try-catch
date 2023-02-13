@@ -34,6 +34,10 @@ const axiosAuthApi = (url: string, options: AxiosRequestConfig = {}) => {
         Authorization: accToken,
       },
     });
+    console.log('스테이터스', status);
+    if (status === 200) {
+      return;
+    }
 
     if (status === 401) {
       const refToken = JSON.parse(window.localStorage.getItem('refToken')!)?.refToken;
