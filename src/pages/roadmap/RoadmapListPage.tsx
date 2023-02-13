@@ -52,7 +52,7 @@ const RoadmapListPage = () => {
     <Layout>
       <HeaderImage image={header_roadmap}>
         <SubTitle>로드맵</SubTitle>
-        <Paragraph sizeType="base">로드맵 게시판에 대한 설명이 들어갈 자리입니다.</Paragraph>
+        <Paragraph sizeType="base">선후배 개발자의 발자취를 따라가보세요</Paragraph>
       </HeaderImage>
 
       <RoadmapWrapper>

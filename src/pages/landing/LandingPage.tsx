@@ -72,19 +72,6 @@ const bounceInTop = keyframes`
 }
 `;
 
-const fadeUp = keyframes`
-  0% {
-    filter: alpha(opacity=0);
-    opacity: .1;
-    transform: translateY(100px);
-  }
-  100% {
-    filter: alpha(opacity=100);
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
 const LogoWrapper = styled.div`
   align-self: flex-start;
   visibility: hidden;

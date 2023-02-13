@@ -32,7 +32,7 @@ const fadeFromRight = keyframes`
 
 const FirstSection = styled.section`
   align-self: flex-start;
-  height: 80vh;
+  height: 100vh;
   width: 100%;
 
   & > div {
