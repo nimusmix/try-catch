@@ -15,11 +15,9 @@ import {
 import {
   AdvancedSettingsPage,
   AlertSettingsPage,
-  ChallengesDetailPage,
   ChallengesPage,
   CompanyProfilePage,
   CustomerServicePage,
-  EmailAlertSettingsPage,
   FeedPage,
   FollowersPage,
   FollowingPage,
@@ -108,10 +106,6 @@ const router = createBrowserRouter([
             path: '',
             element: <ChallengesPage />,
           },
-          {
-            path: ':challengeId',
-            element: <ChallengesDetailPage />,
-          },
         ],
       },
 
@@ -196,10 +190,6 @@ const router = createBrowserRouter([
           {
             path: 'alert',
             element: <AlertSettingsPage />,
-          },
-          {
-            path: 'email-alert',
-            element: <EmailAlertSettingsPage />,
           },
           {
             path: 'theme',

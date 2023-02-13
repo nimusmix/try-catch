@@ -84,15 +84,12 @@ interface FeedSearchProps {
   keyword: string;
 }
 
-const FeedSearchWrapper = styled.div`
-  border-radius: 15px;
+export const FeedSearchWrapper = styled.div`
+  border-radius: var(--borders-radius-xl);
   box-sizing: border-box;
   margin: 0;
   padding: 20px;
-  color: #272b41;
-  font-size: 15px;
-  font-variant: tabular-nums;
-  line-height: 1.5715;
+  color: var(--colors-black-500);
   list-style: none;
   position: relative;
   background: #fff;
@@ -100,6 +97,35 @@ const FeedSearchWrapper = styled.div`
   box-shadow: rgb(8 60 130 / 6%) 0px 0px 0px 0.05rem, rgb(30 34 40 / 4%) 0rem 0rem 1.25rem;
   margin-bottom: 25px !important;
   background-color: ${({ theme: { isDark } }) => (isDark ? 'rgba(46, 52, 64, 1)' : 'fff')};
+`;
+
+const ToolTip = styled.div`
+  &.tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  &.tooltip .tooltip-content {
+    visibility: hidden;
+    border-radius: var(--borders-radius-base);
+    background-color: var(--colors-brand-100);
+    box-shadow: 0 3px 8px rgba(165, 165, 165, 0.5);
+    padding: 5px 10px;
+    width: 110px;
+    color: var(--colors-black-200);
+    text-align: center;
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 30px;
+    position: absolute;
+    top: -40px;
+    font-size: 12px;
+    letter-spacing: -1px;
+  }
+  &.tooltip:hover .tooltip-content {
+    visibility: visible;
+  }
 `;
 
 const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps) => {
@@ -118,7 +144,7 @@ const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps
     handleSingleCheck(e.target.checked, Number(e.target.id));
   };
 
-  const advanced = document.getElementById('고급검색') as HTMLParagraphElement;
+  const advanced = document.getElementById('고급검색') as HTMLElement;
   if (advanced) advanced.setAttribute('data-tooltip', `💡 고급 검색 가이드`);
 
   const navigate = useNavigate();
@@ -140,6 +166,33 @@ const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps
             <IconRefresh />
           </Button>
         )}
+        {/* <CheckboxWrapper key={searchFilterList[0].id}>
+          <FilterTitle sizeType="sm" padding="0 0.5rem" id={`${searchFilterList[0].filterName}`}>
+            {searchFilterList[0].filterName}
+          </FilterTitle>
+          <Checkbox
+            label={String(searchFilterList[0].id)}
+            checked={!!checkedItems.includes(searchFilterList[0].id)}
+            onChange={onSingleCheck}
+          />
+        </CheckboxWrapper>
+        <ToolTip className="tooltip">
+          <CheckboxWrapper key={searchFilterList[1].id}>
+            <FilterTitle sizeType="sm" padding="0 0.5rem" id={`${searchFilterList[1].filterName}`}>
+              {searchFilterList[1].filterName}
+            </FilterTitle>
+            <Checkbox
+              label={String(searchFilterList[1].id)}
+              checked={!!checkedItems.includes(searchFilterList[1].id)}
+              onChange={onSingleCheck}
+            />
+          </CheckboxWrapper>
+          <div className="tooltip-content">
+            <a href="https://www.lucenetutorial.com/lucene-query-syntax.html">
+              💡 고급 검색 가이드
+            </a>
+          </div>
+        </ToolTip> */}
         {searchFilterList.map((filterItem) => {
           const isChecked = !!checkedItems.includes(filterItem.id);
 

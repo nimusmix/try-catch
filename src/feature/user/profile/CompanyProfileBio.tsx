@@ -1,6 +1,10 @@
+import { useMutation, useQueryClient } from 'react-query';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { postSubscribe, puttSubscribe } from '../../../apis/user/user';
 import { Button, MiniTitle, Paragraph } from '../../../components';
 import { ICompany } from '../../../interface/user';
+import { isLoggedInState, toastState } from '../../../recoil';
 
 const BioWrapper = styled.div`
   display: flex;
@@ -42,12 +46,59 @@ const UrlText = styled(Paragraph)`
 `;
 
 const CompanyProfileBio = ({
+  companyId,
   companyLogo,
   companyName,
   subscriptionCount,
   isSubscribe,
   companyBlog,
 }: Partial<ICompany>) => {
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [toast, setToast] = useRecoilState(toastState);
+
+  const queryClient = useQueryClient();
+  const updateSubscribe = (type: 'do' | 'cancel') => {
+    const previousData = queryClient.getQueryData<ICompany>(['companyDetail', companyId]);
+
+    if (previousData) {
+      queryClient.setQueryData<ICompany>(['companyDetail', companyId], (oldData: any) => {
+        return {
+          ...oldData,
+          isSubscribe: type === 'do',
+          subscriptionCount:
+            type === 'do' ? oldData.subscriptionCount + 1 : oldData.subscriptionCount - 1,
+        };
+      });
+    }
+
+    return {
+      previousData,
+    };
+  };
+
+  const { mutate: subscribe } = useMutation(['bookmark'], () => postSubscribe(companyId!), {
+    onMutate: () => {
+      updateSubscribe('do');
+    },
+  });
+
+  const { mutate: unSubscribe } = useMutation(['cancelBookmark'], () => puttSubscribe(companyId!), {
+    onMutate: () => updateSubscribe('cancel'),
+  });
+
+  const onClickSubscribeHandler = () => {
+    if (!isLoggedIn) {
+      setToast({
+        type: 'negative',
+        isVisible: true,
+        message: '로그인 후 이용하실 수 있습니다.',
+      });
+    } else if (isSubscribe) {
+      unSubscribe();
+    } else {
+      subscribe();
+    }
+  };
   return (
     <BioWrapper>
       <InfoWrapper>
@@ -67,6 +118,7 @@ const CompanyProfileBio = ({
         designType={isSubscribe ? 'blueFill' : 'blueEmpty'}
         padding="0.25rem 1rem"
         borderRadius="var(--borders-radius-lg)"
+        onClick={onClickSubscribeHandler}
       >
         {isSubscribe ? '구독중' : '구독'}
       </Button>

@@ -85,23 +85,28 @@ const QuestionBody = styled.div`
   }
 `;
 
+const CardTitle = styled(MiniTitle)`
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  margin-bottom: 0.5rem;
+  display: -webkit-box;
+  height: 1.25rem;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+`;
+
 const Card = ({ questionId, title, content, answerCount }: Partial<IQuestion>) => {
   const isDark = useRecoilValue(isDarkState);
   return (
     <SliderItemDiv>
       <Link to={`/question/${questionId}`}>
-        <MiniTitle
-          textAlign="left"
-          sizeType="xl"
-          style={{
-            fontSize: '1rem',
-            fontWeight: '500',
-            lineHeight: '1.25rem',
-            marginBottom: '0.5rem',
-          }}
-        >
+        <CardTitle textAlign="left" sizeType="xl" style={{}}>
           {title}
-        </MiniTitle>
+        </CardTitle>
         <QuestionBody>
           <ReactMarkdown className="markdown" remarkPlugins={[remarkGfm]}>
             {content as string}
