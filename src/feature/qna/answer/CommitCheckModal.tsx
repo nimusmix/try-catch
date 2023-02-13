@@ -3,6 +3,7 @@ import { useSetRecoilState } from 'recoil';
 import { useState } from 'react';
 import { Modal, MiniTitle, Button, Input, Paragraph } from '../../../components';
 import { toastState } from '../../../recoil';
+import isModalOpenedState from '../../../recoil/isModalOpenedState';
 
 const ModalBody = styled.div`
   display: flex;
@@ -33,19 +34,24 @@ const StyledInput = styled(Input)`
   margin-right: 1rem;
 `;
 
-const CommitCheckModal = ({ setIsCommitModalOpened }: any) => {
+const CommitCheckModal = () => {
   const [isSecondPage, setIsSecondPage] = useState(false);
+  const setIsCommitModalOpened = useSetRecoilState(isModalOpenedState);
   const setToast = useSetRecoilState(toastState);
 
   const clickYesBtn = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsSecondPage(true);
+    setIsCommitModalOpened(false);
+    console.log('네 버튼 누름');
+    // 백에 알려주기
   };
 
   const clickNoBtn = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsCommitModalOpened(false);
     setToast({ type: 'negative', message: '깃허브 자동 커밋을 하지 않습니다.', isVisible: true });
+    console.log('아니오 버튼 누름');
     // 백에 알려주기
   };
 
