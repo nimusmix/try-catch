@@ -11,12 +11,8 @@ const ModalBody = styled.div`
   align-items: center;
   justify-content: center;
 
-  h3 {
-    margin-bottom: 0.5rem;
-  }
-
   p {
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
   }
 
   .check__button-wrapper {
@@ -41,16 +37,20 @@ const CommitCheckModal = ({ setIsCommitModalOpened }: any) => {
   const [isSecondPage, setIsSecondPage] = useState(false);
   const setToast = useSetRecoilState(toastState);
 
-  const clickYesBtn = () => {
+  const clickYesBtn = (e: React.MouseEvent) => {
+    e.preventDefault();
     setIsSecondPage(true);
   };
 
-  const clickNoBtn = () => {
+  const clickNoBtn = (e: React.MouseEvent) => {
+    e.preventDefault();
     setIsCommitModalOpened(false);
     setToast({ type: 'negative', message: '깃허브 자동 커밋을 하지 않습니다.', isVisible: true });
+    // 백에 알려주기
   };
 
-  const clickSaveBtn = () => {
+  const clickSaveBtn = (e: React.MouseEvent) => {
+    e.preventDefault();
     console.log('저장 버튼 누름. 퀘스천 아이디 앤서 아이디 어떻게 가져오징');
   };
 

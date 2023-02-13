@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
 import { useMutation, useQueryClient } from 'react-query';
 import { Button, MiniTitle } from '../../../components';
 import { postAnswer, answerCommit } from '../../../apis/answer/answer';
 import { logOnDev } from '../../../utils/logging';
 import CommitCheckModal from './CommitCheckModal';
+import isModalOpenedState from '../../../recoil/isModalOpenedState';
 
 const Wrapper = styled.div`
   display: flex;
@@ -55,15 +57,13 @@ const Editor = styled.textarea`
 // TODO 답변 작성 후 바로 조회하기
 const AnswerForm = ({ questionId }: { questionId: string }) => {
   const [answerInput, setAnswerInput] = useState('');
-  const [isCommitModalOpened, setIsCommitModalOpened] = useState(false);
+  const [isCommitModalOpened, setIsCommitModalOpened] = useRecoilState(isModalOpenedState);
 
   const queryClient = useQueryClient();
   const { mutate: addAnswer } = useMutation(
     postAnswer(questionId as string, { content: answerInput }),
     {
       onSuccess: (data) => {
-        logOnDev.log('댓글 작성 성공');
-        logOnDev.log('앤서 디테일', data);
         queryClient.invalidateQueries(['question', questionId]);
         setAnswerInput('');
 
