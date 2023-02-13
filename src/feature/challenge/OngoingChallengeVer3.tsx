@@ -1,8 +1,10 @@
 import styled, { keyframes } from 'styled-components';
 import React from 'react';
+import { useRecoilValue } from 'recoil';
 import { Button, MiniTitle, Paragraph, Card } from '../../components';
 import { IChallengeAllProps, IChallengeItem } from '../../interface/challenge';
 import OngoingChallengeCard, { IOngoingChallengeCardProps } from './OngoingChallengeCard';
+import { isLoggedInState } from '../../recoil';
 
 const Badge = styled.div`
   display: flex;
@@ -132,6 +134,19 @@ const NonOngoing = () => {
   );
 };
 
+const NoLogin = () => {
+  /** TODO 진행중인 챌린지가 없을 때 만들기 */
+  return (
+    <div style={{ padding: ' 0px' }}>
+      <CardHeader>
+        <MiniTitle sizeType="xl" textAlign="left">
+          진행중인 챌린지가 없어요.. ㅠ
+        </MiniTitle>
+      </CardHeader>
+    </div>
+  );
+};
+
 // - (Monthly) 휴일 공부 챌린지 (휴일에 깃허브 커밋으로 체크)
 // - (Monthly) 1달 10회 답변 챌린지
 // - (Monthly) 1달 10회 퇴근 후 공부 챌린지
@@ -202,6 +217,8 @@ const OngoingChallengeVer3 = ({ challengeList }: IChallengeAllProps) => {
     },
   ];
 
+  const isLogin = useRecoilValue(isLoggedInState);
+  console.log(isLogin);
   const onGoingChallengeList = challengeList.filter((item) => item.state === 'ONGOING');
 
   return (
@@ -229,7 +246,8 @@ const OngoingChallengeVer3 = ({ challengeList }: IChallengeAllProps) => {
               </Flip>
             );
           })}
-        {onGoingChallengeList.length === 0 && <NonOngoing />}
+        {isLogin && onGoingChallengeList.length === 0 && <NonOngoing />}
+        {!isLogin && onGoingChallengeList.length === 0 && <NoLogin />}
       </StyledWrapper>
     </div>
   );

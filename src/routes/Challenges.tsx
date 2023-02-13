@@ -7,7 +7,7 @@ const Challenges = () => {
       <Helmet>
         <title>트라이캐치 | 챌린지</title>
       </Helmet>
-      <Outlet />;
+      <Outlet />
     </>
   );
 };
