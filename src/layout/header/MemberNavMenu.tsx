@@ -6,10 +6,11 @@ import React from 'react';
 import { IconBookmarkFill, IconUserCircle } from '../../components/icons/Icons';
 import { BOOKMARK_PAGE_NAME } from '../../constant';
 import { Paragraph } from '../../components';
-import { accToken, isDarkState, isLoggedInState, refToken } from '../../recoil';
+import { isDarkState, isLoggedInState } from '../../recoil';
 import { getImage, getName } from '../../apis/auth/auth';
 import { Ul } from './NavMenu';
 import NoticeBell from './NoticeBell';
+import getAccToken from '../../utils/getAccToken';
 
 const Bookmark = styled(NavLink)``;
 
@@ -94,8 +95,8 @@ const Line = styled.div`
 
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
-  const acc = useRecoilValue(accToken);
-  const { data: profileImage } = useQuery(['user', 'profileImage'] as const, () => getImage(acc));
+  const acc = getAccToken();
+  const { data: profileImage } = useQuery(['user', 'profileImage'] as const, () => getImage(acc!));
   const { data: userName } = useQuery(['user', 'userName'] as const, getName, {
     enabled: !!profileImage,
   });
@@ -113,13 +114,13 @@ const MemberNavMenu = () => {
   };
 
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
-  const setAccToken = useSetRecoilState(accToken);
-  const setRefToken = useSetRecoilState(refToken);
+  // const setAccToken = useSetRecoilState(accToken);
+  // const setRefToken = useSetRecoilState(refToken);
   const logout = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsLoggedIn(false);
-    setAccToken('');
-    setRefToken('');
+    localStorage.removeItem('accToken');
+    localStorage.removeItem('refToken');
     navi('/');
   };
 

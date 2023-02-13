@@ -4,14 +4,16 @@ import { HelmetProvider } from 'react-helmet-async';
 import { Outlet } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { accToken, isDarkState, isLoggedInState, toastState } from './recoil';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { isDarkState, isLoggedInState, toastState } from './recoil';
 import { darkTheme, lightTheme } from './styles/theme';
 import Toast from './feature/toast/Toast';
 import notificationsState, { INotification } from './recoil/notificationsState';
 import { API_URL } from './constant';
 import { logOnDev } from './utils/logging';
 import elapsedTime from './utils/elapsed-time';
+import SEOMetaTag from './components/seo/SEOMetaTag';
+import getAccToken from './utils/getAccToken';
 
 const GlobalStyles = createGlobalStyle`
   *{
@@ -68,7 +70,7 @@ function App() {
   const isDark = useRecoilValue(isDarkState);
   const { isVisible } = useRecoilValue(toastState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
-  const acc = useRecoilValue(accToken);
+  const acc = getAccToken();
 
   const [isConnected, setIsConnected] = useState(false); // State to track the connection status
   const [notifications, setNotifications] = useRecoilState(notificationsState);

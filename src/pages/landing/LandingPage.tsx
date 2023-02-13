@@ -7,7 +7,7 @@ import MarqueeLogoCard from '../../feature/landing/marquee-logo-wall/MarqueeLogo
 import LandingTitle from '../../feature/landing/landing-title/LandingTitle';
 import { ReactComponent as LogoDarkTheme } from '../../assets/vertical_logo_dark_theme.svg';
 import { ReactComponent as LogoLightTheme } from '../../assets/vertical_logo_light_theme.svg';
-import { accToken, isDarkState, isLoggedInState, refToken } from '../../recoil';
+import { isDarkState, isLoggedInState } from '../../recoil';
 import { QuestionPageBody } from '../qna/QnaPage';
 import IntroSection from '../../feature/landing/Sections/IntroSection';
 import QnASection from '../../feature/landing/Sections/QnASection';
@@ -85,8 +85,6 @@ const LogoWrapper = styled.div`
 
 const LandingPage = () => {
   const isDark = useRecoilValue(isDarkState);
-  const setAccToken = useSetRecoilState(accToken);
-  const setRefToken = useSetRecoilState(refToken);
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
   const { ref: logoRef, inView } = useInView({ triggerOnce: true });
 
@@ -95,13 +93,11 @@ const LandingPage = () => {
 
     const params = new URLSearchParams(window.location.search);
     if (params.get('acc') && params.get('ref')) {
-      setAccToken(params.get('acc') as string);
-      setRefToken(params.get('ref') as string);
-      setIsLoggedIn(true);
       localStorage.setItem('accToken', params.get('acc') as string);
       localStorage.setItem('refToken', params.get('ref') as string);
+      setIsLoggedIn(true);
     }
-  }, [setAccToken, setIsLoggedIn, setRefToken]);
+  }, [setIsLoggedIn]);
 
   return (
     <Layout>
