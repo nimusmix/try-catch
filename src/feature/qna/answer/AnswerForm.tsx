@@ -55,12 +55,12 @@ const Editor = styled.textarea`
 const AnswerForm = ({ questionId }: { questionId: string }) => {
   const [answerInput, setAnswerInput] = useState('');
   const queryClient = useQueryClient();
-  const { data: answerDetail, mutate: addAnswer } = useMutation(
+  const { mutate: addAnswer } = useMutation(
     postAnswer(questionId as string, { content: answerInput }),
     {
-      onSuccess: () => {
+      onSuccess: (data) => {
         logOnDev.log('댓글 작성 성공');
-        logOnDev.log('앤서 디테일', answerDetail);
+        logOnDev.log('앤서 디테일', data);
         queryClient.invalidateQueries(['question', questionId]);
         setAnswerInput('');
       },
