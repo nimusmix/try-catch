@@ -36,7 +36,7 @@ const QuestionList = ({
         query: keyword,
         page: pageParam,
         category: activeCategory as 'DEV' | 'CAREER' | 'BALANCE',
-        size: 20,
+        size: 10,
       };
       return getQuestionList(params);
     },
@@ -105,7 +105,6 @@ const QuestionList = ({
         fetchNextPage();
       }
     };
-
     if (!isFetchingNextPage) window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [fetchNextPage, isFetchingNextPage]);
