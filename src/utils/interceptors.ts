@@ -6,14 +6,11 @@ import axios, {
   InternalAxiosRequestConfig,
 } from 'axios';
 /* eslint-disable no-useless-concat */
-import { useSetRecoilState } from 'recoil';
-import { accToken } from '../recoil/tokenState';
 import { logOnDev } from './logging';
 import { API_URL } from '../constant';
 import { api } from './axios-instance';
 
 const TokenInterceptor = (instance: AxiosInstance) => {
-  console.log('1. 토큰 인터셉터 1번째');
   instance.interceptors.request.use(
     (config) => {
       const axiosConfig = config;
@@ -21,7 +18,6 @@ const TokenInterceptor = (instance: AxiosInstance) => {
       axiosConfig.headers = new AxiosHeaders({
         Authorization: token,
       });
-      console.log('여기는 토큰 인터셉터. 헤더에 토큰 저장함');
       return axiosConfig;
     },
     (error: AxiosError) => Promise.reject(error.response)
