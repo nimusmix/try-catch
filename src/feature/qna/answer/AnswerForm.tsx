@@ -62,6 +62,7 @@ const AnswerForm = ({ questionId }: { questionId: string }) => {
         logOnDev.log('댓글 작성 성공');
         queryClient.invalidateQueries(['question', questionId]);
         setAnswerInput('');
+        console.log('앤서 디테일', answerDetail);
       },
       onError: () => {},
     }
@@ -71,7 +72,6 @@ const AnswerForm = ({ questionId }: { questionId: string }) => {
 
   const onClickAddAnswer = () => {
     addAnswer();
-    console.log(answerDetail);
   };
 
   return (
