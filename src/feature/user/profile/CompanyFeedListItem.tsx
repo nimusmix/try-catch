@@ -134,13 +134,13 @@ const CompanyFeedListItem = ({
 
   const unBookmark = useMutation(putBookmark, {
     onSuccess: () => {
-      queryClient.invalidateQueries(['companyDetail']);
+      queryClient.invalidateQueries(['companyId']);
     },
   });
 
   const bookmark = useMutation(postBookmark, {
     onSuccess: () => {
-      queryClient.invalidateQueries(['companyDetail']);
+      queryClient.invalidateQueries(['companyId']);
     },
   });
 
