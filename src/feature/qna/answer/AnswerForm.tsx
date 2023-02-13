@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import { useRecoilState } from 'recoil';
 import { useMutation, useQueryClient } from 'react-query';
 import { Button, MiniTitle } from '../../../components';
-import { postAnswer, answerCommit } from '../../../apis/answer/answer';
-import { logOnDev } from '../../../utils/logging';
+import { answerCommit, postAnswer } from '../../../apis/answer/answer';
 import CommitCheckModal from './CommitCheckModal';
 import isModalOpenedState from '../../../recoil/isModalOpenedState';
 

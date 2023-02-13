@@ -27,7 +27,8 @@ interface IQnaDetailPopularQnaProps {
 
 const PopularQnaWrapper = styled(Div)`
   background-color: ${({ theme: { isDark } }) => (isDark ? 'rgba(46, 52, 64, 1)' : '#f7f8ff')};
-  border: ${({ theme: { isDark } }) => (isDark ? '' : '1px solid var(--colors-brand-200)')};
+  border: ${({ theme: { isDark } }) =>
+    isDark ? 'rgb(46, 52, 64)' : '1px solid var(--colors-brand-200)'};
   border-radius: var(--borders-radius-base);
   max-width: 288px;
   min-width: 288px;

@@ -18,7 +18,8 @@ import QuestionDeleteModal from './QuestionDeleteModal';
 const DropContainer = styled(DropLiContainer)`
   padding: 0;
   min-width: 120px;
-  background-color: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-100)')};
+  background-color: ${({ theme: { isDark } }) =>
+    isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-100)'};
   text-align: left;
   translate: -95px;
   border: none;
