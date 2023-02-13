@@ -1,6 +1,5 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { useInView } from 'react-intersection-observer';
 import React, { useEffect } from 'react';
 import Layout from '../../layout/Layout';
 import MarqueeLogoCard from '../../feature/landing/marquee-logo-wall/MarqueeLogoCard';
@@ -21,72 +20,13 @@ const LandingPageBody = styled(QuestionPageBody)`
   flex-direction: column;
 `;
 
-const bounceInTop = keyframes`
-  0% {
-  -webkit-transform: translateY(-500px);
-  transform: translateY(-500px);
-  -webkit-animation-timing-function: ease-in;
-  animation-timing-function: ease-in;
-  opacity: 0;
-}
-  38% {
-  -webkit-transform: translateY(0);
-  transform: translateY(0);
-  -webkit-animation-timing-function: ease-out;
-  animation-timing-function: ease-out;
-  opacity: 1;
-}
-  55% {
-  -webkit-transform: translateY(-65px);
-  transform: translateY(-65px);
-  -webkit-animation-timing-function: ease-in;
-  animation-timing-function: ease-in;
-}
-  72% {
-  -webkit-transform: translateY(0);
-  transform: translateY(0);
-  -webkit-animation-timing-function: ease-out;
-  animation-timing-function: ease-out;
-}
-  81% {
-  -webkit-transform: translateY(-28px);
-  transform: translateY(-28px);
-  -webkit-animation-timing-function: ease-in;
-  animation-timing-function: ease-in;
-}
-  90% {
-  -webkit-transform: translateY(0);
-  transform: translateY(0);
-  -webkit-animation-timing-function: ease-out;
-  animation-timing-function: ease-out;
-}
-  95% {
-  -webkit-transform: translateY(-8px);
-  transform: translateY(-8px);
-  -webkit-animation-timing-function: ease-in;
-  animation-timing-function: ease-in;
-}
-  100% {
-  -webkit-transform: translateY(0);
-  transform: translateY(0);
-  -webkit-animation-timing-function: ease-out;
-  animation-timing-function: ease-out;
-}
-`;
-
 const LogoWrapper = styled.div`
   align-self: flex-start;
-  visibility: hidden;
-  &.active {
-    visibility: visible;
-    animation: ${bounceInTop} 0.75s;
-  }
 `;
 
 const LandingPage = () => {
   const isDark = useRecoilValue(isDarkState);
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
-  const { ref: logoRef, inView } = useInView({ triggerOnce: true });
 
   useEffect(() => {
     if (!window.location.search) return;
@@ -110,7 +50,7 @@ const LandingPage = () => {
       />
       <MarqueeLogoCard />
       <LandingPageBody>
-        <LogoWrapper ref={logoRef} className={inView ? 'active' : ''}>
+        <LogoWrapper>
           {isDark && <LogoDarkTheme width="100%" height="200" />}
           {isDark || <LogoLightTheme width="100%" height="200" />}
         </LogoWrapper>

@@ -20,8 +20,8 @@ const QuestionList = ({
   const keyword = useRecoilValue(qnaSearchKeywordState);
 
   useEffect(() => {
-    logOnDev.log(keyword);
-  }, [keyword]);
+    logOnDev.log(keyword, filter);
+  }, [keyword, filter]);
 
   // TODO 나중에 search 엔드포인트 변경되면 그때 바꾸면 됨
   const {
@@ -65,23 +65,26 @@ const QuestionList = ({
             pages: data.pages.map((page) => ({
               data: page.data.filter((item) => {
                 // 해결됨
-                if (filter === 'solved')
+                if (filter === 'solved') {
                   return (
-                    (item.isSolved &&
-                      (item.title.includes(keyword) || item.content.includes(keyword))) ||
-                    item.tags.some((tag) => tag.toLocaleLowerCase() === keyword)
+                    item.isSolved &&
+                    (item.title.toLocaleLowerCase().includes(keyword) ||
+                      item.content.toLocaleLowerCase().includes(keyword) ||
+                      item.tags.some((tag) => tag.toLocaleLowerCase() === keyword))
                   );
+                }
                 // 미해결
                 if (filter === 'unSolved')
                   return (
-                    (!item.isSolved &&
-                      (item.title.includes(keyword) || item.content.includes(keyword))) ||
-                    item.tags.some((tag) => tag.toLocaleLowerCase() === keyword)
+                    !item.isSolved &&
+                    (item.title.toLocaleLowerCase().includes(keyword) ||
+                      item.content.toLocaleLowerCase().includes(keyword) ||
+                      item.tags.some((tag) => tag.toLocaleLowerCase() === keyword))
                   );
                 // 전체
                 return (
-                  item.title.includes(keyword) ||
-                  item.content.includes(keyword) ||
+                  item.title.toLocaleLowerCase().includes(keyword) ||
+                  item.content.toLocaleLowerCase().includes(keyword) ||
                   item.tags.some((tag) => tag.toLocaleLowerCase() === keyword)
                 );
               }),
@@ -89,6 +92,7 @@ const QuestionList = ({
             pageParams: data.pageParams,
           };
         }
+        console.log(filteredData);
         return { ...filteredData };
       },
     }
