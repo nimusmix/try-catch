@@ -12,6 +12,7 @@ import notificationsState, { INotification } from './recoil/notificationsState';
 import { API_URL, SITE_URL } from './constant';
 import { logOnDev } from './utils/logging';
 import elapsedTime from './utils/elapsed-time';
+import SEOMetaTag from './components/seo/SEOMetaTag';
 
 const GlobalStyles = createGlobalStyle`
   *{
@@ -182,17 +183,14 @@ function App() {
 
   return (
     <HelmetProvider>
+      <SEOMetaTag
+        title="트라이캐치"
+        description="함께 지식과 경험을 공유하며 좋은 개발자로 성장해요!"
+        keywords="개발자,SNS,깃허브,질문,스택오버플로우,블로그,기술블로그,챌린지,웹,개발"
+        img={new URL(`../assets/thumbnail.png`, import.meta.url).href}
+        siteUrl={SITE_URL}
+      />
       <Helmet>
-        <meta content="트라이캐치" property="og:title" />
-        <meta
-          content="함께 지식과 경험을 공유하며 좋은 개발자로 성장해요!"
-          property="og:description"
-        />
-        <meta
-          content={new URL(`../assets/thumbnail.png`, import.meta.url).pathname}
-          property="og:image"
-        />
-        <meta content={SITE_URL} property="og:url" />
         {isDark ? (
           <link href="https://unpkg.com/prism-themes/themes/prism-one-dark.css" rel="stylesheet" />
         ) : (
