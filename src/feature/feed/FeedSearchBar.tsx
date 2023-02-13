@@ -36,7 +36,8 @@ const StyledSearchBar = styled.div<{ isFocus: boolean }>`
   /* box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15); */
   /* background: #fff; */
   background-color: ${({ theme: { isDark } }) => (isDark ? 'rgba(36, 42, 54, 1)' : '#f7f8ff')};
-  border: ${({ theme: { isDark } }) => (isDark ? '' : '1px solid var(--colors-brand-200)')};
+  border: ${({ theme: { isDark } }) =>
+    isDark ? 'rgb(46, 52, 64)' : '1px solid var(--colors-brand-200)'};
 
   ${({ isFocus }) => isFocus && TextAreaFocus}
   input {

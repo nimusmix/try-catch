@@ -111,6 +111,7 @@ const QuestionList = ({
 
   return (
     <>
+      {/* 결과가 없으면 */}
       {questionList?.pages.reduce((acc, page) => acc + page.data.length, 0) === 0 && (
         <QuestionNoContent />
       )}

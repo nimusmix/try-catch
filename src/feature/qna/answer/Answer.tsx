@@ -29,7 +29,8 @@ const AnswerItem = styled.li`
   justify-content: start;
   width: 100%;
   background-color: ${({ theme: { isDark } }) => (isDark ? 'rgba(46, 52, 64, 1)' : '#f7f8ff')};
-  border: ${({ theme: { isDark } }) => (isDark ? '' : '1px solid var(--colors-brand-200)')};
+  border: ${({ theme: { isDark } }) =>
+    isDark ? 'rgb(46, 52, 64)' : '1px solid var(--colors-brand-200)'};
   border-radius: var(--borders-radius-base);
   margin-bottom: 2rem;
   padding: 0;

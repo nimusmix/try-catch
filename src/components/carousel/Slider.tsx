@@ -55,7 +55,8 @@ export const SliderItemDiv = styled.div`
   flex-direction: column;
   min-height: 7.5rem;
   background-color: ${({ theme: { isDark } }) => (isDark ? 'rgba(46, 52, 64, 1)' : '#f7f8ff')};
-  border: ${({ theme: { isDark } }) => (isDark ? '' : '1px solid var(--colors-brand-200)')};
+  border: ${({ theme: { isDark } }) =>
+    isDark ? 'rgb(46, 52, 64)' : '1px solid var(--colors-brand-200)'};
   border-radius: var(--borders-radius-base);
   cursor: pointer;
   padding: 1rem 1.5rem;
