@@ -11,7 +11,7 @@ import { API_URL } from '../constant';
 import { api } from './axios-instance';
 import getAccToken from './getAccToken';
 
-const TokenInterceptor = (instance: AxiosInstance) => {
+const tokenInterceptor = (instance: AxiosInstance) => {
   instance.interceptors.request.use(
     (config) => {
       const axiosConfig = config;
@@ -30,7 +30,6 @@ const TokenInterceptor = (instance: AxiosInstance) => {
     },
 
     async (error) => {
-      console.log('reponse 에러 발생');
       const {
         config,
         response: { status },
@@ -38,14 +37,13 @@ const TokenInterceptor = (instance: AxiosInstance) => {
 
       if (status === 401) {
         const originalRequest = config;
-        const refToken = JSON.parse(window.localStorage.getItem('refToken')!)?.refToken;
-        console.log('리프레시 토큰 출력', refToken);
+        const refToken = window.localStorage.getItem('refToken');
 
         // 토큰 refresh 요청
         const data = await axios.get(`https://${API_URL}/token/refresh`, {
           headers: { RefreshToken: refToken },
         });
-        console.log('토큰 리프레시 요청해서 받은 데이터', data);
+
         // 요청 후 새롭게 받은 accToken을 저장
         const {
           data: { acc: newAccToken },
@@ -107,4 +105,4 @@ const setupInterceptorsTo = (axiosInstance: AxiosInstance): AxiosInstance => {
   return axiosInstance;
 };
 
-export { TokenInterceptor, setupInterceptorsTo };
+export { tokenInterceptor, setupInterceptorsTo };
