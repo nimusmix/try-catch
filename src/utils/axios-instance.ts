@@ -27,29 +27,32 @@ const axiosAuthApi = (url: string, options: AxiosRequestConfig = {}) => {
     const setAccToken = useSetRecoilState(accToken);
     const setRefToken = useSetRecoilState(refToken);
 
-    const { status } = await axios({
+    const res = await axios({
       method: 'get',
       url: `${BASE_URL}/token/expired`,
       headers: {
         Authorization: accToken,
       },
     });
-    console.log('스테이터스', status);
-    if (status === 200) {
+
+    console.log('resonse', res);
+
+    if (res.status === 200) {
       return;
     }
 
-    if (status === 401) {
+    if (res.status === 401) {
       const refToken = JSON.parse(window.localStorage.getItem('refToken')!)?.refToken;
 
       try {
-        const { headers } = await axios({
+        const refTokenRes = await axios({
           method: 'get',
           url: '/token/refresh',
           headers: { RefreshToken: refToken },
         });
 
-        const newAccToken = headers.acc;
+        console.log('리프레시리스폰스', refTokenRes);
+        const newAccToken = refTokenRes.headers.acc;
         setAccToken(newAccToken);
       } catch (err) {
         setIsLoggedIn(false);
