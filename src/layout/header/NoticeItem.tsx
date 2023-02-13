@@ -28,7 +28,7 @@ const DropList = styled.li`
   }
 
   .notice-title {
-    width: 10rem;
+    max-width: 10rem;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -62,12 +62,12 @@ const Dot = styled.span`
   background-color: var(--colors-brand-500);
   margin-right: 1rem;
 `;
-const NoticeItem = ({ from, title, id, type, timestamp }: INotification) => {
+const NoticeItem = ({ from, title, type, timestamp }: INotification) => {
   const navigate = useNavigate();
   let onClick;
 
   if (type === 'follow') {
-    onClick = () => navigate(`/proflie/${title}`);
+    onClick = () => navigate(`/profile/${title}`);
   }
 
   if (type === 'answerRegistration' || type === 'answerAcceptance') {
@@ -88,7 +88,7 @@ const NoticeItem = ({ from, title, id, type, timestamp }: INotification) => {
           )}
           {type === 'answerRegistration' && (
             <p>
-              글에 누군가<strong>답변</strong>을 남겼어요
+              글에 누군가 <strong>답변</strong>을 남겼어요
             </p>
           )}
           {type === 'answerAcceptance' && (

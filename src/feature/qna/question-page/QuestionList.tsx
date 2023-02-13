@@ -111,7 +111,9 @@ const QuestionList = ({
 
   return (
     <>
-      {questionList?.pages.flat().length === 0 && <QuestionNoContent />}
+      {questionList?.pages.reduce((acc, page) => page.data.length, 0) === 0 && (
+        <QuestionNoContent />
+      )}
       <ul>
         {questionList?.pages?.map((page, index) => {
           return (
