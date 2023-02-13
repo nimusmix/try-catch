@@ -96,6 +96,8 @@ const LandingPage = () => {
       setAccToken(params.get('acc') as string);
       setRefToken(params.get('ref') as string);
       setIsLoggedIn(true);
+      localStorage.setItem('accToken', params.get('acc') as string);
+      localStorage.setItem('refToken', params.get('ref') as string);
     }
   }, [setAccToken, setIsLoggedIn, setRefToken]);
 

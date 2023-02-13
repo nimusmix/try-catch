@@ -16,7 +16,6 @@ const axiosAuthApi = (url: string, options: AxiosRequestConfig = {}) => {
     baseURL: url,
     ...options,
   });
-  console.log('여기는 axiosAuthApi. 토큰 주입 전');
   // 토큰 주입
   TokenInterceptor(instance);
   return setupInterceptorsTo(instance);
