@@ -13,6 +13,9 @@ const Card = styled(Div)<{ width?: string }>`
 
   cursor: pointer;
   transition: box-shadow 0.5s ease, translate 0.5s ease;
+  background-color: ${({ theme: { isDark } }) =>
+    isDark ? 'rgba(46, 52, 64, 1)' : 'var(--colors-white-500)'};
+
   &:hover {
     box-shadow: ${({ theme: { isDark } }) =>
       isDark
