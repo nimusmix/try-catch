@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { HelmetProvider } from 'react-helmet-async';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Outlet } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
@@ -194,6 +194,7 @@ function App() {
         img={new URL(`/src/assets/thumbnail.png`, import.meta.url).href}
         siteUrl={SITE_URL}
       />
+      <Helmet />
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
           {isVisible && <Toast />}
