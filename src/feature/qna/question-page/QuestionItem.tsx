@@ -83,6 +83,7 @@ const QuestionFooter = styled.div`
 `;
 
 const TagsWrapper = styled.div`
+  width: 70%;
   & > span {
     display: inline-flex;
     margin-right: 0.5rem;
