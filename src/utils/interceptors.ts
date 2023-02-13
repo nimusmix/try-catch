@@ -1,20 +1,21 @@
-import {
+import axios, {
   AxiosError,
   AxiosHeaders,
   AxiosInstance,
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
+import { useSetRecoilState } from 'recoil';
+import { accToken, refToken } from '../recoil/tokenState';
 /* eslint-disable no-useless-concat */
 import { logOnDev } from './logging';
+import isLoggedInState from '../recoil/isLoggedInState';
 
 const tokenInterceptor = (instance: AxiosInstance) => {
   instance.interceptors.request.use(
     (config) => {
       const axiosConfig = config;
-      // const token = getItem('jwt_token')
       const token = JSON.parse(window.sessionStorage.getItem('accToken')!)?.accToken;
-      logOnDev.dir(token);
       axiosConfig.headers = new AxiosHeaders({
         Authorization: token,
       });
@@ -23,6 +24,51 @@ const tokenInterceptor = (instance: AxiosInstance) => {
     (error: AxiosError) => Promise.reject(error.response)
   );
   return instance;
+};
+
+const TokenRefresher = (instance: AxiosInstance) => {
+  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  const setAccToken = useSetRecoilState(accToken);
+  const setRefToken = useSetRecoilState(refToken);
+  instance.interceptors.response.use(
+    (response) => response,
+
+    async (error: any) => {
+      const {
+        config,
+        response: { status },
+      } = error;
+
+      const originalRequest = config;
+
+      if (status === 401) {
+        const refToken = JSON.parse(window.localStorage.getItem('refToken')!)?.refToken;
+        const accToken = JSON.parse(window.sessionStorage.getItem('accToken')!)?.accToken;
+
+        try {
+          const { headers } = await axios({
+            method: 'get',
+            url: '/token/refresh',
+            headers: { RefreshToken: refToken },
+          });
+          console.log('헤더 프린트', headers);
+          const newAccToken = headers.acc;
+          originalRequest.headers = {
+            ...originalRequest.headers,
+            Authorization: newAccToken,
+          };
+          setAccToken(newAccToken);
+          return await axios(originalRequest);
+        } catch (err) {
+          setIsLoggedIn(false);
+          setAccToken('');
+          setRefToken('');
+          window.location.reload();
+        }
+      }
+      return Promise.reject(error);
+    }
+  );
 };
 
 const onRequest = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
@@ -71,4 +117,4 @@ const setupInterceptorsTo = (axiosInstance: AxiosInstance): AxiosInstance => {
   return axiosInstance;
 };
 
-export { tokenInterceptor, setupInterceptorsTo };
+export { tokenInterceptor, setupInterceptorsTo, TokenRefresher };
