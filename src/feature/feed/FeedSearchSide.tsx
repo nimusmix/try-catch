@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Checkbox, Paragraph } from '../../components';
+import { Button, Checkbox, Paragraph } from '../../components';
 import FeedSearchBar from './FeedSearchBar';
 import FeedTag from './FeedTag';
+import { IconRefresh } from '../../components/icons/Icons';
 
 const searchFilterList = [
   {
@@ -26,7 +28,7 @@ const SearchFilterWrapper = styled.div`
 const CheckboxWrapper = styled.label`
   display: flex;
   flex-direction: row;
-  margin-left: 1rem;
+  margin-left: 0.5rem;
 
   /* TOOLTIP */
   [data-tooltip] {
@@ -67,13 +69,40 @@ const CheckboxWrapper = styled.label`
   }
 `;
 
+const Hr = styled.hr`
+  margin: 0px 0px 18px;
+  height: 0;
+  overflow: visible;
+  border: solid 0.5px
+    ${({ theme: { isDark } }) => (isDark ? `var(--colors-black-200)` : 'rgb(8 60 130 / 6%)')};
+`;
+
 const FilterTitle = styled(Paragraph)``;
 interface FeedSearchProps {
   tagListProps: Array<string>;
   getCheckData: (data: Array<number>) => void;
+  keyword: string;
 }
 
-const FeedSearchSide = ({ tagListProps, getCheckData }: FeedSearchProps) => {
+const FeedSearchWrapper = styled.div`
+  border-radius: 15px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 20px;
+  color: #272b41;
+  font-size: 15px;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  list-style: none;
+  position: relative;
+  background: #fff;
+  transition: all 300ms ease 0s;
+  box-shadow: rgb(8 60 130 / 6%) 0px 0px 0px 0.05rem, rgb(30 34 40 / 4%) 0rem 0rem 1.25rem;
+  margin-bottom: 25px !important;
+  background-color: ${({ theme: { isDark } }) => (isDark ? 'rgba(46, 52, 64, 1)' : 'fff')};
+`;
+
+const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps) => {
   const [checkedItems, setCheckedItems] = useState<Array<number>>([]);
 
   const handleSingleCheck = (checked: boolean, id: number) => {
@@ -90,16 +119,27 @@ const FeedSearchSide = ({ tagListProps, getCheckData }: FeedSearchProps) => {
   };
 
   const advanced = document.getElementById('고급검색') as HTMLParagraphElement;
-  if (advanced)
-    advanced.setAttribute(
-      'data-tooltip',
-      `💡 고급 검색 가이드
-  `
-    );
+  if (advanced) advanced.setAttribute('data-tooltip', `💡 고급 검색 가이드`);
+
+  const navigate = useNavigate();
 
   return (
-    <>
+    <FeedSearchWrapper>
       <SearchFilterWrapper>
+        {keyword.length > 0 && (
+          <Button
+            onClick={() => navigate(`/feed`)}
+            as="span"
+            designType="redFill"
+            fontSize="var(--fonts-body-xm)"
+            padding="0.1rem 0.5rem"
+            borderRadius="var(--borders-radius-base)"
+            style={{ fontWeight: '500' }}
+          >
+            초기화
+            <IconRefresh />
+          </Button>
+        )}
         {searchFilterList.map((filterItem) => {
           const isChecked = !!checkedItems.includes(filterItem.id);
 
@@ -119,8 +159,41 @@ const FeedSearchSide = ({ tagListProps, getCheckData }: FeedSearchProps) => {
       </SearchFilterWrapper>
 
       <FeedSearchBar />
-      <FeedTag tags={tagListProps} />
-    </>
+      {keyword.length > 0 && (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            textAlign: 'center',
+            marginBottom: '1rem',
+          }}
+        >
+          <Paragraph sizeType="sm" margin="auto 0.5rem auto 0">
+            검색 키워드:{'  '}
+          </Paragraph>
+          <Paragraph sizeType="base">
+            <Button
+              as="span"
+              designType="grayFill"
+              fontSize="var(--fonts-body-sm)"
+              padding="0 0.5rem"
+              borderRadius="var(--borders-radius-base)"
+              style={{ fontWeight: '500', margin: '0px' }}
+            >
+              {keyword}
+            </Button>
+          </Paragraph>
+        </div>
+      )}
+
+      <Hr />
+      <div>
+        <Paragraph sizeType="base" padding="0" margin="0 0 15px 0">
+          추천 태그 🏷️
+        </Paragraph>
+        <FeedTag tags={tagListProps} />
+      </div>
+    </FeedSearchWrapper>
   );
 };
 
