@@ -87,6 +87,7 @@ const TagsWrapper = styled.div`
   & > span {
     display: inline-flex;
     margin-right: 0.5rem;
+    margin-bottom: 0.25rem;
   }
 `;
 
@@ -155,7 +156,7 @@ const QuestionItem = ({
   viewCount,
   likeCount,
   answerCount,
-  tags,
+  tags = [],
   isSolved,
   isLiked,
   ...rest
@@ -220,7 +221,7 @@ const QuestionItem = ({
 
       <QuestionFooter>
         <TagsWrapper>
-          {tags?.map((tag) => {
+          {tags?.slice(0, 10).map((tag) => {
             if (tag === '') return null;
             return (
               <Tag
@@ -239,6 +240,16 @@ const QuestionItem = ({
               </Tag>
             );
           })}
+          {tags?.length > 10 && (
+            <Tag
+              as="span"
+              fontSize="var(--fonts-body-xm)"
+              padding="2px 10px"
+              borderRadius="var(--borders-radius-lg)"
+            >
+              <span className="tag-text">+ {tags.length - 10}</span>
+            </Tag>
+          )}
         </TagsWrapper>
         <InfoWrapper>
           <Paragraph as="span" sizeType="sm">
