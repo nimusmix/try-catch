@@ -18,7 +18,7 @@ const axiosAuthApi = (url: string, options: AxiosRequestConfig = {}) => {
   });
   // 토큰 주입
   tokenInterceptor(instance);
-  TokenRefresher(instance);
+  // TokenRefresher(instance);
   return setupInterceptorsTo(instance);
 };
 
