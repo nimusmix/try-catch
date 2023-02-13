@@ -175,7 +175,7 @@ const Footer = () => {
           </Mid>
           <Right>
             <Paragraph sizeType="base">sponsored by</Paragraph>
-            <img src={new URL(`../../assets/ssafy.png`, import.meta.url).href} alt="ssafy" />
+            <img src={new URL(`/src/assets/ssafy.png`, import.meta.url).href} alt="ssafy" />
           </Right>
         </FooterMain>
       </div>

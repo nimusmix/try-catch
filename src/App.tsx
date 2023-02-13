@@ -187,7 +187,7 @@ function App() {
         title="트라이캐치"
         description="함께 지식과 경험을 공유하며 좋은 개발자로 성장해요!"
         keywords="개발자,SNS,깃허브,질문,스택오버플로우,블로그,기술블로그,챌린지,웹,개발"
-        img={new URL(`../assets/thumbnail.png`, import.meta.url).href}
+        img={new URL(`/src/assets/thumbnail.png`, import.meta.url).href}
         siteUrl={SITE_URL}
       />
       <Helmet>
