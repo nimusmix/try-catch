@@ -108,7 +108,7 @@ function App() {
             const followNotification: INotification = {
               ...data,
               timestamp: elapsedTime(data.timestamp),
-              title: `${data.title}님이 팔로우 했어요`,
+              title: data.title,
             };
             setNotifications((prevNotification) => [followNotification, ...prevNotification]);
           }
@@ -120,7 +120,7 @@ function App() {
             const answerAcceptanceNotification: INotification = {
               ...data,
               timestamp: elapsedTime(data.timestamp),
-              title: `${data.title}글에 작성한 답변이 채택됐어요`,
+              title: data.title,
             };
             setNotifications((prevNotification) => [
               answerAcceptanceNotification,
@@ -135,7 +135,7 @@ function App() {
             const answerRegistrationNotification: INotification = {
               ...data,
               timestamp: elapsedTime(data.timestamp),
-              title: `${data.title}글에 누군가 답변을 해줬어요`,
+              title: data.title,
             };
             setNotifications((prevNotification) => [
               answerRegistrationNotification,
