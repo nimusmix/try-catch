@@ -83,6 +83,7 @@ function App() {
     sseEvents.current.addEventListener('open', (e) => {
       logOnDev.log('sse 연결됨');
       setIsConnected(true);
+      setNotifications([]);
       logOnDev.dir(e);
     });
     // error 발생시
@@ -164,7 +165,7 @@ function App() {
   // 재연결
   useEffect(() => {
     let reconnectTimeout: NodeJS.Timeout;
-    if (!isConnected) {
+    if (!isConnected && isLoggedIn) {
       reconnectTimeout = setTimeout(() => {
         connect();
       }, 5000);
@@ -173,7 +174,7 @@ function App() {
     return () => {
       clearTimeout(reconnectTimeout);
     };
-  }, [connect, isConnected]);
+  }, [connect, isConnected, isLoggedIn]);
 
   useEffect(() => {
     logOnDev.log('알림 정보');
