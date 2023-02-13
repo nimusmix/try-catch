@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from 'react-query';
+import { useRecoilState } from 'recoil';
 import { Paragraph } from '../../components';
-import { INotification } from '../../recoil/notificationsState';
+import notificationsState, { INotification } from '../../recoil/notificationsState';
+import { putNotification } from '../../apis/notice/notice';
 
 const DropList = styled.li`
   position: relative;
@@ -62,16 +65,31 @@ const Dot = styled.span`
   background-color: var(--colors-brand-500);
   margin-right: 1rem;
 `;
-const NoticeItem = ({ from, title, type, timestamp }: INotification) => {
+const NoticeItem = ({ from, title, type, timestamp, id }: INotification) => {
+  const [notifications, setNotifications] = useRecoilState(notificationsState);
   const navigate = useNavigate();
+
+  const { mutate: readAlert } = useMutation(['notice', 'clear'], putNotification([id]), {
+    onSuccess: () => {
+      const newNotifications = notifications.filter((notice) => notice.id !== id);
+      return setNotifications([...newNotifications]);
+    },
+  });
+
   let onClick;
 
   if (type === 'follow') {
-    onClick = () => navigate(`/profile/${title}`);
+    onClick = () => {
+      readAlert();
+      navigate(`/profile/${title}`);
+    };
   }
 
   if (type === 'answerRegistration' || type === 'answerAcceptance') {
-    onClick = () => navigate(`/question/${from}`);
+    onClick = () => {
+      readAlert();
+      navigate(`/question/${from}`);
+    };
   }
 
   return (

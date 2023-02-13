@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
+import { useMutation } from 'react-query';
 import { IconBellFill } from '../../components/icons/Icons';
 import { MiniTitle, Paragraph } from '../../components';
 import { isDarkState } from '../../recoil';
 import notificationsState from '../../recoil/notificationsState';
 import NoticeItem from './NoticeItem';
+import { putNotification } from '../../apis/notice/notice';
 
 const Alert = styled.span``;
 
@@ -108,6 +110,14 @@ const NoticeBell = () => {
   const [notifications, setNotifications] = useRecoilState(notificationsState);
   const [noticeIsOpen, setNoticeIsOpen] = useState(false);
 
+  const { mutate: clearAlert } = useMutation(
+    ['notice', 'clear'],
+    putNotification([...notifications.map((notice) => notice.id)]),
+    {
+      onSuccess: () => setNotifications([]),
+    }
+  );
+
   return (
     <div style={{ cursor: 'pointer' }}>
       <NoticeDropdown
@@ -134,7 +144,7 @@ const NoticeBell = () => {
             <MiniTitle sizeType="xl" textAlign="left">
               새로운 알림이 <em className="count">{notifications.length}</em>개 있어요
             </MiniTitle>
-            <Paragraph sizeType="lg" textAlign="right" className="all">
+            <Paragraph sizeType="lg" textAlign="right" className="all" onClick={() => clearAlert()}>
               모두 읽음
             </Paragraph>
           </div>
