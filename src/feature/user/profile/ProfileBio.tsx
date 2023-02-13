@@ -64,7 +64,7 @@ const Tag = styled(Button)`
 `;
 
 const Introduction = styled.div`
-  padding: 3rem 0;
+  padding: 2rem 1.5rem 3rem;
 `;
 
 const ProfileBio = () => {
