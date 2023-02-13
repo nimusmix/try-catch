@@ -21,50 +21,51 @@ const axiosAuthApi = (url: string, options: AxiosRequestConfig = {}) => {
   });
 
   // 토큰 검증
-  const accToken = JSON.parse(window.sessionStorage.getItem('accToken')!)?.accToken;
-  const TokenCheck = async () => {
-    const setIsLoggedIn = useSetRecoilState(isLoggedInState);
-    const setAccToken = useSetRecoilState(accToken);
-    const setRefToken = useSetRecoilState(refToken);
+  // const accToken = JSON.parse(window.sessionStorage.getItem('accToken')!)?.accToken;
+  // const TokenCheck = async () => {
+  //   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  //   const setAccToken = useSetRecoilState(accToken);
+  //   const setRefToken = useSetRecoilState(refToken);
 
-    const res = await axios({
-      method: 'get',
-      url: `${BASE_URL}/token/expired`,
-      headers: {
-        Authorization: accToken,
-      },
-    });
+  //   const res = await axios({
+  //     method: 'get',
+  //     url: `${BASE_URL}/token/expired`,
+  //     headers: {
+  //       Authorization: accToken,
+  //     },
+  //   });
 
-    console.log('resonse', res);
+  //   console.log('resonse', res);
 
-    if (res.status === 200) {
-      return;
-    }
+  //   if (res.status === 200) {
+  //     return;
+  //   }
 
-    if (res.status === 401) {
-      const refToken = JSON.parse(window.localStorage.getItem('refToken')!)?.refToken;
+  //   if (res.status === 401) {
+  //     const refToken = JSON.parse(window.localStorage.getItem('refToken')!)?.refToken;
 
-      try {
-        const refTokenRes = await axios({
-          method: 'get',
-          url: '/token/refresh',
-          headers: { RefreshToken: refToken },
-        });
+  //     try {
+  //       const refTokenRes = await axios({
+  //         method: 'get',
+  //         url: '/token/refresh',
+  //         headers: { RefreshToken: refToken },
+  //       });
 
-        console.log('리프레시리스폰스', refTokenRes);
-        const newAccToken = refTokenRes.headers.acc;
-        setAccToken(newAccToken);
-      } catch (err) {
-        setIsLoggedIn(false);
-        setAccToken('');
-        setRefToken('');
-        window.location.reload();
-      }
-    }
-  };
-  TokenCheck().then(() => tokenInterceptor(instance));
+  //       console.log('리프레시리스폰스', refTokenRes);
+  //       const newAccToken = refTokenRes.headers.acc;
+  //       setAccToken(newAccToken);
+  //     } catch (err) {
+  //       setIsLoggedIn(false);
+  //       setAccToken('');
+  //       setRefToken('');
+  //       window.location.reload();
+  //     }
+  //   }
+  // };
+  // TokenCheck().then(() => tokenInterceptor(instance));
+
   // 토큰 주입
-  // tokenInterceptor(instance);
+  tokenInterceptor(instance);
   // TokenRefresher(instance);
   return setupInterceptorsTo(instance);
 };
