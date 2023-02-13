@@ -60,9 +60,9 @@ const AnswerForm = ({ questionId }: { questionId: string }) => {
     {
       onSuccess: () => {
         logOnDev.log('댓글 작성 성공');
+        logOnDev.log('앤서 디테일', answerDetail);
         queryClient.invalidateQueries(['question', questionId]);
         setAnswerInput('');
-        console.log('앤서 디테일', answerDetail);
       },
       onError: () => {},
     }
