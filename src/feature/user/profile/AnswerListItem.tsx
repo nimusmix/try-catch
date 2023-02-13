@@ -10,6 +10,11 @@ const ItemWrapper = styled.div`
   height: 232px;
   border-bottom: 1px solid ${({ theme }) => theme.borderColor};
   padding: 1rem;
+
+  &:hover {
+    background-color: ${({ theme: { isDark } }) =>
+      isDark ? 'var(--colors-black-400)' : 'var(--colors-white-400)'};
+  }
 `;
 
 const QuestionWrapper = styled.div`
