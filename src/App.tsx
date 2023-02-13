@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { HelmetProvider } from 'react-helmet-async';
 import { Outlet } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
@@ -191,13 +191,6 @@ function App() {
         img={new URL(`/src/assets/thumbnail.png`, import.meta.url).href}
         siteUrl={SITE_URL}
       />
-      <Helmet>
-        {isDark ? (
-          <link href="https://unpkg.com/prism-themes/themes/prism-one-dark.css" rel="stylesheet" />
-        ) : (
-          <link href="https://unpkg.com/prism-themes/themes/prism-one-light.css" rel="stylesheet" />
-        )}
-      </Helmet>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
           {isVisible && <Toast />}
