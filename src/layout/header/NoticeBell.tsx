@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useNavigate } from 'react-router-dom';
@@ -63,6 +63,7 @@ const DropContainer = styled.div`
     svg {
       font-size: 1.5rem;
       translate: 0 4px;
+      margin-left: 0.3rem;
     }
   }
 
@@ -74,7 +75,7 @@ const DropContainer = styled.div`
 
     .count {
       color: var(--colors-brand-500);
-      margin-right: 0.2rem;
+      margin-right: 0.3rem;
     }
 
     .all {
@@ -96,7 +97,7 @@ const DropContainer = styled.div`
 const DropUl = styled.ul`
   list-style: none;
   line-height: 1.75rem;
-  min-height: 200px;
+  min-height: 100px;
   max-height: 200px;
   overflow-y: scroll;
 `;
@@ -105,10 +106,17 @@ const NoticeBell = () => {
   const isDark = useRecoilValue(isDarkState);
   const navigate = useNavigate();
   const [notifications, setNotifications] = useRecoilState(notificationsState);
+  const [noticeIsOpen, setNoticeIsOpen] = useState(false);
 
   return (
     <div style={{ cursor: 'pointer' }}>
-      <NoticeDropdown noticeCount={notifications.length}>
+      <NoticeDropdown
+        noticeCount={notifications.length}
+        onClick={() => {
+          setNoticeIsOpen(true);
+          console.log(1);
+        }}
+      >
         <Alert>
           <IconBellFill
             color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
@@ -124,25 +132,33 @@ const NoticeBell = () => {
           </div>
           <div className="desc">
             <MiniTitle sizeType="xl" textAlign="left">
-              새로운 알림이 <em className="count">N</em>개 있어요
+              새로운 알림이 <em className="count">{notifications.length}</em>개 있어요
             </MiniTitle>
             <Paragraph sizeType="lg" textAlign="right" className="all">
               모두 읽음
             </Paragraph>
           </div>
           <DropUl id="notice-list">
-            {notifications.map((notice) => {
-              return (
-                <NoticeItem
-                  key={notice.id}
-                  id={notice.id}
-                  from={notice.from}
-                  title={notice.title}
-                  timestamp={notice.timestamp}
-                  type={notice.type}
-                />
-              );
-            })}
+            {notifications.length === 0 && (
+              <div style={{ translate: '0 2rem' }}>
+                <MiniTitle sizeType="xl" color="var(--colors-brand-500)">
+                  새로운 알림이 없어요 👀
+                </MiniTitle>
+              </div>
+            )}
+            {notifications.length > 0 &&
+              notifications.map((notice) => {
+                return (
+                  <NoticeItem
+                    key={notice.id}
+                    id={notice.id}
+                    from={notice.from}
+                    title={notice.title}
+                    timestamp={notice.timestamp}
+                    type={notice.type}
+                  />
+                );
+              })}
           </DropUl>
         </DropContainer>
       </NoticeDropdown>
