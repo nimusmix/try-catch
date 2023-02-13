@@ -12,3 +12,7 @@ export const putAnswer =
 export const selectAnswer = (questionId: number, answerId: number) => () => {
   return authApi.post(`/question/${questionId}/${answerId}`).then((res) => res.data);
 };
+
+export const answerCommit = (questionId: number, answerId: number) => {
+  return authApi.post(`/question/${questionId}/${answerId}/commit`);
+};
