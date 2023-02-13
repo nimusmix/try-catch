@@ -115,13 +115,13 @@ const MemberNavMenu = () => {
     navi('/settings');
   };
 
-  // const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
   // const setAccToken = useSetRecoilState(accToken);
   // const setRefToken = useSetRecoilState(refToken);
   const logout = (e: React.MouseEvent) => {
     e.preventDefault();
     // !!! 토큰 고침 !!!
-    // setIsLoggedIn(false);
+    setIsLoggedIn(false);
     // setAccToken('');
     // setRefToken('');
     localStorage.removeItem('accToken');
