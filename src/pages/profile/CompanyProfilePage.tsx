@@ -16,8 +16,10 @@ const ProfileWrapper = styled.div`
 
 const CompanyProfilePage = () => {
   const { companyName } = useParams();
-  const { data: id } = useQuery<number>(['companyId'], () => getCompanyId(companyName!));
-  const { data: company } = useQuery<ICompany>(['companyDetail'], () => getCompanyDetail(id!), {
+  const { data: id } = useQuery<number>(['companyId', companyName], () =>
+    getCompanyId(companyName!)
+  );
+  const { data: company } = useQuery<ICompany>(['companyDetail', id], () => getCompanyDetail(id!), {
     enabled: !!id,
   });
 
