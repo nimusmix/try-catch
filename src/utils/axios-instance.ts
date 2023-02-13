@@ -1,9 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { useSetRecoilState } from 'recoil';
 import { setupInterceptorsTo, TokenInterceptor } from './interceptors';
 import { API_URL } from '../constant';
-import isLoggedInState from '../recoil/isLoggedInState';
-import { refToken } from '../recoil/tokenState';
 
 const BASE_URL = `https://${API_URL}/v1`;
 
@@ -19,7 +16,7 @@ const axiosAuthApi = (url: string, options: AxiosRequestConfig = {}) => {
     baseURL: url,
     ...options,
   });
-
+  console.log('여기는 axiosAuthApi. 토큰 주입 전');
   // 토큰 주입
   TokenInterceptor(instance);
   return setupInterceptorsTo(instance);

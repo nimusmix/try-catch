@@ -22,15 +22,19 @@ const TokenInterceptor = (instance: AxiosInstance) => {
       axiosConfig.headers = new AxiosHeaders({
         Authorization: token,
       });
+      console.log('여기는 토큰 인터셉터. 헤더에 토큰 저장함');
       return axiosConfig;
     },
     (error: AxiosError) => Promise.reject(error.response)
   );
 
   instance.interceptors.response.use(
-    (response) => response,
+    (response) => {
+      return response;
+    },
 
     async (error) => {
+      console.log('reponse 에러 발생');
       const {
         config,
         response: { status },
@@ -39,12 +43,13 @@ const TokenInterceptor = (instance: AxiosInstance) => {
       if (status === 401) {
         const originalRequest = config;
         const refToken = JSON.parse(window.localStorage.getItem('refToken')!)?.refToken;
+        console.log('리프레시 토큰 출력', refToken);
 
         // 토큰 refresh 요청
         const data = await axios.get(`https://${API_URL}/token/refresh`, {
           headers: { RefreshToken: refToken },
         });
-
+        console.log('토큰 리프레시 요청해서 받은 데이터', data);
         // 요청 후 새롭게 받은 accToken을 저장
         const {
           data: { acc: newAccToken },
@@ -57,7 +62,6 @@ const TokenInterceptor = (instance: AxiosInstance) => {
       return Promise.reject(error);
     }
   );
-
   return instance;
 };
 
