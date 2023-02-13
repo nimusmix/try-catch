@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { useSetRecoilState } from 'recoil';
-import { setupInterceptorsTo, tokenInterceptor, TokenRefresher } from './interceptors';
+import { setupInterceptorsTo, TokenInterceptor } from './interceptors';
 import { API_URL } from '../constant';
 import isLoggedInState from '../recoil/isLoggedInState';
 import { refToken } from '../recoil/tokenState';
@@ -20,53 +20,8 @@ const axiosAuthApi = (url: string, options: AxiosRequestConfig = {}) => {
     ...options,
   });
 
-  // 토큰 검증
-  // const accToken = JSON.parse(window.sessionStorage.getItem('accToken')!)?.accToken;
-  // const TokenCheck = async () => {
-  //   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
-  //   const setAccToken = useSetRecoilState(accToken);
-  //   const setRefToken = useSetRecoilState(refToken);
-
-  //   const res = await axios({
-  //     method: 'get',
-  //     url: `${BASE_URL}/token/expired`,
-  //     headers: {
-  //       Authorization: accToken,
-  //     },
-  //   });
-
-  //   console.log('resonse', res);
-
-  //   if (res.status === 200) {
-  //     return;
-  //   }
-
-  //   if (res.status === 401) {
-  //     const refToken = JSON.parse(window.localStorage.getItem('refToken')!)?.refToken;
-
-  //     try {
-  //       const refTokenRes = await axios({
-  //         method: 'get',
-  //         url: '/token/refresh',
-  //         headers: { RefreshToken: refToken },
-  //       });
-
-  //       console.log('리프레시리스폰스', refTokenRes);
-  //       const newAccToken = refTokenRes.headers.acc;
-  //       setAccToken(newAccToken);
-  //     } catch (err) {
-  //       setIsLoggedIn(false);
-  //       setAccToken('');
-  //       setRefToken('');
-  //       window.location.reload();
-  //     }
-  //   }
-  // };
-  // TokenCheck().then(() => tokenInterceptor(instance));
-
   // 토큰 주입
-  tokenInterceptor(instance);
-  // TokenRefresher(instance);
+  TokenInterceptor(instance);
   return setupInterceptorsTo(instance);
 };
 
