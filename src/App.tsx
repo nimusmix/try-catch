@@ -13,6 +13,7 @@ import { API_URL, SITE_URL } from './constant';
 import { logOnDev } from './utils/logging';
 import elapsedTime from './utils/elapsed-time';
 import SEOMetaTag from './components/seo/SEOMetaTag';
+import getAccToken from './utils/getAccToken';
 
 const GlobalStyles = createGlobalStyle`
   *{
@@ -69,7 +70,9 @@ function App() {
   const isDark = useRecoilValue(isDarkState);
   const { isVisible } = useRecoilValue(toastState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
-  const acc = useRecoilValue(accToken);
+  // !!! 토큰 고침 !!!
+  // const acc = useRecoilValue(accToken);
+  const acc = getAccToken();
 
   const [isConnected, setIsConnected] = useState(false); // State to track the connection status
   const [notifications, setNotifications] = useRecoilState(notificationsState);

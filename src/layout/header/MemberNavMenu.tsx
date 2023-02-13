@@ -10,6 +10,7 @@ import { accToken, isDarkState, isLoggedInState, refToken } from '../../recoil';
 import { getImage, getName } from '../../apis/auth/auth';
 import { Ul } from './NavMenu';
 import NoticeBell from './NoticeBell';
+import getAccToken from '../../utils/getAccToken';
 
 const Bookmark = styled(NavLink)``;
 
@@ -94,8 +95,10 @@ const Line = styled.div`
 
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
-  const acc = useRecoilValue(accToken);
-  const { data: profileImage } = useQuery(['user', 'profileImage'] as const, () => getImage(acc));
+  // !!! 토큰 고침 !!!
+  // const acc = useRecoilValue(accToken);
+  const acc = getAccToken();
+  const { data: profileImage } = useQuery(['user', 'profileImage'] as const, () => getImage(acc!));
   const { data: userName } = useQuery(['user', 'userName'] as const, getName, {
     enabled: !!profileImage,
   });
@@ -112,14 +115,17 @@ const MemberNavMenu = () => {
     navi('/settings');
   };
 
-  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
-  const setAccToken = useSetRecoilState(accToken);
-  const setRefToken = useSetRecoilState(refToken);
+  // const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  // const setAccToken = useSetRecoilState(accToken);
+  // const setRefToken = useSetRecoilState(refToken);
   const logout = (e: React.MouseEvent) => {
     e.preventDefault();
-    setIsLoggedIn(false);
-    setAccToken('');
-    setRefToken('');
+    // !!! 토큰 고침 !!!
+    // setIsLoggedIn(false);
+    // setAccToken('');
+    // setRefToken('');
+    localStorage.removeItem('accToken');
+    localStorage.removeItem('refToken');
     navi('/');
   };
 

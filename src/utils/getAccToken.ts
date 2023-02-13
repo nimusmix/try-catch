@@ -1,7 +1,7 @@
 const getAccToken = () => {
-  const token = JSON.parse(window.localStorage.getItem('accToken')!);
-  console.log(token);
-  return token;
+  const accToken = window.localStorage.getItem('accToken');
+  console.log(accToken);
+  return accToken;
 };
 
 export default getAccToken;

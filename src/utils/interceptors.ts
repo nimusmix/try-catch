@@ -9,12 +9,13 @@ import axios, {
 import { logOnDev } from './logging';
 import { API_URL } from '../constant';
 import { api } from './axios-instance';
+import getAccToken from './getAccToken';
 
 const TokenInterceptor = (instance: AxiosInstance) => {
   instance.interceptors.request.use(
     (config) => {
       const axiosConfig = config;
-      const token = JSON.parse(window.sessionStorage.getItem('accToken')!)?.accToken;
+      const token = getAccToken();
       axiosConfig.headers = new AxiosHeaders({
         Authorization: token,
       });
@@ -50,6 +51,7 @@ const TokenInterceptor = (instance: AxiosInstance) => {
           data: { acc: newAccToken },
         } = data;
 
+        localStorage.setItem('accToken', newAccToken);
         originalRequest.headers.Authorization = newAccToken;
         return api(originalRequest);
       }
