@@ -13,8 +13,9 @@ import { API_URL } from '../constant';
 import { api } from './axios-instance';
 
 const TokenInterceptor = (instance: AxiosInstance) => {
+  console.log('1. 토큰 인터셉터 1번째');
   const setAccToken = useSetRecoilState(accToken);
-
+  console.log('2. 토큰 인터셉터 2번째');
   instance.interceptors.request.use(
     (config) => {
       const axiosConfig = config;
