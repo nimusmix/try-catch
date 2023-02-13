@@ -6,7 +6,7 @@ import React from 'react';
 import { IconBookmarkFill, IconUserCircle } from '../../components/icons/Icons';
 import { BOOKMARK_PAGE_NAME } from '../../constant';
 import { Paragraph } from '../../components';
-import { accToken, isDarkState, isLoggedInState, refToken } from '../../recoil';
+import { isDarkState, isLoggedInState } from '../../recoil';
 import { getImage, getName } from '../../apis/auth/auth';
 import { Ul } from './NavMenu';
 import NoticeBell from './NoticeBell';
@@ -95,8 +95,6 @@ const Line = styled.div`
 
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
-  // !!! 토큰 고침 !!!
-  // const acc = useRecoilValue(accToken);
   const acc = getAccToken();
   const { data: profileImage } = useQuery(['user', 'profileImage'] as const, () => getImage(acc!));
   const { data: userName } = useQuery(['user', 'userName'] as const, getName, {
@@ -120,10 +118,7 @@ const MemberNavMenu = () => {
   // const setRefToken = useSetRecoilState(refToken);
   const logout = (e: React.MouseEvent) => {
     e.preventDefault();
-    // !!! 토큰 고침 !!!
     setIsLoggedIn(false);
-    // setAccToken('');
-    // setRefToken('');
     localStorage.removeItem('accToken');
     localStorage.removeItem('refToken');
     navi('/');
