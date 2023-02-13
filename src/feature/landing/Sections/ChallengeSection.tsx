@@ -109,7 +109,7 @@ const ChallengeSection = () => {
           })}
       </div>
       <div className="button-wrapper">
-        <Button onClick={() => navigate('/challenge')}>챌린지 둘러보기</Button>
+        <Button onClick={() => navigate('/challenges')}>챌린지 둘러보기</Button>
       </div>
     </FourthSection>
   );
