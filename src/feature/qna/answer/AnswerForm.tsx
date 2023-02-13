@@ -55,7 +55,7 @@ const Editor = styled.textarea`
 const AnswerForm = ({ questionId }: { questionId: string }) => {
   const [answerInput, setAnswerInput] = useState('');
   const queryClient = useQueryClient();
-  const { mutate: addAnswer } = useMutation(
+  const { data: answerDetail, mutate: addAnswer } = useMutation(
     postAnswer(questionId as string, { content: answerInput }),
     {
       onSuccess: () => {
@@ -71,6 +71,7 @@ const AnswerForm = ({ questionId }: { questionId: string }) => {
 
   const onClickAddAnswer = () => {
     addAnswer();
+    console.log(answerDetail);
   };
 
   return (
