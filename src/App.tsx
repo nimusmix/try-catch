@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { HelmetProvider } from 'react-helmet-async';
 import { Outlet } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
@@ -9,7 +9,7 @@ import { isDarkState, isLoggedInState, toastState } from './recoil';
 import { darkTheme, lightTheme } from './styles/theme';
 import Toast from './feature/toast/Toast';
 import notificationsState, { INotification } from './recoil/notificationsState';
-import { API_URL, SITE_URL } from './constant';
+import { API_URL } from './constant';
 import { logOnDev } from './utils/logging';
 import elapsedTime from './utils/elapsed-time';
 import SEOMetaTag from './components/seo/SEOMetaTag';
@@ -185,14 +185,6 @@ function App() {
 
   return (
     <HelmetProvider>
-      <SEOMetaTag
-        title="트라이캐치"
-        description="함께 지식과 경험을 공유하며 좋은 개발자로 성장해요!"
-        keywords="개발자,SNS,깃허브,질문,스택오버플로우,블로그,기술블로그,챌린지,웹,개발"
-        img={new URL(`/src/assets/thumbnail.png`, import.meta.url).href}
-        siteUrl={SITE_URL}
-      />
-      <Helmet />
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
           {isVisible && <Toast />}
