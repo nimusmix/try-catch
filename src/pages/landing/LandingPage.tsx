@@ -86,7 +86,7 @@ const LandingPage = () => {
   // !!! 토큰 고침 !!!
   // const setAccToken = useSetRecoilState(accToken);
   // const setRefToken = useSetRecoilState(refToken);
-  // const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
   const { ref: logoRef, inView } = useInView({ triggerOnce: true });
 
   useEffect(() => {
@@ -97,11 +97,11 @@ const LandingPage = () => {
       // !!! 토큰 고침 !!!
       // setAccToken(params.get('acc') as string);
       // setRefToken(params.get('ref') as string);
-      // setIsLoggedIn(true);
+      setIsLoggedIn(true);
       localStorage.setItem('accToken', params.get('acc') as string);
       localStorage.setItem('refToken', params.get('ref') as string);
     }
-  }, []);
+  }, [setIsLoggedIn]);
 
   return (
     <Layout>
