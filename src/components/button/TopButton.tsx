@@ -1,22 +1,42 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
+import { IconArrowUp } from '../icons/Icons';
 
 const StyledButton = styled.button`
   position: fixed;
-  bottom: 40px;
-  right: 40px;
+  bottom: 20px;
+  right: 20px;
   cursor: pointer;
-  border-radius: 100px;
-  border: none;
-  box-shadow: var(--shadows-black-lg);
+  border-radius: var(--borders-radius-round);
+  border: 1px solid transparent;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  background: var(--colors-brand-500);
+  color: var(--colors-brand-100);
+  font-size: 22px;
+  line-height: 0;
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(100px);
+  z-index: 100;
+
+  &.scrolled {
+    transform: translateY(0);
+  }
 `;
 
 const TopButton = () => {
+  const location = useLocation();
   const [showButton, setShowButton] = useState(false);
+  const [top, setTop] = useState(0);
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) {
+      if (window.scrollY > 350) {
         setShowButton(true);
       } else {
         setShowButton(false);
@@ -24,11 +44,19 @@ const TopButton = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (location.pathname === '/') {
+      setTop(0);
+    } else {
+      setTop(180);
+    }
+  }, [location.pathname]);
+
   // // 1. timeout을 줘서 스크롤이 끝난 후 작동하게 하는 방법
   const scrollToTop = () => {
     setTimeout(() => {
       window.scrollTo({
-        top: 0,
+        top,
         behavior: 'smooth', // for smoothly scrolling
       });
     }, 300);
@@ -49,22 +77,9 @@ const TopButton = () => {
 
   return (
     <div>
-      {showButton && (
-        <StyledButton onClick={scrollToTop}>
-          <svg
-            width="50"
-            height="50"
-            viewBox="0 0 80 80"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M0 40C0 17.9032 17.9032 0 40 0C62.0968 0 80 17.9032 80 40C80 62.0968 62.0968 80 40 80C17.9032 80 0 62.0968 0 40ZM37.2581 21.629L15.4032 43.4839C13.8871 45 13.8871 47.4516 15.4032 48.9516L18.1452 51.6935C19.6613 53.2097 22.1129 53.2097 23.6129 51.6935L40 35.3064L56.3871 51.6935C57.9032 53.2097 60.3548 53.2097 61.8548 51.6935L64.5968 48.9516C66.1129 47.4355 66.1129 44.9839 64.5968 43.4839L42.7419 21.629C41.2258 20.1129 38.7742 20.1129 37.2581 21.629Z"
-              fill="#3B82F6"
-            />
-          </svg>
-        </StyledButton>
-      )}
+      <StyledButton onClick={scrollToTop} className={showButton ? 'scrolled' : ''}>
+        <IconArrowUp />
+      </StyledButton>
     </div>
   );
 };

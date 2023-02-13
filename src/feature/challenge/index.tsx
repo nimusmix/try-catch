@@ -3,6 +3,7 @@ import RecommendCarousel from './RecommendCarousel';
 import ChallengeRank from './ChallengeRank';
 import OngoingChallenge from './OngoingChallenge';
 import OngoingChallengeVer3 from './OngoingChallengeVer3';
+import ChallengeAll from './ChallengeAll';
 import ProgressBar from './ProgressBar';
 
 export {
@@ -10,6 +11,7 @@ export {
   RecommendCarousel,
   ChallengeRank,
   OngoingChallenge,
-  ProgressBar,
   OngoingChallengeVer3,
+  ProgressBar,
+  ChallengeAll,
 };

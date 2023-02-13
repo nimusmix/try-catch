@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
 import { useMutation, useQueryClient } from 'react-query';
 import { Button, MiniTitle } from '../../../components';
-import { postAnswer } from '../../../apis/answer/answer';
+import { postAnswer, answerCommit } from '../../../apis/answer/answer';
 import { logOnDev } from '../../../utils/logging';
+import CommitCheckModal from './CommitCheckModal';
+import isModalOpenedState from '../../../recoil/isModalOpenedState';
 
 const Wrapper = styled.div`
   display: flex;
@@ -54,35 +57,50 @@ const Editor = styled.textarea`
 // TODO 답변 작성 후 바로 조회하기
 const AnswerForm = ({ questionId }: { questionId: string }) => {
   const [answerInput, setAnswerInput] = useState('');
+  const [answerId, setAnswerId] = useState<number>();
+  const [isCommitModalOpened, setIsCommitModalOpened] = useRecoilState(isModalOpenedState);
+
   const queryClient = useQueryClient();
   const { mutate: addAnswer } = useMutation(
     postAnswer(questionId as string, { content: answerInput }),
     {
-      onSuccess: () => {
-        logOnDev.log('댓글 작성 성공');
+      onSuccess: (data) => {
         queryClient.invalidateQueries(['question', questionId]);
         setAnswerInput('');
+
+        // 레포 체크되었고 커밋하기로 했으면 커밋 요청
+        if (data.repoChecked && data.doCommit) {
+          answerCommit(Number(questionId), data.answerId);
+          // 레포 체크 안 되었으면 모달 오픈
+        } else if (!data.repoChecked) {
+          setAnswerId(data.answerId);
+          setIsCommitModalOpened(true);
+        }
       },
       onError: () => {},
     }
   );
 
   // 에러면 토스트
-
   const onClickAddAnswer = () => {
     addAnswer();
   };
 
   return (
-    <Wrapper>
-      <MiniTitle sizeType="xl" textAlign="left">
-        답변하기
-      </MiniTitle>
-      <Editor value={answerInput} onChange={(e) => setAnswerInput(e.target.value)} />
-      <Button className="submit" onClick={onClickAddAnswer}>
-        등&nbsp;&nbsp;록
-      </Button>
-    </Wrapper>
+    <>
+      <Wrapper>
+        <MiniTitle sizeType="xl" textAlign="left">
+          답변하기
+        </MiniTitle>
+        <Editor value={answerInput} onChange={(e) => setAnswerInput(e.target.value)} />
+        <Button className="submit" onClick={onClickAddAnswer}>
+          등&nbsp;&nbsp;록
+        </Button>
+      </Wrapper>
+      {isCommitModalOpened && (
+        <CommitCheckModal questionId={Number(questionId)} answerId={answerId!} />
+      )}
+    </>
   );
 };
 

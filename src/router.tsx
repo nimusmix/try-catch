@@ -6,7 +6,6 @@ import {
   CHALLENGES_PAGE_NAME,
   ERROR_PAGE_NAME,
   FEED_PAGE_NAME,
-  HOME_PAGE_NAME,
   PROFILE_PAGE_NAME,
   QNA_PAGE_NAME,
   ROADMAP_PAGE_NAME,
@@ -24,7 +23,6 @@ import {
   FeedPage,
   FollowersPage,
   FollowingPage,
-  HomePage,
   IntroducePage,
   LandingPage,
   NotFoundPage,
@@ -32,6 +30,7 @@ import {
   QnaDetailPage,
   QnaFormPage,
   QnaPage,
+  RoadmapEditPage,
   RoadmapDetailPage,
   RoadmapFormPage,
   RoadmapListPage,
@@ -40,7 +39,7 @@ import {
   ThemeSettingsPage,
   UserProfilePage,
 } from './pages';
-import { Bookmark, Challenges, Error, Feed, Home, Profile, QnA, Roadmap, Settings } from './routes';
+import { Bookmark, Challenges, Error, Feed, Profile, QnA, Roadmap, Settings } from './routes';
 import ScrollToTop from './components/scroll-to-top/ScrollToTop';
 
 const router = createBrowserRouter([
@@ -59,19 +58,6 @@ const router = createBrowserRouter([
         index: true,
         path: '',
         element: <LandingPage />,
-      },
-
-      // 홈
-      {
-        path: `/${HOME_PAGE_NAME}`,
-        element: <Home />,
-        children: [
-          {
-            index: true,
-            path: '',
-            element: <HomePage />,
-          },
-        ],
       },
 
       // Q&A
@@ -147,6 +133,10 @@ const router = createBrowserRouter([
             element: <RoadmapListPage />,
           },
           {
+            path: 'edit',
+            element: <RoadmapEditPage />,
+          },
+          {
             path: ':userName',
             element: <RoadmapDetailPage />,
           },
@@ -183,7 +173,7 @@ const router = createBrowserRouter([
             ],
           },
           {
-            path: ':companyName',
+            path: 'company/:companyName',
             element: <CompanyProfilePage />,
           },
           {
@@ -200,6 +190,10 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
+            path: '',
+            element: <ThemeSettingsPage />,
+          },
+          {
             path: 'alert',
             element: <AlertSettingsPage />,
           },

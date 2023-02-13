@@ -27,22 +27,18 @@ const AlertItem = styled.div`
 const AlertItemList = [
   {
     id: 1,
-    label: '멘션',
-  },
-  {
-    id: 2,
     label: '답변',
   },
   {
-    id: 3,
+    id: 2,
     label: '답변 채택',
   },
   {
-    id: 4,
+    id: 3,
     label: '팔로우',
   },
   {
-    id: 5,
+    id: 4,
     label: '구독 블로그 새글 알림',
   },
 ];

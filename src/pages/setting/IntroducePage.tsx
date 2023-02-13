@@ -57,7 +57,6 @@ const IntroducePage = () => {
             <li>TryCatch 질문 검색, 피드 검색, 관심 기술 스택</li>
             <li>GitHub repository 권한</li>
             <li>회사 이메일, 연락처(email)</li>
-            <li>Alan Shepard</li>
           </ul>
           <Paragraph sizeType="base">
             사용자는 개인 정보 관리를 위해 다양한 방식으로 TryCatch 서비스를 활용할 수 있습니다.

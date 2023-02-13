@@ -1,12 +1,9 @@
 // 피드
-import { api, authApi } from '../../utils/axios-instance';
+import { authApi } from '../../utils/axios-instance';
 import { IFeedSearch } from '../../interface/feed';
 
-export const getFeedList = () => {
-  return api.get(`/feed/list`).then((res) => res.data);
-};
 export const getFeedSearchList = async (params: IFeedSearch) => {
-  return api.get(`/feed/search`, { params }).then((res) => {
+  return authApi.get(`/feed/search`, { params }).then((res) => {
     let nextPage;
     if (res.data.feedList.length === 9) {
       nextPage = params.page + 1;
@@ -16,4 +13,4 @@ export const getFeedSearchList = async (params: IFeedSearch) => {
 };
 
 export const postFeedRead = (params: { feedId: number }) =>
-  authApi.post('/feed/read', { params }).then((res) => res.data);
+  authApi.post('/feed/read', null, { params });

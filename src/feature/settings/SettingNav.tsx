@@ -30,10 +30,17 @@ const Wrapper = styled.div`
     display: inline-block;
     z-index: 10;
     width: 80%;
-    padding: 1rem 4rem;
+    padding: 1rem 3rem;
     text-align: left;
     cursor: pointer;
     font-size: var(--fonts-desktop-heading-xl);
+  }
+
+  a {
+    &:hover {
+      background-color: ${({ theme: { isDark } }) =>
+        isDark ? 'var(--colors-black-400)' : 'var(--colors-white-400)'};
+    }
   }
 `;
 
@@ -45,21 +52,16 @@ const SettingNavList = [
   },
   {
     id: 1,
-    link: `/settings/email-alert`,
-    title: '이메일 알림',
-  },
-  {
-    id: 2,
     link: `/settings/advanced`,
     title: '고급 기능',
   },
   {
-    id: 3,
+    id: 2,
     link: `/settings/trycatch`,
     title: '소개',
   },
   {
-    id: 4,
+    id: 3,
     link: `/settings/customer-service`,
     title: '고객 센터',
   },
@@ -72,8 +74,6 @@ interface ISettingNav {
 }
 
 const ul = (index: number) => {
-  // console.log(`click!${index}`);
-
   const underline = document.getElementById('underline') as HTMLDivElement;
   underline.style.transform = `translate3d(0,${index * 100}%,0)`;
 };

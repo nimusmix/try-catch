@@ -2,6 +2,7 @@
 import styled from 'styled-components';
 import { useMutation, useQueryClient } from 'react-query';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 import { Button, Div, MiniTitle, Paragraph } from '../../components';
 import {
   IconBookmarkEmpty,
@@ -19,6 +20,7 @@ import { cancelLike, postLike } from '../../apis/like/like';
 import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
 import { isLoggedInState, toastState } from '../../recoil';
 import QuestionDropdown from './question-detail/QuestionDropdown';
+import categoryToKorean from '../../utils/category-to-korean';
 
 const QuestionDiv = styled(Div)`
   //overflow: hidden;
@@ -42,7 +44,7 @@ const UpperWrapper = styled.div`
   border-bottom: ${({ theme: { isDark } }) =>
       isDark ? 'var(--colors-black-100)' : 'rgb(182, 202,229)'}
     solid 1px;
-  border-radius: 0.9rem 0.9rem 0 0;
+  border-radius: 0.7rem 0.7rem 0 0;
 
   .question-icons {
     display: flex;
@@ -50,6 +52,7 @@ const UpperWrapper = styled.div`
   }
 
   .author {
+    cursor: pointer;
     display: flex;
     margin-right: 1rem;
     align-items: center;
@@ -96,13 +99,21 @@ const CompanyImg = styled.img`
 `;
 
 const Like = styled.span`
+  padding: 0.5rem 2rem;
+  border: ${({ theme: { isDark } }) => (isDark ? 'var(--colors-black-100)' : 'rgb(182, 202,229)')}
+    solid 1px;
+  border-radius: var(--borders-radius-2xl);
   display: flex;
   align-items: center;
+  justify-content: center;
   margin: 1rem auto 1.5rem;
   cursor: pointer;
   svg {
     margin-right: 0.2rem;
     color: ${({ theme }) => theme.textColor100};
+  }
+  p {
+    translate: 0 2px;
   }
 `;
 
@@ -136,12 +147,31 @@ const QuestionBody = styled.div`
   }
 `;
 
-const toKorean = (category: string | undefined) => {
-  if (category === 'DEV') {
-    return '개발';
+const Tags = styled.div`
+  padding: 2rem;
+`;
+
+const Tag = styled(Button)`
+  border: 1px solid
+    ${({ theme: { isDark } }) => (isDark ? 'var(--colors-black-400)' : 'rgb(238 238 238/10)')};
+  background-color: ${({ theme: { isDark } }) => (isDark ? 'hsl(220deg 13% 28%)' : '#d6e4fb')};
+  color: ${({ theme: { textColor } }) => textColor};
+  text-transform: capitalize;
+  transition: border 0.2s ease-in, background-color 0.2s ease-in, color 0.2s ease-in;
+
+  svg {
+    margin-right: 0.1rem;
+    color: ${({ theme: { isDark, textColor } }) =>
+      isDark ? textColor : 'var(--colors-black-100)'};
+    transition: color 0.2s ease-in;
   }
-  return '커리어';
-};
+
+  &:hover svg,
+  &:hover {
+    color: #f1f1f1;
+    background-color: var(--colors-brand-500);
+  }
+`;
 
 /*
  * TODO 무조건 리팩토링 하기
@@ -164,6 +194,7 @@ const Question = ({
 }: IQuestion) => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const [toast, setToast] = useRecoilState(toastState);
+  const navigate = useNavigate();
 
   const queryClient = useQueryClient();
   const updateLike = (type: 'up' | 'down') => {
@@ -238,7 +269,7 @@ const Question = ({
 
   const onClickLikeHandler = () => {
     if (!isLoggedIn) {
-      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다', isVisible: true });
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있어요', isVisible: true });
       return;
     }
     if (isLiked) {
@@ -279,7 +310,7 @@ const Question = ({
           <UpperTagWrapper>
             {/* 카테고리 */}
             <UpperTag as="span" designType="purpleFill" padding="0 0.7rem" borderRadius="10px">
-              {toKorean(category)}
+              {categoryToKorean(category)}
             </UpperTag>
             <span className="solved">
               {/* 해결 여부 */}
@@ -289,7 +320,6 @@ const Question = ({
                   designType="greenFill"
                   fontSize="14px"
                   padding="0.2rem 0.6rem"
-                  margin="0 0 0.4rem"
                   borderRadius="10px"
                 >
                   <IconCheckCircle size="14" className="solved-icon" />
@@ -297,22 +327,6 @@ const Question = ({
                 </UpperTag>
               )}
             </span>
-            {tags.map((tag, index) => {
-              if (tag === '') return null;
-              return (
-                <UpperTag
-                  key={String(tag + index)}
-                  as="span"
-                  designType="blueEmpty"
-                  fontSize="var(--fonts-body-sm)"
-                  padding="2px 10px"
-                  margin="0 0.3rem 0 0"
-                  borderRadius="var(--borders-radius-base)"
-                >
-                  #{tag}
-                </UpperTag>
-              );
-            })}
           </UpperTagWrapper>
 
           <Icons>
@@ -337,7 +351,8 @@ const Question = ({
           {title}
         </MiniTitle>
 
-        <div className="author">
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+        <div className="author" onClick={() => navigate(`/profile/${author.userName}`)}>
           <ProfileImg src={author.profileImage} />
           <SubText sizeType="sm" margin="0 0.2rem 0 0.3rem">
             {author.userName}
@@ -357,10 +372,28 @@ const Question = ({
       </QuestionBody>
 
       <Like onClick={onClickLikeHandler}>
-        {isLiked && <IconLikeFill color="var(--colors-brand-500)" />}
-        {isLiked || <IconLikeEmpty />}
-        <SubText sizeType="xm">{likeCount}</SubText>
+        {isLiked && <IconLikeFill size={26} color="var(--colors-brand-500)" />}
+        {isLiked || <IconLikeEmpty size={26} />}
+        <SubText sizeType="base">{likeCount}</SubText>
       </Like>
+      <Tags>
+        {tags.map((tag, index) => {
+          if (tag === '') return null;
+          return (
+            <Tag
+              key={String(tag + index)}
+              as="span"
+              designType="blueEmpty"
+              fontSize="var(--fonts-body-sm)"
+              padding="2px 10px"
+              margin="0 0.3rem 0 0"
+              borderRadius="var(--borders-radius-base)"
+            >
+              #{tag}
+            </Tag>
+          );
+        })}
+      </Tags>
     </QuestionDiv>
   );
 };

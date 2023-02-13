@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { createBrowserHistory } from 'history';
 import { HeaderImage, Layout } from '../../layout';
 import { Paragraph, SubTitle } from '../../components';
 import SideNavbar from '../../components/side-navbar/SideNavbar';
@@ -16,27 +15,26 @@ export const navOptions = [
 
 export const RoadmapWrapper = styled.div`
   display: flex;
+  margin-bottom: 5rem;
 `;
 
 const RoadmapPage = () => {
   const [activeCategory, setActiveCategory] = useState('공통');
-  const history = createBrowserHistory();
+  const [isFirstRender, setIsFirstRender] = useState(true);
   const navi = useNavigate();
   useEffect(() => {
+    if (isFirstRender) {
+      setIsFirstRender(false);
+      return;
+    }
+
     if (activeCategory === '공통') {
       navi('/roadmap');
     } else {
       navi('/roadmap/list');
     }
-  }, [navi, activeCategory]);
-
-  useEffect(() => {
-    return history.listen((location) => {
-      if (history.action === 'POP') {
-        navi(-1);
-      }
-    });
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeCategory]);
 
   return (
     <Layout>

@@ -41,6 +41,15 @@ const MiniTitle = styled.h3<IMiniTitleProps>`
   margin: ${({ margin }) => margin || 0};
   padding: ${({ padding }) => padding || 0};
   color: ${({ color, theme: { textColor } }) => color || textColor || `var(--colors-black-500)`};
+  
+  .emph{
+    color ${({ theme: { brandColor } }) => brandColor};
+    font-weight: 800;
+  }
+  
+  .blue {
+    color ${({ theme: { brandColor } }) => brandColor}
+  }
 
   ${({ sizeType }) => sizeType && sizeList[sizeType]}
 `;

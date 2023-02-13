@@ -1,22 +1,34 @@
-import { Link, useLocation } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
-import { useRecoilState } from 'recoil';
-import { Fragment, useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { Dispatch, Fragment, useEffect } from 'react';
 import { getQuestionList } from '../../../apis/qna/qna';
 import qnaCategoryState from '../../../recoil/qnaCategoryState';
 import { QuestionItem } from '../index';
 import question from '../Question';
+import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
+import { logOnDev } from '../../../utils/logging';
+import QuestionNoContent from './QuestionNoContent';
 
-const QuestionList = ({ filter }: { filter: string }) => {
+const QuestionList = ({
+  filter,
+  setIsLoading,
+}: {
+  filter: string;
+  setIsLoading: Dispatch<boolean>;
+}) => {
   const [activeCategory, setActiveCategory] = useRecoilState<string>(qnaCategoryState);
-  const [test, setTest] = useState(false);
-  const keyword = new URLSearchParams(useLocation().search).get('keyword') || '';
+  const keyword = useRecoilValue(qnaSearchKeywordState);
+
+  useEffect(() => {
+    logOnDev.log(keyword);
+  }, [keyword]);
+
+  // TODO 나중에 search 엔드포인트 변경되면 그때 바꾸면 됨
   const {
     data: questionList,
     isFetchingNextPage,
     fetchNextPage,
-    hasNextPage,
-    isFetching,
+    isLoading,
   } = useInfiniteQuery(
     ['question', 'questionList', activeCategory] as const,
     ({ pageParam = 0 }) => {
@@ -33,23 +45,58 @@ const QuestionList = ({ filter }: { filter: string }) => {
       getNextPageParam: (lastPage) => lastPage.nextPage ?? undefined,
       // 필터 부분 select로 원하는 데이터로 만들어 줌
       select: (data) => {
-        const filteredData = {
-          pages: data.pages.map((page) => ({
-            data: page.data.filter((item) => {
-              // 해결됨
-              if (filter === 'solved') return item.isSolved;
-              // 미해결
-              if (filter === 'unSolved') return !item.isSolved;
-              // 전체
-              return item;
-            }),
-          })),
-          pageParams: data.pageParams,
-        };
+        let filteredData;
+        if (keyword === '') {
+          filteredData = {
+            pages: data.pages.map((page) => ({
+              data: page.data.filter((item) => {
+                // 해결됨
+                if (filter === 'solved') return item.isSolved;
+                // 미해결
+                if (filter === 'unSolved') return !item.isSolved;
+                // 전체
+                return item;
+              }),
+            })),
+            pageParams: data.pageParams,
+          };
+        } else {
+          filteredData = {
+            pages: data.pages.map((page) => ({
+              data: page.data.filter((item) => {
+                // 해결됨
+                if (filter === 'solved')
+                  return (
+                    (item.isSolved &&
+                      (item.title.includes(keyword) || item.content.includes(keyword))) ||
+                    item.tags.some((tag) => tag.toLocaleLowerCase() === keyword)
+                  );
+                // 미해결
+                if (filter === 'unSolved')
+                  return (
+                    (!item.isSolved &&
+                      (item.title.includes(keyword) || item.content.includes(keyword))) ||
+                    item.tags.some((tag) => tag.toLocaleLowerCase() === keyword)
+                  );
+                // 전체
+                return (
+                  item.title.includes(keyword) ||
+                  item.content.includes(keyword) ||
+                  item.tags.some((tag) => tag.toLocaleLowerCase() === keyword)
+                );
+              }),
+            })),
+            pageParams: data.pageParams,
+          };
+        }
         return { ...filteredData };
       },
     }
   );
+
+  useEffect(() => {
+    setIsLoading(isLoading);
+  }, [isLoading, setIsLoading]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,24 +110,25 @@ const QuestionList = ({ filter }: { filter: string }) => {
   }, [fetchNextPage, isFetchingNextPage]);
 
   return (
-    <ul>
-      {questionList?.pages?.map((page, index) => {
-        return (
-          // eslint-disable-next-line react/no-array-index-key
-          <Fragment key={index}>
-            {page.data.map((questionItem) => {
-              return (
-                <li key={questionItem.questionId}>
-                  <Link to={`${questionItem.questionId}`}>
+    <>
+      {questionList?.pages.flat().length === 0 && <QuestionNoContent />}
+      <ul>
+        {questionList?.pages?.map((page, index) => {
+          return (
+            // eslint-disable-next-line react/no-array-index-key
+            <Fragment key={index}>
+              {page.data.map((questionItem) => {
+                return (
+                  <li key={questionItem.questionId}>
                     <QuestionItem {...questionItem} />
-                  </Link>
-                </li>
-              );
-            })}
-          </Fragment>
-        );
-      })}
-    </ul>
+                  </li>
+                );
+              })}
+            </Fragment>
+          );
+        })}
+      </ul>
+    </>
   );
 };
 

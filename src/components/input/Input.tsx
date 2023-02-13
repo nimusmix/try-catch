@@ -20,7 +20,6 @@ const designList = {
     border-radius: var(--borders-radius-base);
   `,
   borderBottom: css`
-    border-radius: none;
     border: none;
     border-bottom: 1px solid;
     box-shadow: none;

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Button } from '../../components';
 
 interface IFeedPopularTag {
-  tags: Array<string>;
+  tags?: Array<string>;
 }
 
 const TagsWrapper = styled.div`
@@ -24,7 +24,6 @@ const FeedTag = ({ tags }: IFeedPopularTag) => {
     navigate(`/feed?keyword=${encodeKeyword}`);
     e.preventDefault();
   };
-  // /search?type=feed&keyword=&page=&size&
 
   return (
     <TagsWrapper>

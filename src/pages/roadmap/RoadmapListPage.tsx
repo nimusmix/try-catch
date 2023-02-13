@@ -1,14 +1,14 @@
 import styled from 'styled-components';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import RoadmapList from '../../feature/roadmap/RoadmapList';
 import { HeaderImage, Layout } from '../../layout';
 import { header_roadmap } from '../../assets';
-import { SubTitle, Paragraph, MiniTitle } from '../../components';
+import { MiniTitle, Paragraph, SubTitle } from '../../components';
 import SideNavbar from '../../components/side-navbar/SideNavbar';
 import { Aside } from '../qna/QnaPage';
 import { navOptions, RoadmapWrapper } from './RoadmapPage';
-import RoadmapCarousel from '../../feature/roadmap/RoadmapCarousel';
+import NewRoadmap from '../../feature/roadmap/NewRoadmap';
+import PopularRoadmap from '../../feature/roadmap/PopularRoadmap';
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -31,14 +31,22 @@ const TitleWrapper = styled.div`
 
 const RoadmapListPage = () => {
   const [activeCategory, setActiveCategory] = useState('커스텀');
+  const [isFirstRender, setIsFirstRender] = useState(true);
   const navi = useNavigate();
+
   useEffect(() => {
+    if (isFirstRender) {
+      setIsFirstRender(false);
+      return;
+    }
+
     if (activeCategory === '공통') {
       navi('/roadmap');
     } else {
-      navi('.');
+      navi('/roadmap/list');
     }
-  }, [navi, activeCategory]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeCategory]);
 
   return (
     <Layout>
@@ -59,7 +67,7 @@ const RoadmapListPage = () => {
             </MiniTitle>
             <Paragraph sizeType="base">가장 인기 있는 로드맵을 확인해보세요!</Paragraph>
           </TitleWrapper>
-          <RoadmapCarousel />
+          <PopularRoadmap />
 
           <TitleWrapper>
             <MiniTitle sizeType="2xl" fontWeight="600">
@@ -67,7 +75,7 @@ const RoadmapListPage = () => {
             </MiniTitle>
             <Paragraph sizeType="base">새로 생성된 로드맵을 확인해보세요!</Paragraph>
           </TitleWrapper>
-          <RoadmapList />
+          <NewRoadmap />
         </ContentWrapper>
       </RoadmapWrapper>
     </Layout>

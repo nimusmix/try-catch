@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
@@ -7,6 +6,8 @@ import { ProfileBio } from '../../feature';
 import { Div } from '../../components';
 import MyProfileMenu from '../../feature/user/profile/MyProfileMenu';
 import AnotherProfileMenu from '../../feature/user/profile/AnotherProfileMenu';
+import { getName } from '../../apis/auth/auth';
+import isMyself from '../../utils/isMyself';
 
 const ProfileWrapper = styled.div`
   display: flex;
@@ -32,13 +33,14 @@ const Badge = styled.div`
 `;
 
 const UserProfilePage = () => {
-  const [activeMenu, setActiveMenu] = useState('질문');
-  const [isMine, setIsMine] = useState('false');
+  const { userName } = useParams();
+  const { data: loginedUserName } = useQuery(['loginedUserName', 'profileBio'] as const, getName);
+  const isMine = isMyself(loginedUserName, userName!);
 
   return (
     <Layout>
       <ProfileWrapper>
-        <ProfileBio changeFn={setIsMine} />
+        <ProfileBio />
         <BadgeDiv>
           <Badge>뱃지</Badge>
           <Badge>뱃지</Badge>
@@ -47,7 +49,8 @@ const UserProfilePage = () => {
           <Badge>뱃지</Badge>
         </BadgeDiv>
       </ProfileWrapper>
-      {isMine ? <MyProfileMenu /> : <AnotherProfileMenu />}
+      {isMine && <MyProfileMenu />}
+      {isMine || <AnotherProfileMenu />}
     </Layout>
   );
 };

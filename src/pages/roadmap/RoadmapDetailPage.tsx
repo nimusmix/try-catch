@@ -1,12 +1,28 @@
-import { useQuery } from 'react-query';
-import { useParams, useNavigate } from 'react-router';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
 import styled from 'styled-components';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { Link } from 'react-router-dom';
 import { Button, MiniTitle, Paragraph, SubTitle } from '../../components';
 import { IRoadmap } from '../../interface/roadmap';
 import { getRoadmapDetail } from '../../apis/roadmap/roadmap';
 import { Layout } from '../../layout';
 import RoadmapDetailBody from '../../feature/roadmap/RoadmapDetailBody';
-import { IconArrowBack, IconLikeEmpty } from '../../components/icons/Icons';
+import {
+  IconArrowBack,
+  IconLikeEmpty,
+  IconLikeFill,
+  IconBookmarkEmpty,
+  IconBookmarkFill,
+} from '../../components/icons/Icons';
+import { cancelLike, postLike } from '../../apis/like/like';
+import { isLoggedInState, toastState } from '../../recoil';
+import { postFollow, putFollow } from '../../apis/user/user';
+import { putBookmark, postBookmark } from '../../apis/bookmark/bookmark';
+import { getName } from '../../apis/auth/auth';
+import isMyself from '../../utils/isMyself';
+import RoadmapDeleteModal from '../../feature/roadmap/RoadmapDeleteModal';
 
 const RoadmapDetailWrapper = styled.div`
   display: flex;
@@ -16,7 +32,7 @@ const RoadmapDetailWrapper = styled.div`
   margin: 3rem auto;
 
   h2 {
-    margin: 0.725rem 0 1.5rem;
+    margin: 0.725rem 0;
   }
 
   & > svg {
@@ -36,35 +52,211 @@ const SubText = styled(Paragraph)`
   color: ${({ theme }) => theme.textColor100};
 `;
 
+const TitleBookmarkWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+    color: var(--colors-brand-500);
+  }
+`;
+
+const BookmarkIcon = styled.span`
+  cursor: pointer;
+`;
+
 const UserWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin-bottom: 2rem;
+  margin: 0.5rem 0 2rem;
 `;
 
 const UserInfoWrapper = styled.div`
   display: flex;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const LikeWrapper = styled.div`
   display: flex;
   align-items: center;
   margin: 2rem auto 1rem;
+  cursor: pointer;
 
   svg {
     margin-right: 0.25rem;
   }
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+`;
+
 const RoadmapDetailPage = () => {
   const { userName } = useParams();
+  const queryClient = useQueryClient();
+
   const { data: roadmapDetail, isLoading } = useQuery<IRoadmap>(
     ['roadmap', userName] as const,
-    () => getRoadmapDetail(userName!)
+    () => getRoadmapDetail(userName!),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['roadmap', userName]);
+      },
+    }
   );
+
+  const { data: myName } = useQuery<string>(['myName'], () => getName());
+  const isMine = isMyself(myName!, userName!);
+
   const navi = useNavigate();
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [toast, setToast] = useRecoilState(toastState);
+
+  const updateLike = (type: 'up' | 'down') => {
+    const prevData = queryClient.getQueryData(['roadmap', userName]);
+
+    if (prevData) {
+      queryClient.setQueryData<IRoadmap>(['roadmap', userName], (oldData: any) => {
+        return {
+          ...oldData,
+          likeCount: type === 'up' ? roadmapDetail!.likeCount + 1 : roadmapDetail!.likeCount - 1,
+          isLiked: type === 'up',
+        };
+      });
+    }
+
+    return {
+      prevData,
+    };
+  };
+
+  const { mutate: like } = useMutation(
+    ['like', 'up'],
+    () => postLike({ id: roadmapDetail!.roadmapId, type: 'ROADMAP' }),
+    {
+      onMutate: () => updateLike('up'),
+    }
+  );
+
+  const { mutate: cancel } = useMutation(
+    ['like', 'down'],
+    () => cancelLike({ id: roadmapDetail!.roadmapId, type: 'ROADMAP' }),
+    {
+      onMutate: () => updateLike('down'),
+    }
+  );
+
+  const onClickLikeHandler = () => {
+    if (!isLoggedIn) {
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다.', isVisible: true });
+      return;
+    }
+    if (roadmapDetail?.isLiked) {
+      cancel();
+    } else {
+      like();
+    }
+  };
+
+  const updateFollow = (type: 'post' | 'put') => {
+    const prevData = queryClient.getQueryData(['roadmap', userName]);
+
+    if (prevData) {
+      queryClient.setQueryData<IRoadmap>(['roadmap', userName], (oldData: any) => {
+        return {
+          ...oldData,
+          author: {
+            userId: roadmapDetail!.author.userId,
+            userName: roadmapDetail!.author.userName,
+            profileImage: roadmapDetail!.author.profileImage,
+            companyName: roadmapDetail!.author.companyName,
+            isFollowed: type === 'post',
+          },
+        };
+      });
+    }
+
+    return { prevData };
+  };
+
+  const { mutate: follow } = useMutation(
+    ['post', 'follow'],
+    () => postFollow(roadmapDetail!.author.userId!),
+    {
+      onMutate: () => updateFollow('post'),
+    }
+  );
+
+  const { mutate: unfollow } = useMutation(
+    ['put', 'follow'],
+    () => putFollow(roadmapDetail!.author.userId!),
+    {
+      onMutate: () => updateFollow('put'),
+    }
+  );
+
+  const onClickFollowHandler = () => {
+    if (!isLoggedIn) {
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다.', isVisible: true });
+      return;
+    }
+
+    if (roadmapDetail?.author.isFollowed) {
+      unfollow();
+    } else {
+      follow();
+    }
+  };
+
+  const unBookmark = useMutation(putBookmark, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['roadmap', userName]);
+    },
+  });
+
+  const bookmark = useMutation(postBookmark, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['roadmap', userName]);
+    },
+  });
+
+  const onClickBookmarkHandler = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    if (!isLoggedIn) {
+      setToast({
+        type: 'negative',
+        isVisible: true,
+        message: '로그인 후 북마크를 이용해보세요! ',
+      });
+    } else if (roadmapDetail?.isBookmarked) {
+      unBookmark.mutate({ id: roadmapDetail!.roadmapId, type: 'ROADMAP' });
+      setToast({
+        type: 'positive',
+        message: '북마크에서 제거되었습니다.',
+        isVisible: true,
+      });
+    } else {
+      bookmark.mutate({ id: roadmapDetail!.roadmapId, type: 'ROADMAP' });
+      setToast({
+        type: 'positive',
+        message: '북마크에 추가되었습니다.',
+        isVisible: true,
+      });
+    }
+  };
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   if (isLoading) {
     return <Paragraph sizeType="base">Loading...</Paragraph>;
@@ -85,7 +277,13 @@ const RoadmapDetailPage = () => {
           {roadmapDetail?.tag}
         </Button>
 
-        <SubTitle>{roadmapDetail?.title}</SubTitle>
+        <TitleBookmarkWrapper>
+          <SubTitle>{roadmapDetail?.title}</SubTitle>
+          <BookmarkIcon onClick={onClickBookmarkHandler}>
+            {roadmapDetail?.isBookmarked && <IconBookmarkFill />}
+            {roadmapDetail?.isBookmarked || <IconBookmarkEmpty />}
+          </BookmarkIcon>
+        </TitleBookmarkWrapper>
 
         <UserWrapper>
           <UserInfoWrapper>
@@ -98,22 +296,48 @@ const RoadmapDetailPage = () => {
             </div>
           </UserInfoWrapper>
 
+          {isMine && (
+            <ButtonWrapper>
+              <Button
+                as={Link}
+                to="/roadmap/edit"
+                designType="blueEmpty"
+                borderRadius="var(--borders-radius-lg)"
+                margin="0 0.5rem 0 0"
+              >
+                수정
+              </Button>
+              <Button
+                onClick={() => setIsDeleteModalOpen(true)}
+                designType="blueEmpty"
+                borderRadius="var(--borders-radius-lg)"
+              >
+                삭제
+              </Button>
+            </ButtonWrapper>
+          )}
+
           {/* 팔로우 버튼 */}
-          {roadmapDetail?.author.isFollowed ? (
-            <Button designType="blueFill" borderRadius="var(--borders-radius-lg)">
-              팔로잉
+          {isMine || (
+            <Button
+              designType={roadmapDetail?.author.isFollowed ? 'blueFill' : 'blueEmpty'}
+              padding="0.25rem 1rem"
+              borderRadius="var(--borders-radius-lg)"
+              onClick={onClickFollowHandler}
+            >
+              {roadmapDetail?.author.isFollowed ? '팔로잉' : '팔로우'}
             </Button>
-          ) : (
-            <Button borderRadius="var(--borders-radius-lg)">팔로우</Button>
           )}
         </UserWrapper>
         <RoadmapDetailBody nodes={roadmapDetail!.nodes} edges={roadmapDetail!.edges} />
 
-        <LikeWrapper>
-          <IconLikeEmpty />
+        <LikeWrapper onClick={onClickLikeHandler}>
+          {roadmapDetail?.isLiked ? <IconLikeFill /> : <IconLikeEmpty />}
           <Paragraph sizeType="base">{roadmapDetail!.likeCount}</Paragraph>
         </LikeWrapper>
       </RoadmapDetailWrapper>
+
+      {isDeleteModalOpen && <RoadmapDeleteModal />}
     </Layout>
   );
 };

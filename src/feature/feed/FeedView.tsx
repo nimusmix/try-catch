@@ -8,8 +8,14 @@ const Wrapper = styled.div`
 `;
 
 const IconWrapper = styled.button`
-  margin: 0 0.2rem 0 0.4rem;
+  margin: 0 0 0 0.1rem;
+  padding: 0.3rem;
   cursor: pointer;
+  border-radius: 6px;
+  :hover {
+    background: ${({ theme: { isDark } }) =>
+      isDark ? 'var(--colors-black-400)' : 'var(--colors-white-400)'};
+  }
 `;
 
 interface FeedViewProps {

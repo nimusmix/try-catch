@@ -20,7 +20,7 @@ const QnaFormTagSection = ({ dispatch }: { dispatch: QuestionDispatch }) => {
 
   const addTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (tags.includes(e.currentTarget.value)) {
-      setToast({ type: 'negative', message: '이름이 같은 태그가 있어요.', isVisible: true });
+      setToast({ type: 'negative', message: '이름이 같은 태그가 있어요', isVisible: true });
       return;
     }
     if (e.currentTarget.value !== '') {

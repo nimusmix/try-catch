@@ -1,14 +1,14 @@
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
-import { useState } from 'react';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { useMutation, useQueryClient } from 'react-query';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
 import { MiniTitle, Paragraph } from '../../components';
-import { isDarkState } from '../../recoil';
-import { IFeedItemProps } from './IFeed';
+import { isDarkState, isLoggedInState, toastState } from '../../recoil';
+import { IFeedItemProps, IFeedListProps } from './IFeed';
 import FeedTag from './FeedTag';
-import getImageUrl from '../../utils/getImageUrl';
-import { COMPANY } from '../../constant/company';
 import { postFeedRead } from '../../apis/feed/feed';
+
+import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
 
 const DefaultDIv = styled.div`
   /* 한 줄 자르기 */
@@ -28,12 +28,20 @@ const DefaultDIv = styled.div`
   -webkit-box-orient: vertical;
 `;
 
+const BlogMiniTitle = styled(MiniTitle)`
+  width: 510px;
+`;
+
 const Wrapper = styled.article`
   display: flex;
   border-bottom: 1px solid var(--colors-black-200);
   &:hover {
     background-color: ${({ theme: { isDark } }) =>
       isDark ? 'var(--colors-black-400)' : 'var(--colors-white-400)'};
+    ${BlogMiniTitle} {
+      color: var(--colors-brand-500);
+      transition: color 0.3s ease-in;
+    }
   }
 `;
 
@@ -64,7 +72,7 @@ const FeedFooter = styled(DefaultDIv)`
   margin-bottom: 0.75rem;
 `;
 
-const Icons = styled.button`
+const BookmarkButton = styled.button`
   display: flex;
   align-items: center;
   svg {
@@ -123,6 +131,7 @@ const LinkWrapper = ({ children, url, onClick }: LinkProps) => {
 };
 
 const FeedListItem = ({
+  id,
   title,
   summary,
   tags,
@@ -133,19 +142,56 @@ const FeedListItem = ({
   thumbnailImage,
   createAt,
   logoSrc,
+  keyword,
+  paramSort,
+  subscribe,
+  advanced,
 }: IFeedItemProps) => {
   const isDark = useRecoilValue(isDarkState);
-  const [bookMarkIcon, setBookMarkIcon] = useState(isBookmarked);
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setBookMarkIcon(!bookMarkIcon);
-    e.preventDefault();
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [toast, setToast] = useRecoilState(toastState);
 
-    // isBookmarked 상태 변화 보내기
-    // /bookmark
-    // body{
-    //   id: number,
-    //   type :string; // feed
-    // }
+  const queryClient = useQueryClient();
+
+  const unBookmark = useMutation(putBookmark, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('feed');
+    },
+  });
+
+  const bookmark = useMutation(postBookmark, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('feed');
+    },
+  });
+
+  const onClickBookmarkHandler = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    if (!isLoggedIn) {
+      setToast({
+        type: 'negative',
+        isVisible: true,
+        message: '로그인 후 북마크를 이용해보세요! ',
+      });
+    } else if (isBookmarked) {
+      unBookmark.mutate({ id, type: 'FEED' });
+      setToast({
+        type: 'positive',
+        message: '북마크에서 제거되었습니다.',
+        isVisible: true,
+      });
+    } else {
+      bookmark.mutate({ id, type: 'FEED' });
+      setToast({
+        type: 'positive',
+        message: '북마크에 추가되었습니다.',
+        isVisible: true,
+      });
+    }
+  };
+
+  const handleFeedRead = () => {
+    postFeedRead({ feedId: id });
   };
 
   return (
@@ -158,7 +204,7 @@ const FeedListItem = ({
           justifyContent: 'center',
         }}
       >
-        <LinkWrapper url={url}>
+        <LinkWrapper url={url} onClick={handleFeedRead}>
           <FeedThumbnailImgWrapper>
             <FeedThumbnailImg image={thumbnailImage} />
           </FeedThumbnailImgWrapper>
@@ -167,7 +213,7 @@ const FeedListItem = ({
 
       <BlogWrapper>
         <FeedHeader>
-          <LinkWrapper url={url}>
+          <LinkWrapper url={url} onClick={handleFeedRead}>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
               <CompanyImg src={logoSrc} alt={companyName} />
               <MiniTitle
@@ -183,28 +229,27 @@ const FeedListItem = ({
               </Paragraph>
             </div>
           </LinkWrapper>
-          <Icons onClick={handleClick}>
+          <BookmarkButton onClick={onClickBookmarkHandler}>
             {/* 북마크 */}
-            {bookMarkIcon && <IconBookmarkFill size="27" color="var(--colors-brand-500)" />}
-            {bookMarkIcon || <IconBookmarkEmpty size="27" color="var(--colors-brand-500)" />}
-          </Icons>
+            {isBookmarked && <IconBookmarkFill size="27" color="var(--colors-brand-500)" />}
+            {isBookmarked || <IconBookmarkEmpty size="27" color="var(--colors-brand-500)" />}
+          </BookmarkButton>
         </FeedHeader>
 
         <BlogTitle>
-          <LinkWrapper url={url}>
-            <MiniTitle
+          <LinkWrapper url={url} onClick={handleFeedRead}>
+            <BlogMiniTitle
               sizeType="xl"
               color={isDark ? 'var(--colors-white-500)' : 'var(--colors-dark-500)'}
               textAlign="left"
-              style={{ width: '510px' }}
             >
               {title}
-            </MiniTitle>
+            </BlogMiniTitle>
           </LinkWrapper>
         </BlogTitle>
 
         <FeedBody>
-          <LinkWrapper url={url}>
+          <LinkWrapper url={url} onClick={handleFeedRead}>
             <Paragraph
               sizeType="base"
               color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}

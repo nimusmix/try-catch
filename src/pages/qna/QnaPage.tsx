@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import loadable from '@loadable/component';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { HeaderImage, Layout } from '../../layout';
 import { Button, Paragraph, SubTitle } from '../../components';
 import { PopularQna, QnaPopularTag, QnaSearchBar } from '../../feature/qna';
@@ -12,6 +12,9 @@ import SideNavbar from '../../components/side-navbar/SideNavbar';
 import qnaCategoryState from '../../recoil/qnaCategoryState';
 import { IconPen } from '../../components/icons/Icons';
 import { useQuestionDispatch } from '../../context/QnaContext';
+import QnaListSkeleton from '../../feature/qna/skeleton/QnaListSkeleton';
+import QnaPopularTagsSkeleton from '../../feature/qna/skeleton/QnaPopularTagsSkeleton';
+import { isLoggedInState, toastState } from '../../recoil';
 
 const DetailPage = loadable(() => import('./QnaDetailPage'));
 
@@ -25,11 +28,6 @@ const navOptions = [
     id: 2,
     option: '커리어',
     value: 'CAREER',
-  },
-  {
-    id: 3,
-    option: '밸런스 게임',
-    value: 'BALANCE',
   },
 ];
 
@@ -52,7 +50,7 @@ const filterOptions = [
 ];
 
 const Ul = styled.ul`
-  margin-top: 3rem;
+  padding-top: 3rem;
   display: flex;
   max-width: 848px;
 `;
@@ -64,7 +62,7 @@ const Li = styled.li`
   border-bottom: 1px solid ${({ theme }) => theme.textColor100};
   color: ${({ theme }) => theme.textColor100};
   cursor: pointer;
-  transition: color, background-color 0.1s ease-in;
+  transition: color 0.4s ease-in, border 0.2s ease-in;
 
   &:hover,
   &.active {
@@ -74,11 +72,30 @@ const Li = styled.li`
   }
 `;
 
+const QnaFilterWrapper = styled.div`
+  position: sticky;
+  top: 11.6rem;
+  opacity: 0.9;
+  background: ${({ theme: { bgColor } }) => bgColor};
+`;
+
 const QnaPage = () => {
   const [activeCategory, setActiveCategory] = useRecoilState(qnaCategoryState);
   const [filter, setFilter] = useState<string>('all');
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const isLogin = useRecoilValue(isLoggedInState);
+  const setToast = useSetRecoilState(toastState);
   const dispatch = useQuestionDispatch();
   const activeIdx = navOptions.findIndex((option) => option.value === activeCategory);
+  const navigate = useNavigate();
+
+  const onClickWriteButton = () => {
+    if (!isLogin) {
+      setToast({ type: 'negative', message: '로그인 후 이용할 수 있어요', isVisible: true });
+      return;
+    }
+    navigate('form');
+  };
 
   // 디테일 페이지를 미리 로드 (효과가 있는지 잘 모르겠음..)
   useEffect(() => {
@@ -104,7 +121,7 @@ const QnaPage = () => {
         {/* 메인 컨텐츠 */}
         <section>
           <QnaSearchBar />
-          <div>
+          <QnaFilterWrapper>
             <Ul>
               {filterOptions.map((option) => (
                 // eslint-disable-next-line jsx-a11y/click-events-have-key-events
@@ -117,24 +134,26 @@ const QnaPage = () => {
                 </Li>
               ))}
             </Ul>
-          </div>
+          </QnaFilterWrapper>
+          {/* 로딩 시 스켈레톤 */}
+          {isLoading && <QnaListSkeleton />}
           {/* Q&A 리스트 */}
-          <QuestionList filter={filter} />
+          <QuestionList filter={filter} setIsLoading={setIsLoading} />
         </section>
         <Aside>
-          <Link to="form">
-            <Button
-              width="100%"
-              fontSize="var(--fonts-body-base)"
-              padding="0.455rem 1.125rem"
-              margin="0 0 1rem 0"
-            >
-              <IconPen />
-              &nbsp;&nbsp;질문 작성하기
-            </Button>
-          </Link>
+          <Button
+            width="100%"
+            fontSize="var(--fonts-body-base)"
+            padding="0.455rem 1.125rem"
+            margin="0 0 1rem 0"
+            onClick={onClickWriteButton}
+          >
+            <IconPen />
+            &nbsp;&nbsp;질문 작성하기
+          </Button>
           {/* 인기 태그 */}
-          <QnaPopularTag />
+          {isLoading && <QnaPopularTagsSkeleton />}
+          {isLoading || <QnaPopularTag />}
           {/* 인기 Q&A */}
           <PopularQna />
         </Aside>

@@ -1,8 +1,14 @@
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
+import { useRecoilValue } from 'recoil';
+import { getPopularQuestion } from '../../../apis/qna/qna';
 import { Div, MiniTitle } from '../../../components';
+import { IQuestion } from '../../../interface/qna';
+import qnaCategoryState from '../../../recoil/qnaCategoryState';
+import QnaPopularCarouselSkeleton from '../skeleton/QnaPopularCarouselSkeleton';
 import StyledSlider from '../../../components/carousel/Slider';
 
-const PopularQnaWrapper = styled(Div)`
+export const PopularQnaWrapper = styled(Div)`
   margin-top: 1rem;
   border-radius: var(--borders-radius-base);
   overflow: hidden;
@@ -15,12 +21,21 @@ const PopularQnaTitle = styled(MiniTitle)`
 `;
 
 const PopularQna = () => {
+  const activeCategory = useRecoilValue(qnaCategoryState);
+
+  const size = 5;
+  const { isLoading, data: popularQuestion } = useQuery<Array<IQuestion>>(
+    ['popularQuestion', activeCategory] as const,
+    getPopularQuestion({ category: activeCategory as 'DEV' | 'CAREER', size })
+  );
+
   return (
     <PopularQnaWrapper padding="0rem">
       <PopularQnaTitle sizeType="xl" textAlign="left" padding="1.25rem 1.625rem 1rem 1.625rem">
-        인기 Q&A
+        인기 Q&A 🔥
       </PopularQnaTitle>
-      <StyledSlider />
+      {isLoading && <QnaPopularCarouselSkeleton />}
+      {popularQuestion && <StyledSlider items={popularQuestion} />}
     </PopularQnaWrapper>
   );
 };

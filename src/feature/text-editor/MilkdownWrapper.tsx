@@ -101,6 +101,7 @@ const MilkDownWrapper = styled.div<{
 
   .slash-dropdown {
     min-height: 8rem;
+    z-index: 1;
   }
 
   .code-fence_selector-list {

@@ -1,9 +1,10 @@
 import styled from 'styled-components';
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SlideButton from '../../components/carousel/SlideButton';
 import { Button, MiniTitle, Paragraph } from '../../components';
-import { Slider, SliderList, SliderTrack, SliderItemDiv } from '../../components/carousel/Slider';
+import { Slider, SliderItemDiv, SliderList, SliderTrack } from '../../components/carousel/Slider';
+import useInterval from '../../hooks/useInterval';
 
 const SliderArea = styled.div`
   position: relative;
@@ -82,23 +83,6 @@ const Card = ({ challengeId, title, content, buttonContent }: Partial<ICardCarou
   );
 };
 
-const useInterval = (callback: () => void, delay: number | null) => {
-  const savedCallback = useRef<() => void>(() => {});
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-
-  useEffect(() => {
-    const tick = () => {
-      savedCallback.current();
-    };
-    if (delay !== null) {
-      const id = setInterval(tick, delay);
-      return () => clearInterval(id); // clean-up
-    }
-    return () => {};
-  }, [delay]);
-};
 const items = [
   {
     challengeId: 1,

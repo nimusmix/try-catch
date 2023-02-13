@@ -12,6 +12,7 @@ import { useQuestionDispatch, useQuestionState } from '../../context/QnaContext'
 import { getQuestionDetail, postQuestion, putQuestion } from '../../apis/qna/qna';
 import { logOnDev } from '../../utils/logging';
 import { toastState } from '../../recoil';
+import QnaFormSkeleton from '../../feature/qna/skeleton/QnaFormSkeleton';
 
 const QnaFormContainer = styled.div`
   display: flex;
@@ -122,15 +123,20 @@ const QnaFormPage = ({ edit }: { edit?: boolean }) => {
       <Layout>
         <QnaFormContainer>
           <Section>
-            <QnaFormHeader />
-            <QnaFormBody edit={edit as boolean} />
-            <QnaFormFooter>
-              {questionId ? (
-                <Button onClick={onClickSubmitQuestion}>수정</Button>
-              ) : (
-                <Button onClick={onClickSubmitQuestion}>작성</Button>
-              )}
-            </QnaFormFooter>
+            {isLoading && <QnaFormSkeleton />}
+            {isLoading || (
+              <>
+                <QnaFormHeader />
+                <QnaFormBody edit={edit as boolean} />
+                <QnaFormFooter>
+                  {questionId ? (
+                    <Button onClick={onClickSubmitQuestion}>수정</Button>
+                  ) : (
+                    <Button onClick={onClickSubmitQuestion}>작성</Button>
+                  )}
+                </QnaFormFooter>
+              </>
+            )}
           </Section>
           <TooltipAside />
         </QnaFormContainer>

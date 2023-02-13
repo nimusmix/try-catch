@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
 import React from 'react';
 import { IconBellFill, IconBookmarkFill, IconUserCircle } from '../../components/icons/Icons';
 import { BOOKMARK_PAGE_NAME } from '../../constant';
 import { Paragraph } from '../../components';
-import { accToken, isDarkState } from '../../recoil';
+import { accToken, refToken, isDarkState, isLoggedInState } from '../../recoil';
 import { getImage, getName } from '../../apis/auth/auth';
 import { Ul } from './NavMenu';
 
@@ -96,22 +96,33 @@ const Line = styled.div`
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
   const acc = useRecoilValue(accToken);
-  // TODO 알림기능
-  // const { followNotifications, answerRegistrationNotifications, answerAcceptanceNotifications } =
-  //   useNotifications();
   const { data: profileImage } = useQuery(['user', 'profileImage'] as const, () => getImage(acc));
   const { data: userName } = useQuery(['user', 'userName'] as const, getName, {
     enabled: !!profileImage,
   });
 
   const navi = useNavigate();
+
   const goToProfile = (e: React.MouseEvent) => {
     e.preventDefault();
     navi(`/profile/${userName}`);
   };
+
   const goToSettings = (e: React.MouseEvent) => {
     e.preventDefault();
     navi('/settings');
+  };
+
+  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  const setAccToken = useSetRecoilState(accToken);
+  const setRefToken = useSetRecoilState(refToken);
+  const logout = (e: React.MouseEvent) => {
+    console.log('로그아웃 누름');
+    e.preventDefault();
+    setIsLoggedIn(false);
+    setAccToken('');
+    setRefToken('');
+    navi('/');
   };
 
   return (
@@ -162,7 +173,9 @@ const MemberNavMenu = () => {
                 설정
               </DropLi>
               <Line />
-              <DropLi>로그아웃</DropLi>
+              <DropLi as="div" onClick={logout}>
+                로그아웃
+              </DropLi>
             </DropUl>
           </DropLiContainer>
         </Dropdown>

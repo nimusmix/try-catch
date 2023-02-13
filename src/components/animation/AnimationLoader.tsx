@@ -1,14 +1,19 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import animationData from '../../assets/cat-ch-404.json';
 
 export interface AnimationLoaderProps {
-  width?: string;
-  height?: string;
+  width?: number;
+  height?: number;
+  animationData: any;
+  autoplay: boolean;
+  loop: boolean;
+  opacity?: number;
 }
 
-const Container = styled.div`
-  opacity: 0.3;
+const Container = styled.div<{ opacity?: number; width?: number; height?: number }>`
+  opacity: ${({ opacity }) => opacity || '0.3'};
+  ${({ width }) => width && `width: ${width}px`};
+  ${({ height }) => height && `height: ${height}px`};
   position: absolute;
   top: 0;
   left: 0;
@@ -16,7 +21,14 @@ const Container = styled.div`
   bottom: 0;
   z-index: -1;
 `;
-const AnimationLoader = ({ width, height }: AnimationLoaderProps) => {
+const AnimationLoader = ({
+  width,
+  height,
+  animationData,
+  autoplay,
+  loop,
+  opacity,
+}: AnimationLoaderProps) => {
   const container = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -24,8 +36,8 @@ const AnimationLoader = ({ width, height }: AnimationLoaderProps) => {
       (Lottie as any).loadAnimation({
         container: container.current,
         renderer: 'svg',
-        autoplay: true,
-        loop: true,
+        autoplay,
+        loop,
         animationData,
       });
     });
@@ -35,9 +47,9 @@ const AnimationLoader = ({ width, height }: AnimationLoaderProps) => {
         (Lottie as any).destroy();
       });
     };
-  }, []);
+  }, [animationData, autoplay, loop]);
 
-  return <Container ref={container} />;
+  return <Container ref={container} opacity={opacity} width={width} height={height} />;
 };
 
 export default AnimationLoader;

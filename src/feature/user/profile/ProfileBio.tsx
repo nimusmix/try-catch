@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Link, Outlet, useParams } from 'react-router-dom';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { getName } from '../../../apis/auth/auth';
 import { getUserDetail, getUserId } from '../../../apis/profile/profile';
@@ -12,6 +11,7 @@ import { isLoggedInState, toastState } from '../../../recoil';
 import { postFollow, putFollow } from '../../../apis/user/user';
 import getImageUrl from '../../../utils/getImageUrl';
 import { COMPANY } from '../../../constant/company';
+import isModalOpenedState from '../../../recoil/isModalOpenedState';
 
 const BioWrapper = styled.div`
   display: flex;
@@ -67,46 +67,44 @@ const Introduction = styled.div`
   padding: 3rem 0;
 `;
 
-const ProfileBio = ({ changeFn }: any) => {
+const ProfileBio = () => {
   const { userName } = useParams();
-  const { data: userId } = useQuery<number>(['profileBio', 'userId'] as const, () =>
+  const queryClient = useQueryClient();
+  const { data: userId } = useQuery<number>(['profileBio', userName] as const, () =>
     getUserId(userName!)
   );
 
   const { data: user } = useQuery<IUserDetail>(
-    ['userDetail'] as const,
+    ['userDetail', userId] as const,
     () => getUserDetail(userId!),
     {
       enabled: !!userId,
+      onSuccess: () => {
+        queryClient.invalidateQueries(['profileBio', userName]);
+      },
     }
   );
 
-  const { data: loginedUserName } = useQuery(['loginedUserName'] as const, getName);
+  const { data: loginedUserName } = useQuery(['loginedUserName', 'profileBio'] as const, getName);
   const isMine = isMyself(loginedUserName, userName!);
-  changeFn(isMine);
 
   // 로그인 여부 (모달 띄우기 방지 위함)
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const [toast, setToast] = useRecoilState(toastState);
-  const [isModalOpened, setIsModalOpened] = useState(false);
+  const [isModalOpened, setIsModalOpened] = useRecoilState(isModalOpenedState);
   const modalClick = (e: React.MouseEvent<HTMLElement>) => {
     if (isLoggedIn) {
       setIsModalOpened(true);
     } else {
-      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다.', isVisible: true });
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있어요', isVisible: true });
     }
   };
 
-  // const createImageUrl = (companyName: string) => {
-  //   return new URL(`/src/assets/logo/${companyName}.png`, import.meta.url).href;
-  // };
-
-  const queryClient = useQueryClient();
   const updateFollow = (type: 'post' | 'put') => {
-    const prevData = queryClient.getQueryData(['userDetail']);
+    const prevData = queryClient.getQueryData(['userDetail', userName]);
 
     if (prevData) {
-      queryClient.setQueryData<IUserDetail>(['userDetail'], (oldData: any) => {
+      queryClient.setQueryData<IUserDetail>(['userDetail', userName], (oldData: any) => {
         return {
           ...oldData,
           isFollowed: type === 'post',
@@ -126,6 +124,11 @@ const ProfileBio = ({ changeFn }: any) => {
   });
 
   const clickFollowBtn = () => {
+    if (!isLoggedIn) {
+      setToast({ type: 'negative', message: '로그인 후 이용하실 수 있습니다.', isVisible: true });
+      return;
+    }
+
     if (user?.isFollowed) {
       unfollow();
     } else {

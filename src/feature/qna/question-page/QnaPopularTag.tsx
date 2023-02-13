@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
+import { useSetRecoilState } from 'recoil';
 import { Button, Div, MiniTitle } from '../../../components';
-import { logOnDev } from '../../../utils/logging';
 import { getPopularTags } from '../../../apis/qna/qna';
+import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
 
 const QnaPopularTagWrapper = styled(Div)`
   border-radius: 0.5rem;
@@ -23,13 +24,15 @@ const TagsWrapper = styled.div`
 `;
 
 const QnaPopularTag = () => {
+  const setKeyword = useSetRecoilState(qnaSearchKeywordState);
   const { data: qnaPopularTags, isLoading } = useQuery(
     ['question', 'popular', 'tag'] as const,
     getPopularTags
   );
 
-  const handleClick = () => {
-    logOnDev.log('버튼 테스트');
+  const handleClick = (e: React.MouseEvent<HTMLSpanElement>) => {
+    const keyword = e.currentTarget.innerText.toLowerCase();
+    setKeyword(keyword);
   };
 
   // /search?type=qna&keyword=&page=&size&
@@ -38,10 +41,8 @@ const QnaPopularTag = () => {
       <QnaPopularTagTitle sizeType="xl" textAlign="left">
         인기 태그
       </QnaPopularTagTitle>
-      {isLoading && <div>로딩중..</div>}
       {isLoading || (
         <TagsWrapper>
-          {qnaPopularTags?.tags.length === 0 && '태그가 없어요..'}
           {qnaPopularTags?.tags.map((tag) => (
             <Button
               key={tag}

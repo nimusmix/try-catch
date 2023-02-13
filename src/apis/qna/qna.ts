@@ -5,7 +5,7 @@ import { IPostQuestion, IQuestion, IQuestionSearch } from '../../interface/qna';
 
 // Question 목록을 불러온다
 export const getQuestionList = (params: IQuestionSearch) => {
-  return api.get(`/question`, { params }).then((res: AxiosResponse<Array<IQuestion>>) => {
+  return authApi.get(`/question`, { params }).then((res: AxiosResponse<Array<IQuestion>>) => {
     let nextPage;
     if (res.data.length === 10) {
       nextPage = params.page + 1;
@@ -58,7 +58,9 @@ export const postQuestion = (data: IPostQuestion) => () => {
  * 질문 수정
  */
 export const putQuestion = (id: number, data: IPostQuestion & { hidden: boolean }) => () => {
-  return authApi.put(`/question/${id}`, data).then((res: AxiosResponse) => res.data);
+  return authApi
+    .put(`/question/${id}`, { questionId: id, ...data })
+    .then((res: AxiosResponse) => res.data);
 };
 
 export const getQuestQuestionList = () => {

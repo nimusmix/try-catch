@@ -1,17 +1,14 @@
 import loadable from '@loadable/component';
 
 import LandingPage from './landing/LandingPage';
-import HomePage from './home/HomePage';
 import QnaPage from './qna/QnaPage';
-import FeedPage from './feed/FeedPage';
-import ChallengesPage from './challenges/ChallengesPage';
 import RoadmapPage from './roadmap/RoadmapPage';
 
 // const LandingPage = loadable(() => import('./landing/LandingPage'));
 // const HomePage = loadable(() => import('./home/HomePage'));
 // const QnaPage = loadable(() => import('./qna/QnaPage'));
-// const FeedPage = loadable(() => import('./feed/FeedPage'));
-// const ChallengesPage = loadable(() => import('./challenges/ChallengesPage'));
+const FeedPage = loadable(() => import('./feed/FeedPage'));
+const ChallengesPage = loadable(() => import('./challenges/ChallengesPage'));
 
 // const RoadmapPage = loadable(() => import('./roadmap/RoadmapPage'));
 const QnaFormPage = loadable(() => import('./qna/QnaFormPage'));
@@ -20,6 +17,7 @@ const ChallengesDetailPage = loadable(() => import('./challenges/ChallengesDetai
 const RoadmapFormPage = loadable(() => import('./roadmap/RoadmapFormPage'));
 const RoadmapListPage = loadable(() => import('./roadmap/RoadmapListPage'));
 const RoadmapDetailPage = loadable(() => import('./roadmap/RoadmapDetailPage'));
+const RoadmapEditPage = loadable(() => import('./roadmap/RoadmapEditPage'));
 const UserProfilePage = loadable(() => import('./profile/UserProfilePage'));
 const CompanyProfilePage = loadable(() => import('./profile/CompanyProfilePage'));
 const ProfileEditPage = loadable(() => import('./profile/ProfileEditPage'));
@@ -36,7 +34,6 @@ const FollowersPage = loadable(() => import('./profile/FollowersPage'));
 
 export {
   LandingPage,
-  HomePage,
   QnaPage,
   QnaFormPage,
   QnaDetailPage,
@@ -47,6 +44,7 @@ export {
   RoadmapFormPage,
   RoadmapListPage,
   RoadmapDetailPage,
+  RoadmapEditPage,
   UserProfilePage,
   CompanyProfilePage,
   ProfileEditPage,

@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { useNavigate } from 'react-router-dom';
 import {
   IconCheckCircle,
   IconComment,
@@ -14,18 +15,34 @@ import { Button, MiniTitle, Paragraph } from '../../../components';
 import { isDarkState } from '../../../recoil';
 import elapsedTime from '../../../utils/elapsed-time';
 import { IQuestion } from '../../../interface/qna';
+import categoryToKorean from '../../../utils/category-to-korean';
+import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
 
 const Wrapper = styled.article`
   max-width: 848px;
-  padding: 2rem 2.25rem 1rem;
+  padding: 1rem 2.25rem 1rem;
   border-bottom: 1px solid ${({ theme }) => theme.borderColor};
   cursor: pointer;
+
+  h3 {
+    transition: color 0.3s ease-in;
+  }
   &:hover {
     background-color: ${({ theme: { isDark } }) =>
       isDark ? 'var(--colors-black-400)' : 'var(--colors-white-400)'};
   }
+
+  &:hover h3 {
+    color: var(--colors-brand-500);
+  }
   & > span {
     margin-bottom: 1rem;
+  }
+
+  & > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem 0 0.6rem;
   }
 `;
 
@@ -93,10 +110,29 @@ const UpperTag = styled(Button)`
 `;
 
 const Tag = styled(Button)`
-  border: 1px solid rgb(238 238 238/10);
-  background-color: ${({ theme: { bgColor } }) => bgColor};
+  border: 1px solid
+    ${({ theme: { isDark } }) => (isDark ? 'var(--colors-black-400)' : 'rgb(238 238 238/10)')};
+  background-color: ${({ theme: { isDark } }) => (isDark ? 'hsl(220deg 13% 28%)' : '#d6e4fb')};
   color: ${({ theme: { textColor } }) => textColor};
+  text-transform: capitalize;
+  transition: border 0.2s ease-in, background-color 0.2s ease-in, color 0.2s ease-in;
 
+  svg {
+    margin-right: 0.1rem;
+    color: ${({ theme: { isDark, textColor } }) =>
+      isDark ? textColor : 'var(--colors-black-100)'};
+    transition: color 0.2s ease-in;
+  }
+
+  .tag-text {
+    max-width: 80px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-break: break-all;
+  }
+
+  &:hover svg,
   &:hover {
     color: #f1f1f1;
   }
@@ -109,13 +145,6 @@ const TitleWrapper = styled.div`
     margin-right: 0.5rem;
   }
 `;
-
-const toKorean = (category: string | undefined) => {
-  if (category === 'DEV') {
-    return '개발';
-  }
-  return '커리어';
-};
 
 const QuestionItem = ({
   category,
@@ -131,17 +160,32 @@ const QuestionItem = ({
   ...rest
 }: Partial<IQuestion>) => {
   const isDark = useRecoilValue(isDarkState);
+  const setKeyword = useSetRecoilState(qnaSearchKeywordState);
+  const navigate = useNavigate();
 
   return (
-    <Wrapper>
-      <Button
-        as="span"
-        designType="purpleFill"
-        fontSize="var(--fonts-body-xm)"
-        padding="2.2px 10px"
-      >
-        {toKorean(category)}
-      </Button>
+    <Wrapper
+      onClick={() => {
+        navigate(`${rest.questionId}`);
+      }}
+    >
+      <div>
+        <Button
+          as="span"
+          designType="purpleFill"
+          fontSize="var(--fonts-body-xm)"
+          padding="2.2px 10px"
+        >
+          {categoryToKorean(category)}
+        </Button>
+        <Paragraph
+          as="span"
+          sizeType="sm"
+          color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
+        >
+          {timestamp ? elapsedTime(timestamp) : null}
+        </Paragraph>
+      </div>
       <QuestionHeader>
         <TitleWrapper>
           <MiniTitle
@@ -165,13 +209,6 @@ const QuestionItem = ({
             </UpperTag>
           )}
         </TitleWrapper>
-        <Paragraph
-          as="span"
-          sizeType="sm"
-          color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-        >
-          {timestamp ? elapsedTime(timestamp) : null}
-        </Paragraph>
       </QuestionHeader>
 
       <QuestionBody>
@@ -190,10 +227,14 @@ const QuestionItem = ({
                 as="span"
                 fontSize="var(--fonts-body-xm)"
                 padding="2px 10px"
-                borderRadius="var(--borders-radius-base)"
+                borderRadius="var(--borders-radius-lg)"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setKeyword(tag.toLocaleLowerCase());
+                }}
               >
-                <IconHash color="var(--colors-black-100)" />
-                {tag}
+                <IconHash />
+                <span className="tag-text">{tag}</span>
               </Tag>
             );
           })}

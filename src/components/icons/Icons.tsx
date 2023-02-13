@@ -15,6 +15,7 @@ import {
   BsBellFill as IconBellFill,
   BsCheck as IconCheck,
   BsCheckCircleFill as IconCheckCircle,
+  BsDot as IconDot,
   BsFillReplyFill as IconReply,
   BsGrid as IconCard,
   BsQuestionDiamondFill as IconTrying,
@@ -29,15 +30,28 @@ import {
   AiOutlineEye as IconEye,
   AiOutlineLike as IconLikeEmpty,
 } from 'react-icons/ai';
+
 import { BiComment as IconComment } from 'react-icons/bi';
-import { FaUserCircle as IconUserCircle } from 'react-icons/fa';
+import { FaMedal as IconChallenge, FaUserCircle as IconUserCircle } from 'react-icons/fa';
 import { FiMoreVertical as IconMore } from 'react-icons/fi';
 import { GiTalk as IconQuestion } from 'react-icons/gi';
-import { MdOutlineCreate as IconPen, MdOutlineFeed as IconFeed } from 'react-icons/md';
-import { RiDeleteBin6Line as IconDelete } from 'react-icons/ri';
+import {
+  MdOutlineCreate as IconPen,
+  MdOutlineFeed as IconFeed,
+  MdOutlineFollowTheSigns as IconRoadmap,
+  MdOutlineMail as IconEmail,
+  MdRefresh as IconRefresh,
+} from 'react-icons/md';
+import {
+  RiDeleteBin6Line as IconDelete,
+  RiGithubFill as IconGithub,
+  RiGitlabFill as IconGitlab,
+} from 'react-icons/ri';
 import { HiHashtag as IconHash } from 'react-icons/hi';
+import { ReactComponent as IconBest } from '../../assets/icon-best.svg';
 
 export {
+  IconChallenge,
   IconArrow,
   IconArrowDown,
   IconArrowUp,
@@ -68,4 +82,11 @@ export {
   IconDelete,
   IconPen,
   IconHash,
+  IconBest,
+  IconDot,
+  IconRefresh,
+  IconRoadmap,
+  IconGithub,
+  IconGitlab,
+  IconEmail,
 };

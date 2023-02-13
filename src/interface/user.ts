@@ -10,33 +10,6 @@ export interface ISimpleUserData {
   isFollowed: boolean;
 }
 
-/**
- * /user/{userId}/github
- */
-// 그냥 타입 정의 필요없이 바로
-
-/**
- * /user/{userId}/answer/list
- */
-// export interface IAnswer {
-//   author: ISimpleUserData;
-//   answerId: number;
-//   answerContent: string;
-//   timestamp: number;
-//   likeCount: number;
-//   isLiked: boolean;
-// }
-
-// export interface IAnswerList {
-//   answers: Array<IAnswer>;
-// }
-
-// export interface IUserAnswer extends Omit<IAnswer, 'author'> {
-//   questionId: number;
-//   questionTitle: string;
-//   questionContent: string;
-// }
-
 export interface IUserAnswer {
   answerId: number;
   questionId: number;
@@ -114,18 +87,32 @@ export interface IRecentList {
   recentFeeds: Array<IFeed>;
 }
 
+export interface ICompanyFeed {
+  feedId: number;
+  title: string;
+  summary: string;
+  companyName: string;
+  createdAt: number;
+  url: string;
+  thumbnailImage: string;
+  tags: Array<string>;
+  keywords: Array<string>;
+  isBookmarked: boolean;
+}
+
 /**
  * /user/{userId}/subscription/list
  */
 
 // 기업 유저 정보
-export interface ICompanyUser {
+export interface ICompany {
   companyId: number;
-  name: string;
-  image: string;
-  subscriberCount: number;
-  subscribers: Array<Omit<ISimpleUserData, 'isFollow'>>;
-  feeds: Array<IFeed>;
+  companyName: string;
+  companyLogo: string;
+  isSubscribe: boolean;
+  subscriptionCount: number;
+  companyBlog: string;
+  companyFeed: Array<ICompanyFeed>;
 }
 
 // "유저의" 구독 기업 정보
@@ -149,17 +136,10 @@ export interface IUserDetail {
   userName: string;
   profileImg?: string;
   companyName?: string;
-  // subscriptions: Array<ISubscription>;
   subscriptionCount: number;
-  // followings: Array<ISimpleUserData>;
   followingCount: number;
-  // followers: Array<ISimpleUserData>;
   followerCount: number;
   introduction?: string;
   tags: Array<string>;
-  // questions: Array<IQuestion>;
-  // answers: Array<IAnswer>;
-  // recentFeeds: Array<IFeed>;
-  // history: [];
   isFollowed: boolean;
 }
