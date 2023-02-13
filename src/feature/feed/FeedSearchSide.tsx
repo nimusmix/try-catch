@@ -188,7 +188,7 @@ const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps
 
       <Hr />
       <div>
-        <Paragraph sizeType="base" padding="0" margin="0 0 15px 0">
+        <Paragraph sizeType="base" padding="0" margin="0 0 15px 0" style={{ fontWeight: '500' }}>
           추천 태그 🏷️
         </Paragraph>
         <FeedTag tags={tagListProps} />

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { useMutation, useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
 import { MiniTitle, Paragraph } from '../../components';
 import { isDarkState, isLoggedInState, toastState } from '../../recoil';
@@ -9,6 +10,7 @@ import FeedTag from './FeedTag';
 import { postFeedRead } from '../../apis/feed/feed';
 
 import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
+import { COMPANY } from '../../constant/company';
 
 const DefaultDIv = styled.div`
   /* 한 줄 자르기 */
@@ -191,7 +193,13 @@ const FeedListItem = ({
   };
 
   const handleFeedRead = () => {
-    postFeedRead({ feedId: id });
+    if (isLoggedIn) postFeedRead({ feedId: id });
+  };
+
+  const navigate = useNavigate();
+  const onClickCompanyHandler = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    navigate(`/profile/company/${COMPANY[companyName]}`);
   };
 
   return (
@@ -215,15 +223,17 @@ const FeedListItem = ({
         <FeedHeader>
           <LinkWrapper url={url} onClick={handleFeedRead}>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <CompanyImg src={logoSrc} alt={companyName} />
+              <CompanyImg src={logoSrc} alt={companyName} onClick={onClickCompanyHandler} />
               <MiniTitle
                 sizeType="xl"
                 textAlign="left"
                 margin="0 0 0 0.5rem"
                 style={{ fontSize: 'var(--fonts-body-base)' }}
+                onClick={onClickCompanyHandler}
               >
                 {companyName}
               </MiniTitle>
+
               <Paragraph sizeType="xm" style={{ marginLeft: '0.25rem' }}>
                 · {createAt}
               </Paragraph>

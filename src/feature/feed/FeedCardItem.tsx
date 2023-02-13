@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { useMutation, useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import { Card, MiniTitle } from '../../components';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
 import { IFeedItemProps } from './IFeed';
@@ -9,6 +10,7 @@ import FeedTag from './FeedTag';
 import { isLoggedInState, toastState } from '../../recoil';
 import { postFeedRead } from '../../apis/feed/feed';
 import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
+import { COMPANY } from '../../constant/company';
 
 const BookmarkButton = styled.button`
   display: flex;
@@ -157,6 +159,12 @@ const FeedCardItem = ({
     }
   };
 
+  const navigate = useNavigate();
+  const onClickCompanyHandler = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    navigate(`/profile/company/${COMPANY[companyName]}`);
+  };
+
   return (
     <StyledCard
       width="17.125rem"
@@ -165,11 +173,15 @@ const FeedCardItem = ({
       target="_blank"
       rel="noreferrer"
       onClick={() => {
-        postFeedRead({ feedId: id });
+        if (isLoggedIn) postFeedRead({ feedId: id });
       }}
     >
       <CardHeader>
-        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        <button
+          type="button"
+          style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+          onClick={onClickCompanyHandler}
+        >
           <img src={logoSrc} alt={companyName} />
           <MiniTitle
             sizeType="xl"
@@ -179,7 +191,7 @@ const FeedCardItem = ({
           >
             {companyName}
           </MiniTitle>
-        </div>
+        </button>
         <BookmarkButton onClick={onClickBookmarkHandler}>
           {/* 북마크 */}
           {isBookmarked && <IconBookmarkFill size="22" color="var(--colors-brand-500)" />}
