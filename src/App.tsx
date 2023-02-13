@@ -9,7 +9,7 @@ import { accToken, isDarkState, isLoggedInState, toastState } from './recoil';
 import { darkTheme, lightTheme } from './styles/theme';
 import Toast from './feature/toast/Toast';
 import notificationsState, { INotification } from './recoil/notificationsState';
-import { API_URL } from './constant';
+import { API_URL, SITE_URL } from './constant';
 import { logOnDev } from './utils/logging';
 import elapsedTime from './utils/elapsed-time';
 
@@ -21,7 +21,6 @@ const GlobalStyles = createGlobalStyle`
     background-color: ${({ theme: { bgColor } }) => bgColor};
     color: ${({ theme: { textColor } }) => textColor};
     min-width: var(--breakpoints-desktop);
-    
   }
   
   body {
@@ -29,11 +28,18 @@ const GlobalStyles = createGlobalStyle`
     overflow-y: scroll;
   }
 
+  
   body::-webkit-scrollbar {
     width: 3px;
     height: 3px;
   }
 
+  #notice-list::-webkit-scrollbar{
+    width: 6px;
+    height: 6px;
+  }
+
+  #notice-list::-webkit-scrollbar-thumb,
   body::-webkit-scrollbar-thumb {
     height: 30%; /* 스크롤바의 길이 */
     background: var(--colors-brand-500); /* 스크롤바의 색상 */
@@ -41,6 +47,7 @@ const GlobalStyles = createGlobalStyle`
     border-radius: 10px;
   }
 
+  #notice-list::-webkit-scrollbar-track,
   body::-webkit-scrollbar-track {
     background-color: ${({ theme: { isDark } }) =>
       isDark ? 'var(--colors-black-100)' : 'var(--colors-brand-200)'};
@@ -176,6 +183,16 @@ function App() {
   return (
     <HelmetProvider>
       <Helmet>
+        <meta content="트라이캐치" property="og:title" />
+        <meta
+          content="함께 지식과 경험을 공유하며 좋은 개발자로 성장해요!"
+          property="og:description"
+        />
+        <meta
+          content={new URL(`../assets/thumbnail.png`, import.meta.url).pathname}
+          property="og:image"
+        />
+        <meta content={SITE_URL} property="og:url" />
         {isDark ? (
           <link href="https://unpkg.com/prism-themes/themes/prism-one-dark.css" rel="stylesheet" />
         ) : (

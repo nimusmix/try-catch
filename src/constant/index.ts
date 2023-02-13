@@ -1,5 +1,5 @@
 // API URL
-const { VITE_API_URL: API_URL } = import.meta.env;
+const { VITE_API_URL: API_URL, VITE_SITE_URL: SITE_URL } = import.meta.env;
 
 // route paths
 const QNA_PAGE_NAME = 'question';
@@ -37,4 +37,5 @@ export {
   DURATION,
   ROWS,
   TAGS_PER_ROW,
+  SITE_URL,
 };
