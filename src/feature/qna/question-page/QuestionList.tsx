@@ -111,7 +111,7 @@ const QuestionList = ({
 
   return (
     <>
-      {questionList?.pages.reduce((acc, page) => page.data.length, 0) === 0 && (
+      {questionList?.pages.reduce((acc, page) => acc + page.data.length, 0) === 0 && (
         <QuestionNoContent />
       )}
       <ul>
