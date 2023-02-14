@@ -69,13 +69,15 @@ const ToolTip = styled.div`
   &.tooltip .tooltip-content {
     visibility: hidden;
     border-radius: var(--borders-radius-base);
-    background-color: var(--colors-brand-100);
+    background-color: ${({ theme: { isDark } }) =>
+      isDark ? 'var(--colors-black-300)' : 'var(--colors-brand-100)'};
     box-shadow: 0 3px 8px rgba(165, 165, 165, 0.5);
     padding: 5px 10px;
 
     height: 28px;
     width: 226px;
-    color: var(--colors-black-200);
+    color: ${({ theme: { isDark } }) =>
+      isDark ? 'var(--colors-white-200)' : 'var(--colors-black-200)'};
     text-align: center;
     position: absolute;
     z-index: 1;
@@ -90,6 +92,13 @@ const ToolTip = styled.div`
     visibility: hidden;
     opacity: 0;
     white-space: nowrap;
+    em {
+      color: var(--colors-brand-500);
+      margin-left: 0.4rem;
+      text-transform: none;
+      text-decoration: underline;
+      font-style: normal;
+    }
   }
   &.tooltip:hover .tooltip-content {
     visibility: visible;
@@ -159,7 +168,7 @@ const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps
               href="https://www.lucenetutorial.com/lucene-query-syntax.html"
               rel="noreferrer"
             >
-              💡 Lucene Query를 이용해 검색하실 수 있어요!
+              💡 <em>Lucene Query</em>를 이용해 검색하실 수 있어요!
             </a>
           </div>
         </ToolTip>

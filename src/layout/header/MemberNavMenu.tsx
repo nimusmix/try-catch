@@ -11,6 +11,7 @@ import { getImage, getName } from '../../apis/auth/auth';
 import { Ul } from './NavMenu';
 import NoticeBell from './NoticeBell';
 import getAccToken from '../../utils/getAccToken';
+import ThemeButton from './ThemeButton';
 
 const Bookmark = styled(NavLink)``;
 
@@ -126,6 +127,9 @@ const MemberNavMenu = () => {
 
   return (
     <Ul>
+      <Li>
+        <ThemeButton />
+      </Li>
       <Li>
         <NoticeBell />
       </Li>
