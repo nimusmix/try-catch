@@ -23,6 +23,7 @@ import { putBookmark, postBookmark } from '../../apis/bookmark/bookmark';
 import { getName } from '../../apis/auth/auth';
 import isMyself from '../../utils/isMyself';
 import RoadmapDeleteModal from '../../feature/roadmap/RoadmapDeleteModal';
+import LoadingSpinner from '../../components/loading/LoadingSpinner';
 
 const RoadmapDetailWrapper = styled.div`
   display: flex;
@@ -259,7 +260,7 @@ const RoadmapDetailPage = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   if (isLoading) {
-    return <Paragraph sizeType="base">Loading...</Paragraph>;
+    return <LoadingSpinner />;
   }
 
   return (

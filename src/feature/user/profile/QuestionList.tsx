@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getUserId, getUserQuestion } from '../../../apis/profile/profile';
+import LoadingSpinner from '../../../components/loading/LoadingSpinner';
 import { IQuestion } from '../../../interface/qna';
 import { QuestionItem } from '../../qna';
 import ProfileEmptyUnder from './ProfileEmptyUnder';
@@ -26,7 +27,7 @@ const QuestionList = () => {
   );
 
   if (userIdLoading || questionLoading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
   }
 
   if (questionList?.length === 0) {

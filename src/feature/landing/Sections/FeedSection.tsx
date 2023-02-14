@@ -9,6 +9,7 @@ import { IconFeed } from '../../../components/icons/Icons';
 import { IFeedListProps } from '../../feed/IFeed';
 import { IFeedSearch } from '../../../interface/feed';
 import { getFeedSearchList } from '../../../apis/feed/feed';
+import LoadingSpinner from '../../../components/loading/LoadingSpinner';
 import FeedCard from './FeedCard';
 
 const fadeUp = keyframes`
@@ -103,7 +104,7 @@ const FeedSection = () => {
   );
 
   if (isLoading) {
-    return <div>loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return (
