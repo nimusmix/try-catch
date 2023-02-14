@@ -78,7 +78,7 @@ function App() {
   const BASE_URL = `https://${API_URL}/v1`;
   const sseEvents = useRef<EventSource | null>(null);
 
-  const connect = useCallback(() => {
+  const connect = useCallback(async () => {
     sseEvents.current = new EventSource(`${BASE_URL}/connect?token=${acc}`);
     // connection 되면
     sseEvents.current.addEventListener('open', (e) => {
@@ -154,10 +154,8 @@ function App() {
     if (!isLoggedIn) {
       return;
     }
-    (async () => {
-      await connect();
-      await getNotifications();
-    })();
+
+    connect().then(() => getNotifications());
 
     // eslint-disable-next-line consistent-return
     return () => {
