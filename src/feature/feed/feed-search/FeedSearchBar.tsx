@@ -3,9 +3,9 @@ import { useRecoilValue } from 'recoil';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { IconSearch } from '../../components/icons/Icons';
-import { Input } from '../../components';
-import { isDarkState } from '../../recoil';
+import { IconSearch } from '../../../components/icons/Icons';
+import { Input } from '../../../components';
+import { isDarkState } from '../../../recoil';
 
 interface ISearchValue {
   keyword: string;
