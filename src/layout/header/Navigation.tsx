@@ -74,7 +74,9 @@ const Navigation = () => {
         )}
         {isLoggedIn || (
           <NavWrapper>
-            <ThemeButton />
+            <div style={{ marginRight: '22px' }}>
+              <ThemeButton />
+            </div>
             <NonMemberNavMenu />
           </NavWrapper>
         )}
