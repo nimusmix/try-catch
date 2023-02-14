@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import FeedCardSkeleton from './FeedCardSkeleton';
 
-const FeedListWrapper = styled.div`
+export const FeedListWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;

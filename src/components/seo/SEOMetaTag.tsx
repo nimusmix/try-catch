@@ -15,7 +15,6 @@ const SEOMetaTag = ({ title, description, siteUrl, keywords, img }: ISEOMetaTagP
   return (
     <Helmet>
       <title>{title}</title>
-      <meta name="robots" content="index,follow" />
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
 

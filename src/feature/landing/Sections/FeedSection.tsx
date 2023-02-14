@@ -73,6 +73,7 @@ const ThirdSection = styled.section`
     display: flex;
     gap: 1rem;
     margin-bottom: 1rem;
+    min-height: 383px;
   }
   .button-wrapper {
     display: flex;
@@ -102,10 +103,6 @@ const FeedSection = () => {
     }
   );
 
-  if (isLoading) {
-    return <div>loading...</div>;
-  }
-
   return (
     <ThirdSection ref={ref} className={inView ? 'active' : ''}>
       <div ref={descRef} className={`description ${descInView ? 'active' : ''}`}>
@@ -123,6 +120,7 @@ const FeedSection = () => {
           다양한 기업의 블로그를 보며 기술 트렌드 파악을 쉽게 할 수 있어요
         </Paragraph>
       </div>
+
       <div className="card-container">
         {feeds?.feedList.map((feedItem, index) => (
           <FeedCard key={feedItem.feedId} {...feedItem} delay={(index + 1) * 250} />

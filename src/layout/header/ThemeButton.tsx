@@ -106,7 +106,7 @@ const ThemeButton = () => {
   const [isDark, setIsDark] = useRecoilState(isDarkState);
 
   const onClick = () => {
-    setIsDark(!isDark);
+    setIsDark((prev: boolean) => !prev);
   };
 
   return (

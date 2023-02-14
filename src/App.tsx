@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider, useMutation } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { HelmetProvider } from 'react-helmet-async';
 import { Outlet } from 'react-router-dom';
@@ -12,8 +12,8 @@ import notificationsState, { INotification } from './recoil/notificationsState';
 import { API_URL } from './constant';
 import { logOnDev } from './utils/logging';
 import elapsedTime from './utils/elapsed-time';
-import SEOMetaTag from './components/seo/SEOMetaTag';
 import getAccToken from './utils/getAccToken';
+import { getNotifications } from './apis/notice/notice';
 
 const GlobalStyles = createGlobalStyle`
   *{
@@ -77,6 +77,10 @@ function App() {
 
   const BASE_URL = `https://${API_URL}/v1`;
   const sseEvents = useRef<EventSource | null>(null);
+
+  const { mutate } = useMutation(['getNotifications'], getNotifications, {
+    onSuccess: () => console.log(isConnected),
+  });
 
   const connect = useCallback(() => {
     sseEvents.current = new EventSource(`${BASE_URL}/connect?token=${acc}`);
@@ -154,14 +158,17 @@ function App() {
     if (!isLoggedIn) {
       return;
     }
-    connect();
+    (async () => {
+      await connect();
+      await mutate();
+    })();
 
     // eslint-disable-next-line consistent-return
     return () => {
       logOnDev.log('sse 연결 종료');
       sseEvents.current!.close();
     };
-  }, [connect, isLoggedIn, sseEvents]);
+  }, [connect, isLoggedIn, mutate, sseEvents]);
 
   // 재연결
   useEffect(() => {
