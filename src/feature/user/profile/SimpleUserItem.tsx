@@ -20,6 +20,7 @@ const UserItemWrapper = styled.div`
 const InfoWrapper = styled.div`
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 
 const ProfileImg = styled.img`
