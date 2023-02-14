@@ -141,7 +141,7 @@ const QnaFormPage = ({ edit }: { edit?: boolean }) => {
                 <QnaFormFooter>
                   <Button
                     onClick={onClickSubmitQuestion}
-                    disabled={canSubmit}
+                    disabled={!canSubmit}
                     className={canSubmit ? '' : 'no-valid-button'}
                   >
                     {edit ? '수정' : '작성'}
