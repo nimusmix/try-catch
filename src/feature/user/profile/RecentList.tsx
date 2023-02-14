@@ -14,7 +14,7 @@ const RecentWrapper = styled.section`
 const RecentList = () => {
   const { userName } = useParams();
   const { data: userId, isLoading: userIdLoading } = useQuery<number>(
-    ['recentList', 'userId'] as const,
+    ['recentList', 'userId', userName] as const,
     () => getUserId(userName!)
   );
 
