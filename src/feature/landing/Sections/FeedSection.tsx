@@ -6,8 +6,7 @@ import { useQuery } from 'react-query';
 import { AxiosError } from 'axios';
 import { Button, MiniTitle, Paragraph, SubTitle } from '../../../components';
 import { IconFeed } from '../../../components/icons/Icons';
-import { IFeedListProps } from '../../feed/IFeed';
-import { IFeedSearch } from '../../../interface/feed';
+import { IFeedListProps, IFeedSearch } from '../../../interface/feed';
 import { getFeedSearchList } from '../../../apis/feed/feed';
 import LoadingSpinner from '../../../components/loading/LoadingSpinner';
 import FeedCard from './FeedCard';
@@ -74,6 +73,7 @@ const ThirdSection = styled.section`
     display: flex;
     gap: 1rem;
     margin-bottom: 1rem;
+    min-height: 383px;
   }
   .button-wrapper {
     display: flex;
@@ -124,6 +124,7 @@ const FeedSection = () => {
           다양한 기업의 블로그를 보며 쉽게 기술 트렌드를 파악할 수 있어요
         </Paragraph>
       </div>
+
       <div className="card-container">
         {feeds?.feedList.map((feedItem, index) => (
           <FeedCard key={feedItem.feedId} {...feedItem} delay={(index + 1) * 250} />

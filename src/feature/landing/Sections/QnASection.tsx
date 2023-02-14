@@ -87,6 +87,7 @@ const SecondSection = styled.section`
     display: flex;
     gap: 2rem;
     margin-bottom: 1rem;
+    min-height: 254px;
   }
 
   .button-wrapper {

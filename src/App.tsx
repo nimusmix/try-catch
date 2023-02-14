@@ -12,8 +12,8 @@ import notificationsState, { INotification } from './recoil/notificationsState';
 import { API_URL } from './constant';
 import { logOnDev } from './utils/logging';
 import elapsedTime from './utils/elapsed-time';
-import SEOMetaTag from './components/seo/SEOMetaTag';
 import getAccToken from './utils/getAccToken';
+import { getNotifications } from './apis/notice/notice';
 
 const GlobalStyles = createGlobalStyle`
   *{
@@ -78,7 +78,7 @@ function App() {
   const BASE_URL = `https://${API_URL}/v1`;
   const sseEvents = useRef<EventSource | null>(null);
 
-  const connect = useCallback(() => {
+  const connect = useCallback(async () => {
     sseEvents.current = new EventSource(`${BASE_URL}/connect?token=${acc}`);
     // connection 되면
     sseEvents.current.addEventListener('open', (e) => {
@@ -154,7 +154,8 @@ function App() {
     if (!isLoggedIn) {
       return;
     }
-    connect();
+
+    connect().then(() => getNotifications());
 
     // eslint-disable-next-line consistent-return
     return () => {

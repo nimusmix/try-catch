@@ -62,6 +62,7 @@ const FourthSection = styled.section`
     display: flex;
     justify-content: space-between;
     margin-bottom: 1rem;
+    min-height: 270px;
 
     & > div {
       margin: 0;

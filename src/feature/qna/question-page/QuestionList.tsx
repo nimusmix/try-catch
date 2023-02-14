@@ -6,7 +6,6 @@ import qnaCategoryState from '../../../recoil/qnaCategoryState';
 import { QuestionItem } from '../index';
 import question from '../Question';
 import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
-import { logOnDev } from '../../../utils/logging';
 import QuestionNoContent from './QuestionNoContent';
 
 const QuestionList = ({
@@ -19,9 +18,19 @@ const QuestionList = ({
   const [activeCategory, setActiveCategory] = useRecoilState<string>(qnaCategoryState);
   const keyword = useRecoilValue(qnaSearchKeywordState);
 
+  // // 1. timeout을 줘서 스크롤이 끝난 후 작동하게 하는 방법
+  const scrollToTop = () => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 180,
+        behavior: 'smooth', // for smoothly scrolling
+      });
+    }, 100);
+  };
+
   useEffect(() => {
-    logOnDev.log(keyword, filter);
-  }, [keyword, filter]);
+    scrollToTop();
+  }, [keyword, activeCategory, filter]);
 
   // TODO 나중에 search 엔드포인트 변경되면 그때 바꾸면 됨
   const {
