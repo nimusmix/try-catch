@@ -4,7 +4,7 @@ import { SettingsBody } from './ThemeSettingsPage';
 import { SettingHeader as AdvancedHeader } from '../../feature/settings';
 import { Button, MiniTitle, Paragraph } from '../../components';
 import { StyledInput } from '../../feature/qna/answer/CommitCheckModal';
-import { postRepo } from '../../apis/answer/answer';
+import { putRepo } from '../../apis/answer/answer';
 
 const AdvancedWrapper = styled.div`
   display: flex;
@@ -36,7 +36,7 @@ const GithubSettingsPage = () => {
       repoName,
       doCommit: true,
     };
-    postRepo(data);
+    putRepo(data);
   };
 
   return (
