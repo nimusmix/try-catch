@@ -100,28 +100,28 @@ const ProfileBio = () => {
     }
   };
 
-  // const updateFollow = (type: 'post' | 'put') => {
-  //   const prevData = queryClient.getQueryData(['userDetail', userName]);
+  const updateFollow = (type: 'post' | 'put') => {
+    const prevData = queryClient.getQueryData(['userDetail', userName]);
 
-  //   if (prevData) {
-  //     queryClient.setQueryData<IUserDetail>(['userDetail', userName], (oldData: any) => {
-  //       return {
-  //         ...oldData,
-  //         isFollowed: type === 'post',
-  //         followerCount: type === 'post' ? oldData.followerCount + 1 : oldData.followerCount - 1,
-  //       };
-  //     });
-  //   }
+    if (prevData) {
+      queryClient.setQueryData<IUserDetail>(['userDetail', userName], (oldData: any) => {
+        return {
+          ...oldData,
+          isFollowed: type === 'post',
+          followerCount: type === 'post' ? oldData.followerCount + 1 : oldData.followerCount - 1,
+        };
+      });
+    }
 
-  //   return { prevData };
-  // };
+    return { prevData };
+  };
 
-  const { mutate: follow } = useMutation(['post', 'follow'], () => postFollow(userId!), {
-    // onMutate: () => updateFollow('post'),
+  const { mutate: follow } = useMutation(['post', 'follow', userId], () => postFollow(userId!), {
+    onMutate: () => updateFollow('post'),
     onSuccess: () => queryClient.invalidateQueries(['userDetail', userName]),
   });
-  const { mutate: unfollow } = useMutation(['put', 'follow'], () => putFollow(userId!), {
-    // onMutate: () => updateFollow('put'),
+  const { mutate: unfollow } = useMutation(['put', 'follow', userId], () => putFollow(userId!), {
+    onMutate: () => updateFollow('put'),
     onSuccess: () => queryClient.invalidateQueries(['userDetail', userName]),
   });
 
