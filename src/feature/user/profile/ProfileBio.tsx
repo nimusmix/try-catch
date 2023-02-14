@@ -75,7 +75,7 @@ const ProfileBio = () => {
   );
 
   const { data: user } = useQuery<IUserDetail>(
-    ['userDetail', userId] as const,
+    ['userDetail', userName] as const,
     () => getUserDetail(userId!),
     {
       enabled: !!userId,
@@ -116,11 +116,11 @@ const ProfileBio = () => {
     return { prevData };
   };
 
-  const { mutate: follow } = useMutation(['post', 'follow', userId], () => postFollow(userId!), {
+  const { mutate: follow } = useMutation(['post', 'follow', userName], () => postFollow(userId!), {
     onMutate: () => updateFollow('post'),
     onSuccess: () => queryClient.invalidateQueries(['userDetail', userName]),
   });
-  const { mutate: unfollow } = useMutation(['put', 'follow', userId], () => putFollow(userId!), {
+  const { mutate: unfollow } = useMutation(['put', 'follow', userName], () => putFollow(userId!), {
     onMutate: () => updateFollow('put'),
     onSuccess: () => queryClient.invalidateQueries(['userDetail', userName]),
   });
