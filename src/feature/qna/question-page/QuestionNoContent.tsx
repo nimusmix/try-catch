@@ -29,9 +29,13 @@ const QuestionNoContent = () => {
   const keyword = useRecoilValue(qnaSearchKeywordState);
   return (
     <Wrapper>
-      <MiniTitle sizeType="xl">
-        <em>{keyword}</em>에 대한 검색결과가 없어요...
-      </MiniTitle>
+      {keyword.length > 0 && (
+        <MiniTitle sizeType="xl">
+          <em>{keyword}</em>에 대한 검색결과가 없어요...
+        </MiniTitle>
+      )}
+      {keyword.length === 0 && <MiniTitle sizeType="xl">검색결과가 없어요...</MiniTitle>}
+
       <Paragraph sizeType="base" textAlign="center">
         다른 키워드로 검색해보세요
       </Paragraph>

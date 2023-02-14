@@ -74,6 +74,7 @@ function App() {
   const acc = getAccToken();
 
   const [isConnected, setIsConnected] = useState(false); // State to track the connection status
+  const [mobile, setMobile] = useState(false);
   const [notifications, setNotifications] = useRecoilState(notificationsState);
 
   const BASE_URL = `https://${API_URL}/v1`;
@@ -184,6 +185,21 @@ function App() {
     logOnDev.log(notifications);
     logOnDev.log('-------------');
   }, [notifications, notifications.length]);
+
+  useEffect(() => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+      // mobile
+      setMobile(true);
+    } else {
+      // desktop
+      setMobile(false);
+    }
+  }, []);
+
+  if (mobile) {
+    return <div>죄송합니다.. 트라이캐치는 아직 데스크탑 뷰만 지원하고 있어요</div>;
+  }
 
   return (
     <HelmetProvider>
