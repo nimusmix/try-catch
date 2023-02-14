@@ -115,7 +115,7 @@ const ThemeButton = () => {
         type="button"
         className="theme-toggle"
         id="theme-toggle"
-        title="Toggles light & dark"
+        title="트라이 캐치 light & dark"
         aria-label="auto"
         aria-live="polite"
         onClick={onClick}

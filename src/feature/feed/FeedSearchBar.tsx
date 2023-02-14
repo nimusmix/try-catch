@@ -26,15 +26,12 @@ const SearchIcon = styled.button`
 const StyledSearchBar = styled.div<{ isFocus: boolean }>`
   width: 17.75rem;
   height: 2.5rem;
-  /* border-radius: 0.375rem; */
   border-width: 0.0625rem;
   border-color: ${({ theme: { borderColor } }) => borderColor};
   position: relative;
   margin: 12px auto 12px;
 
   border-radius: 40px;
-  /* box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15); */
-  /* background: #fff; */
   background-color: ${({ theme: { isDark } }) => (isDark ? 'rgba(36, 42, 54, 1)' : '#f7f8ff')};
   border: ${({ theme: { isDark } }) =>
     isDark ? 'rgb(46, 52, 64)' : '1px solid var(--colors-brand-200)'};
