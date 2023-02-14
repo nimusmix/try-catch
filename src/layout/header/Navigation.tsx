@@ -69,6 +69,7 @@ const Navigation = () => {
         </NavWrapper>
         {isLoggedIn && (
           <NavWrapper>
+            <ThemeButton />
             <MemberNavMenu />
           </NavWrapper>
         )}
