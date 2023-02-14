@@ -34,6 +34,11 @@ export const NavWrapper = styled.div`
   height: 100%;
 `;
 
+const ThemeButtonWrapper = styled.div`
+  margin-right: 22px;
+  margin-top: 4px;
+`;
+
 const Navigation = () => {
   const [isDark, setIsDark] = useRecoilState(isDarkState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
@@ -74,9 +79,9 @@ const Navigation = () => {
         )}
         {isLoggedIn || (
           <NavWrapper>
-            <div style={{ marginRight: '22px' }}>
+            <ThemeButtonWrapper>
               <ThemeButton />
-            </div>
+            </ThemeButtonWrapper>
             <NonMemberNavMenu />
           </NavWrapper>
         )}
