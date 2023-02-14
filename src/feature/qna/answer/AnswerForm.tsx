@@ -66,6 +66,10 @@ const AnswerForm = ({ questionId }: { questionId: string }) => {
     postAnswer(questionId as string, { content: answerInput }),
     {
       onSuccess: (data) => {
+        window.scrollTo({
+          top: document.body.scrollHeight - 1200,
+          behavior: 'smooth',
+        });
         queryClient.invalidateQueries(['question', questionId]);
         setAnswerInput('');
 
