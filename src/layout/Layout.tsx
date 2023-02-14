@@ -13,8 +13,8 @@ export const Main = styled.main`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: auto;
-  min-height: 100%;
+  //height: auto;
+  //min-height: 100%;
 `;
 
 const Layout = ({ children }: ILayoutProps) => {
