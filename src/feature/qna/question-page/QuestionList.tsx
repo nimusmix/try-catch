@@ -6,7 +6,6 @@ import qnaCategoryState from '../../../recoil/qnaCategoryState';
 import { QuestionItem } from '../index';
 import question from '../Question';
 import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
-import { logOnDev } from '../../../utils/logging';
 import QuestionNoContent from './QuestionNoContent';
 
 const QuestionList = ({
@@ -19,9 +18,19 @@ const QuestionList = ({
   const [activeCategory, setActiveCategory] = useRecoilState<string>(qnaCategoryState);
   const keyword = useRecoilValue(qnaSearchKeywordState);
 
+  // // 1. timeout을 줘서 스크롤이 끝난 후 작동하게 하는 방법
+  const scrollToTop = () => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 180,
+        behavior: 'smooth', // for smoothly scrolling
+      });
+    }, 100);
+  };
+
   useEffect(() => {
-    logOnDev.log(keyword);
-  }, [keyword]);
+    scrollToTop();
+  }, [keyword, activeCategory, filter]);
 
   // TODO 나중에 search 엔드포인트 변경되면 그때 바꾸면 됨
   const {
@@ -65,23 +74,26 @@ const QuestionList = ({
             pages: data.pages.map((page) => ({
               data: page.data.filter((item) => {
                 // 해결됨
-                if (filter === 'solved')
+                if (filter === 'solved') {
                   return (
-                    (item.isSolved &&
-                      (item.title.includes(keyword) || item.content.includes(keyword))) ||
-                    item.tags.some((tag) => tag.toLocaleLowerCase() === keyword)
+                    item.isSolved &&
+                    (item.title.toLocaleLowerCase().includes(keyword) ||
+                      item.content.toLocaleLowerCase().includes(keyword) ||
+                      item.tags.some((tag) => tag.toLocaleLowerCase() === keyword))
                   );
+                }
                 // 미해결
                 if (filter === 'unSolved')
                   return (
-                    (!item.isSolved &&
-                      (item.title.includes(keyword) || item.content.includes(keyword))) ||
-                    item.tags.some((tag) => tag.toLocaleLowerCase() === keyword)
+                    !item.isSolved &&
+                    (item.title.toLocaleLowerCase().includes(keyword) ||
+                      item.content.toLocaleLowerCase().includes(keyword) ||
+                      item.tags.some((tag) => tag.toLocaleLowerCase() === keyword))
                   );
                 // 전체
                 return (
-                  item.title.includes(keyword) ||
-                  item.content.includes(keyword) ||
+                  item.title.toLocaleLowerCase().includes(keyword) ||
+                  item.content.toLocaleLowerCase().includes(keyword) ||
                   item.tags.some((tag) => tag.toLocaleLowerCase() === keyword)
                 );
               }),
@@ -89,6 +101,7 @@ const QuestionList = ({
             pageParams: data.pageParams,
           };
         }
+        console.log(filteredData);
         return { ...filteredData };
       },
     }
@@ -111,7 +124,10 @@ const QuestionList = ({
 
   return (
     <>
-      {questionList?.pages.flat().length === 0 && <QuestionNoContent />}
+      {/* 결과가 없으면 */}
+      {questionList?.pages.reduce((acc, page) => acc + page.data.length, 0) === 0 && (
+        <QuestionNoContent />
+      )}
       <ul>
         {questionList?.pages?.map((page, index) => {
           return (

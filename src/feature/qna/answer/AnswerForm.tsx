@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { useMutation, useQueryClient } from 'react-query';
 import { Button, MiniTitle } from '../../../components';
-import { postAnswer, answerCommit } from '../../../apis/answer/answer';
-import { logOnDev } from '../../../utils/logging';
+import { answerCommit, postAnswer } from '../../../apis/answer/answer';
 import CommitCheckModal from './CommitCheckModal';
 import isModalOpenedState from '../../../recoil/isModalOpenedState';
+import { toastState } from '../../../recoil';
 
 const Wrapper = styled.div`
   display: flex;
@@ -57,6 +57,7 @@ const Editor = styled.textarea`
 // TODO 답변 작성 후 바로 조회하기
 const AnswerForm = ({ questionId }: { questionId: string }) => {
   const [answerInput, setAnswerInput] = useState('');
+  const setToast = useSetRecoilState(toastState);
   const [answerId, setAnswerId] = useState<number>();
   const [isCommitModalOpened, setIsCommitModalOpened] = useRecoilState(isModalOpenedState);
 
@@ -77,12 +78,17 @@ const AnswerForm = ({ questionId }: { questionId: string }) => {
           setIsCommitModalOpened(true);
         }
       },
-      onError: () => {},
+      onError: () => {
+        setToast({ type: 'negative', message: '답변 생성에 실패했어요', isVisible: true });
+      },
     }
   );
 
-  // 에러면 토스트
   const onClickAddAnswer = () => {
+    if (answerInput.trim().length < 1) {
+      setToast({ type: 'negative', message: '답변 내용을 입력해주세요', isVisible: true });
+      return;
+    }
     addAnswer();
   };
 

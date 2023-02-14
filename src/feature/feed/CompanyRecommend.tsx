@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-import { Button, Div, MiniTitle, Paragraph } from '../../components';
+import { Button, MiniTitle, Paragraph } from '../../components';
 import getImageUrl from '../../utils/getImageUrl';
 import { COMPANY } from '../../constant/company';
+import { FeedSearchWrapper as CompanyRecommendWrapper } from './FeedSearchSide';
 
 interface ICompanyRecommend {
   companyNameEn: string;
@@ -97,12 +98,12 @@ const CompanyRecommend = () => {
     },
   ];
   return (
-    <Div style={{ borderRadius: 'var(--borders-radius-base)', marginTop: '1rem' }} padding="1.5rem">
+    <CompanyRecommendWrapper style={{ padding: '2rem', marginTop: '1rem' }}>
       <MiniTitle
         sizeType="xl"
-        margin="0 1rem 0.2rem 0.3rem"
+        margin="0 1rem 0.5rem 0.3rem"
         textAlign="left"
-        style={{ fontSize: 'var(--fonts-body-base' }}
+        style={{ fontSize: 'var(--fonts-body-base)', fontWeight: '500' }}
       >
         기업 블로그 추천
       </MiniTitle>
@@ -118,7 +119,7 @@ const CompanyRecommend = () => {
           );
         })}
       </ul>
-    </Div>
+    </CompanyRecommendWrapper>
   );
 };
 

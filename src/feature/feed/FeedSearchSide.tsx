@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Checkbox, Paragraph } from '../../components';
+import { Button, Checkbox, Paragraph } from '../../components';
 import FeedSearchBar from './FeedSearchBar';
 import FeedTag from './FeedTag';
+import { IconRefresh } from '../../components/icons/Icons';
 
 const searchFilterList = [
   {
@@ -26,54 +28,85 @@ const SearchFilterWrapper = styled.div`
 const CheckboxWrapper = styled.label`
   display: flex;
   flex-direction: row;
-  margin-left: 1rem;
+  margin-left: 0.5rem;
+`;
 
-  /* TOOLTIP */
-  [data-tooltip] {
-    position: relative;
-  }
-  [data-tooltip]:before,
-  [data-tooltip]:after {
-    visibility: hidden;
-    opacity: 0;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    transition: all 0.2s ease;
-    font-size: 12px;
-    letter-spacing: -1px;
-  }
-  [data-tooltip]:before {
-    content: attr(data-tooltip);
-    height: 30px;
-    position: absolute;
-    top: -20px;
-    padding: 5px 10px;
-    border-radius: var(--borders-radius-base);
-    color: var(--colors-black-200);
-    background-color: var(--colors-brand-100);
-    box-shadow: 0 3px 8px rgba(165, 165, 165, 0.5);
-  }
-  [data-tooltip]:not([data-tooltip='']):hover:before {
-    visibility: visible;
-    opacity: 1;
-    top: -40px;
-  }
-  [data-tooltip]:not([data-tooltip='']):hover:after {
-    visibility: visible;
-    opacity: 1;
-    top: -8px;
-  }
+const Hr = styled.hr`
+  margin: 0px 0px 18px;
+  height: 0;
+  overflow: visible;
+  border: solid 0.5px
+    ${({ theme: { isDark } }) => (isDark ? `var(--colors-black-200)` : 'rgb(8 60 130 / 6%)')};
 `;
 
 const FilterTitle = styled(Paragraph)``;
 interface FeedSearchProps {
   tagListProps: Array<string>;
   getCheckData: (data: Array<number>) => void;
+  keyword: string;
 }
 
-const FeedSearchSide = ({ tagListProps, getCheckData }: FeedSearchProps) => {
+export const FeedSearchWrapper = styled.div`
+  border-radius: var(--borders-radius-xl);
+  box-sizing: border-box;
+  margin: 0;
+  padding: 20px;
+  color: var(--colors-black-500);
+  list-style: none;
+  position: relative;
+  background: #fff;
+  transition: all 300ms ease 0s;
+  box-shadow: rgb(8 60 130 / 6%) 0px 0px 0px 0.05rem, rgb(30 34 40 / 4%) 0rem 0rem 1.25rem;
+  margin-bottom: 25px !important;
+  background-color: ${({ theme: { isDark } }) => (isDark ? 'rgba(46, 52, 64, 1)' : 'fff')};
+`;
+
+const ToolTip = styled.div`
+  &.tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  &.tooltip .tooltip-content {
+    visibility: hidden;
+    border-radius: var(--borders-radius-base);
+    background-color: ${({ theme: { isDark } }) =>
+      isDark ? 'var(--colors-black-300)' : 'var(--colors-brand-100)'};
+    box-shadow: 0 3px 8px rgba(165, 165, 165, 0.5);
+    padding: 5px 10px;
+
+    height: 28px;
+    width: 226px;
+    color: ${({ theme: { isDark } }) =>
+      isDark ? 'var(--colors-white-200)' : 'var(--colors-black-200)'};
+    text-align: center;
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    transform: translateX(-50%);
+
+    top: -40px;
+    font-size: 12px;
+    letter-spacing: -1px;
+    transition: all 0.4s ease;
+
+    visibility: hidden;
+    opacity: 0;
+    white-space: nowrap;
+    em {
+      color: var(--colors-brand-500);
+      margin-left: 0.4rem;
+      text-transform: none;
+      text-decoration: underline;
+      font-style: normal;
+    }
+  }
+  &.tooltip:hover .tooltip-content {
+    visibility: visible;
+    opacity: 1;
+  }
+`;
+
+const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps) => {
   const [checkedItems, setCheckedItems] = useState<Array<number>>([]);
 
   const handleSingleCheck = (checked: boolean, id: number) => {
@@ -89,38 +122,94 @@ const FeedSearchSide = ({ tagListProps, getCheckData }: FeedSearchProps) => {
     handleSingleCheck(e.target.checked, Number(e.target.id));
   };
 
-  const advanced = document.getElementById('고급검색') as HTMLParagraphElement;
-  if (advanced)
-    advanced.setAttribute(
-      'data-tooltip',
-      `💡 고급 검색 가이드
-  `
-    );
+  const navigate = useNavigate();
 
   return (
-    <>
+    <FeedSearchWrapper>
       <SearchFilterWrapper>
-        {searchFilterList.map((filterItem) => {
-          const isChecked = !!checkedItems.includes(filterItem.id);
-
-          return (
-            <CheckboxWrapper key={filterItem.id}>
-              <FilterTitle sizeType="sm" padding="0 0.5rem" id={`${filterItem.filterName}`}>
-                {filterItem.filterName}
-              </FilterTitle>
-              <Checkbox
-                label={String(filterItem.id)}
-                checked={isChecked}
-                onChange={onSingleCheck}
-              />
-            </CheckboxWrapper>
-          );
-        })}
+        {keyword.length > 0 && (
+          <Button
+            onClick={() => navigate(`/feed`)}
+            as="span"
+            designType="redFill"
+            fontSize="var(--fonts-body-xm)"
+            padding="0.1rem 0.5rem"
+            borderRadius="var(--borders-radius-base)"
+            style={{ fontWeight: '500' }}
+          >
+            초기화
+            <IconRefresh />
+          </Button>
+        )}
+        <CheckboxWrapper key={searchFilterList[0].id}>
+          <FilterTitle sizeType="sm" padding="0 0.5rem" id={`${searchFilterList[0].filterName}`}>
+            {searchFilterList[0].filterName}
+          </FilterTitle>
+          <Checkbox
+            label={String(searchFilterList[0].id)}
+            checked={!!checkedItems.includes(searchFilterList[0].id)}
+            onChange={onSingleCheck}
+          />
+        </CheckboxWrapper>
+        <ToolTip className="tooltip">
+          <CheckboxWrapper key={searchFilterList[1].id}>
+            <FilterTitle sizeType="sm" padding="0 0.5rem" id={`${searchFilterList[1].filterName}`}>
+              {searchFilterList[1].filterName}
+            </FilterTitle>
+            <Checkbox
+              label={String(searchFilterList[1].id)}
+              checked={!!checkedItems.includes(searchFilterList[1].id)}
+              onChange={onSingleCheck}
+            />
+          </CheckboxWrapper>
+          <div className="tooltip-content">
+            <a
+              target="_blank"
+              href="https://www.lucenetutorial.com/lucene-query-syntax.html"
+              rel="noreferrer"
+            >
+              💡 <em>Lucene Query</em>를 이용해 검색하실 수 있어요!
+            </a>
+          </div>
+        </ToolTip>
       </SearchFilterWrapper>
 
       <FeedSearchBar />
-      <FeedTag tags={tagListProps} />
-    </>
+      {keyword.length > 0 && (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            textAlign: 'center',
+            marginBottom: '1rem',
+          }}
+        >
+          <Paragraph sizeType="sm" margin="auto 0.5rem auto 0">
+            검색 키워드:{'  '}
+          </Paragraph>
+          <Paragraph sizeType="base">
+            <Button
+              as="span"
+              designType="grayFill"
+              fontSize="var(--fonts-body-sm)"
+              padding="0 0.5rem"
+              borderRadius="var(--borders-radius-base)"
+              style={{ fontWeight: '500', margin: '0px' }}
+            >
+              {keyword}
+            </Button>
+          </Paragraph>
+        </div>
+      )}
+
+      <Hr />
+      <div>
+        <Paragraph sizeType="base" padding="0" margin="0 0 15px 0" style={{ fontWeight: '500' }}>
+          추천 태그 🏷️
+        </Paragraph>
+        <FeedTag tags={tagListProps} />
+      </div>
+    </FeedSearchWrapper>
   );
 };
 

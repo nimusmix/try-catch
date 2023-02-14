@@ -3,29 +3,15 @@ import { AxiosError } from 'axios';
 import styled from 'styled-components';
 import { useEffect } from 'react';
 
-import { IFeedSearch } from '../../interface/feed';
+import { IFeedList, IFeedListProps, IFeedSearch } from '../../interface/feed';
 import FeedListItem from './FeedListItem';
 import FeedCardItem from './FeedCardItem';
 
-import { MiniTitle, Paragraph } from '../../components';
-import { ReactComponent as Bug } from '../../assets/bug.svg';
-import { IFeedListProps } from './IFeed';
 import { getFeedSearchList } from '../../apis/feed/feed';
 
 import FeedCardSkeletonList from './skeleton/FeedCardSkeletonList';
 import FeedItemSkeletonList from './skeleton/FeedItemSkeletonList';
-
-interface IFeedList {
-  activeViewOption: boolean;
-  keyword: string;
-  // query: string;
-  subscribe: boolean;
-  advanced: boolean;
-  tagListProps: Array<string>;
-  getData: (data: Array<string>) => void;
-  activeFilterOption: string;
-  checkedItemsProps: Array<number>;
-}
+import FeedNoContent from './FeedNoContent';
 
 const FeedListWrapper = styled.div`
   display: flex;
@@ -33,37 +19,6 @@ const FeedListWrapper = styled.div`
   justify-content: flex-start;
   width: 52.875rem;
 `;
-
-const NonSearchResult = ({ keyword }: Partial<IFeedList>) => {
-  return (
-    <FeedListWrapper
-      style={{
-        justifyContent: 'center',
-        alignContent: 'center',
-        flexDirection: 'column',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignContent: 'center',
-          marginBottom: '1rem',
-        }}
-      >
-        <Bug width="55px" height="70px" />
-      </div>
-      <MiniTitle sizeType="xl" textAlign="center">
-        <strong>{keyword}</strong>에 해당하는 검색 결과가 없습니다
-      </MiniTitle>
-      <Paragraph sizeType="base" textAlign="center">
-        검색어의 철자가 정확한지 확인해 주세요.
-        <br />
-        비슷한 다른 검색어를 입력해보세요.
-      </Paragraph>
-    </FeedListWrapper>
-  );
-};
 
 const FeedList = ({
   activeViewOption,
@@ -146,16 +101,6 @@ const FeedList = ({
     }
   }, [getData, isLoading, data?.pages, tagListProps]);
 
-  /** TODO  최상위 10개 데이터에 대한 키워드 15개 뽑기
-   * 추후 keyword 개수 많은 순으로 count 해서 보내주기
-   */
-
-  // data?.feedList.slice(tagListLen + 1).forEach((item) => {
-  //   item.keywords.forEach((element) => {
-  //     tagListSet.add(element);
-  //   });
-  // });
-
   return (
     <div>
       {/* 첫 페이지 로딩 카드 아이템 스켈레톤 */}
@@ -164,7 +109,7 @@ const FeedList = ({
       {isLoading && !activeViewOption && <FeedItemSkeletonList />}
       {isError && <h2>에러입니다.</h2>}
       {/* 검색 결과가 없을 때 */}
-      {data?.pages[0].feedList.length === 0 && <NonSearchResult keyword={keyword} />}
+      {data?.pages[0].feedList.length === 0 && <FeedNoContent keyword={keyword} />}
       {/* 검색 결과가 있을 때 */}
       {data?.pages.map((page, index) => {
         const pageIdx = `${page} ${index}`;

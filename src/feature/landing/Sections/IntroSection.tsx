@@ -32,7 +32,7 @@ const fadeFromRight = keyframes`
 
 const FirstSection = styled.section`
   align-self: flex-start;
-  height: 80vh;
+  height: 100vh;
   width: 100%;
 
   & > div {
@@ -70,6 +70,7 @@ const FirstSection = styled.section`
     }
   }
 `;
+
 const IntroSection = () => {
   const { ref: descRef, inView: descInView } = useInView();
   const { ref: imageRef, inView: imageInView } = useInView({ rootMargin: '0px 0px -200px 0px' });
@@ -81,11 +82,12 @@ const IntroSection = () => {
           <MiniTitle sizeType="3xl" textAlign="left">
             <span className="emph blue">트라이캐치</span>와 함께 하세요!
           </MiniTitle>
+
           <Paragraph sizeType="lg">
-            트라이캐치는 깃허브 기반 개인 추천~~ blah blah blah blah <br /> 개발자 커뮤니티 입니다.
+            트라이캐치는 개발자를 위한 기능이 가득한 <br /> 개발자 중심 커뮤니티입니다.
           </Paragraph>
           <Paragraph sizeType="lg">
-            다양한 기업의 개발 블로그 부터 Q&A 까지 <br /> 양질의 다양한 컨텐츠와 함께 공부를
+            다양한 기업의 기술 블로그부터 Q&A까지 <br /> 다양한 맞춤 컨텐츠와 함께 공부를
             이어가세요.
           </Paragraph>
         </div>

@@ -14,11 +14,11 @@ import {
 import { QuestionPageBody as FeedPageBody } from '../qna/QnaPage';
 
 const Aside = styled.aside`
-  margin: 3rem 1.5rem 0;
+  margin: 3rem 0rem 0;
   position: sticky;
   top: 6rem;
   height: 500px;
-  width: 17.75rem;
+  width: 20.75rem;
 `;
 
 const FilterTop = styled.section`
@@ -64,11 +64,17 @@ const FeedPage = () => {
     <Layout>
       <HeaderImage image={header_feed}>
         <SubTitle>피드</SubTitle>
-        <Paragraph sizeType="base">Feed 게시판에 대한 설명이 들어갈 자리입니다.</Paragraph>
+        <Paragraph sizeType="base">
+          다양한 기업의 블로그를 보며 기술 트렌드를 쉽게 파악해보세요
+        </Paragraph>
       </HeaderImage>
       <FeedPageBody>
         <Aside>
-          <FeedSearchSide tagListProps={tagListProps} getCheckData={getCheckData} />
+          <FeedSearchSide
+            tagListProps={tagListProps}
+            getCheckData={getCheckData}
+            keyword={keyword}
+          />
           <CompanyRecommend />
         </Aside>
         <section style={{ margin: '3rem 1.5rem 0' }}>

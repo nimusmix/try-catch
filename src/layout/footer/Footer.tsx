@@ -16,9 +16,7 @@ const StyledFooter = styled.footer`
   align-items: center;
   justify-content: center;
   position: relative;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  transform: translateY(100%);
   z-index: 1;
   padding: 1.5rem;
   background-color: ${({ theme: { navColor } }) => navColor};
@@ -175,7 +173,7 @@ const Footer = () => {
           </Mid>
           <Right>
             <Paragraph sizeType="base">sponsored by</Paragraph>
-            <img src={new URL(`../../assets/ssafy.png`, import.meta.url).href} alt="ssafy" />
+            <img src={new URL(`/src/assets/ssafy.png`, import.meta.url).href} alt="ssafy" />
           </Right>
         </FooterMain>
       </div>

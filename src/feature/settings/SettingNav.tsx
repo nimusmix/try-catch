@@ -52,18 +52,8 @@ const SettingNavList = [
   },
   {
     id: 1,
-    link: `/settings/advanced`,
-    title: '고급 기능',
-  },
-  {
-    id: 2,
-    link: `/settings/trycatch`,
-    title: '소개',
-  },
-  {
-    id: 3,
-    link: `/settings/customer-service`,
-    title: '고객 센터',
+    link: `/settings/github`,
+    title: '깃허브',
   },
 ];
 

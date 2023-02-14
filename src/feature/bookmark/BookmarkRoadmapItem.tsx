@@ -6,7 +6,7 @@ import { IconLikeEmpty } from '../../components/icons/Icons';
 const ItemWrapper = styled(Card)`
   display: flex;
   align-items: center;
-  width: 460px;
+  width: 760px;
   padding: 1.5rem 2rem;
   margin: 1rem 1rem 1rem 2rem;
 `;
@@ -23,7 +23,7 @@ const SubText = styled(Paragraph)`
 `;
 
 const Line = styled.div`
-  width: 250px;
+  width: 544px;
   border-bottom: 1px ${({ theme }) => theme.borderColor} solid;
   margin: 0.5rem 0;
 `;
@@ -47,7 +47,7 @@ const BottomWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 250px;
+  width: 544px;
 `;
 
 const LikeWrapper = styled.div`

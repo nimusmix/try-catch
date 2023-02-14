@@ -1,13 +1,13 @@
 import styled, { keyframes } from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useEffect } from 'react';
 import Layout from '../../layout/Layout';
 import MarqueeLogoCard from '../../feature/landing/marquee-logo-wall/MarqueeLogoCard';
 import LandingTitle from '../../feature/landing/landing-title/LandingTitle';
 import { ReactComponent as LogoDarkTheme } from '../../assets/vertical_logo_dark_theme.svg';
 import { ReactComponent as LogoLightTheme } from '../../assets/vertical_logo_light_theme.svg';
-import { accToken, isDarkState, isLoggedInState, refToken } from '../../recoil';
+import { isDarkState, isLoggedInState } from '../../recoil';
 import { QuestionPageBody } from '../qna/QnaPage';
 import IntroSection from '../../feature/landing/Sections/IntroSection';
 import QnASection from '../../feature/landing/Sections/QnASection';
@@ -16,6 +16,7 @@ import RoadmapSection from '../../feature/landing/Sections/RoadmapSection';
 import ChallengeSection from '../../feature/landing/Sections/ChallengeSection';
 
 const LandingPageBody = styled(QuestionPageBody)`
+  min-width: var(--breakpoints-desktop);
   flex-direction: column;
 `;
 
@@ -72,19 +73,6 @@ const bounceInTop = keyframes`
 }
 `;
 
-const fadeUp = keyframes`
-  0% {
-    filter: alpha(opacity=0);
-    opacity: .1;
-    transform: translateY(100px);
-  }
-  100% {
-    filter: alpha(opacity=100);
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
 const LogoWrapper = styled.div`
   align-self: flex-start;
   visibility: hidden;
@@ -96,24 +84,30 @@ const LogoWrapper = styled.div`
 
 const LandingPage = () => {
   const isDark = useRecoilValue(isDarkState);
-  const setAccToken = useSetRecoilState(accToken);
-  const setRefToken = useSetRecoilState(refToken);
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
-  const { ref: logoRef, inView } = useInView({ triggerOnce: true });
+
+  const { ref: logoRef, inView } = useInView();
 
   useEffect(() => {
     if (!window.location.search) return;
 
     const params = new URLSearchParams(window.location.search);
     if (params.get('acc') && params.get('ref')) {
-      setAccToken(params.get('acc') as string);
-      setRefToken(params.get('ref') as string);
+      localStorage.setItem('accToken', params.get('acc') as string);
+      localStorage.setItem('refToken', params.get('ref') as string);
       setIsLoggedIn(true);
     }
-  }, [setAccToken, setIsLoggedIn, setRefToken]);
+  }, [setIsLoggedIn]);
 
   return (
     <Layout>
+      {/* <SEOMetaTag */}
+      {/*  title="트라이캐치" */}
+      {/*  description="함께 지식과 경험을 공유하며 좋은 개발자로 성장해요!" */}
+      {/*  keywords="개발자,SNS,깃허브,질문,스택오버플로우,블로그,기술블로그,챌린지,웹,개발" */}
+      {/*  img={new URL(`/src/assets/thumbnail.png`, import.meta.url).href} */}
+      {/*  siteUrl={SITE_URL} */}
+      {/* /> */}
       <MarqueeLogoCard />
       <LandingPageBody>
         <LogoWrapper ref={logoRef} className={inView ? 'active' : ''}>

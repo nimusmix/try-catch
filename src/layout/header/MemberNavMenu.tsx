@@ -3,14 +3,15 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
 import React from 'react';
-import { IconBellFill, IconBookmarkFill, IconUserCircle } from '../../components/icons/Icons';
+import { IconBookmarkFill, IconUserCircle } from '../../components/icons/Icons';
 import { BOOKMARK_PAGE_NAME } from '../../constant';
 import { Paragraph } from '../../components';
-import { accToken, refToken, isDarkState, isLoggedInState } from '../../recoil';
+import { isDarkState, isLoggedInState } from '../../recoil';
 import { getImage, getName } from '../../apis/auth/auth';
 import { Ul } from './NavMenu';
-
-const Alert = styled.div``;
+import NoticeBell from './NoticeBell';
+import getAccToken from '../../utils/getAccToken';
+import ThemeButton from './ThemeButton';
 
 const Bookmark = styled(NavLink)``;
 
@@ -76,7 +77,7 @@ export const DropLiContainer = styled.div`
   border: 1px solid ${({ theme }) => theme.borderColor};
   border-radius: var(--borders-radius-base);
   background-color: ${({ theme }) => theme.bgColor};
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   margin-top: 4px;
   padding: 1rem;
   position: absolute;
@@ -95,8 +96,8 @@ const Line = styled.div`
 
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
-  const acc = useRecoilValue(accToken);
-  const { data: profileImage } = useQuery(['user', 'profileImage'] as const, () => getImage(acc));
+  const acc = getAccToken();
+  const { data: profileImage } = useQuery(['user', 'profileImage'] as const, () => getImage(acc!));
   const { data: userName } = useQuery(['user', 'userName'] as const, getName, {
     enabled: !!profileImage,
   });
@@ -114,26 +115,23 @@ const MemberNavMenu = () => {
   };
 
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
-  const setAccToken = useSetRecoilState(accToken);
-  const setRefToken = useSetRecoilState(refToken);
+  // const setAccToken = useSetRecoilState(accToken);
+  // const setRefToken = useSetRecoilState(refToken);
   const logout = (e: React.MouseEvent) => {
-    console.log('로그아웃 누름');
     e.preventDefault();
     setIsLoggedIn(false);
-    setAccToken('');
-    setRefToken('');
+    localStorage.removeItem('accToken');
+    localStorage.removeItem('refToken');
     navi('/');
   };
 
   return (
     <Ul>
       <Li>
-        <Alert>
-          <IconBellFill
-            color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-            size="20"
-          />
-        </Alert>
+        <ThemeButton />
+      </Li>
+      <Li>
+        <NoticeBell />
       </Li>
 
       <Li>
@@ -150,10 +148,12 @@ const MemberNavMenu = () => {
             {profileImage ? (
               <Img src={profileImage} />
             ) : (
-              <IconUserCircle
-                color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-                size="24"
-              />
+              <span>
+                <IconUserCircle
+                  color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
+                  size="24"
+                />
+              </span>
             )}
             <Paragraph
               as="span"

@@ -10,8 +10,8 @@ const StyledButton = styled.button`
   cursor: pointer;
   border-radius: var(--borders-radius-round);
   border: 1px solid transparent;
-  width: 50px;
-  height: 50px;
+  height: 2.5rem;
+  width: 2.5rem;
   padding: 0;
   background: var(--colors-brand-500);
   color: var(--colors-brand-100);

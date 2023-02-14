@@ -1,15 +1,15 @@
 import { useForm } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { useMutation, useQuery } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../../layout/Layout';
 import { MiniTitle, Input, Button, Paragraph } from '../../components';
-import { accToken } from '../../recoil';
 import { logOnDev } from '../../utils/logging';
 import tokenDecode from '../../utils/tokenDecode';
 import { IUserDetail } from '../../interface/user';
 import { getUserDetail, patchUserDetail } from '../../apis/profile/profile';
+import getAccToken from '../../utils/getAccToken';
+import LoadingSpinner from '../../components/loading/LoadingSpinner';
 
 const EditForm = styled.form`
   display: flex;
@@ -79,8 +79,8 @@ const SubText = styled(Paragraph)`
 
 const ProfileEditPage = () => {
   const { register, handleSubmit, watch } = useForm();
-  const token = useRecoilValue(accToken);
-  const userId = tokenDecode(token, 'id');
+  const token = getAccToken();
+  const userId = tokenDecode(token!, 'id');
   const { data: user, isLoading } = useQuery<IUserDetail>(
     ['userDetail'] as const,
     () => getUserDetail(userId!),
@@ -106,7 +106,7 @@ const ProfileEditPage = () => {
   };
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
   }
 
   return (

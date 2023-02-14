@@ -5,6 +5,7 @@ import { ReactComponent as LogoDarkTheme } from '../../assets/horizontal_logo_da
 import { ReactComponent as LogoLightTheme } from '../../assets/horizontal_logo_light_theme.svg';
 import { isDarkState, isLoggedInState, isSystemThemeState } from '../../recoil';
 import { Header, MemberNavMenu, NavMenu, NonMemberNavMenu } from '../index';
+import ThemeButton from './ThemeButton';
 
 const Logo = styled.div`
   display: flex;
@@ -31,6 +32,11 @@ export const NavWrapper = styled.div`
   display: flex;
   align-items: center;
   height: 100%;
+`;
+
+const ThemeButtonWrapper = styled.div`
+  margin-right: 22px;
+  margin-top: 4px;
 `;
 
 const Navigation = () => {
@@ -65,16 +71,6 @@ const Navigation = () => {
             </NavLink>
           </Logo>
           <NavMenu />
-          {/* 임시 버튼 */}
-          <button
-            type="button"
-            style={{ cursor: 'pointer' }}
-            onClick={() => {
-              return setIsDark((prev: boolean) => !prev);
-            }}
-          >
-            임시 테마버튼
-          </button>
         </NavWrapper>
         {isLoggedIn && (
           <NavWrapper>
@@ -83,6 +79,9 @@ const Navigation = () => {
         )}
         {isLoggedIn || (
           <NavWrapper>
+            <ThemeButtonWrapper>
+              <ThemeButton />
+            </ThemeButtonWrapper>
             <NonMemberNavMenu />
           </NavWrapper>
         )}

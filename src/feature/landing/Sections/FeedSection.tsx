@@ -6,9 +6,9 @@ import { useQuery } from 'react-query';
 import { AxiosError } from 'axios';
 import { Button, MiniTitle, Paragraph, SubTitle } from '../../../components';
 import { IconFeed } from '../../../components/icons/Icons';
-import { IFeedListProps } from '../../feed/IFeed';
-import { IFeedSearch } from '../../../interface/feed';
+import { IFeedListProps, IFeedSearch } from '../../../interface/feed';
 import { getFeedSearchList } from '../../../apis/feed/feed';
+import LoadingSpinner from '../../../components/loading/LoadingSpinner';
 import FeedCard from './FeedCard';
 
 const fadeUp = keyframes`
@@ -26,7 +26,7 @@ const fadeUp = keyframes`
 
 const ThirdSection = styled.section`
   align-self: flex-end;
-  height: 80vh;
+  height: 110vh;
   width: 100%;
 
   visibility: hidden;
@@ -73,6 +73,7 @@ const ThirdSection = styled.section`
     display: flex;
     gap: 1rem;
     margin-bottom: 1rem;
+    min-height: 383px;
   }
   .button-wrapper {
     display: flex;
@@ -103,7 +104,7 @@ const FeedSection = () => {
   );
 
   if (isLoading) {
-    return <div>loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return (
@@ -114,15 +115,16 @@ const FeedSection = () => {
             <IconFeed />
             &nbsp;Feed
           </SubTitle>
-          <SubTitle textAlign="right">기술 블로그를 한눈에 보고싶은데...</SubTitle>
+          <SubTitle textAlign="right">기술 블로그를 한눈에 보고 싶은데...</SubTitle>
         </div>
         <MiniTitle sizeType="xl" textAlign="right">
           <span className="emph">피드</span> 탭을 이용해보세요
         </MiniTitle>
         <Paragraph sizeType="lg" textAlign="right">
-          다양한 기업의 블로그를 보며 기술 트렌드 파악을 쉽게 할 수 있어요
+          다양한 기업의 블로그를 보며 쉽게 기술 트렌드를 파악할 수 있어요
         </Paragraph>
       </div>
+
       <div className="card-container">
         {feeds?.feedList.map((feedItem, index) => (
           <FeedCard key={feedItem.feedId} {...feedItem} delay={(index + 1) * 250} />

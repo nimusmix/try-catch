@@ -107,7 +107,7 @@ const BookmarkFeedList = () => {
         </>
       )}
       {/* 북마크 피드 아이템이 없을 때 */}
-      {bookmarkFeedList?.length === 0 && <BookmarkEmpty category="피드" />}
+      {bookmarkFeedList?.length === 0 && <BookmarkEmpty category={1} />}
     </Wrapper>
   );
 };

@@ -3,11 +3,12 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { useMutation, useQueryClient } from 'react-query';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../../components/icons/Icons';
 import { isDarkState, isLoggedInState, toastState } from '../../../recoil';
-import { IFeedItemProps } from '../../feed/IFeed';
 import FeedTag from '../../feed/FeedTag';
 import { postFeedRead } from '../../../apis/feed/feed';
 import { MiniTitle, Paragraph } from '../../../components';
 import { postBookmark, putBookmark } from '../../../apis/bookmark/bookmark';
+import { ICompany } from '../../../interface/user';
+import { IFeedItemProps } from '../../../interface/feed';
 
 const DefaultDIv = styled.div`
   /* 한 줄 자르기 */
@@ -116,7 +117,12 @@ const BlogMiniTitle = styled(MiniTitle)`
   }
 `;
 
+interface ICompanyFeedItemProps extends IFeedItemProps {
+  companyId: number;
+}
+
 const CompanyFeedListItem = ({
+  companyId,
   feedId,
   title,
   summary,
@@ -125,27 +131,59 @@ const CompanyFeedListItem = ({
   isBookmarked,
   url,
   thumbnailImage,
-}: Partial<IFeedItemProps>) => {
+}: Partial<ICompanyFeedItemProps>) => {
   const isDark = useRecoilValue(isDarkState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const [toast, setToast] = useRecoilState(toastState);
 
   const queryClient = useQueryClient();
+  const updateBookmark = (type: 'do' | 'cancel') => {
+    const previousData = queryClient.getQueryData<ICompany>(['companyDetail', companyId]);
 
-  const unBookmark = useMutation(putBookmark, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['companyId']);
-    },
-  });
+    const newCompanyFeedList = previousData?.companyFeed.map((feedItem) => {
+      if (feedItem.feedId === feedId) {
+        return {
+          ...feedItem,
+          isBookmarked: type === 'do',
+        };
+      }
+      return feedItem;
+    });
 
-  const bookmark = useMutation(postBookmark, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['companyId']);
-    },
-  });
+    if (previousData) {
+      // previousData 가 있으면 setQueryData 를 이용하여 즉시 새 데이터로 업데이트 해준다.
+      queryClient.setQueryData<ICompany>(['companyDetail', companyId], (oldData: any) => {
+        return {
+          ...oldData,
+          companyFeed: newCompanyFeedList,
+        };
+      });
+    }
 
-  const onClickBookmarkHandler = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
+    return {
+      previousData,
+    };
+  };
+
+  const { mutate: addBookmark } = useMutation(
+    ['bookmark'],
+    () => postBookmark({ id: Number(feedId), type: 'FEED' }),
+    {
+      onMutate: () => {
+        updateBookmark('do');
+      },
+    }
+  );
+
+  const { mutate: cancelBookmark } = useMutation(
+    ['cancelBookmark'],
+    () => putBookmark({ id: Number(feedId), type: 'FEED' }),
+    {
+      onMutate: () => updateBookmark('cancel'),
+    }
+  );
+
+  const onClickBookmarkHandler = () => {
     if (!isLoggedIn) {
       setToast({
         type: 'negative',
@@ -153,14 +191,14 @@ const CompanyFeedListItem = ({
         message: '로그인 후 북마크를 이용해보세요! ',
       });
     } else if (isBookmarked) {
-      unBookmark.mutate({ id: Number(feedId), type: 'FEED' });
+      cancelBookmark();
       setToast({
         type: 'positive',
         message: '북마크에서 제거되었습니다.',
         isVisible: true,
       });
     } else {
-      bookmark.mutate({ id: Number(feedId), type: 'FEED' });
+      addBookmark();
       setToast({
         type: 'positive',
         message: '북마크에 추가되었습니다.',
@@ -170,7 +208,7 @@ const CompanyFeedListItem = ({
   };
 
   const handleFeedRead = () => {
-    postFeedRead({ feedId: Number(feedId) });
+    if (isLoggedIn) postFeedRead({ feedId: Number(feedId) });
   };
 
   return (

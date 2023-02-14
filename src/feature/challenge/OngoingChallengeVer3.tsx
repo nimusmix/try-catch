@@ -77,7 +77,11 @@ const ChallengeItemContent = ({ title, startFrom, endAt }: Partial<IChallengeIte
           {title}
         </MiniTitle>
         <div style={{ display: 'flex', justifyContent: 'end' }}>
-          <Button designType="blueEmpty" fontSize="var(--fonts-body-sm)">
+          <Button
+            designType="blueEmpty"
+            fontSize="var(--fonts-body-sm)"
+            style={{ cursor: 'default' }}
+          >
             참여중
           </Button>
         </div>
@@ -140,7 +144,7 @@ const NoLogin = () => {
     <div style={{ padding: ' 0px' }}>
       <CardHeader>
         <MiniTitle sizeType="xl" textAlign="left">
-          진행중인 챌린지가 없어요.. ㅠ
+          로그인 후 챌린지에 참여해 보세요!
         </MiniTitle>
       </CardHeader>
     </div>

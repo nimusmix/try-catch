@@ -36,7 +36,7 @@ const fadeUp = keyframes`
 
 const SecondSection = styled.section`
   align-self: flex-end;
-  height: 100vh;
+  height: 140vh;
   width: 100%;
   visibility: hidden;
 
@@ -87,6 +87,7 @@ const SecondSection = styled.section`
     display: flex;
     gap: 2rem;
     margin-bottom: 1rem;
+    min-height: 254px;
   }
 
   .button-wrapper {

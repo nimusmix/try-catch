@@ -24,7 +24,7 @@ const fadeUp = keyframes`
 
 const ThirdSection = styled.section`
   align-self: flex-end;
-  height: 80vh;
+  height: 90vh;
   width: 100%;
   visibility: hidden;
 
@@ -64,6 +64,7 @@ const ThirdSection = styled.section`
     gap: 1rem;
     margin-bottom: 1rem;
     justify-content: space-between;
+    min-height: 176px;
 
     & > a {
       width: 33%;

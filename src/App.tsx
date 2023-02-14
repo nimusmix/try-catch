@@ -1,17 +1,20 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { HelmetProvider } from 'react-helmet-async';
 import { Outlet } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { accToken, isDarkState, isLoggedInState, toastState } from './recoil';
+import { isDarkState, isLoggedInState, toastState } from './recoil';
 import { darkTheme, lightTheme } from './styles/theme';
 import Toast from './feature/toast/Toast';
 import notificationsState, { INotification } from './recoil/notificationsState';
-import { API_URL } from './constant';
+import { API_URL, SITE_URL } from './constant';
 import { logOnDev } from './utils/logging';
 import elapsedTime from './utils/elapsed-time';
+import getAccToken from './utils/getAccToken';
+import { getNotifications } from './apis/notice/notice';
+import SEOMetaTag from './components/seo/SEOMetaTag';
 
 const GlobalStyles = createGlobalStyle`
   *{
@@ -21,7 +24,6 @@ const GlobalStyles = createGlobalStyle`
     background-color: ${({ theme: { bgColor } }) => bgColor};
     color: ${({ theme: { textColor } }) => textColor};
     min-width: var(--breakpoints-desktop);
-    
   }
   
   body {
@@ -29,11 +31,18 @@ const GlobalStyles = createGlobalStyle`
     overflow-y: scroll;
   }
 
+  
   body::-webkit-scrollbar {
     width: 3px;
     height: 3px;
   }
 
+  #notice-list::-webkit-scrollbar{
+    width: 6px;
+    height: 6px;
+  }
+
+  #notice-list::-webkit-scrollbar-thumb,
   body::-webkit-scrollbar-thumb {
     height: 30%; /* 스크롤바의 길이 */
     background: var(--colors-brand-500); /* 스크롤바의 색상 */
@@ -41,6 +50,7 @@ const GlobalStyles = createGlobalStyle`
     border-radius: 10px;
   }
 
+  #notice-list::-webkit-scrollbar-track,
   body::-webkit-scrollbar-track {
     background-color: ${({ theme: { isDark } }) =>
       isDark ? 'var(--colors-black-100)' : 'var(--colors-brand-200)'};
@@ -61,7 +71,7 @@ function App() {
   const isDark = useRecoilValue(isDarkState);
   const { isVisible } = useRecoilValue(toastState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
-  const acc = useRecoilValue(accToken);
+  const acc = getAccToken();
 
   const [isConnected, setIsConnected] = useState(false); // State to track the connection status
   const [notifications, setNotifications] = useRecoilState(notificationsState);
@@ -69,12 +79,13 @@ function App() {
   const BASE_URL = `https://${API_URL}/v1`;
   const sseEvents = useRef<EventSource | null>(null);
 
-  const connect = useCallback(() => {
+  const connect = useCallback(async () => {
     sseEvents.current = new EventSource(`${BASE_URL}/connect?token=${acc}`);
     // connection 되면
     sseEvents.current.addEventListener('open', (e) => {
       logOnDev.log('sse 연결됨');
       setIsConnected(true);
+      setNotifications([]);
       logOnDev.dir(e);
     });
     // error 발생시
@@ -99,7 +110,7 @@ function App() {
             const followNotification: INotification = {
               ...data,
               timestamp: elapsedTime(data.timestamp),
-              title: `${data.title}님이 팔로우 했어요`,
+              title: data.title,
             };
             setNotifications((prevNotification) => [followNotification, ...prevNotification]);
           }
@@ -111,7 +122,7 @@ function App() {
             const answerAcceptanceNotification: INotification = {
               ...data,
               timestamp: elapsedTime(data.timestamp),
-              title: `${data.title}글에 작성한 답변이 채택됐어요`,
+              title: data.title,
             };
             setNotifications((prevNotification) => [
               answerAcceptanceNotification,
@@ -126,7 +137,7 @@ function App() {
             const answerRegistrationNotification: INotification = {
               ...data,
               timestamp: elapsedTime(data.timestamp),
-              title: `${data.title}글에 누군가 답변을 해줬어요`,
+              title: data.title,
             };
             setNotifications((prevNotification) => [
               answerRegistrationNotification,
@@ -144,7 +155,8 @@ function App() {
     if (!isLoggedIn) {
       return;
     }
-    connect();
+
+    connect().then(() => getNotifications());
 
     // eslint-disable-next-line consistent-return
     return () => {
@@ -156,7 +168,7 @@ function App() {
   // 재연결
   useEffect(() => {
     let reconnectTimeout: NodeJS.Timeout;
-    if (!isConnected) {
+    if (!isConnected && isLoggedIn) {
       reconnectTimeout = setTimeout(() => {
         connect();
       }, 5000);
@@ -165,7 +177,7 @@ function App() {
     return () => {
       clearTimeout(reconnectTimeout);
     };
-  }, [connect, isConnected]);
+  }, [connect, isConnected, isLoggedIn]);
 
   useEffect(() => {
     logOnDev.log('알림 정보');
@@ -175,13 +187,13 @@ function App() {
 
   return (
     <HelmetProvider>
-      <Helmet>
-        {isDark ? (
-          <link href="https://unpkg.com/prism-themes/themes/prism-one-dark.css" rel="stylesheet" />
-        ) : (
-          <link href="https://unpkg.com/prism-themes/themes/prism-one-light.css" rel="stylesheet" />
-        )}
-      </Helmet>
+      <SEOMetaTag
+        title="트라이캐치"
+        description="함께 지식과 경험을 공유하며 좋은 개발자로 성장해요!"
+        keywords="개발자,SNS,깃허브,질문,스택오버플로우,블로그,기술블로그,챌린지,웹,개발"
+        img={new URL(`/src/assets/thumbnail.png`, import.meta.url).href}
+        siteUrl={SITE_URL}
+      />
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
           {isVisible && <Toast />}

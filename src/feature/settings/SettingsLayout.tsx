@@ -31,42 +31,26 @@ const SettingHeader = () => {
         textAlign="left"
         sizeType="base"
       >
-        설정페이지 설명입니다.
+        테마 설정과 깃허브 레포지토리 설정을 할 수 있어요
       </Paragraph>
     </SettingHeaderWrapper>
   );
 };
 const SettingAside = styled.aside`
   width: 250px;
-
-  /* border: 1px solid red; */
-  /* margin: 3rem 1.5rem 0;
-  position: sticky;
-  top: 6rem;
-  height: 500px; */
 `;
 
 // setting Nav bar와 오른쪽에 내용
 const SettingBody = styled.section`
   display: flex;
   flex-direction: row;
-  /* top: 200px;
-  bottom: 0px;
-  position: fixed;
-  overflow-y: scroll; */
 `;
 
 const SettingContent = styled.div`
   width: 840px;
-  /* left: 400px; */
-  /* top: 60px;
-  bottom: 0px; */
-  /* position: fixed; */
-  /* overflow-y: scroll; */
 `;
 
 const SettingsLayout = ({ children }: ILayoutProps) => {
-  // const [activeCategory, setActiveCategory] = useState('DEV');
   return (
     <Layout>
       <SettingContainer>

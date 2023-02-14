@@ -4,6 +4,7 @@ import { ModalWrapper, NavWrapper, NavItem, ItemWrapper } from './SubscriptionPa
 import { getUserId, getUserFollow } from '../../apis/profile/profile';
 import { ISimpleUserData } from '../../interface/user';
 import SimpleUserItem from '../../feature/user/profile/SimpleUserItem';
+import LoadingSpinner from '../../components/loading/LoadingSpinner';
 
 const FollowersPage = () => {
   const { userName } = useParams();
@@ -15,7 +16,7 @@ const FollowersPage = () => {
   );
 
   const { data: followers, isLoading: contentLoading } = useQuery<Array<ISimpleUserData>>(
-    ['user', 'follower'],
+    ['follower', userName],
     () => getUserFollow(userId!, { type: 'follower' }),
     {
       enabled: !!userId,
@@ -23,7 +24,7 @@ const FollowersPage = () => {
   );
 
   if (userIdLoading || contentLoading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
   }
 
   return (

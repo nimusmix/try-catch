@@ -64,7 +64,7 @@ const Tag = styled(Button)`
 `;
 
 const Introduction = styled.div`
-  padding: 3rem 0;
+  padding: 2rem 1.5rem 3rem;
 `;
 
 const ProfileBio = () => {
@@ -75,7 +75,7 @@ const ProfileBio = () => {
   );
 
   const { data: user } = useQuery<IUserDetail>(
-    ['userDetail', userId] as const,
+    ['userDetail', userName] as const,
     () => getUserDetail(userId!),
     {
       enabled: !!userId,
@@ -116,11 +116,13 @@ const ProfileBio = () => {
     return { prevData };
   };
 
-  const { mutate: follow } = useMutation(['post', 'follow'], () => postFollow(userId!), {
+  const { mutate: follow } = useMutation(['post', 'follow', userName], () => postFollow(userId!), {
     onMutate: () => updateFollow('post'),
+    onSuccess: () => queryClient.invalidateQueries(['userDetail', userName]),
   });
-  const { mutate: unfollow } = useMutation(['put', 'follow'], () => putFollow(userId!), {
+  const { mutate: unfollow } = useMutation(['put', 'follow', userName], () => putFollow(userId!), {
     onMutate: () => updateFollow('put'),
+    onSuccess: () => queryClient.invalidateQueries(['userDetail', userName]),
   });
 
   const clickFollowBtn = () => {

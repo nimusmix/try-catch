@@ -4,6 +4,8 @@ import { Link, useParams } from 'react-router-dom';
 import { IFeedItem } from '../../../interface/feed';
 import { getUserId, getUserRecent } from '../../../apis/profile/profile';
 import RecentListItem from './RecentListItem';
+import ProfileEmptyUnder from './ProfileEmptyUnder';
+import LoadingSpinner from '../../../components/loading/LoadingSpinner';
 
 const RecentWrapper = styled.section`
   width: 800px;
@@ -17,7 +19,7 @@ const RecentList = () => {
   );
 
   const { data: recentList, isLoading: recentLoading } = useQuery<Array<IFeedItem>>(
-    ['recentList'],
+    ['recentList', userName],
     () => getUserRecent(userId!),
     {
       enabled: !!userId,
@@ -25,7 +27,11 @@ const RecentList = () => {
   );
 
   if (userIdLoading || recentLoading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
+  }
+
+  if (recentList?.length === 0) {
+    return <ProfileEmptyUnder category={2} />;
   }
 
   return (

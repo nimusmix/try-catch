@@ -21,10 +21,12 @@ const MilkDownWrapper = styled.div<{
     .menu-selector-list {
       background-color: ${({ theme: { isDark } }) =>
         isDark ? 'rgba(36, 42, 54, 1)' : 'var(--colors-brand-200)'};
-      border: ${({ theme: { isDark } }) => (isDark ? '' : '1px solid var(--colors-brand-200)')};
+      border: ${({ theme: { isDark } }) =>
+        isDark ? 'rgb(46, 52, 64)' : '1px solid var(--colors-brand-200)'};
 
       .button {
-        background-color: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-200)')};
+        background-color: ${({ theme: { isDark } }) =>
+          isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-200)'};
         border-radius: 4px;
 
         span {
@@ -32,16 +34,18 @@ const MilkDownWrapper = styled.div<{
         }
 
         &:hover {
-          background-color: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-100)')};
+          background-color: ${({ theme: { isDark } }) =>
+            isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-100)'};
           span {
-            color: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-500)')};
+            color: ${({ theme: { isDark } }) =>
+              isDark ? 'var(--colors-brand-500)' : 'var(--colors-brand-500)'};
           }
         }
       }
     }
 
     .milkdown {
-      background-color: ${({ theme: { isDark } }) => (isDark ? '' : '#f7f8ff')};
+      background-color: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : '#f7f8ff')};
       color: ${({ theme: { textColor } }) => textColor};
 
       box-shadow: none;
@@ -58,18 +62,20 @@ const MilkDownWrapper = styled.div<{
 
       .ProseMirror-selectednode {
         padding: 0.5rem;
-        outline: ${({ theme: { isDark } }) => (isDark ? '' : '1px solid var(--colors-brand-200)')};
+        outline: ${({ theme: { isDark } }) =>
+          isDark ? 'rgb(46, 52, 64)' : '1px solid var(--colors-brand-200)'};
         border-radius: 0.5rem;
       }
     }
   }
 
   .milkdown-hdnsow.tooltip {
-    background-color: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-200)')};
+    background-color: ${({ theme: { isDark } }) =>
+      isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-200)'};
     border: none;
 
     .icon.active {
-      color: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-500)')};
+      color: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-500)')};
     }
 
     span {
@@ -77,7 +83,7 @@ const MilkDownWrapper = styled.div<{
     }
 
     &:after {
-      background: ${({ theme: { isDark } }) => (isDark ? '' : '#c7d4e8')};
+      background: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : '#c7d4e8')};
     }
   }
 
@@ -92,7 +98,8 @@ const MilkDownWrapper = styled.div<{
   .slash-dropdown,
   .milkdown-emoji-filter {
     min-height: 15rem;
-    background-color: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-200)')};
+    background-color: ${({ theme: { isDark } }) =>
+      isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-200)'};
 
     .slash-dropdown-item span {
       color: ${({ theme: { textColor } }) => textColor};
@@ -106,8 +113,8 @@ const MilkDownWrapper = styled.div<{
 
   .code-fence_selector-list {
     background-color: ${({ theme: { isDark } }) =>
-      isDark ? '' : 'var(--colors-brand-200) !important;'};
-    border: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-200)')};
+      isDark ? 'rgb(46, 52, 64) !important;' : 'var(--colors-brand-200) !important;'};
+    border: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-200)')};
   }
 
   .code-fence_selector-list-item {
@@ -120,8 +127,9 @@ const MilkDownWrapper = styled.div<{
   }
 
   .block-menu {
-    background: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-200)')};
-    border: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-200)')};
+    background: ${({ theme: { isDark } }) =>
+      isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-200)'};
+    border: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-200)')};
 
     .block-menu-item span {
       color: ${({ theme: { textColor } }) => textColor};
@@ -134,36 +142,43 @@ const MilkDownWrapper = styled.div<{
   }
 
   .milkdown-phvvv {
-    color: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-500)')};
+    color: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-500)')};
 
     &:hover {
-      background-color: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-200)')};
-      color: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-500)')};
+      background-color: ${({ theme: { isDark } }) =>
+        isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-200)'};
+      color: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-500)')};
     }
   }
 
   .milkdown .editor .code-fence pre {
-    background-color: ${({ theme: { isDark } }) => (isDark ? '' : '#dae1f3')};
+    background-color: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : '#dae1f3')};
     color: ${({ theme: { textColor } }) => textColor};
   }
   .code-fence {
-    background-color: ${({ theme: { isDark } }) => (isDark ? '' : '#dae1f3')};
+    & > pre > code > div {
+      background-color: ${({ theme: { isDark } }) => (isDark ? 'rgb(37, 41, 50)' : '#dae1f3')};
+    }
+    background-color: ${({ theme: { isDark } }) => (isDark ? 'rgb(37, 41, 50)' : '#dae1f3')};
 
     .code-fence_selector {
       overflow: hidden;
-      background-color: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-brand-200)')};
-      border: ${({ theme: { isDark } }) => (isDark ? '' : 'none')};
+      background-color: ${({ theme: { isDark } }) =>
+        isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-200)'};
+      border: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : 'none')};
 
       .icon {
-        border-left: ${({ theme: { isDark } }) => (isDark ? '' : '1px solid rgb(131 163 195)')};
+        border-left: ${({ theme: { isDark } }) =>
+          isDark ? 'rgb(46, 52, 64)' : '1px solid rgb(131 163 195)'};
       }
       span,
       .icon {
         color: ${({ theme: { textColor } }) => textColor};
       }
       .icon:hover {
-        color: ${({ theme: { isDark } }) => (isDark ? '' : 'var(--colors-white-500)')};
-        background-color: ${({ theme: { isDark } }) => (isDark ? '' : '#96bdff')};
+        color: ${({ theme: { isDark } }) =>
+          isDark ? 'rgb(46, 52, 64)' : 'var(--colors-white-500)'};
+        background-color: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : '#96bdff')};
       }
     }
 
@@ -173,15 +188,17 @@ const MilkDownWrapper = styled.div<{
   }
 
   .image-container {
-    background-color: ${({ theme: { isDark } }) => (isDark ? '' : '#dae1f3')} !important;
+    background-color: ${({ theme: { isDark } }) =>
+      isDark ? 'rgb(37,41,50)' : '#dae1f3'} !important;
     & > span.placeholder:before {
       content: '이미지 추가';
       color: ${({ theme: { textColor } }) => textColor};
     }
   }
 
-  .milkdown-benxqe.tooltip-input {
-    background-color: ${({ theme: { isDark } }) => (isDark ? '' : '#dae1f3')} !important;
+  .tooltip-input {
+    background-color: ${({ theme: { isDark } }) =>
+      isDark ? 'rgb(37,41,50)' : '#dae1f3'} !important;
 
     input::placeholder {
       color: ${({ theme: { textColor } }) => textColor};

@@ -7,6 +7,7 @@ import { QuestionPageBody as ChallengePageBody } from '../qna/QnaPage';
 import { ChallengeAll, OngoingChallengeVer3 } from '../../feature/challenge';
 import { IChallengeItem } from '../../interface/challenge';
 import { getChallengeList } from '../../apis/challenge/challenge';
+import LoadingSpinner from '../../components/loading/LoadingSpinner';
 
 const ChallengeHeader = styled(ChallengePageBody)``;
 const ChallengeBodyWrapper = styled(ChallengePageBody)`
@@ -48,13 +49,13 @@ const ChallengesPage = () => {
 
   /** TODO 챌린지 페이지 로딩 스켈레톤 만들기 */
   if (isLoading) {
-    return <h1>isLoading...</h1>;
+    return <LoadingSpinner />;
   }
   return (
     <Layout>
       <HeaderImage image={header_challenge}>
         <SubTitle>챌린지</SubTitle>
-        <Paragraph sizeType="base">챌린지 게시판에 대한 설명이 들어갈 자리입니다.</Paragraph>
+        <Paragraph sizeType="base">도전과제를 달성하며 재밌게 학습해보세요</Paragraph>
       </HeaderImage>
       <ChallengePageBody
         style={{ margin: '3rem 1.5rem', flexDirection: 'column', width: '1200px' }}

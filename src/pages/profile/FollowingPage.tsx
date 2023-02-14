@@ -4,6 +4,7 @@ import { ModalWrapper, NavWrapper, NavItem, ItemWrapper } from './SubscriptionPa
 import { getUserId, getUserFollow } from '../../apis/profile/profile';
 import { ISimpleUserData } from '../../interface/user';
 import SimpleUserItem from '../../feature/user/profile/SimpleUserItem';
+import LoadingSpinner from '../../components/loading/LoadingSpinner';
 
 const FollowingPage = () => {
   const { userName } = useParams();
@@ -14,13 +15,13 @@ const FollowingPage = () => {
     () => getUserId(userName!)
   );
   const { data: following, isLoading: contentLoading } = useQuery<any>(
-    ['user', 'following'],
+    ['following', userName],
     () => getUserFollow(userId!, { type: 'followee' }),
     { enabled: !!userId }
   );
 
   if (userIdLoading || contentLoading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
   }
 
   return (

@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { Card, MiniTitle, Paragraph } from '../../components';
-import { isDarkState } from '../../recoil';
+import { isLoggedInState, isDarkState } from '../../recoil';
 import { IBookmarkFeed } from '../../interface/bookmark';
 import { postFeedRead } from '../../apis/feed/feed';
+
 import FeedTag from '../feed/FeedTag';
 
 export const DefaultDiv = styled.div`
@@ -99,8 +100,10 @@ const BookmarkFeedListItem = ({
   logoSrc,
 }: IBookmarkFeed) => {
   const isDark = useRecoilValue(isDarkState);
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+
   const handleFeedRead = () => {
-    postFeedRead({ feedId: id });
+    if (isLoggedIn) postFeedRead({ feedId: id });
   };
 
   return (
