@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -10,7 +10,6 @@ import QnaFormHeader from '../../feature/qna/question-form/QnaFormHeader';
 import QnaFormBody from '../../feature/qna/question-form/QnaFormBody';
 import { useQuestionDispatch, useQuestionState } from '../../context/QnaContext';
 import { getQuestionDetail, postQuestion, putQuestion } from '../../apis/qna/qna';
-import { logOnDev } from '../../utils/logging';
 import { toastState } from '../../recoil';
 import QnaFormSkeleton from '../../feature/qna/skeleton/QnaFormSkeleton';
 
@@ -32,6 +31,11 @@ const Section = styled.section`
 
 const QnaFormFooter = styled.div`
   margin-bottom: 3rem;
+
+  .no-valid-button {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 `;
 
 const TooltipAside = styled.aside`
@@ -46,12 +50,22 @@ export const Required = styled.span`
 `;
 
 const QnaFormPage = ({ edit }: { edit?: boolean }) => {
+  const [canSubmit, setCanSubmit] = useState(true);
   const setToast = useSetRecoilState(toastState);
   const { content, category, errorCode, title, tags } = useQuestionState();
   const dispatch = useQuestionDispatch();
   const navigate = useNavigate();
   const { questionId } = useParams();
   const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (!category.trim() || title.trim().length < 10 || !content.trim()) {
+      setCanSubmit(false);
+    } else {
+      setCanSubmit(true);
+    }
+  }, [category, content, errorCode, title]);
+
   const { data: question, isLoading } = useQuery(
     ['question', `${questionId}`],
     getQuestionDetail(Number(questionId)),
@@ -99,11 +113,7 @@ const QnaFormPage = ({ edit }: { edit?: boolean }) => {
   );
 
   const onClickSubmitQuestion = () => {
-    if (!category.trim() || !title.trim() || !content.trim() || !errorCode.trim()) {
-      logOnDev.log(category);
-      logOnDev.log(title);
-      logOnDev.log(content);
-      logOnDev.log(errorCode);
+    if (!category.trim() || !title.trim() || !content.trim()) {
       setToast({ type: 'negative', message: '필수 항목을 모두 입력해주세요.', isVisible: true });
       return;
     }
@@ -129,11 +139,13 @@ const QnaFormPage = ({ edit }: { edit?: boolean }) => {
                 <QnaFormHeader />
                 <QnaFormBody edit={edit as boolean} />
                 <QnaFormFooter>
-                  {questionId ? (
-                    <Button onClick={onClickSubmitQuestion}>수정</Button>
-                  ) : (
-                    <Button onClick={onClickSubmitQuestion}>작성</Button>
-                  )}
+                  <Button
+                    onClick={onClickSubmitQuestion}
+                    disabled={canSubmit}
+                    className={canSubmit ? '' : 'no-valid-button'}
+                  >
+                    {edit ? '수정' : '작성'}
+                  </Button>
                 </QnaFormFooter>
               </>
             )}

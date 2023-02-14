@@ -1,10 +1,10 @@
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { HelmetProvider } from 'react-helmet-async';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Outlet } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { isDarkState, isLoggedInState, toastState } from './recoil';
 import { darkTheme, lightTheme } from './styles/theme';
 import Toast from './feature/toast/Toast';
@@ -186,6 +186,13 @@ function App() {
 
   return (
     <HelmetProvider>
+      <Helmet>
+        {isDark ? (
+          <link href="https://unpkg.com/prism-themes/themes/prism-one-dark.css" rel="stylesheet" />
+        ) : (
+          <link href="https://unpkg.com/prism-themes/themes/prism-one-light.css" rel="stylesheet" />
+        )}
+      </Helmet>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
           {isVisible && <Toast />}
