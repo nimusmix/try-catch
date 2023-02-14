@@ -45,10 +45,15 @@ const TopButton = () => {
   }, []);
 
   useEffect(() => {
-    if (location.pathname === '/') {
-      setTop(0);
-    } else {
+    if (
+      location.pathname === '/question' ||
+      location.pathname === '/feed' ||
+      location.pathname === '/roadmap' ||
+      location.pathname === '/challenge'
+    ) {
       setTop(180);
+    } else {
+      setTop(0);
     }
   }, [location.pathname]);
 
