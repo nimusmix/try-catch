@@ -120,6 +120,7 @@ export interface ISubscription {
   companyId: number;
   companyName: string;
   isSubscribe: boolean;
+  logoSrc: string;
 }
 
 // "유저의" 구독 목록

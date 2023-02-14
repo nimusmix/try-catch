@@ -75,7 +75,9 @@ const SubscriptionPage = () => {
         </NavItem>
       </NavWrapper>
       <ItemWrapper>
-        <p>구독 구현 후 테스트해보기</p>
+        {subscription?.map((item) => (
+          <p key={item.companyId}>{item.companyName}</p>
+        ))}
       </ItemWrapper>
     </ModalWrapper>
   );
