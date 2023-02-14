@@ -7,18 +7,16 @@ import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
 import htmlPlugin, { Options } from 'vite-plugin-html-config';
+import faviconImage from './src/assets/favicon.ico';
+import thumbnailImage from './src/assets/thumbnail.png';
 
 const DOMAIN =
   process.env.CONTEXT === 'production'
     ? process.env.URL ?? 'https://try-catch.duckdns.org/'
-    : process.env.PREVIEW_URL ?? 'https://beta.try-catch.duckdns.org/question';
-
-const CARD_IMAGE_PATH = '/src/assets/thumbnail.png';
-
-const getURL = (path = ''): string => new URL(path, DOMAIN).toString();
+    : process.env.PREVIEW_URL ?? 'https://beta.try-catch.duckdns.org';
 
 const htmlPluginOpt: Options = {
-  favicon: new URL(`/src/assets/favicon.ico`, import.meta.url).href,
+  favicon: faviconImage,
   metas: [
     {
       name: 'title',
@@ -51,11 +49,11 @@ const htmlPluginOpt: Options = {
     },
     {
       property: 'og:image',
-      content: new URL(CARD_IMAGE_PATH, import.meta.url).href,
+      content: thumbnailImage,
     },
     {
       property: 'og:url',
-      content: getURL(),
+      content: DOMAIN,
     },
 
     {
@@ -64,11 +62,15 @@ const htmlPluginOpt: Options = {
     },
     {
       name: 'twitter:description',
-      content: '',
+      content: '개발자,SNS,깃허브,질문,스택오버플로우,블로그,기술블로그,챌린지,웹,개발',
     },
     {
       name: 'twitter:image',
-      content: new URL(CARD_IMAGE_PATH, import.meta.url).href,
+      content: thumbnailImage,
+    },
+    {
+      name: 'robots',
+      content: process.env.CONTEXT === 'production' ? 'index, follow' : 'noindex, nofollow',
     },
   ],
 };
