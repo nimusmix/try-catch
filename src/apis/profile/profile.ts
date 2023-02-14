@@ -26,9 +26,12 @@ export const getUserSubscription = (userId: number) =>
 
 // 팔로잉, 팔로워 목록 조회
 export const getUserFollow = (userId: number, params: { type: string }) => {
-  return authApi.get(`/user/${userId}/list`, { params }).then((res) => {
-    return res.data;
-  });
+  return authApi.get(`/user/${userId}/list`, { params }).then((res) => res.data);
+};
+
+// 획득 뱃지 목록 조회
+export const getUserBadge = (userId: number) => {
+  return api.get(`/user/${userId}/badge`).then((res) => res.data);
 };
 
 // 회원 정보 수정

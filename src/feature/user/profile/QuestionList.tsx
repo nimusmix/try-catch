@@ -14,7 +14,7 @@ const QuestionWrapper = styled.section`
 const QuestionList = () => {
   const { userName } = useParams();
   const { data: userId, isLoading: userIdLoading } = useQuery<number>(
-    ['questionList', 'userId'] as const,
+    ['questionList', 'userId', userName] as const,
     () => getUserId(userName!)
   );
 

@@ -62,8 +62,11 @@ export interface IRepoHistory {
  */
 export interface IBadge {
   badgeId: number;
-  badgeName: string;
-  image: string;
+  title: string;
+  content: string;
+  imgSrc: string;
+  earnedAt: string;
+  isNew: boolean;
 }
 export interface IBadgeList {
   badges: Array<IBadge>;

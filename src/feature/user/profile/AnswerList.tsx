@@ -9,16 +9,14 @@ import ProfileEmptyUnder from './ProfileEmptyUnder';
 const AnswerList = () => {
   const { userName } = useParams();
   const { data: userId, isLoading: userIdLoading } = useQuery<number>(
-    ['answerList', 'userId'] as const,
+    ['answerList', 'userId', userName] as const,
     () => getUserId(userName!)
   );
 
   const { data: answerList, isLoading: myAnswerLoading } = useQuery<Array<IUserAnswer>>(
     ['annswerList', userName],
     () => getUserAnswer(userId!),
-    {
-      enabled: !!userId,
-    }
+    { enabled: !!userId }
   );
 
   // 로딩중일 때
