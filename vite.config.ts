@@ -13,12 +13,12 @@ const DOMAIN =
     ? process.env.URL ?? 'https://try-catch.duckdns.org/'
     : process.env.PREVIEW_URL ?? 'https://beta.try-catch.duckdns.org/question';
 
-const CARD_IMAGE_PATH = 'assets/thumbnail.png';
+const CARD_IMAGE_PATH = '/src/assets/thumbnail.png';
 
 const getURL = (path = ''): string => new URL(path, DOMAIN).toString();
 
 const htmlPluginOpt: Options = {
-  favicon: getURL('assets/favicon.ico'),
+  favicon: new URL(`/src/assets/favicon.ico`, import.meta.url).href,
   metas: [
     {
       name: 'title',
@@ -51,7 +51,7 @@ const htmlPluginOpt: Options = {
     },
     {
       property: 'og:image',
-      content: getURL(CARD_IMAGE_PATH),
+      content: new URL(CARD_IMAGE_PATH, import.meta.url).href,
     },
     {
       property: 'og:url',
@@ -68,7 +68,7 @@ const htmlPluginOpt: Options = {
     },
     {
       name: 'twitter:image',
-      content: getURL(CARD_IMAGE_PATH),
+      content: new URL(CARD_IMAGE_PATH, import.meta.url).href,
     },
   ],
 };
