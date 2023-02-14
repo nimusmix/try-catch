@@ -2,14 +2,14 @@ import styled from 'styled-components';
 import { Card } from '../../../components';
 
 const DivBackground = styled.div`
-  background-color: #ededed;
+  background-color: ${({ theme: { isDark } }) => (isDark ? 'var(--colors-black-200)' : '#ededed')};
   background: linear-gradient(
       100deg,
       rgba(255, 255, 255, 0) 40%,
       rgba(255, 255, 255, 0.5) 50%,
       rgba(255, 255, 255, 0) 60%
     )
-    #ededed;
+    ${({ theme: { isDark } }) => (isDark ? 'var(--colors-black-200)' : '#ededed')};
   background-size: 200% 100%;
   background-position-x: 180%;
   animation: 1s loading ease-in-out infinite;
