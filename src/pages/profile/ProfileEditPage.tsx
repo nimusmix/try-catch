@@ -9,6 +9,7 @@ import tokenDecode from '../../utils/tokenDecode';
 import { IUserDetail } from '../../interface/user';
 import { getUserDetail, patchUserDetail } from '../../apis/profile/profile';
 import getAccToken from '../../utils/getAccToken';
+import LoadingSpinner from '../../components/loading/LoadingSpinner';
 
 const EditForm = styled.form`
   display: flex;
@@ -105,7 +106,7 @@ const ProfileEditPage = () => {
   };
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
   }
 
   return (

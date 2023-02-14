@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getUserId, getUserSubscription } from '../../apis/profile/profile';
+import LoadingSpinner from '../../components/loading/LoadingSpinner';
 import { ISubscription } from '../../interface/user';
 
 export const ModalWrapper = styled.div`
@@ -59,7 +60,7 @@ const SubscriptionPage = () => {
   const navi = useNavigate();
 
   if (userIdLoading || contentLoading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
   }
 
   return (

@@ -5,6 +5,7 @@ import { IFeedItem } from '../../../interface/feed';
 import { getUserId, getUserRecent } from '../../../apis/profile/profile';
 import RecentListItem from './RecentListItem';
 import ProfileEmptyUnder from './ProfileEmptyUnder';
+import LoadingSpinner from '../../../components/loading/LoadingSpinner';
 
 const RecentWrapper = styled.section`
   width: 800px;
@@ -26,7 +27,7 @@ const RecentList = () => {
   );
 
   if (userIdLoading || recentLoading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
   }
 
   if (recentList?.length === 0) {

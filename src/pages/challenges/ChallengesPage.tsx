@@ -7,6 +7,7 @@ import { QuestionPageBody as ChallengePageBody } from '../qna/QnaPage';
 import { ChallengeAll, OngoingChallengeVer3 } from '../../feature/challenge';
 import { IChallengeItem } from '../../interface/challenge';
 import { getChallengeList } from '../../apis/challenge/challenge';
+import LoadingSpinner from '../../components/loading/LoadingSpinner';
 
 const ChallengeHeader = styled(ChallengePageBody)``;
 const ChallengeBodyWrapper = styled(ChallengePageBody)`
@@ -48,7 +49,7 @@ const ChallengesPage = () => {
 
   /** TODO 챌린지 페이지 로딩 스켈레톤 만들기 */
   if (isLoading) {
-    return <h1>isLoading...</h1>;
+    return <LoadingSpinner />;
   }
   return (
     <Layout>

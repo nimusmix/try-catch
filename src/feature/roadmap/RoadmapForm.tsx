@@ -11,6 +11,7 @@ import { logOnDev } from '../../utils/logging';
 import { INode, IEdge, IRoadmap } from '../../interface/roadmap';
 import TextUpdaterNode from './node-style/TextUpdaterNode';
 import { getName } from '../../apis/auth/auth';
+import LoadingSpinner from '../../components/loading/LoadingSpinner';
 
 const InputWrapper = styled.div`
   display: flex;
@@ -132,7 +133,7 @@ const RoadmapForm = () => {
   const nodeTypes = useMemo(() => ({ textUpdater: TextUpdaterNode }), []);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
   }
 
   return (

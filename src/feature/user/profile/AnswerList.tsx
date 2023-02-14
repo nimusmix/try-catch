@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query';
 import { Link, useParams } from 'react-router-dom';
 import { getUserAnswer, getUserId } from '../../../apis/profile/profile';
+import LoadingSpinner from '../../../components/loading/LoadingSpinner';
 import { IUserAnswer } from '../../../interface/user';
 import AnswerListItem from './AnswerListItem';
 import ProfileEmptyUnder from './ProfileEmptyUnder';
@@ -22,7 +23,7 @@ const AnswerList = () => {
 
   // 로딩중일 때
   if (userIdLoading || myAnswerLoading) {
-    return <p>Loading...</p>;
+    return <LoadingSpinner />;
   }
 
   // 컨텐츠가 없을 때

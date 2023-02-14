@@ -8,6 +8,7 @@ import { Button, MiniTitle, Paragraph, SubTitle } from '../../../components';
 import { IconFeed } from '../../../components/icons/Icons';
 import { IFeedListProps, IFeedSearch } from '../../../interface/feed';
 import { getFeedSearchList } from '../../../apis/feed/feed';
+import LoadingSpinner from '../../../components/loading/LoadingSpinner';
 import FeedCard from './FeedCard';
 
 const fadeUp = keyframes`
@@ -101,6 +102,10 @@ const FeedSection = () => {
       return getFeedSearchList(params);
     }
   );
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <ThirdSection ref={ref} className={inView ? 'active' : ''}>
