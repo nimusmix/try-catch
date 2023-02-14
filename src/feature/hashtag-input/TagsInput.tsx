@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 import { IconX } from '../../components/icons/Icons';
 
@@ -64,7 +64,7 @@ const Tag = styled.li`
   }
 `;
 
-const TagsInput = ({ addTag, removeTag, tags }: any) => {
+const TagsInput = ({ addTag, removeTag, tags }: any, ref: any) => {
   return (
     <STagInput>
       <TagsList>
@@ -80,6 +80,7 @@ const TagsInput = ({ addTag, removeTag, tags }: any) => {
         ))}
       </TagsList>
       <input
+        ref={ref}
         type="text"
         onKeyUp={(e) => (e.key === 'Enter' ? addTag(e) : null)}
         placeholder="엔터를 입력해서 태그를 등록할 수 있습니다."
@@ -88,4 +89,4 @@ const TagsInput = ({ addTag, removeTag, tags }: any) => {
   );
 };
 
-export default TagsInput;
+export default forwardRef(TagsInput);

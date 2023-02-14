@@ -39,7 +39,7 @@ const QnaPopularTag = () => {
   return (
     <QnaPopularTagWrapper padding="1.25rem 1.625rem">
       <QnaPopularTagTitle sizeType="xl" textAlign="left">
-        인기 태그
+        인기 태그 🏷
       </QnaPopularTagTitle>
       {isLoading || (
         <TagsWrapper>
