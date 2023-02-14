@@ -132,7 +132,7 @@ const BookmarkQuestionList = () => {
         </>
       )}
       {/* 북마크 질문 아이템이 없을 때 */}
-      {bookmarkQuestionList?.length === 0 && <BookmarkEmpty category="질문" />}
+      {bookmarkQuestionList?.length === 0 && <BookmarkEmpty category={0} />}
     </Wrapper>
   );
 };

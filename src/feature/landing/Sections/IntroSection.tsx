@@ -87,7 +87,7 @@ const IntroSection = () => {
             트라이캐치는 개발자를 위한 기능이 가득한 <br /> 개발자 중심 커뮤니티입니다.
           </Paragraph>
           <Paragraph sizeType="lg">
-            다양한 기업의 기술 블로그 부터 Q&A까지 <br /> 양질의 다양한 컨텐츠와 함께 공부를
+            다양한 기업의 기술 블로그부터 Q&A까지 <br /> 다양한 맞춤 컨텐츠와 함께 공부를
             이어가세요.
           </Paragraph>
         </div>

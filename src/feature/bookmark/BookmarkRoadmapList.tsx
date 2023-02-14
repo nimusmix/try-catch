@@ -132,7 +132,7 @@ const BookmarkRoadmapList = () => {
         </>
       )}
       {/* 북마크 로드맵 아이템이 없을 때 */}
-      {bookmarkRoadmapList?.length === 0 && <BookmarkEmpty category="로드맵" />}
+      {bookmarkRoadmapList?.length === 0 && <BookmarkEmpty category={2} />}
     </Wrapper>
   );
 };
