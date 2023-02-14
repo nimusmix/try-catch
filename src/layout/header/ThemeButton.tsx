@@ -80,7 +80,7 @@ const Wrapper = styled.div`
   .theme-toggle {
     background: none;
     border: none;
-    margin: 4px 0px 0px;
+    margin: 0;
     padding: 0;
 
     inline-size: 2rem;

@@ -203,6 +203,12 @@ const FeedListItem = ({
     navigate(`/profile/company/${COMPANY[companyName]}`);
   };
 
+  let newThumbnailImage: string = thumbnailImage;
+  if (thumbnailImage.startsWith('/assets')) {
+    const urlArray = url.split('/');
+    newThumbnailImage = `https://${urlArray[2]}${thumbnailImage}`;
+  }
+
   return (
     <Wrapper>
       <div
@@ -215,7 +221,7 @@ const FeedListItem = ({
       >
         <LinkWrapper url={url} onClick={handleFeedRead}>
           <FeedThumbnailImgWrapper>
-            <FeedThumbnailImg image={thumbnailImage} />
+            <FeedThumbnailImg image={newThumbnailImage} />
           </FeedThumbnailImgWrapper>
         </LinkWrapper>
       </div>

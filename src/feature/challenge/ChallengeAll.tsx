@@ -110,14 +110,22 @@ export const ChallengeItem = ({ challengeId, title, content, imgSrc, state }: IC
                 챌린지 도전
               </Button>
             )}
-            {state === 'ONGOING' && <Button fontSize="var(--fonts-body-sm)">참여중</Button>}
+            {state === 'ONGOING' && (
+              <Button fontSize="var(--fonts-body-sm)" style={{ cursor: 'default' }}>
+                참여중
+              </Button>
+            )}
             {state === 'SUCCESS' && (
-              <Button designType="purpleFill" fontSize="var(--fonts-body-sm)" disabled>
+              <Button
+                designType="purpleFill"
+                fontSize="var(--fonts-body-sm)"
+                style={{ cursor: 'default' }}
+              >
                 챌린지 성공
               </Button>
             )}
             {state === 'FAIL' && (
-              <Button designType="redFill" fontSize="var(--fonts-body-sm)">
+              <Button designType="redFill" fontSize="var(--fonts-body-sm)" onClick={handleBefore}>
                 재 도전
               </Button>
             )}

@@ -7,8 +7,6 @@ import { IFeedList, IFeedListProps, IFeedSearch } from '../../interface/feed';
 import FeedListItem from './FeedListItem';
 import FeedCardItem from './FeedCardItem';
 
-import { MiniTitle, Paragraph } from '../../components';
-import { ReactComponent as Bug } from '../../assets/bug.svg';
 import { getFeedSearchList } from '../../apis/feed/feed';
 
 import FeedCardSkeletonList from './skeleton/FeedCardSkeletonList';
@@ -102,16 +100,6 @@ const FeedList = ({
       }
     }
   }, [getData, isLoading, data?.pages, tagListProps]);
-
-  /** TODO  최상위 10개 데이터에 대한 키워드 15개 뽑기
-   * 추후 keyword 개수 많은 순으로 count 해서 보내주기
-   */
-
-  // data?.feedList.slice(tagListLen + 1).forEach((item) => {
-  //   item.keywords.forEach((element) => {
-  //     tagListSet.add(element);
-  //   });
-  // });
 
   return (
     <div>

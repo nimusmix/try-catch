@@ -165,6 +165,12 @@ const FeedCardItem = ({
     navigate(`/profile/company/${COMPANY[companyName]}`);
   };
 
+  let newThumbnailImage: string = thumbnailImage;
+  if (thumbnailImage.startsWith('/assets')) {
+    const urlArray = url.split('/');
+    newThumbnailImage = `https://${urlArray[2]}${thumbnailImage}`;
+  }
+
   return (
     <StyledCard
       width="17.125rem"
@@ -200,7 +206,7 @@ const FeedCardItem = ({
       </CardHeader>
 
       <FeedThumbnailImg>
-        <FeedThumbnailImgChild image={thumbnailImage} />
+        <FeedThumbnailImgChild image={newThumbnailImage} />
       </FeedThumbnailImg>
 
       <CardBody>
