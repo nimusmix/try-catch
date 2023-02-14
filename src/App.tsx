@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider, useMutation } from 'react-query';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { HelmetProvider } from 'react-helmet-async';
 import { Outlet } from 'react-router-dom';
@@ -78,10 +78,6 @@ function App() {
   const BASE_URL = `https://${API_URL}/v1`;
   const sseEvents = useRef<EventSource | null>(null);
 
-  const { mutate } = useMutation(['getNotifications'], getNotifications, {
-    onSuccess: () => console.log(isConnected),
-  });
-
   const connect = useCallback(() => {
     sseEvents.current = new EventSource(`${BASE_URL}/connect?token=${acc}`);
     // connection 되면
@@ -160,7 +156,7 @@ function App() {
     }
     (async () => {
       await connect();
-      await mutate();
+      await getNotifications();
     })();
 
     // eslint-disable-next-line consistent-return
@@ -168,7 +164,7 @@ function App() {
       logOnDev.log('sse 연결 종료');
       sseEvents.current!.close();
     };
-  }, [connect, isLoggedIn, mutate, sseEvents]);
+  }, [connect, isLoggedIn, sseEvents]);
 
   // 재연결
   useEffect(() => {
