@@ -22,7 +22,7 @@ const CompanyProfilePage = loadable(() => import('./profile/CompanyProfilePage')
 const ProfileEditPage = loadable(() => import('./profile/ProfileEditPage'));
 const AlertSettingsPage = loadable(() => import('./setting/AlertSettingsPage'));
 const ThemeSettingsPage = loadable(() => import('./setting/ThemeSettingsPage'));
-const AdvancedSettingsPage = loadable(() => import('./setting/AdvancedSettingsPage'));
+const GithubSettingsPage = loadable(() => import('./setting/GithubSettingsPage'));
 const IntroducePage = loadable(() => import('./setting/IntroducePage'));
 const CustomerServicePage = loadable(() => import('./setting/CustomerServicePage'));
 const NotFoundPage = loadable(() => import(`./error/NotFoundPage`));
@@ -47,7 +47,7 @@ export {
   ProfileEditPage,
   AlertSettingsPage,
   ThemeSettingsPage,
-  AdvancedSettingsPage,
+  GithubSettingsPage,
   IntroducePage,
   CustomerServicePage,
   NotFoundPage,

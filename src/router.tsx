@@ -13,7 +13,6 @@ import {
 } from './constant';
 
 import {
-  AdvancedSettingsPage,
   AlertSettingsPage,
   ChallengesPage,
   CompanyProfilePage,
@@ -21,6 +20,7 @@ import {
   FeedPage,
   FollowersPage,
   FollowingPage,
+  GithubSettingsPage,
   IntroducePage,
   LandingPage,
   NotFoundPage,
@@ -196,8 +196,8 @@ const router = createBrowserRouter([
             element: <ThemeSettingsPage />,
           },
           {
-            path: 'advanced',
-            element: <AdvancedSettingsPage />,
+            path: 'github',
+            element: <GithubSettingsPage />,
           },
           {
             path: 'trycatch',

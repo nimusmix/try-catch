@@ -36,7 +36,7 @@ const Highlight = styled.span`
   font-weight: 600;
 `;
 
-const StyledInput = styled(Input)`
+export const StyledInput = styled(Input)`
   width: 200px;
   text-align: center;
   padding: 0.5rem 0.25rem;
