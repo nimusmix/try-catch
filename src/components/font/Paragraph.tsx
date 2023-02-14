@@ -42,6 +42,10 @@ const Paragraph = styled.p<IParagraphProps>`
   font-weight: ${({ fontWeight }) => fontWeight || '400'};
 
   ${({ sizeType }) => sizeType && sizeList[sizeType]}
+
+  .blue {
+    color ${({ theme: { brandColor } }) => brandColor}
+  }
 `;
 
 export default Paragraph;

@@ -15,6 +15,7 @@ import elapsedTime from './utils/elapsed-time';
 import getAccToken from './utils/getAccToken';
 import { getNotifications } from './apis/notice/notice';
 import SEOMetaTag from './components/seo/SEOMetaTag';
+import MobileAlert from './layout/MobileAlert';
 
 const GlobalStyles = createGlobalStyle`
   *{
@@ -198,7 +199,7 @@ function App() {
   }, []);
 
   if (mobile) {
-    return <div>죄송합니다.. 트라이캐치는 아직 데스크탑 뷰만 지원하고 있어요</div>;
+    return <MobileAlert />;
   }
 
   return (

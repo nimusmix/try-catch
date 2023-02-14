@@ -38,7 +38,22 @@ const KeywordWrapper = styled.span`
   display: flex;
   justify-content: space-between;
 
-  & > div {
+  .result-message {
+    display: flex;
+    font-weight: 600;
+    .blue {
+      display: inline-block;
+      margin-right: 0.2rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+      max-width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  & > div:first-child {
     display: flex;
   }
 
@@ -94,19 +109,11 @@ const QnaSearchBar = () => {
       </StyledSearch>
       <KeywordWrapper>
         <div>
-          <Paragraph sizeType="lg">현재 검색 키워드: </Paragraph>
           <Paragraph sizeType="base">
             {keyword.length > 0 ? (
-              <Button
-                as="span"
-                designType="grayFill"
-                fontSize="var(--fonts-body-sm)"
-                padding="0 0.5rem"
-                borderRadius="var(--borders-radius-base)"
-                style={{ marginBottom: '0.5rem', fontWeight: '500' }}
-              >
-                {keyword}
-              </Button>
+              <Paragraph as="span" sizeType="lg" className="result-message">
+                &apos;<b className="blue">{keyword}</b>&apos; 검색 결과
+              </Paragraph>
             ) : (
               <Button
                 as="span"
@@ -116,7 +123,7 @@ const QnaSearchBar = () => {
                 borderRadius="var(--borders-radius-base)"
                 style={{ marginBottom: '0.5rem', fontWeight: '500' }}
               >
-                없음
+                전체
               </Button>
             )}
           </Paragraph>

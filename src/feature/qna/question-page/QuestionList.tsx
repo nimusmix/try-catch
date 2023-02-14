@@ -101,7 +101,6 @@ const QuestionList = ({
             pageParams: data.pageParams,
           };
         }
-        console.log(filteredData);
         return { ...filteredData };
       },
     }
