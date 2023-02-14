@@ -19,9 +19,6 @@ const DURATION = 35000;
 const ROWS = 3;
 const TAGS_PER_ROW = 8;
 
-const SITE_CARD = new URL(`/src/assets/thumbnail.png`, import.meta.url).href.toString();
-const FAVICON = new URL(`/src/assets/favicon.ico`, import.meta.url).href.toString();
-
 export {
   API_URL,
   QNA_PAGE_NAME,
@@ -37,6 +34,4 @@ export {
   ROWS,
   TAGS_PER_ROW,
   SITE_URL,
-  SITE_CARD,
-  FAVICON,
 };

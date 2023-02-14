@@ -7,7 +7,6 @@ import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
 import htmlPlugin, { Options } from 'vite-plugin-html-config';
-import { FAVICON, SITE_CARD } from './src/constant';
 
 const DOMAIN =
   process.env.CONTEXT === 'production'
@@ -15,7 +14,7 @@ const DOMAIN =
     : process.env.PREVIEW_URL ?? 'https://beta.try-catch.duckdns.org';
 
 const htmlPluginOpt: Options = {
-  favicon: FAVICON,
+  favicon: '',
   metas: [
     {
       name: 'title',
@@ -48,7 +47,7 @@ const htmlPluginOpt: Options = {
     },
     {
       property: 'og:image',
-      content: SITE_CARD,
+      content: '',
     },
     {
       property: 'og:url',
@@ -65,7 +64,7 @@ const htmlPluginOpt: Options = {
     },
     {
       name: 'twitter:image',
-      content: SITE_CARD,
+      content: '',
     },
     {
       name: 'robots',
