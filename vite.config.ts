@@ -8,10 +8,17 @@ import { defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
 import htmlPlugin, { Options } from 'vite-plugin-html-config';
 
-const CARD_IMAGE_PATH = '/assets/thumbnail.png';
+const DOMAIN =
+  process.env.CONTEXT === 'production'
+    ? process.env.URL ?? 'https://try-catch.duckdns.org/'
+    : process.env.PREVIEW_URL ?? 'https://beta.try-catch.duckdns.org/question';
+
+const CARD_IMAGE_PATH = 'assets/thumbnail.png';
+
+const getURL = (path = ''): string => new URL(path, DOMAIN).toString();
 
 const htmlPluginOpt: Options = {
-  favicon: new URL('/assets/favicon.ico').toString(),
+  favicon: getURL('assets/favicon.ico'),
   metas: [
     {
       name: 'title',
@@ -44,11 +51,11 @@ const htmlPluginOpt: Options = {
     },
     {
       property: 'og:image',
-      content: new URL(CARD_IMAGE_PATH).toString(),
+      content: getURL(CARD_IMAGE_PATH),
     },
     {
       property: 'og:url',
-      content: import.meta.env.VITE_SITE_URL,
+      content: getURL(),
     },
 
     {
@@ -61,7 +68,7 @@ const htmlPluginOpt: Options = {
     },
     {
       name: 'twitter:image',
-      content: new URL(CARD_IMAGE_PATH).toString(),
+      content: getURL(CARD_IMAGE_PATH),
     },
   ],
 };
