@@ -25,7 +25,7 @@ const BookmarkEmpty = ({ category }: { category: number }) => {
       </MiniTitle>
       <Paragraph sizeType="base" textAlign="center">
         관심있는 {msg[category][0]}
-        {msg[category][1]}을 북마크하시면
+        {msg[category][1]} 북마크하시면
         <br />
         더욱 편리하게 이용하실 수 있어요!
       </Paragraph>
