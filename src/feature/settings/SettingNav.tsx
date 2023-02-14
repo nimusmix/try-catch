@@ -52,8 +52,8 @@ const SettingNavList = [
   },
   {
     id: 1,
-    link: `/settings/advanced`,
-    title: '고급 기능',
+    link: `/settings/github`,
+    title: '깃허브',
   },
   {
     id: 2,

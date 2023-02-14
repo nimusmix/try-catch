@@ -14,7 +14,7 @@ export const SettingsBody = styled.section`
 `;
 
 const ThemeWrapper = styled.div`
-  margin: 2rem 0;
+  margin: 2rem 0 4rem;
   display: flex;
 `;
 
