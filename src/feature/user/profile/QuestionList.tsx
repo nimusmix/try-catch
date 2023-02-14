@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { getUserId, getUserQuestion } from '../../../apis/profile/profile';
 import { IQuestion } from '../../../interface/qna';
 import { QuestionItem } from '../../qna';
+import ProfileEmptyUnder from './ProfileEmptyUnder';
 
 const QuestionWrapper = styled.section`
   width: 800px;
@@ -12,12 +13,12 @@ const QuestionWrapper = styled.section`
 const QuestionList = () => {
   const { userName } = useParams();
   const { data: userId, isLoading: userIdLoading } = useQuery<number>(
-    ['questionList', userName] as const,
+    ['questionList', 'userId'] as const,
     () => getUserId(userName!)
   );
 
   const { data: questionList, isLoading: questionLoading } = useQuery<Array<IQuestion>>(
-    ['questionList'],
+    ['questionList', userName],
     () => getUserQuestion(userId!),
     {
       enabled: !!userId,
@@ -28,9 +29,13 @@ const QuestionList = () => {
     return <p>Loading...</p>;
   }
 
+  if (questionList?.length === 0) {
+    return <ProfileEmptyUnder category={0} />;
+  }
+
   return (
     <QuestionWrapper>
-      {questionList!.map((ques: IQuestion) => {
+      {questionList?.map((ques: IQuestion) => {
         return (
           <Link to={`/question/${ques.questionId}`} key={ques.questionId}>
             <QuestionItem {...ques} />

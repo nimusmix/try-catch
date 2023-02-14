@@ -14,7 +14,7 @@ const FollowingPage = () => {
     () => getUserId(userName!)
   );
   const { data: following, isLoading: contentLoading } = useQuery<any>(
-    ['user', 'following'],
+    ['following', userName],
     () => getUserFollow(userId!, { type: 'followee' }),
     { enabled: !!userId }
   );

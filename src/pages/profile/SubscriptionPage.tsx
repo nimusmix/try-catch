@@ -51,7 +51,7 @@ const SubscriptionPage = () => {
     () => getUserId(userName!)
   );
   const { data: subscription, isLoading: contentLoading } = useQuery<Array<ISubscription>>(
-    ['user', 'subscription'],
+    ['subscription', userName],
     () => getUserSubscription(userId!),
     { enabled: !!userId }
   );

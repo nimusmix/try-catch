@@ -15,7 +15,7 @@ const FollowersPage = () => {
   );
 
   const { data: followers, isLoading: contentLoading } = useQuery<Array<ISimpleUserData>>(
-    ['user', 'follower'],
+    ['follower', userName],
     () => getUserFollow(userId!, { type: 'follower' }),
     {
       enabled: !!userId,
