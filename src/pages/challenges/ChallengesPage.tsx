@@ -4,7 +4,7 @@ import { HeaderImage, Layout } from '../../layout';
 import { Paragraph, SubTitle } from '../../components';
 import { header_challenge } from '../../assets';
 import { QuestionPageBody as ChallengePageBody } from '../qna/QnaPage';
-import { ChallengeAll, OngoingChallengeVer3 } from '../../feature/challenge';
+import { ChallengeAll, OngoingChallenge } from '../../feature/challenge';
 import { IChallengeItem } from '../../interface/challenge';
 import { getChallengeList } from '../../apis/challenge/challenge';
 import LoadingSpinner from '../../components/loading/LoadingSpinner';
@@ -61,7 +61,7 @@ const ChallengesPage = () => {
         style={{ margin: '3rem 1.5rem', flexDirection: 'column', width: '1200px' }}
       >
         <ChallengeHeader>
-          {challengeList && <OngoingChallengeVer3 challengeList={challengeList} />}
+          {challengeList && <OngoingChallenge challengeList={challengeList} />}
         </ChallengeHeader>
         <ChallengeBodyWrapper>
           {challengeList && <ChallengeAll challengeList={challengeList} />}

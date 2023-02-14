@@ -200,7 +200,7 @@ const Back = styled(FrontBack)`
   transform: rotateY(180deg);
 `;
 
-const OngoingChallengeVer3 = ({ challengeList }: IChallengeAllProps) => {
+const OngoingChallenge = ({ challengeList }: IChallengeAllProps) => {
   const MChallengeInfoList = [
     {
       challengeId: 1,
@@ -222,7 +222,7 @@ const OngoingChallengeVer3 = ({ challengeList }: IChallengeAllProps) => {
   ];
 
   const isLogin = useRecoilValue(isLoggedInState);
-  console.log(isLogin);
+
   const onGoingChallengeList = challengeList.filter((item) => item.state === 'ONGOING');
 
   return (
@@ -257,4 +257,4 @@ const OngoingChallengeVer3 = ({ challengeList }: IChallengeAllProps) => {
   );
 };
 
-export default OngoingChallengeVer3;
+export default OngoingChallenge;
