@@ -5,12 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
 import { MiniTitle, Paragraph } from '../../components';
 import { isDarkState, isLoggedInState, toastState } from '../../recoil';
-import { IFeedItemProps, IFeedListProps } from './IFeed';
+
 import FeedTag from './FeedTag';
 import { postFeedRead } from '../../apis/feed/feed';
 
 import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
 import { COMPANY } from '../../constant/company';
+import { IFeedItemProps } from '../../interface/feed';
 
 const DefaultDIv = styled.div`
   /* 한 줄 자르기 */

@@ -6,8 +6,7 @@ import { useQuery } from 'react-query';
 import { AxiosError } from 'axios';
 import { Button, MiniTitle, Paragraph, SubTitle } from '../../../components';
 import { IconFeed } from '../../../components/icons/Icons';
-import { IFeedListProps } from '../../feed/IFeed';
-import { IFeedSearch } from '../../../interface/feed';
+import { IFeedListProps, IFeedSearch } from '../../../interface/feed';
 import { getFeedSearchList } from '../../../apis/feed/feed';
 import FeedCard from './FeedCard';
 

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useInView } from 'react-intersection-observer';
 import { Card, MiniTitle } from '../../../components';
-import { IFeedItemProps } from '../../feed/IFeed';
 import FeedTag from '../../feed/FeedTag';
+import { IFeedItemProps } from '../../../interface/feed';
 
 const fadeUp = keyframes`
   0% {

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Button, Card, Div, MiniTitle, Paragraph } from '../../components';
+import { Button, MiniTitle, Paragraph } from '../../components';
 import getImageUrl from '../../utils/getImageUrl';
 import { COMPANY } from '../../constant/company';
 import { FeedSearchWrapper as CompanyRecommendWrapper } from './FeedSearchSide';

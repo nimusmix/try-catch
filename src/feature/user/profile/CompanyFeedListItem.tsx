@@ -3,12 +3,12 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { useMutation, useQueryClient } from 'react-query';
 import { IconBookmarkEmpty, IconBookmarkFill } from '../../../components/icons/Icons';
 import { isDarkState, isLoggedInState, toastState } from '../../../recoil';
-import { IFeedItemProps } from '../../feed/IFeed';
 import FeedTag from '../../feed/FeedTag';
 import { postFeedRead } from '../../../apis/feed/feed';
 import { MiniTitle, Paragraph } from '../../../components';
 import { postBookmark, putBookmark } from '../../../apis/bookmark/bookmark';
 import { ICompany } from '../../../interface/user';
+import { IFeedItemProps } from '../../../interface/feed';
 
 const DefaultDIv = styled.div`
   /* 한 줄 자르기 */
