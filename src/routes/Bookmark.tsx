@@ -34,7 +34,7 @@ const Bookmark = () => {
       </Helmet>
       <HeaderImage image={header_bookmark}>
         <SubTitle>북마크</SubTitle>
-        <Paragraph sizeType="base">북마크 게시판에 대한 설명이 들어갈 자리입니다.</Paragraph>
+        <Paragraph sizeType="base">다시 보고 싶은 컨텐츠를 쉽게 모아보세요</Paragraph>
       </HeaderImage>
 
       <BookmarkWrapper>
