@@ -1,6 +1,7 @@
 import styled, { ThemeProvider } from 'styled-components';
 import { useRecoilValue } from 'recoil';
 import { ReactComponent as LogoLightTheme } from '../assets/horizontal_logo_light_theme.svg';
+import { ReactComponent as LogoDarkTheme } from '../assets/horizontal_logo_dark_theme.svg';
 import { SubTitle } from '../components';
 import { darkTheme, lightTheme } from '../styles/theme';
 import { isDarkState } from '../recoil';
@@ -16,6 +17,7 @@ const Main = styled.main`
   align-items: center;
   margin: 0 auto;
   height: 100vh;
+  width: 100%;
   z-index: 1;
 `;
 
@@ -27,13 +29,7 @@ const Backdrop = styled.div`
   bottom: 0;
 
   background-color: #000;
-  opacity: 0.2;
-`;
-
-const Span = styled.span`
-  font-size: 3rem;
-  font-weight: 600;
-  color: ${({ theme }) => theme.textColor};
+  opacity: 0.1;
 `;
 
 const Header = styled.div`
@@ -60,7 +56,8 @@ const MobileAlert = () => {
         <Backdrop />
         <AnimationLoader animationData={animationData} autoplay loop />
         <Header>
-          <LogoLightTheme />
+          {isDark && <LogoDarkTheme width="80%" height="60" />}
+          {isDark || <LogoLightTheme width="80%" height="60" />}
         </Header>
         <SubTitle margin="2rem 0">죄송합니다.</SubTitle>
         <H3>
