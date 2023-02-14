@@ -66,15 +66,16 @@ const Navigation = () => {
             </NavLink>
           </Logo>
           <NavMenu />
-          <ThemeButton />
         </NavWrapper>
         {isLoggedIn && (
           <NavWrapper>
+            <ThemeButton />
             <MemberNavMenu />
           </NavWrapper>
         )}
         {isLoggedIn || (
           <NavWrapper>
+            <ThemeButton />
             <NonMemberNavMenu />
           </NavWrapper>
         )}

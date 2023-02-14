@@ -9,21 +9,21 @@ const Wrapper = styled.div`
     }
 
     & > :is(.moon, .sun) {
-      fill: ${({ theme: { isDark } }) => (isDark ? '#ABB3BA' : '#454D54')};
+      fill: ${({ theme: { isDark } }) => (isDark ? '#ABB3BA' : '#FFCC00 ')};
 
       .theme-toggle:is(:hover, :focus-visible) > & {
         fill: ${({ theme: { isDark } }) =>
-          isDark ? ' hsl(210 15% 90%)' : 'var(--colors-black-400)'};
+          isDark ? ' hsl(210 15% 90%)' : 'var(--colors-black-100)'};
       }
     }
 
     & > .sun-beams {
-      stroke: ${({ theme: { isDark } }) => (isDark ? '#ABB3BA' : '#454D54')};
+      stroke: ${({ theme: { isDark } }) => (isDark ? '#ABB3BA' : '#FFCC00 ')};
       stroke-width: 2px;
 
       .theme-toggle:is(:hover, :focus-visible) & {
         stroke: ${({ theme: { isDark } }) =>
-          isDark ? ' hsl(210 15% 90%)' : 'var(--colors-black-400)'};
+          isDark ? ' hsl(210 15% 90%)' : 'var(--colors-black-100)'};
       }
     }
 
@@ -80,7 +80,7 @@ const Wrapper = styled.div`
   .theme-toggle {
     background: none;
     border: none;
-    margin: 0 16px 0 12.8px;
+    margin: 4px 20px 0px;
     padding: 0;
 
     inline-size: 2rem;
@@ -93,11 +93,14 @@ const Wrapper = styled.div`
     -webkit-tap-highlight-color: transparent;
 
     outline-offset: 5px;
+    height: 24px;
+    width: 24px;
 
     & > svg {
       inline-size: 70%;
       block-size: 70%;
       stroke-linecap: round;
+      margin: auto;
     }
   }
 `;
