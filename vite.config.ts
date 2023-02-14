@@ -10,7 +10,7 @@ import htmlPlugin, { Options } from 'vite-plugin-html-config';
 
 const DOMAIN =
   process.env.CONTEXT === 'production'
-    ? process.env.URL ?? 'https://try-catch.duckdns.org/'
+    ? process.env.URL ?? 'https://try-catch.duckdns.org'
     : process.env.PREVIEW_URL ?? 'https://beta.try-catch.duckdns.org';
 
 const htmlPluginOpt: Options = {
@@ -39,7 +39,7 @@ const htmlPluginOpt: Options = {
     },
     {
       property: 'og:description',
-      content: '개발자,SNS,깃허브,질문,스택오버플로우,블로그,기술블로그,챌린지,웹,개발',
+      content: '함께 지식과 경험을 공유하며 좋은 개발자로 성장해요!',
     },
     {
       property: 'og:type',
@@ -47,7 +47,7 @@ const htmlPluginOpt: Options = {
     },
     {
       property: 'og:image',
-      content: '',
+      content: `${DOMAIN}/assets/thumbnail-abbb1375.png`,
     },
     {
       property: 'og:url',
@@ -60,11 +60,11 @@ const htmlPluginOpt: Options = {
     },
     {
       name: 'twitter:description',
-      content: '개발자,SNS,깃허브,질문,스택오버플로우,블로그,기술블로그,챌린지,웹,개발',
+      content: '함께 지식과 경험을 공유하며 좋은 개발자로 성장해요!',
     },
     {
       name: 'twitter:image',
-      content: '',
+      content: `${DOMAIN}/assets/thumbnail-abbb1375.png`,
     },
     {
       name: 'robots',
