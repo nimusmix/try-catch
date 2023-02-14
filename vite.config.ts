@@ -6,12 +6,12 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
-import htmlPlugin from 'vite-plugin-html-config';
+import htmlPlugin, { Options } from 'vite-plugin-html-config';
 
-const CARD_IMAGE_PATH = 'assets/thumbnail.png';
+const CARD_IMAGE_PATH = '/assets/thumbnail.png';
 
-const htmlPluginOpt = {
-  favicon: './src/assets/favicon.ico',
+const htmlPluginOpt: Options = {
+  favicon: new URL('/assets/favicon.ico').toString(),
   metas: [
     {
       name: 'title',
