@@ -99,7 +99,7 @@ const ChallengeSection = () => {
             <span className="emph">챌린지</span> 탭을 이용해보세요
           </MiniTitle>
           <Paragraph sizeType="lg" textAlign="left">
-            다양한 도전과제를 하면서 트라이캐치를 이용해보세요
+            다양한 도전과제를 통해 학습 효율을 높일 수 있어요
           </Paragraph>
         </div>
       </div>
