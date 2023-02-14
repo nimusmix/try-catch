@@ -56,7 +56,7 @@ export interface IFeedSearch {
  * {API_URL}/feed/search?
  * 응답: IFeedList
  */
-interface IFeedItem {
+export interface IFeedItem {
   feedId: string; // 피드 고유 아이디
   title: string; // 피드 제목
   summary: string; // 피드 요약 ( 300자 내외 )
