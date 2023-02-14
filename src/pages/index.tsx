@@ -20,11 +20,8 @@ const RoadmapEditPage = loadable(() => import('./roadmap/RoadmapEditPage'));
 const UserProfilePage = loadable(() => import('./profile/UserProfilePage'));
 const CompanyProfilePage = loadable(() => import('./profile/CompanyProfilePage'));
 const ProfileEditPage = loadable(() => import('./profile/ProfileEditPage'));
-const AlertSettingsPage = loadable(() => import('./setting/AlertSettingsPage'));
 const ThemeSettingsPage = loadable(() => import('./setting/ThemeSettingsPage'));
 const GithubSettingsPage = loadable(() => import('./setting/GithubSettingsPage'));
-const IntroducePage = loadable(() => import('./setting/IntroducePage'));
-const CustomerServicePage = loadable(() => import('./setting/CustomerServicePage'));
 const NotFoundPage = loadable(() => import(`./error/NotFoundPage`));
 const SubscriptionPage = loadable(() => import('./profile/SubscriptionPage'));
 const FollowingPage = loadable(() => import('./profile/FollowingPage'));
@@ -45,11 +42,8 @@ export {
   UserProfilePage,
   CompanyProfilePage,
   ProfileEditPage,
-  AlertSettingsPage,
   ThemeSettingsPage,
   GithubSettingsPage,
-  IntroducePage,
-  CustomerServicePage,
   NotFoundPage,
   SubscriptionPage,
   FollowingPage,

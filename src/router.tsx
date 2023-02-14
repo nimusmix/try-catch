@@ -13,15 +13,12 @@ import {
 } from './constant';
 
 import {
-  AlertSettingsPage,
   ChallengesPage,
   CompanyProfilePage,
-  CustomerServicePage,
   FeedPage,
   FollowersPage,
   FollowingPage,
   GithubSettingsPage,
-  IntroducePage,
   LandingPage,
   NotFoundPage,
   ProfileEditPage,
@@ -188,24 +185,12 @@ const router = createBrowserRouter([
             element: <ThemeSettingsPage />,
           },
           {
-            path: 'alert',
-            element: <AlertSettingsPage />,
-          },
-          {
             path: 'theme',
             element: <ThemeSettingsPage />,
           },
           {
             path: 'github',
             element: <GithubSettingsPage />,
-          },
-          {
-            path: 'trycatch',
-            element: <IntroducePage />,
-          },
-          {
-            path: 'customer-service',
-            element: <CustomerServicePage />,
           },
         ],
       },
