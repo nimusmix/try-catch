@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import { HeaderImage, Layout } from '../../layout';
 import { Paragraph, SubTitle } from '../../components';
 import { header_feed } from '../../assets';
@@ -12,6 +13,7 @@ import {
   FeedView,
 } from '../../feature/feed';
 import { QuestionPageBody as FeedPageBody } from '../qna/QnaPage';
+import { isLoggedInState } from '../../recoil';
 
 const Aside = styled.aside`
   margin: 0rem;
@@ -48,6 +50,7 @@ const filterOptions = [
 ];
 
 const FeedPage = () => {
+  const isLoggedIn = useRecoilValue(isLoggedInState);
   const [activeFilterOption, setActiveFilterOption] = useState('최신순');
   const [activeViewOption, setActiveViewOption] = useState<boolean>(true);
   const [tagListProps, setTagListProps] = useState<Array<string>>([]);
@@ -56,6 +59,10 @@ const FeedPage = () => {
   const keyword = new URLSearchParams(useLocation().search).get('keyword') || '';
   const subscribe = checkedItemsProps.includes(1);
   const advanced = checkedItemsProps.includes(2);
+
+  if (isLoggedIn) {
+    setActiveFilterOption('나의 관심순');
+  }
 
   useEffect(() => {
     window.scrollTo(0, 0);
