@@ -26,6 +26,11 @@ const ItemWrapper = styled(Div)`
   display: flex;
   align-items: center;
   margin: 0.5rem;
+  border: none;
+  box-shadow: ${({ theme: { isDark } }) =>
+    isDark
+      ? 'rgb(59 130 246 / 6%) 0 0 0 0.05rem, rgb(39 110 226 / 4%) 0 0 1.25rem'
+      : 'rgb(8 60 130 / 6%) 0 0 0 0.05rem, rgb(30 34 40 / 4%) 0 0 1.25rem'};
 
   &:hover {
     transition: box-shadow 0.5s ease, translate 0.5s ease;
