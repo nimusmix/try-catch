@@ -28,7 +28,8 @@ const GlobalStyles = createGlobalStyle`
     min-width: var(--breakpoints-desktop);
 
     ${media.phone`
-      min-width: var(--breakpoints-phone);
+      min-width: unset;
+      width: 100%;
     `}
   }
   

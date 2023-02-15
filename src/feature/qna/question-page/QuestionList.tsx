@@ -38,6 +38,8 @@ const QuestionList = ({
 
   useEffect(() => {
     scrollToTop();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyword, activeCategory, filter]);
 
   // TODO 나중에 search 엔드포인트 변경되면 그때 바꾸면 됨
@@ -135,7 +137,7 @@ const QuestionList = ({
       {questionList?.pages.reduce((acc, page) => acc + page.data.length, 0) === 0 && (
         <QuestionNoContent />
       )}
-      <ul>
+      <ul className="question-list">
         {questionList?.pages?.map((page, index) => {
           return (
             // eslint-disable-next-line react/no-array-index-key

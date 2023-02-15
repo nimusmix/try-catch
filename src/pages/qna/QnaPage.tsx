@@ -38,7 +38,8 @@ export const QuestionPageBody = styled.section`
   max-width: var(--breakpoints-desktop);
 
   ${media.phone`
-    max-width: var(--breakpoints-phone);
+    width: 100%;
+    max-width: unset;
     flex-direction: column;   
   `}
 `;
