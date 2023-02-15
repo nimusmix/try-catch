@@ -14,14 +14,15 @@ import {
 import { QuestionPageBody as FeedPageBody } from '../qna/QnaPage';
 
 const Aside = styled.aside`
-  margin: 3rem 1.5rem 0 0rem;
+  margin: 0rem;
   position: sticky;
-  top: 5rem;
+  top: 3rem;
   min-height: 500px;
   width: 20.75rem;
-  max-height: 90vh;
-  padding: 4px;
+  padding: 3rem 1rem 4px 4px;
   overflow-y: scroll;
+  max-height: 90vh;
+
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
   ::-webkit-scrollbar {
@@ -78,12 +79,15 @@ const FeedPage = () => {
       </HeaderImage>
       <FeedPageBody>
         <Aside>
-          <FeedSearchSide
-            tagListProps={tagListProps}
-            getCheckData={getCheckData}
-            keyword={keyword}
-          />
-          <CompanyRecommend />
+          <div>
+            <FeedSearchSide
+              tagListProps={tagListProps}
+              getCheckData={getCheckData}
+              keyword={keyword}
+            />
+
+            <CompanyRecommend />
+          </div>
         </Aside>
         <section style={{ margin: '3rem 0 0 0' }}>
           <FilterTop>
