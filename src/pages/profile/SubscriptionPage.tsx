@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getUserId, getUserSubscription } from '../../apis/profile/profile';
 import LoadingSpinner from '../../components/loading/LoadingSpinner';
+import ProfileEmptyUpper from '../../feature/user/profile/ProfileEmptyUpper';
 import SimpleCompanyItem from '../../feature/user/profile/SimpleCompanyItem';
 import { ISubscription } from '../../interface/user';
 
@@ -79,6 +80,7 @@ const SubscriptionPage = () => {
         {subscription?.map((item) => (
           <SimpleCompanyItem {...item} key={item.companyId} />
         ))}
+        {(!subscription || subscription?.length === 0) && <ProfileEmptyUpper category={0} />}
       </ItemWrapper>
     </ModalWrapper>
   );

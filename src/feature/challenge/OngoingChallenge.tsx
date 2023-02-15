@@ -1,21 +1,9 @@
 import styled, { keyframes } from 'styled-components';
-import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { Button, MiniTitle, Paragraph, Card } from '../../components';
 import { IChallengeAllProps, IChallengeItem } from '../../interface/challenge';
 import OngoingChallengeCard, { IOngoingChallengeCardProps } from './OngoingChallengeCard';
 import { isLoggedInState } from '../../recoil';
-
-const Badge = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: var(--colors-white-100);
-  margin: auto 0;
-`;
 
 const StyledWrapper = styled.section`
   display: flex;
@@ -114,7 +102,7 @@ const ThumbnailImgWrapper2 = styled.div`
   height: 322px;
 `;
 
-const ChallengeItem2 = ({ title, startFrom, endAt, progress }: Partial<IChallengeItem>) => {
+const ChallengeItemBack = ({ title, startFrom, endAt, progress }: Partial<IChallengeItem>) => {
   return (
     <StyleCard>
       <ThumbnailImgWrapper2>
@@ -244,7 +232,7 @@ const OngoingChallenge = ({ challengeList }: IChallengeAllProps) => {
                   </FrontBack>
                   {/* <!-- 뒷면 --> */}
                   <Back>
-                    <ChallengeItem2 {...challengeInfo} />
+                    <ChallengeItemBack {...challengeInfo} />
                   </Back>
                 </FlipInner>
               </Flip>
