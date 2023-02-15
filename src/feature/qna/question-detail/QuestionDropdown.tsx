@@ -71,10 +71,12 @@ const QuestionDropdown = ({
   questionId,
   userId,
   answerCount,
+  isSolved,
 }: {
   questionId: number;
   userId: number;
   answerCount: number;
+  isSolved: boolean;
 }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
@@ -102,7 +104,7 @@ const QuestionDropdown = ({
       <IconMore size="18" color="var(--colors-brand-500)" onClick={onClickOpenDropDown} />
       <DropContainer ref={dropdownRef}>
         <DropUl>
-          {isMe && (
+          {isMe && !isSolved && (
             <>
               <DropList onClick={onClickModify}>
                 <IconPen />
@@ -118,10 +120,12 @@ const QuestionDropdown = ({
             <IconShare />
             공유하기
           </DropList>
-          <DropList onClick={() => setIsReportModalOpen(true)}>
-            <IconReport color="tomato" />
-            신고하기
-          </DropList>
+          {isMe || (
+            <DropList onClick={() => setIsReportModalOpen(true)}>
+              <IconReport color="tomato" />
+              신고하기
+            </DropList>
+          )}
         </DropUl>
       </DropContainer>
       {/* 삭제 모달  */}

@@ -90,6 +90,7 @@ function App() {
       setNotifications([]);
       logOnDev.dir(e);
     });
+
     // error 발생시
     sseEvents.current.addEventListener('error', (error: any) => {
       if (error.target?.readyState === EventSource.CLOSED) {

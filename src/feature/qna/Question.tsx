@@ -1,26 +1,26 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import styled from "styled-components";
-import { useMutation, useQueryClient } from "react-query";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { useNavigate } from "react-router-dom";
-import { Button, Div, MiniTitle, Paragraph } from "../../components";
+import styled from 'styled-components';
+import { useMutation, useQueryClient } from 'react-query';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router-dom';
+import { Button, Div, MiniTitle, Paragraph } from '../../components';
 import {
   IconBookmarkEmpty,
   IconBookmarkFill,
   IconCheckCircle,
   IconLikeEmpty,
-  IconLikeFill
-} from "../../components/icons/Icons";
-import getImageUrl from "../../utils/getImageUrl";
-import elapsedTime from "../../utils/elapsed-time";
-import { COMPANY } from "../../constant/company";
-import MilkdownViewer from "../text-editor/MilkdownViewer";
-import { IQuestion } from "../../interface/qna";
-import { cancelLike, postLike } from "../../apis/like/like";
-import { postBookmark, putBookmark } from "../../apis/bookmark/bookmark";
-import { isLoggedInState, toastState } from "../../recoil";
-import QuestionDropdown from "./question-detail/QuestionDropdown";
-import categoryToKorean from "../../utils/category-to-korean";
+  IconLikeFill,
+} from '../../components/icons/Icons';
+import getImageUrl from '../../utils/getImageUrl';
+import elapsedTime from '../../utils/elapsed-time';
+import { COMPANY } from '../../constant/company';
+import MilkdownViewer from '../text-editor/MilkdownViewer';
+import { IQuestion } from '../../interface/qna';
+import { cancelLike, postLike } from '../../apis/like/like';
+import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
+import { isLoggedInState, toastState } from '../../recoil';
+import QuestionDropdown from './question-detail/QuestionDropdown';
+import categoryToKorean from '../../utils/category-to-korean';
 
 const QuestionDiv = styled(Div)`
   //overflow: hidden;
@@ -345,6 +345,7 @@ const Question = ({
               questionId={questionId}
               userId={author.userId}
               answerCount={answerCount}
+              isSolved={isSolved}
             />
           </Icons>
         </div>
