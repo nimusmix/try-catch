@@ -48,10 +48,12 @@ const FooterMain = styled.div`
   height: calc(var(--toolbar-height) * 4);
   width: 100%;
   display: flex;
+  padding: 1.5rem;
 
   justify-content: space-between;
   ${media.phone`
     flex-direction: column;  
+    padding: 0;
   `}
 `;
 

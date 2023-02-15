@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from 'react-query';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { Dispatch, Fragment, useEffect } from 'react';
+import { Dispatch, Fragment, useEffect, useState } from 'react';
 import { getQuestionList } from '../../../apis/qna/qna';
 import qnaCategoryState from '../../../recoil/qnaCategoryState';
 import { QuestionItem } from '../index';
@@ -17,6 +17,7 @@ const QuestionList = ({
   filter: string;
   setIsLoading: Dispatch<boolean>;
 }) => {
+  const [isFirstEnter, setIsFirstEnter] = useState(true);
   const [activeCategory, setActiveCategory] = useRecoilState<string>(qnaCategoryState);
   const keyword = useRecoilValue(qnaSearchKeywordState);
   const isMobile = useRecoilValue(isMobileState);
@@ -38,7 +39,6 @@ const QuestionList = ({
 
   useEffect(() => {
     scrollToTop();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyword, activeCategory, filter]);
 

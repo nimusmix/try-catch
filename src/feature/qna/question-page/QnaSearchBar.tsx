@@ -105,6 +105,10 @@ const QnaSearchBar = () => {
   const { register, handleSubmit, resetField } = useForm<ISearchValue>();
 
   const onSubmit = (data: ISearchValue) => {
+    if (!data.data) {
+      // eslint-disable-next-line no-param-reassign
+      data.data = '';
+    }
     setKeyword(data.data.toLocaleLowerCase());
     resetField('data');
   };
