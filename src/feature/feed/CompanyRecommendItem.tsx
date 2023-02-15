@@ -9,16 +9,20 @@ import { COMPANY } from '../../constant/company';
 import { toastState, isLoggedInState } from '../../recoil';
 import { postSubscribe, puttSubscribe } from '../../apis/user/user';
 
+const CompanyName = styled(Paragraph)`
+  color: ${({ theme }) => theme.textColor};
+  font-weight: 500;
+`;
+
 const CompanyWrapper = styled.div`
   display: flex;
   align-items: center;
   margin: 0.3rem 0rem;
   cursor: pointer;
-`;
-
-const CompanyName = styled(Paragraph)`
-  color: ${({ theme }) => theme.textColor};
-  font-weight: 500;
+  :hover ${CompanyName} {
+    color: var(--colors-brand-500);
+    transition: color, background-color 0.1s ease-in;
+  }
 `;
 
 const CompanyImg = styled.img`
@@ -102,10 +106,7 @@ const CompanyRecommendItem = ({ companyId, logoSrc, companyName, isFollowed }: I
   return (
     <CompanyItemWrapper>
       <CompanyWrapper onClick={onClickCompanyHandler}>
-        <CompanyImg
-          src={companyName && getImageUrl(COMPANY[companyName], 'logo', 'png')}
-          alt={companyName}
-        />
+        <CompanyImg src={logoSrc} alt={companyName} />
         <CompanyName sizeType="sm" margin="0 0.2rem 0 0.3rem">
           {companyName}
         </CompanyName>
