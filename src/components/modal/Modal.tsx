@@ -21,7 +21,7 @@ const StyledBackdrop = styled.div`
   height: 100%;
   background-color: var(--colors-black-500);
   opacity: 50%;
-  z-index: 100;
+  z-index: 99999;
 `;
 
 const StyledOverlay = styled.div<IStyledOverlay>`
@@ -41,7 +41,7 @@ const StyledOverlay = styled.div<IStyledOverlay>`
   border: var(--colors-white-100);
   border-radius: var(--borders-radius-lg);
   box-shadow: var(--shadows-black-lg);
-  z-index: 101;
+  z-index: 100000;
   overflow: hidden;
 `;
 
