@@ -15,6 +15,7 @@ import { useQuestionDispatch } from '../../context/QnaContext';
 import QnaListSkeleton from '../../feature/qna/skeleton/QnaListSkeleton';
 import QnaPopularTagsSkeleton from '../../feature/qna/skeleton/QnaPopularTagsSkeleton';
 import { isLoggedInState, toastState } from '../../recoil';
+import { media } from '../../utils/media';
 
 const DetailPage = loadable(() => import('./QnaDetailPage'));
 
@@ -33,7 +34,13 @@ const navOptions = [
 
 export const QuestionPageBody = styled.section`
   display: flex;
+
   max-width: var(--breakpoints-desktop);
+
+  ${media.phone`
+    max-width: var(--breakpoints-phone);
+    flex-direction: column;   
+  `}
 `;
 
 export const Aside = styled.aside`
@@ -42,12 +49,6 @@ export const Aside = styled.aside`
   top: 6rem;
   height: 500px;
 `;
-
-const filterOptions = [
-  { id: 1, option: '전체', value: 'all' },
-  { id: 2, option: '해결', value: 'solved' },
-  { id: 3, option: '미해결', value: 'unSolved' },
-];
 
 const Ul = styled.ul`
   padding-top: 3rem;
@@ -78,6 +79,12 @@ const QnaFilterWrapper = styled.div`
   opacity: 0.9;
   background: ${({ theme: { bgColor } }) => bgColor};
 `;
+
+const filterOptions = [
+  { id: 1, option: '전체', value: 'all' },
+  { id: 2, option: '해결', value: 'solved' },
+  { id: 3, option: '미해결', value: 'unSolved' },
+];
 
 const QnaPage = () => {
   const [activeCategory, setActiveCategory] = useRecoilState(qnaCategoryState);
