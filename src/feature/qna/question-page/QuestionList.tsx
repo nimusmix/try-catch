@@ -7,6 +7,8 @@ import { QuestionItem } from '../index';
 import question from '../Question';
 import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
 import QuestionNoContent from './QuestionNoContent';
+import isMobileState from '../../../recoil/isMobileState';
+import useWindowSize from '../../../hooks/useWindowSize';
 
 const QuestionList = ({
   filter,
@@ -17,12 +19,18 @@ const QuestionList = ({
 }) => {
   const [activeCategory, setActiveCategory] = useRecoilState<string>(qnaCategoryState);
   const keyword = useRecoilValue(qnaSearchKeywordState);
+  const isMobile = useRecoilValue(isMobileState);
+  const [windowWidth] = useWindowSize();
 
   // // 1. timeout을 줘서 스크롤이 끝난 후 작동하게 하는 방법
   const scrollToTop = () => {
+    let top = 180;
+    if (isMobile || windowWidth < 601) {
+      top = 120;
+    }
     setTimeout(() => {
       window.scrollTo({
-        top: 180,
+        top,
         behavior: 'smooth', // for smoothly scrolling
       });
     }, 100);

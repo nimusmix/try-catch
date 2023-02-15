@@ -51,6 +51,15 @@ export const Aside = styled.aside`
 
   ${media.phone`
     height: auto;
+    margin:0;
+    padding: 3rem 1.5rem 0;
+    top: 3rem;
+    background-color: ${({ theme: { bgColor } }: any) => bgColor};
+    backdrop-filter: blur(30px);
+    &.qna-button-wrapper{
+      display: none
+      
+    }
   `}
 `;
 
@@ -82,6 +91,10 @@ const QnaFilterWrapper = styled.div`
   top: 11.6rem;
   opacity: 0.9;
   background: ${({ theme: { bgColor } }) => bgColor};
+
+  ${media.phone`
+    top: 17.5rem;
+  `}
 `;
 
 const filterOptions = [
@@ -151,7 +164,7 @@ const QnaPage = () => {
           {/* Q&A 리스트 */}
           <QuestionList filter={filter} setIsLoading={setIsLoading} />
         </section>
-        <Aside>
+        <Aside className="qna-button-wrapper">
           <Button
             width="100%"
             fontSize="var(--fonts-body-base)"

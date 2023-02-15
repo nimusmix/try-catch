@@ -10,6 +10,7 @@ import { ReactComponent as LogoLightTheme } from '../../assets/vertical_logo_lig
 import { isDarkState } from '../../recoil';
 import { IconEmail, IconGithub, IconGitlab } from '../../components/icons/Icons';
 import { Paragraph } from '../../components';
+import { media } from '../../utils/media';
 
 const StyledFooter = styled.footer`
   display: flex;
@@ -25,6 +26,12 @@ const StyledFooter = styled.footer`
   & > div {
     width: var(--breakpoints-desktop);
   }
+
+  ${media.phone`
+    & > div {
+      width: var(--breakpoints-phone);
+    }
+  `}
 `;
 
 const AbsoluteWrapper = styled.div`
@@ -33,6 +40,10 @@ const AbsoluteWrapper = styled.div`
   height: 200px;
   right: 15%;
   top: -95px;
+
+  ${media.phone`
+      right: 5%;
+  `}
 `;
 
 const FooterMain = styled.div`
@@ -97,6 +108,13 @@ const Right = styled.div`
     width: 300px;
     translate: 2.2rem -1rem;
   }
+
+  ${media.phone`
+   img {
+      width: 100px;
+      translate: 0 1rem;
+    } 
+  `}
 `;
 
 const Icons = styled.div`

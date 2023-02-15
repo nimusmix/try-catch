@@ -16,6 +16,7 @@ import getAccToken from './utils/getAccToken';
 import { getNotifications } from './apis/notice/notice';
 import SEOMetaTag from './components/seo/SEOMetaTag';
 import { media } from './utils/media';
+import isMobileState from './recoil/isMobileState';
 
 const GlobalStyles = createGlobalStyle`
   *{
@@ -191,21 +192,18 @@ function App() {
     logOnDev.log('-------------');
   }, [notifications, notifications.length]);
 
-  // const [mobile, setMobile] = useState(false);
-  // useEffect(() => {
-  //   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  //   if (isMobile) {
-  //     // mobile
-  //     setMobile(true);
-  //   } else {
-  //     // desktop
-  //     setMobile(false);
-  //   }
-  // }, []);
-  //
-  // if (mobile) {
-  //   return <MobileAlert />;
-  // }
+  const [isMobile, setIsMobile] = useRecoilState(isMobileState);
+
+  useEffect(() => {
+    const isMobileState = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobileState) {
+      // mobile
+      setIsMobile(true);
+    } else {
+      // desktop
+      setIsMobile(false);
+    }
+  }, [setIsMobile]);
 
   return (
     <HelmetProvider>
