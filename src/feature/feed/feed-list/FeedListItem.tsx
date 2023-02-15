@@ -41,23 +41,12 @@ const Wrapper = styled.article`
   &:hover {
     background-color: ${({ theme: { isDark } }) =>
       isDark ? 'var(--colors-black-400)' : 'var(--colors-white-400)'};
-    ${BlogMiniTitle} {
-      color: var(--colors-brand-500);
-      transition: color 0.3s ease-in;
-    }
   }
 `;
 
 const BlogWrapper = styled.div`
   width: 630px;
   padding: 1rem 1.5rem;
-`;
-
-const FeedHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0.6rem 0 0.5rem;
 `;
 
 const FeedBody = styled(DefaultDIv)`
@@ -112,6 +101,21 @@ const CompanyImg = styled.img`
     isDark
       ? 'rgba(39, 110, 226, 0.2) 0px 0px 0px 2px, rgba(39, 110, 226, 0.3) 0px 4px 6px -1px, rgba(39, 110, 226, 0.08) 0px 1px 0px inset;'
       : 'rgba(0, 0, 0, 0.16) 0px 1px 4px'};
+`;
+
+const FeedHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.6rem 0 0.5rem;
+  ${CompanyImg}:hover ~${MiniTitle} {
+    color: var(--colors-brand-500);
+    transition: color 0.3s ease-in;
+  }
+  ${MiniTitle}:hover {
+    color: var(--colors-brand-500);
+    transition: color 0.3s ease-in;
+  }
 `;
 
 const BlogTitle = styled(DefaultDIv)`
