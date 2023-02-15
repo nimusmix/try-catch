@@ -4,8 +4,6 @@ import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { Button, Paragraph } from '../../../components';
-import getImageUrl from '../../../utils/getImageUrl';
-import { COMPANY } from '../../../constant/company';
 import isModalOpenedState from '../../../recoil/isModalOpenedState';
 import { ISubscription } from '../../../interface/user';
 import { postSubscribe, puttSubscribe } from '../../../apis/user/user';
