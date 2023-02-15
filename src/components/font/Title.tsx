@@ -20,7 +20,7 @@ const Title = styled.h1<ITitleProps>`
   line-height: var(--lineHights-desktop-heading-5xl);
   font-weight: ${({ fontWeight }) => fontWeight || '600'};
 
-  @media (max-width: 768px) {
+  @media (max-width: 600px) {
     font-size: var(--fonts-mobile-heading-4xl);
     line-height: var(--lineHights-mobile-heading-4xl);
   }

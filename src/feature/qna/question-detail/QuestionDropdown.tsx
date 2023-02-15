@@ -86,6 +86,10 @@ const QuestionDropdown = ({
   const navigate = useNavigate();
 
   const onClickModify = () => {
+    if (isSolved) {
+      setToast({ type: 'negative', message: '해결된 질문은 수정할 수 없어요', isVisible: true });
+      return;
+    }
     navigate(`/question/form/${questionId}`);
   };
 
