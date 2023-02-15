@@ -166,7 +166,7 @@ const RecentListItem = ({
                 {companyName}
               </MiniTitle>
               <Paragraph sizeType="xm" style={{ marginLeft: '0.25rem' }}>
-                · {elapsedTime(createdAt)}
+                · {elapsedTime(Number(createdAt))}
               </Paragraph>
             </div>
           </LinkWrapper>
