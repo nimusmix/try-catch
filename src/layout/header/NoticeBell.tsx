@@ -47,7 +47,7 @@ const DropContainer = styled.div`
   border: none;
   padding: 1rem 0.5rem 1rem 1.2rem;
 
-  ${NoticeDropdown}:focus & {
+  &.active {
     display: block;
   }
 
@@ -123,7 +123,7 @@ const NoticeBell = () => {
       <NoticeDropdown
         noticeCount={notifications.length}
         onClick={() => {
-          setNoticeIsOpen(true);
+          setNoticeIsOpen((prev) => !prev);
           console.log(1);
         }}
       >
@@ -133,7 +133,7 @@ const NoticeBell = () => {
             size="20"
           />
         </Alert>
-        <DropContainer>
+        <DropContainer className={noticeIsOpen ? 'active' : ''}>
           <div className="title">
             <MiniTitle sizeType="2xl" textAlign="left">
               알림
