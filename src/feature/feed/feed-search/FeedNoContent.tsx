@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import AnimationLoader from '../../components/animation/AnimationLoader';
-import noContent from '../../assets/lottie/qna-no-content.json';
-import { MiniTitle, Paragraph } from '../../components';
-import { IFeedList } from '../../interface/feed';
+import AnimationLoader from '../../../components/animation/AnimationLoader';
+import noContent from '../../../assets/lottie/qna-no-content.json';
+import { MiniTitle, Paragraph } from '../../../components';
+import { IFeedList } from '../../../interface/feed';
 
 const Wrapper = styled.article`
   padding-top: 2rem;

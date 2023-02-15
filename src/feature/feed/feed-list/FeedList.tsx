@@ -3,15 +3,15 @@ import { AxiosError } from 'axios';
 import styled from 'styled-components';
 import { useEffect } from 'react';
 
-import { IFeedList, IFeedListProps, IFeedSearch } from '../../interface/feed';
+import { IFeedList, IFeedListProps, IFeedSearch } from '../../../interface/feed';
 import FeedListItem from './FeedListItem';
 import FeedCardItem from './FeedCardItem';
 
-import { getFeedSearchList } from '../../apis/feed/feed';
+import { getFeedSearchList } from '../../../apis/feed/feed';
 
-import FeedCardSkeletonList from './skeleton/FeedCardSkeletonList';
-import FeedItemSkeletonList from './skeleton/FeedItemSkeletonList';
-import FeedNoContent from './FeedNoContent';
+import FeedCardSkeletonList from '../skeleton/FeedCardSkeletonList';
+import FeedItemSkeletonList from '../skeleton/FeedItemSkeletonList';
+import FeedNoContent from '../feed-search/FeedNoContent';
 
 const FeedListWrapper = styled.div`
   display: flex;

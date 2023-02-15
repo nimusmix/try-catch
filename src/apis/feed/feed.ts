@@ -1,6 +1,7 @@
+import { AxiosResponse } from 'axios';
+import { IFeedCompany, IFeedSearch } from '../../interface/feed';
 // 피드
 import { authApi } from '../../utils/axios-instance';
-import { IFeedSearch } from '../../interface/feed';
 
 export const getFeedSearchList = async (params: IFeedSearch) => {
   return authApi.get(`/feed/search`, { params }).then((res) => {
@@ -14,3 +15,6 @@ export const getFeedSearchList = async (params: IFeedSearch) => {
 
 export const postFeedRead = (params: { feedId: number }) =>
   authApi.post('/feed/read', null, { params });
+
+export const getFeedCompany = () =>
+  authApi.get('/feed/company').then((res: AxiosResponse<Array<IFeedCompany>>) => res.data);

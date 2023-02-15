@@ -1,102 +1,51 @@
-import styled from 'styled-components';
+import { useQuery } from 'react-query';
 import { Button, MiniTitle, Paragraph } from '../../components';
-import getImageUrl from '../../utils/getImageUrl';
-import { COMPANY } from '../../constant/company';
-import { FeedSearchWrapper as CompanyRecommendWrapper } from './FeedSearchSide';
-
-interface ICompanyRecommend {
-  companyNameEn: string;
-  companyNameKo: string;
-}
-
-const CompanyWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 0.3rem 0rem;
-`;
-
-const CompanyName = styled(Paragraph)`
-  color: ${({ theme }) => theme.textColor};
-  font-weight: 500;
-`;
-
-const CompanyImg = styled.img`
-  width: 40px;
-  height: 40px;
-  padding: 0.2rem;
-  background-color: ${({ theme: { isDark } }) =>
-    isDark ? 'var(--colors-brand-100)' : 'var(--colors-white-500)'};
-  border-radius: var(--borders-radius-base);
-  box-shadow: ${({ theme: { isDark } }) =>
-    isDark
-      ? 'rgba(39, 110, 226, 0.2) 0px 0px 0px 2px, rgba(39, 110, 226, 0.3) 0px 4px 6px -1px, rgba(39, 110, 226, 0.08) 0px 1px 0px inset;'
-      : 'rgba(0, 0, 0, 0.16) 0px 1px 4px'};
-  margin: 0 1rem 0 0.3rem;
-`;
-
-const FollowButton = styled(Button)``;
-
-const FollowButtonWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const CompanyItemWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const CompanyItem = ({ companyNameEn, companyNameKo }: ICompanyRecommend) => {
-  return (
-    <CompanyItemWrapper>
-      <CompanyWrapper>
-        <CompanyImg
-          src={companyNameEn && getImageUrl(COMPANY[companyNameKo], 'logo', 'png')}
-          alt={companyNameEn}
-        />
-        <CompanyName sizeType="sm" margin="0 0.2rem 0 0.3rem">
-          {companyNameKo}
-        </CompanyName>
-      </CompanyWrapper>
-      <FollowButtonWrapper>
-        <FollowButton designType="skyFill" fontSize="var(--fonts-body-xm)">
-          구독
-        </FollowButton>
-      </FollowButtonWrapper>
-    </CompanyItemWrapper>
-  );
-};
+import { FeedSearchWrapper as CompanyRecommendWrapper } from './feed-search/FeedSearchSide';
+import { IFeedCompany } from '../../interface/feed';
+import { getFeedCompany } from '../../apis/feed/feed';
+import CompanyRecommendItem from './CompanyRecommendItem';
 
 const CompanyRecommend = () => {
   // 목업 추후 UseQuery로 변경
   // rank 추가해야함
   const MCompanyList = [
     {
-      companyId: 1,
-      companyNameEn: 'kakao',
-      companyNameKo: '카카오',
+      companyId: 11,
+      logoSrc: 'https://www.skcc.co.kr/v2/img/kr/layout/favicon.ico',
+      companyName: 'SKCNC',
+      isFollowed: false,
     },
     {
-      companyId: 2,
-      companyNameEn: 'toss',
-      companyNameKo: '토스',
+      companyId: 46,
+      logoSrc: 'https://raw.githubusercontent.com/trycatch-ssafy/logo/main/line.png',
+      companyName: '라인',
+      isFollowed: true,
     },
     {
-      companyId: 3,
-      companyNameEn: 'naver',
-      companyNameKo: '네이버',
+      companyId: 33,
+      logoSrc: 'https://devocean.sk.com/resource/images/external/logo/logo_favicon.ico',
+      companyName: '데보션',
+      isFollowed: false,
     },
     {
-      companyId: 4,
-      companyNameEn: 'kurly',
-      companyNameKo: '마켓컬리',
+      companyId: 119,
+      logoSrc: 'https://raw.githubusercontent.com/trycatch-ssafy/logo/main/cntech-systems.png',
+      companyName: '씨앤텍시스템즈',
+      isFollowed: false,
     },
     {
-      companyId: 5,
-      companyNameEn: 'dunamu',
-      companyNameKo: '두나무',
+      companyId: 183,
+      logoSrc: 'https://raw.githubusercontent.com/trycatch-ssafy/logo/main/kakao.png',
+      companyName: '카카오',
+      isFollowed: false,
     },
   ];
+
+  const { data: companyRecommendList } = useQuery<Array<IFeedCompany>>(
+    ['companyRecommendList'] as const,
+    getFeedCompany
+  );
+
   return (
     <CompanyRecommendWrapper style={{ padding: '2rem', marginTop: '1rem' }}>
       <MiniTitle
@@ -108,16 +57,14 @@ const CompanyRecommend = () => {
         기업 블로그 추천
       </MiniTitle>
       <ul>
-        {MCompanyList.map((companyItem) => {
-          return (
-            <li key={companyItem.companyId}>
-              <CompanyItem
-                companyNameEn={companyItem.companyNameEn}
-                companyNameKo={companyItem.companyNameKo}
-              />
-            </li>
-          );
-        })}
+        {companyRecommendList &&
+          companyRecommendList.map((companyItem) => {
+            return (
+              <li key={companyItem.companyId}>
+                <CompanyRecommendItem {...companyItem} />
+              </li>
+            );
+          })}
       </ul>
     </CompanyRecommendWrapper>
   );

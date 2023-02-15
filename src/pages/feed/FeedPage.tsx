@@ -14,11 +14,19 @@ import {
 import { QuestionPageBody as FeedPageBody } from '../qna/QnaPage';
 
 const Aside = styled.aside`
-  margin: 3rem 0rem 0;
+  margin: 3rem 1.5rem 0 0rem;
   position: sticky;
-  top: 6rem;
-  height: 500px;
+  top: 5rem;
+  min-height: 500px;
   width: 20.75rem;
+  max-height: 90vh;
+  padding: 4px;
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 `;
 
 const FilterTop = styled.section`
@@ -77,7 +85,7 @@ const FeedPage = () => {
           />
           <CompanyRecommend />
         </Aside>
-        <section style={{ margin: '3rem 1.5rem 0' }}>
+        <section style={{ margin: '3rem 0 0 0' }}>
           <FilterTop>
             <FeedFilter filterOptions={filterOptions} changeOption={setActiveFilterOption} />
             <FeedView setActiveViewOption={setActiveViewOption} />

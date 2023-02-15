@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilValue, useRecoilState } from 'recoil';
-import { MiniTitle } from '../../components';
-import { isLoggedInState, toastState } from '../../recoil';
+import { MiniTitle } from '../../../components';
+import { isLoggedInState, toastState } from '../../../recoil';
 
 interface IFeedFilterOptions {
   id: number;

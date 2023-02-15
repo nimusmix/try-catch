@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import { Card, MiniTitle } from '../../components';
-import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
-import FeedTag from './FeedTag';
-import { isLoggedInState, toastState } from '../../recoil';
-import { postFeedRead } from '../../apis/feed/feed';
-import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
-import { COMPANY } from '../../constant/company';
-import { IFeedItemProps } from '../../interface/feed';
+import { Card, MiniTitle } from '../../../components';
+import { IconBookmarkEmpty, IconBookmarkFill } from '../../../components/icons/Icons';
+import FeedTag from '../FeedTag';
+import { isLoggedInState, toastState } from '../../../recoil';
+import { postFeedRead } from '../../../apis/feed/feed';
+import { postBookmark, putBookmark } from '../../../apis/bookmark/bookmark';
+import { COMPANY } from '../../../constant/company';
+import { IFeedItemProps } from '../../../interface/feed';
 
 const BookmarkButton = styled.button`
   display: flex;

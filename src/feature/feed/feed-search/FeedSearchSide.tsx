@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Button, Checkbox, Paragraph } from '../../components';
+import { Button, Checkbox, Paragraph } from '../../../components';
 import FeedSearchBar from './FeedSearchBar';
-import FeedTag from './FeedTag';
-import { IconRefresh } from '../../components/icons/Icons';
+import FeedTag from '../FeedTag';
+import { IconRefresh } from '../../../components/icons/Icons';
 
 const searchFilterList = [
   {
