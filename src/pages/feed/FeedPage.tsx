@@ -51,7 +51,9 @@ const filterOptions = [
 
 const FeedPage = () => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
-  const [activeFilterOption, setActiveFilterOption] = useState('최신순');
+  const [activeFilterOption, setActiveFilterOption] = useState(
+    isLoggedIn ? '나의 관심순' : '최신순'
+  );
   const [activeViewOption, setActiveViewOption] = useState<boolean>(true);
   const [tagListProps, setTagListProps] = useState<Array<string>>([]);
   const [checkedItemsProps, setCheckedItemsProps] = useState<Array<number>>([]);
@@ -59,10 +61,6 @@ const FeedPage = () => {
   const keyword = new URLSearchParams(useLocation().search).get('keyword') || '';
   const subscribe = checkedItemsProps.includes(1);
   const advanced = checkedItemsProps.includes(2);
-
-  if (isLoggedIn) {
-    setActiveFilterOption('나의 관심순');
-  }
 
   useEffect(() => {
     window.scrollTo(0, 0);
