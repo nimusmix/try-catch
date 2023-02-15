@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getUserId, getUserSubscription } from '../../apis/profile/profile';
 import LoadingSpinner from '../../components/loading/LoadingSpinner';
+import SimpleCompanyItem from '../../feature/user/profile/SimpleCompanyItem';
 import { ISubscription } from '../../interface/user';
 
 export const ModalWrapper = styled.div`
@@ -76,7 +77,7 @@ const SubscriptionPage = () => {
       </NavWrapper>
       <ItemWrapper>
         {subscription?.map((item) => (
-          <p key={item.companyId}>{item.companyName}</p>
+          <SimpleCompanyItem {...item} key={item.companyId} />
         ))}
       </ItemWrapper>
     </ModalWrapper>
