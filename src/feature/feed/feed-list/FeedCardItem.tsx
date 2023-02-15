@@ -37,6 +37,10 @@ const CardHeader = styled.div`
         ? 'rgba(39, 110, 226, 0.2) 0px 0px 0px 2px, rgba(39, 110, 226, 0.3) 0px 4px 6px -1px, rgba(39, 110, 226, 0.08) 0px 1px 0px inset;'
         : 'rgba(0, 0, 0, 0.16) 0px 1px 4px'};
   }
+  button:hover ${MiniTitle} {
+    color: var(--colors-brand-500);
+    transition: color 0.3s ease-in;
+  }
 `;
 
 const CardDiv = styled.div`
