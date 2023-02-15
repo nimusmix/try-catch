@@ -10,6 +10,7 @@ import { ReactComponent as LogoLightTheme } from '../../assets/vertical_logo_lig
 import { isDarkState } from '../../recoil';
 import { IconEmail, IconGithub, IconGitlab } from '../../components/icons/Icons';
 import { Paragraph } from '../../components';
+import { media } from '../../utils/media';
 
 const StyledFooter = styled.footer`
   display: flex;
@@ -17,14 +18,18 @@ const StyledFooter = styled.footer`
   justify-content: center;
   position: relative;
   transform: translateY(100%);
-  z-index: 1;
   padding: 1.5rem;
-  background-color: ${({ theme: { navColor } }) => navColor};
+  background-color: ${({ theme: { isDark, navColor } }) =>
+    isDark ? navColor : 'var(--colors-brand-100)'};
   height: calc(var(--toolbar-height) * 4);
 
   & > div {
     width: var(--breakpoints-desktop);
   }
+
+  ${media.phone`
+    height: calc(var(--toolbar-height) * 5 + 2rem);
+  `}
 `;
 
 const AbsoluteWrapper = styled.div`
@@ -33,23 +38,42 @@ const AbsoluteWrapper = styled.div`
   height: 200px;
   right: 15%;
   top: -95px;
+
+  ${media.phone`
+      right: 5%;
+  `}
 `;
 
 const FooterMain = styled.div`
+  height: calc(var(--toolbar-height) * 4);
   width: 100%;
   display: flex;
+  padding: 1.5rem;
+
   justify-content: space-between;
+  ${media.phone`
+    flex-direction: column;  
+    padding: 0;
+  `}
 `;
 
 const Logo = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 1rem;
 `;
 
 const Left = styled.div`
   display: flex;
   flex-direction: column;
   padding-right: 6rem;
+
+  ${media.phone`
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    padding: 0;
+    margin-bottom: 1rem;
+  `}
 `;
 
 const Mid = styled.nav`
@@ -80,6 +104,10 @@ const Mid = styled.nav`
       color: var(--colors-brand-500);
     }
   }
+
+  ${media.phone`
+     margin-bottom: 0.5rem;
+  `}
 `;
 
 const Right = styled.div`
@@ -97,6 +125,21 @@ const Right = styled.div`
     width: 300px;
     translate: 2.2rem -1rem;
   }
+
+  ${media.phone`
+    flex-direction: row;
+    justify-content: center;
+    align-items: center; 
+    
+    p {
+      translate: 0 -0.1rem;
+    }
+    
+    img {
+      width: 80px;
+      translate: 0 -0.25rem;
+    }  
+  `}
 `;
 
 const Icons = styled.div`
@@ -104,12 +147,18 @@ const Icons = styled.div`
   justify-content: space-evenly;
   margin-top: 1rem;
 
-  & > svg:hover,
   & > a:hover {
     cursor: pointer;
     color: var(--colors-brand-500);
     transition: color 0.5s ease;
   }
+
+  ${media.phone`
+    
+    & > a{
+      margin-left: 0.25rem
+    }
+  `}
 `;
 
 const members = [
@@ -136,7 +185,7 @@ const Footer = () => {
           />
         </AbsoluteWrapper>
         <FooterMain>
-          <Left>
+          <Left className="left">
             <Logo>
               <NavLink to="/">
                 {isDark && <LogoDarkTheme width="120" height="80" />}
@@ -144,14 +193,22 @@ const Footer = () => {
               </NavLink>
             </Logo>
             <Icons>
-              <a href="https://github.com/trycatch-ssafy">
+              <a href="https://github.com/trycatch-ssafy" target="_blank" rel="noreferrer">
                 <IconGithub size="30" />
               </a>
-              <IconGitlab size="30" />
-              <IconEmail size="30" />
+              <a
+                href="https://lab.ssafy.com/s08-webmobile2-sub2/S08P12E108"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <IconGitlab size="30" />
+              </a>
+              <a href="mailto:ssafy.e108@gmail.com">
+                <IconEmail size="30" />
+              </a>
             </Icons>
           </Left>
-          <Mid>
+          <Mid className="mid">
             <ul className="footer-nav">
               <li>사이트소개</li>
               <li>연락처</li>
@@ -171,7 +228,7 @@ const Footer = () => {
               <Paragraph sizeType="sm">©SSAFY. ALL RIGHTS RESERVED</Paragraph>
             </div>
           </Mid>
-          <Right>
+          <Right className="right">
             <Paragraph sizeType="base">sponsored by</Paragraph>
             <img src={new URL(`/src/assets/ssafy.png`, import.meta.url).href} alt="ssafy" />
           </Right>

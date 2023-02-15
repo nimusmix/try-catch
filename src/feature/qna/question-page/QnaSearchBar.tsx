@@ -5,6 +5,7 @@ import { IconRefresh, IconSearch } from '../../../components/icons/Icons';
 import { Button, Input, Paragraph } from '../../../components';
 import { isDarkState } from '../../../recoil';
 import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
+import { media } from '../../../utils/media';
 
 interface ISearchValue {
   data: string;
@@ -26,12 +27,26 @@ const StyledSearchBar = styled.div`
   border-color: ${({ theme: { borderColor } }) => borderColor};
   position: relative;
   margin: 0 auto 0 0;
+
+  ${media.phone`
+    margin-right: 1rem;
+  `}
 `;
 
 const StyledSearch = styled.div`
   display: flex;
   width: 41.25rem;
   padding-bottom: 1rem;
+  ${media.phone`
+    width: 100%;
+    input{
+      width: 90%;
+    }
+    
+    button{
+      width: 80px;
+    }
+  `}
 `;
 
 const KeywordWrapper = styled.span`
@@ -70,6 +85,18 @@ const SearchBarForm = styled.form`
   background: ${({ theme: { bgColor } }) => bgColor};
   opacity: 0.9;
   backdrop-filter: blur(30px);
+
+  ${media.phone`
+    display: flex;
+    flex-direction: column;
+    top: 9rem;
+    padding: 3rem 1rem 0 1rem;
+    
+    & > div {
+      display: flex;
+      justify-content: center;
+    }
+  `}
 `;
 
 const QnaSearchBar = () => {
@@ -78,6 +105,10 @@ const QnaSearchBar = () => {
   const { register, handleSubmit, resetField } = useForm<ISearchValue>();
 
   const onSubmit = (data: ISearchValue) => {
+    if (!data.data) {
+      // eslint-disable-next-line no-param-reassign
+      data.data = '';
+    }
     setKeyword(data.data.toLocaleLowerCase());
     resetField('data');
   };
@@ -103,7 +134,7 @@ const QnaSearchBar = () => {
             {...inputProps}
           />
         </StyledSearchBar>
-        <Button fontSize="var(--fonts-body-base)" onClick={() => {}} padding="0.25rem 1.125rem">
+        <Button fontSize="var(--fonts-body-base)" padding="0.25rem 1.125rem">
           검색
         </Button>
       </StyledSearch>
