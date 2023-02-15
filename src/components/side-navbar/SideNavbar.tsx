@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { SetterOrUpdater } from 'recoil';
 import { MiniTitle } from '..';
+import { media } from '../../utils/media';
 
 interface INavOptions {
   id: number;
@@ -43,6 +44,19 @@ const Item = styled.li`
   }
 `;
 
+const Nav = styled.nav`
+  ${media.phone`
+    display: flex;
+    justify-content: center;  
+    ul {
+      display: flex;
+      li {
+          margin-right: 0.5rem
+      }
+    }
+  `}
+`;
+
 const SideNavbar = ({ navOptions, changeOption, activeIdx = 0 }: INavbarProps) => {
   const [activeNavOption, setActiveNavOption] = useState<string | null>(
     () => navOptions[activeIdx].value
@@ -56,7 +70,7 @@ const SideNavbar = ({ navOptions, changeOption, activeIdx = 0 }: INavbarProps) =
   };
 
   return (
-    <nav>
+    <Nav>
       <ul>
         {navOptions.map(({ id, option, value }: INavOptions) => {
           return (
@@ -72,7 +86,7 @@ const SideNavbar = ({ navOptions, changeOption, activeIdx = 0 }: INavbarProps) =
           );
         })}
       </ul>
-    </nav>
+    </Nav>
   );
 };
 

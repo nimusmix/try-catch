@@ -48,6 +48,10 @@ export const Aside = styled.aside`
   position: sticky;
   top: 6rem;
   height: 500px;
+
+  ${media.phone`
+    height: auto;
+  `}
 `;
 
 const Ul = styled.ul`
