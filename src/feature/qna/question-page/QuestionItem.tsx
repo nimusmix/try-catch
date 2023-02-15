@@ -168,7 +168,7 @@ const QuestionItem = ({
   return (
     <Wrapper
       onClick={() => {
-        navigate(`${rest.questionId}`);
+        navigate(`/question/${rest.questionId}`);
       }}
     >
       <div>

@@ -37,11 +37,7 @@ const QuestionList = () => {
   return (
     <QuestionWrapper>
       {questionList?.map((ques: IQuestion) => {
-        return (
-          <Link to={`/question/${ques.questionId}`} key={ques.questionId}>
-            <QuestionItem {...ques} />
-          </Link>
-        );
+        return <QuestionItem {...ques} key={ques.questionId} />;
       })}
     </QuestionWrapper>
   );
