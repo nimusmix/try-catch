@@ -6,6 +6,7 @@ import { Paragraph, MiniTitle } from '../../../components';
 import FeedTag from '../../feed/FeedTag';
 import getImageUrl from '../../../utils/getImageUrl';
 import { COMPANY } from '../../../constant/company';
+import elapsedTime from '../../../utils/elapsed-time';
 
 const DefaultDIv = styled.div`
   /* 한 줄 자르기 */
@@ -88,8 +89,8 @@ const FeedThumbnailImgWrapper = styled.div`
 `;
 
 const CompanyImg = styled.img`
-  width: 20px;
-  max-height: 20px;
+  width: 24px;
+  max-height: 24px;
   padding: 0.2rem;
   background-color: ${({ theme: { isDark } }) =>
     isDark ? 'var(--colors-brand-100)' : 'var(--colors-white-500)'};
@@ -165,7 +166,7 @@ const RecentListItem = ({
                 {companyName}
               </MiniTitle>
               <Paragraph sizeType="xm" style={{ marginLeft: '0.25rem' }}>
-                · {createdAt}
+                · {elapsedTime(createdAt)}
               </Paragraph>
             </div>
           </LinkWrapper>
