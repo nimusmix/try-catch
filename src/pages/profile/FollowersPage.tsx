@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { QueryClient, useQuery, useQueryClient } from 'react-query';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ModalWrapper, NavWrapper, NavItem, ItemWrapper } from './SubscriptionPage';
 import { getUserId, getUserFollow } from '../../apis/profile/profile';
@@ -12,15 +12,17 @@ const FollowersPage = () => {
   const navi = useNavigate();
 
   const { data: userId, isLoading: userIdLoading } = useQuery<number>(
-    ['myFollowerList', userName] as const,
+    ['myFollowerList', 'userId', userName] as const,
     () => getUserId(userName!)
   );
 
+  const queryClient = useQueryClient();
   const { data: followers, isLoading: contentLoading } = useQuery<Array<ISimpleUserData>>(
     ['follower', userName],
     () => getUserFollow(userId!, { type: 'follower' }),
     {
       enabled: !!userId,
+      onSuccess: () => queryClient.invalidateQueries(['myFollowerList', 'userId', userName]),
     }
   );
 
