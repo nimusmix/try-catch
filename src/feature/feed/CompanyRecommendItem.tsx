@@ -68,6 +68,7 @@ const CompanyRecommendItem = ({ companyId, logoSrc, companyName, isFollowed }: I
       },
       onSuccess: () => {
         queryClient.invalidateQueries(['companyRecommendList']);
+        window.location.replace('/');
       },
     }
   );
