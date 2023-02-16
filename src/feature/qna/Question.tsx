@@ -21,6 +21,7 @@ import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
 import { isLoggedInState, toastState } from '../../recoil';
 import QuestionDropdown from './question-detail/QuestionDropdown';
 import categoryToKorean from '../../utils/category-to-korean';
+import isMobileState from '../../recoil/isMobileState';
 
 const QuestionDiv = styled(Div)`
   //overflow: hidden;
@@ -30,9 +31,9 @@ const QuestionDiv = styled(Div)`
   width: 100%;
   padding: 0;
   margin-bottom: 2.5rem;
-  background-color: ${({ theme: { isDark } }) => (isDark ? 'rgba(46, 52, 64, 1)' : '#f7f8ff')};
+  background-color: ${({ theme: { isDark } }) => (isDark ? 'rgba(46, 52, 64, 1)' : '#fcfcfc')};
   border: ${({ theme: { isDark } }) =>
-    isDark ? 'rgb(46, 52, 64)' : '1px solid var(--colors-brand-200)'};
+    isDark ? 'rgb(46, 52, 64)' : '1px solid var(--colors-brand-100)'};
 `;
 
 const UpperWrapper = styled.div`
@@ -41,9 +42,9 @@ const UpperWrapper = styled.div`
   padding: 2rem 2rem 1rem;
   justify-content: space-between;
   background-color: ${({ theme: { isDark } }) =>
-    isDark ? 'rgba(36, 42, 54, 1)' : 'var(--colors-brand-200)'};
+    isDark ? 'rgba(36, 42, 54, 1)' : 'var(--colors-brand-100)'};
   border-bottom: ${({ theme: { isDark } }) =>
-      isDark ? 'var(--colors-black-100)' : 'rgb(182, 202,229)'}
+      isDark ? 'var(--colors-black-100)' : 'rgb(182, 202, 229)'}
     solid 1px;
   border-radius: 0.7rem 0.7rem 0 0;
 
@@ -195,6 +196,7 @@ const Question = ({
   ...rest
 }: IQuestion) => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
+  const isMobile = useRecoilValue(isMobileState);
   const [toast, setToast] = useRecoilState(toastState);
   const navigate = useNavigate();
 
@@ -355,7 +357,13 @@ const Question = ({
         </MiniTitle>
 
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
-        <div className="author" onClick={() => navigate(`/profile/${author.userName}`)}>
+        <div
+          className="author"
+          onClick={() => {
+            if (isMobile) return;
+            navigate(`/profile/${author.userName}`);
+          }}
+        >
           <ProfileImg src={author.profileImage} />
           <SubText sizeType="sm" margin="0 0.2rem 0 0.3rem">
             {author.userName}

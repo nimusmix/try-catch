@@ -12,12 +12,17 @@ import { getFeedSearchList } from '../../../apis/feed/feed';
 import FeedCardSkeletonList from '../skeleton/FeedCardSkeletonList';
 import FeedItemSkeletonList from '../skeleton/FeedItemSkeletonList';
 import FeedNoContent from '../feed-search/FeedNoContent';
+import { media } from '../../../utils/media';
 
 const FeedListWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   width: 52.875rem;
+  ${media.phone`
+    min-width: unset;
+    width: 100%;
+  `}
 `;
 
 const FeedList = ({
@@ -109,36 +114,36 @@ const FeedList = ({
       {isLoading && !activeViewOption && <FeedItemSkeletonList />}
       {isError && <h2>에러입니다.</h2>}
       {/* 검색 결과가 없을 때 */}
-      {data?.pages[0].feedList.length === 0 && <FeedNoContent keyword={keyword} />}
+      {data?.pages[0].feedList.length === 0 && (
+        <FeedNoContent keyword={keyword} subscribe={subscribe} />
+      )}
       {/* 검색 결과가 있을 때 */}
-      {data?.pages.map((page, index) => {
-        const pageIdx = `${page} ${index}`;
-        return (
-          <FeedListWrapper key={pageIdx}>
-            {page.feedList.map((feedItem) => {
-              if (activeViewOption)
-                return (
-                  <FeedCardItem
-                    key={feedItem.feedId}
-                    {...feedItem}
-                    checkedItemsProps={checkedItemsProps}
-                  />
-                );
+      <FeedListWrapper>
+        {data?.pages.map((page, index) => {
+          const pageIdx = `${page} ${index}`;
+          return page.feedList.map((feedItem) => {
+            if (activeViewOption)
               return (
-                <FeedListItem
+                <FeedCardItem
                   key={feedItem.feedId}
                   {...feedItem}
-                  keyword={keyword}
-                  paramSort={paramSort}
-                  subscribe={subscribe}
-                  advanced={advanced}
                   checkedItemsProps={checkedItemsProps}
                 />
               );
-            })}
-          </FeedListWrapper>
-        );
-      })}
+            return (
+              <FeedListItem
+                key={feedItem.feedId}
+                {...feedItem}
+                keyword={keyword}
+                paramSort={paramSort}
+                subscribe={subscribe}
+                advanced={advanced}
+                checkedItemsProps={checkedItemsProps}
+              />
+            );
+          });
+        })}
+      </FeedListWrapper>
     </div>
   );
 };

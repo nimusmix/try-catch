@@ -1,14 +1,13 @@
 import { useInfiniteQuery } from 'react-query';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { Dispatch, Fragment, useEffect, useState } from 'react';
+import { Dispatch, Fragment, useEffect } from 'react';
 import { getQuestionList } from '../../../apis/qna/qna';
 import qnaCategoryState from '../../../recoil/qnaCategoryState';
 import { QuestionItem } from '../index';
 import question from '../Question';
 import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
 import QuestionNoContent from './QuestionNoContent';
-import isMobileState from '../../../recoil/isMobileState';
-import useWindowSize from '../../../hooks/useWindowSize';
+import QnaPageTopState from '../../../recoil/qnaPageTopState';
 
 const QuestionList = ({
   filter,
@@ -17,18 +16,12 @@ const QuestionList = ({
   filter: string;
   setIsLoading: Dispatch<boolean>;
 }) => {
-  const [isFirstEnter, setIsFirstEnter] = useState(true);
+  const [top, setTop] = useRecoilState(QnaPageTopState);
   const [activeCategory, setActiveCategory] = useRecoilState<string>(qnaCategoryState);
   const keyword = useRecoilValue(qnaSearchKeywordState);
-  const isMobile = useRecoilValue(isMobileState);
-  const [windowWidth] = useWindowSize();
 
   // // 1. timeout을 줘서 스크롤이 끝난 후 작동하게 하는 방법
   const scrollToTop = () => {
-    let top = 180;
-    if (isMobile || windowWidth < 601) {
-      top = 120;
-    }
     setTimeout(() => {
       window.scrollTo({
         top,
@@ -36,11 +29,6 @@ const QuestionList = ({
       });
     }, 100);
   };
-
-  useEffect(() => {
-    scrollToTop();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [keyword, activeCategory, filter]);
 
   // TODO 나중에 search 엔드포인트 변경되면 그때 바꾸면 됨
   const {
@@ -115,6 +103,12 @@ const QuestionList = ({
       },
     }
   );
+
+  useEffect(() => {
+    scrollToTop();
+    setTop(180);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [keyword, activeCategory, filter]);
 
   useEffect(() => {
     setIsLoading(isLoading);

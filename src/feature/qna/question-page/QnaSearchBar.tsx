@@ -6,6 +6,7 @@ import { Button, Input, Paragraph } from '../../../components';
 import { isDarkState } from '../../../recoil';
 import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
 import { media } from '../../../utils/media';
+import useWindowSize from '../../../hooks/useWindowSize';
 
 interface ISearchValue {
   data: string;
@@ -40,7 +41,7 @@ const StyledSearch = styled.div`
   ${media.phone`
     width: 100%;
     input{
-      width: 90%;
+      width: 85%;
     }
     
     button{
@@ -75,6 +76,14 @@ const KeywordWrapper = styled.span`
   p {
     margin-right: 0.25rem;
   }
+
+  ${media.phone`
+    .result-message{
+      .blue{
+        max-width: 120px
+      }
+    }
+  `}
 `;
 
 const SearchBarForm = styled.form`
@@ -89,8 +98,8 @@ const SearchBarForm = styled.form`
   ${media.phone`
     display: flex;
     flex-direction: column;
-    top: 9rem;
-    padding: 3rem 1rem 0 1rem;
+    padding: 1rem 1rem 0 1rem;
+    top: 7rem;
     
     & > div {
       display: flex;
@@ -103,6 +112,7 @@ const QnaSearchBar = () => {
   const [keyword, setKeyword] = useRecoilState(qnaSearchKeywordState);
   const isDark = useRecoilValue(isDarkState);
   const { register, handleSubmit, resetField } = useForm<ISearchValue>();
+  const [width] = useWindowSize();
 
   const onSubmit = (data: ISearchValue) => {
     if (!data.data) {
@@ -135,7 +145,7 @@ const QnaSearchBar = () => {
           />
         </StyledSearchBar>
         <Button fontSize="var(--fonts-body-base)" padding="0.25rem 1.125rem">
-          검색
+          {width < 601 ? <IconSearch /> : '검색'}
         </Button>
       </StyledSearch>
       <KeywordWrapper>

@@ -78,6 +78,9 @@ const QnaFormContentSection = ({
     <Wrapper>
       <MiniTitle sizeType="xl" textAlign="left" display="inline-flex">
         질문 내용 <Required>*</Required>
+        <span className="alert">
+          (코드박스는 <mark>Ctrl + Enter</mark>로 벗어날 수 있습니다.)
+        </span>
       </MiniTitle>
       <MilkdownEditor
         width="100%"
@@ -99,7 +102,7 @@ const QnaFormContentSection = ({
               <br />
               3. 어떤 문제점에 부딪혔는지 설명해주세요.
             </span>
-            코드박스(```)를 활용해서 사용했던 코드를 재현해보는것도 하나의 방법일 수 있습니다.{' '}
+            코드박스(```)를 활용해서 사용했던 코드를 재현해보는것도 하나의 방법일 수 있습니다.
             <br />
             현재 사용하는 소프트웨어의 버전 정보까지 포함하시면 더욱 좋은 답변을 받을 수 있습니다.
           </Paragraph>

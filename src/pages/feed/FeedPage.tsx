@@ -14,12 +14,12 @@ import {
 } from '../../feature/feed';
 import { QuestionPageBody as FeedPageBody } from '../qna/QnaPage';
 import { isLoggedInState } from '../../recoil';
+import { media } from '../../utils/media';
 
 const Aside = styled.aside`
   margin: 0rem;
   position: sticky;
   top: 3rem;
-  min-height: 500px;
   width: 20.75rem;
   padding: 3rem 1rem 4px 4px;
   overflow-y: scroll;
@@ -30,12 +30,31 @@ const Aside = styled.aside`
   ::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/
   }
+  ${media.phone`
+      min-width: unset;
+      width: 100%;
+      top: 0rem;
+      z-index: 1001;
+      padding: 3.1rem 0rem 0rem;
+    `}
 `;
 
 const FilterTop = styled.section`
   display: flex;
   justify-content: right;
   margin-bottom: 1rem;
+  ${media.phone`
+      > div{
+        display: none;
+      }
+    `}
+`;
+
+const FeedContentSection = styled.section`
+  margin: 3rem 0 0 0;
+  ${media.phone`
+      margin: 0rem;
+  `}
 `;
 
 const filterOptions = [
@@ -94,7 +113,7 @@ const FeedPage = () => {
             <CompanyRecommend />
           </div>
         </Aside>
-        <section style={{ margin: '3rem 0 0 0' }}>
+        <FeedContentSection>
           <FilterTop>
             <FeedFilter filterOptions={filterOptions} changeOption={setActiveFilterOption} />
             <FeedView setActiveViewOption={setActiveViewOption} />
@@ -109,7 +128,7 @@ const FeedPage = () => {
             tagListProps={tagListProps}
             checkedItemsProps={checkedItemsProps}
           />
-        </section>
+        </FeedContentSection>
       </FeedPageBody>
     </Layout>
   );

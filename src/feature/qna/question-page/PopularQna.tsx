@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
+import { useState } from 'react';
 import { getPopularQuestion } from '../../../apis/qna/qna';
 import { Div, MiniTitle } from '../../../components';
 import { IQuestion } from '../../../interface/qna';
@@ -22,6 +23,7 @@ const PopularQnaTitle = styled(MiniTitle)`
 
 const PopularQna = () => {
   const activeCategory = useRecoilValue(qnaCategoryState);
+  const [canRender, setCanRender] = useState(false);
 
   const size = 5;
   const { isLoading, data: popularQuestion } = useQuery<Array<IQuestion>>(

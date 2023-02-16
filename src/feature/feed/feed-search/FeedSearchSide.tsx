@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Button, Checkbox, Paragraph } from '../../../components';
 import FeedSearchBar from './FeedSearchBar';
 import FeedTag from '../FeedTag';
 import { IconRefresh } from '../../../components/icons/Icons';
+import { media } from '../../../utils/media';
+import { isLoggedInState, toastState } from '../../../recoil';
 
 const searchFilterList = [
   {
@@ -46,6 +49,12 @@ interface FeedSearchProps {
   keyword: string;
 }
 
+const FeedRecommendTags = styled.div`
+  ${media.phone`
+      display: none;
+    `}
+`;
+
 export const FeedSearchWrapper = styled.div`
   border-radius: var(--borders-radius-xl);
   box-sizing: border-box;
@@ -54,11 +63,11 @@ export const FeedSearchWrapper = styled.div`
   color: var(--colors-black-500);
   list-style: none;
   position: relative;
-  background: #fff;
   transition: all 300ms ease 0s;
   box-shadow: rgb(8 60 130 / 6%) 0px 0px 0px 0.05rem, rgb(30 34 40 / 4%) 0rem 0rem 1.25rem;
   margin-bottom: 25px !important;
-  background-color: ${({ theme: { isDark } }) => (isDark ? 'rgba(46, 52, 64, 1)' : 'fff')};
+  background-color: ${({ theme: { isDark } }) =>
+    isDark ? 'rgba(46, 52, 64, 1)' : 'var(--colors-white-500)'};
 `;
 
 const ToolTip = styled.div`
@@ -100,14 +109,38 @@ const ToolTip = styled.div`
       font-style: normal;
     }
   }
-  &.tooltip:hover .tooltip-content {
-    visibility: visible;
-    opacity: 1;
+  @media (hover: hover) and (pointer: fine) {
+    /* when supported */
+    &.tooltip:hover .tooltip-content {
+      visibility: visible;
+      opacity: 1;
+    }
+    ${media.phone`
+    &.tooltip:hover .tooltip-content {
+      visibility: hidden;
+      opacity: 1;
+    }
+    `}
+  }
+`;
+
+const KeyWordWrapper = styled(Paragraph)`
+  span {
+    display: -webkit-box;
+    max-width: 190px;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
   }
 `;
 
 const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps) => {
   const [checkedItems, setCheckedItems] = useState<Array<number>>([]);
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [toast, setToast] = useRecoilState(toastState);
 
   const handleSingleCheck = (checked: boolean, id: number) => {
     if (checked) {
@@ -119,7 +152,19 @@ const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps
     }
   };
   const onSingleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleSingleCheck(e.target.checked, Number(e.target.id));
+    if (Number(e.target.id) === 1) {
+      /** 로그인 시에만 구독 필터 가능 */
+      if (isLoggedIn) handleSingleCheck(e.target.checked, Number(e.target.id));
+      else {
+        setToast({
+          type: 'negative',
+          message: '로그인 후 이용하실 수 있어요',
+          isVisible: true,
+        });
+      }
+    } else {
+      handleSingleCheck(e.target.checked, Number(e.target.id));
+    }
   };
 
   const navigate = useNavigate();
@@ -142,7 +187,11 @@ const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps
           </Button>
         )}
         <CheckboxWrapper key={searchFilterList[0].id}>
-          <FilterTitle sizeType="sm" padding="0 0.5rem" id={`${searchFilterList[0].filterName}`}>
+          <FilterTitle
+            sizeType="sm"
+            padding="0 0.4rem 0 0rem"
+            id={`${searchFilterList[0].filterName}`}
+          >
             {searchFilterList[0].filterName}
           </FilterTitle>
           <Checkbox
@@ -153,7 +202,7 @@ const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps
         </CheckboxWrapper>
         <ToolTip className="tooltip">
           <CheckboxWrapper key={searchFilterList[1].id}>
-            <FilterTitle sizeType="sm" padding="0 0.5rem" id={`${searchFilterList[1].filterName}`}>
+            <FilterTitle sizeType="sm" padding="0 0.4rem" id={`${searchFilterList[1].filterName}`}>
               {searchFilterList[1].filterName}
             </FilterTitle>
             <Checkbox
@@ -187,28 +236,30 @@ const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps
           <Paragraph sizeType="sm" margin="auto 0.5rem auto 0">
             검색 키워드:{'  '}
           </Paragraph>
-          <Paragraph sizeType="base">
+          <KeyWordWrapper sizeType="base">
             <Button
               as="span"
               designType="grayFill"
               fontSize="var(--fonts-body-sm)"
               padding="0 0.5rem"
               borderRadius="var(--borders-radius-base)"
-              style={{ fontWeight: '500', margin: '0px' }}
+              style={{
+                fontWeight: '500',
+                margin: '0px',
+              }}
             >
               {keyword}
             </Button>
-          </Paragraph>
+          </KeyWordWrapper>
         </div>
       )}
-
-      <Hr />
-      <div>
+      <FeedRecommendTags>
+        <Hr />
         <Paragraph sizeType="base" padding="0" margin="0 0 15px 0" style={{ fontWeight: '500' }}>
           추천 태그 🏷️
         </Paragraph>
         <FeedTag tags={tagListProps} />
-      </div>
+      </FeedRecommendTags>
     </FeedSearchWrapper>
   );
 };

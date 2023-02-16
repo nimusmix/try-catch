@@ -14,6 +14,8 @@ import QnASection from '../../feature/landing/Sections/QnASection';
 import FeedSection from '../../feature/landing/Sections/FeedSection';
 import RoadmapSection from '../../feature/landing/Sections/RoadmapSection';
 import ChallengeSection from '../../feature/landing/Sections/ChallengeSection';
+import isMobileState from '../../recoil/isMobileState';
+import MobileAlert from '../../layout/MobileAlert';
 
 const LandingPageBody = styled(QuestionPageBody)`
   min-width: var(--breakpoints-desktop);
@@ -80,6 +82,7 @@ const LogoWrapper = styled.div`
 const LandingPage = () => {
   const isDark = useRecoilValue(isDarkState);
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  const isMobile = useRecoilValue(isMobileState);
 
   const { ref: logoRef, inView } = useInView();
 
@@ -93,6 +96,10 @@ const LandingPage = () => {
       setIsLoggedIn(true);
     }
   }, [setIsLoggedIn]);
+
+  if (isMobile) {
+    return <MobileAlert />;
+  }
 
   return (
     <Layout>

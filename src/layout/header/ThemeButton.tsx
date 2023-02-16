@@ -1,6 +1,6 @@
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { isDarkState } from '../../recoil';
+import { isDarkState, isSystemThemeState } from '../../recoil';
 
 const Wrapper = styled.div`
   .sun-and-moon {
@@ -44,7 +44,7 @@ const Wrapper = styled.div`
 
     @media (prefers-reduced-motion: no-preference) {
       & .sun {
-        transition: transform 1s cubic-bezier(0.5, 1.25, 0.75, 1.25);
+        transition: transform 0.5s cubic-bezier(0.5, 1.25, 0.75, 1.25);
       }
       & .sun-beams {
         transition: transform 0.5s cubic-bezier(0.5, 1.5, 0.75, 1.25),
@@ -107,9 +107,26 @@ const Wrapper = styled.div`
 
 const ThemeButton = () => {
   const [isDark, setIsDark] = useRecoilState(isDarkState);
+  /** 테마: 시스템 설정 */
+  const [isSystemTheme, setSystemTheme] = useRecoilState(isSystemThemeState);
+  const mql = window.matchMedia('(prefers-color-scheme: dark)');
+
+  const ChangeEventTheme = (e: any) => {
+    if (!isSystemTheme) {
+      // 아무것도 안함
+    } else if (e.matches) {
+      // 해당 미디어 쿼리가 참인 경우 (다크모드)
+      setIsDark(true);
+    } else {
+      // 해당 미디어 쿼리가 거짓인 경우
+      setIsDark(false);
+    }
+  };
+  mql.addEventListener('change', ChangeEventTheme, { once: true });
 
   const onClick = () => {
     setIsDark((prev: boolean) => !prev);
+    setSystemTheme(false);
   };
 
   return (

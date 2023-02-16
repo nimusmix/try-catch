@@ -12,6 +12,8 @@ import { postFeedRead } from '../../../apis/feed/feed';
 import { postBookmark, putBookmark } from '../../../apis/bookmark/bookmark';
 import { COMPANY } from '../../../constant/company';
 import { IFeedItemProps } from '../../../interface/feed';
+import { media } from '../../../utils/media';
+import isMobileState from '../../../recoil/isMobileState';
 
 const DefaultDIv = styled.div`
   /* 한 줄 자르기 */
@@ -33,6 +35,10 @@ const DefaultDIv = styled.div`
 
 const BlogMiniTitle = styled(MiniTitle)`
   width: 510px;
+  ${media.phone`
+    min-width: unset;
+    width: 95%;
+  `}
 `;
 
 const Wrapper = styled.article`
@@ -42,11 +48,19 @@ const Wrapper = styled.article`
     background-color: ${({ theme: { isDark } }) =>
       isDark ? 'var(--colors-black-400)' : 'var(--colors-white-400)'};
   }
+  ${media.phone`
+    min-width: unset;
+    width: 100%;
+  `}
 `;
 
 const BlogWrapper = styled.div`
   width: 630px;
   padding: 1rem 1.5rem;
+  ${media.phone`
+    min-width: unset;
+    width: 100%;
+  `}
 `;
 
 const FeedBody = styled(DefaultDIv)`
@@ -88,6 +102,9 @@ const FeedThumbnailImgWrapper = styled.div`
   background: var(--colors-brand-200);
   border-radius: var(--borders-radius-base);
   margin: auto 0rem auto 1.5rem;
+  ${media.phone`
+      display: none;
+    `}
 `;
 
 const CompanyImg = styled.img`
@@ -202,9 +219,10 @@ const FeedListItem = ({
   };
 
   const navigate = useNavigate();
+  const isMobile = useRecoilValue(isMobileState);
   const onClickCompanyHandler = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    navigate(`/profile/company/${COMPANY[companyName]}`);
+    if (!isMobile) navigate(`/profile/company/${COMPANY[companyName]}`);
   };
 
   let newThumbnailImage: string = thumbnailImage;
@@ -274,7 +292,7 @@ const FeedListItem = ({
             <Paragraph
               sizeType="base"
               color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-              style={{ width: '510px' }}
+              style={{ width: '95%' }}
             >
               {summary}
             </Paragraph>

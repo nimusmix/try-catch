@@ -82,7 +82,7 @@ const NavItem = ({ title, link }: ISettingNav) => {
 
 const SettingNav = () => {
   const sampleLocation = useLocation().pathname;
-  const index = sampleLocation === SettingNavList[0].link ? 0 : 1;
+  const index = sampleLocation === SettingNavList[1].link ? 1 : 0;
 
   return (
     <Wrapper>

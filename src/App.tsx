@@ -5,6 +5,7 @@ import { Outlet } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { EventSourcePolyfill } from 'event-source-polyfill';
 import { isDarkState, isLoggedInState, toastState } from './recoil';
 import { darkTheme, lightTheme } from './styles/theme';
 import Toast from './feature/toast/Toast';
@@ -38,19 +39,25 @@ const GlobalStyles = createGlobalStyle`
     overflow-y: scroll;
   }
 
+  mark{
+    background-color: #fbfb62d1;
+    padding: 0.15rem;
+  }
   
   body::-webkit-scrollbar {
     width: 3px;
     height: 3px;
   }
 
-  #notice-list::-webkit-scrollbar{
+  #notice-list::-webkit-scrollbar,
+  textarea::-webkit-scrollbar{
     width: 6px;
     height: 6px;
   }
 
   #notice-list::-webkit-scrollbar-thumb,
-  body::-webkit-scrollbar-thumb {
+  body::-webkit-scrollbar-thumb,
+  textarea::-webkit-scrollbar-thumb{
     height: 30%; /* 스크롤바의 길이 */
     background: var(--colors-brand-500); /* 스크롤바의 색상 */
 
@@ -87,7 +94,14 @@ function App() {
   const sseEvents = useRef<EventSource | null>(null);
 
   const connect = useCallback(async () => {
-    sseEvents.current = new EventSource(`${BASE_URL}/connect?token=${acc}`);
+    sseEvents.current = new EventSourcePolyfill(`${BASE_URL}/connect?token=${acc}`, {
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Access-Control-Allow-Origin': '*',
+      },
+      heartbeatTimeout: 86400000,
+    });
     // connection 되면
     sseEvents.current.addEventListener('open', (e) => {
       logOnDev.log('sse 연결됨');

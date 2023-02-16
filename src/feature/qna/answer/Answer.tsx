@@ -21,6 +21,7 @@ import { postFollow, putFollow } from '../../../apis/user/user';
 import { putAnswer, selectAnswer } from '../../../apis/answer/answer';
 import { isLoggedInState, toastState } from '../../../recoil';
 import elapsedTime from '../../../utils/elapsed-time';
+import isMobileState from '../../../recoil/isMobileState';
 
 const AnswerItem = styled.li`
   position: relative;
@@ -28,7 +29,7 @@ const AnswerItem = styled.li`
   flex-direction: column;
   justify-content: start;
   width: 100%;
-  background-color: ${({ theme: { isDark } }) => (isDark ? 'rgba(46, 52, 64, 1)' : '#f7f8ff')};
+  background-color: ${({ theme: { isDark } }) => (isDark ? 'rgba(46, 52, 64, 1)' : '#fcfcfc')};
   border: ${({ theme: { isDark } }) =>
     isDark ? 'rgb(46, 52, 64)' : '1px solid var(--colors-brand-200)'};
   border-radius: var(--borders-radius-base);
@@ -42,7 +43,7 @@ const UpperWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   background-color: ${({ theme: { isDark } }) =>
-    isDark ? 'rgba(36, 42, 54, 1)' : 'var(--colors-brand-200)'};
+    isDark ? 'rgba(36, 42, 54, 1)' : 'var(--colors-brand-100)'};
   height: 100%;
   padding: 1rem;
 
@@ -160,8 +161,7 @@ const TextAreaFocus = css`
 
 const AnswerForm = styled.textarea<{ isEdit: boolean }>`
   width: 100%;
-  background-color: ${({ theme: { isDark } }) =>
-    isDark ? 'rgb(46, 52, 64)' : 'rgb(247, 248, 255)'};
+  background-color: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : '#fcfcfc')};
   color: ${({ theme: { textColor } }) => textColor};
   resize: none;
   border-radius: 0.5rem;
@@ -205,6 +205,7 @@ const Answer = ({
   const isAuthor = useIsMe(questionAuthorId);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const isLogin = useRecoilValue(isLoggedInState);
+  const isMobile = useRecoilValue(isMobileState);
   const setToast = useSetRecoilState(toastState);
   const [isEdit, setIsEdit] = useState(false);
   const [answerInput, setAnswerInput] = useState(() => answer.content);
@@ -378,6 +379,7 @@ const Answer = ({
           (isMe && <TbEdit className="edit" onClick={() => setIsEdit((prev) => !prev)} />)}
         <AuthorWrapper
           onClick={() => {
+            if (isMobile) return;
             navigate(`/profile/${answer.author.userName}`);
           }}
         >

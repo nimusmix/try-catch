@@ -148,17 +148,9 @@ const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
   return (
     <ItemWrapper>
       {roadmap.author.profileImage ? (
-        <Img
-          src={roadmap.author.profileImage}
-          alt={roadmap.author.userName}
-          onClick={goToProfile}
-        />
+        <Img src={roadmap.author.profileImage} alt={roadmap.author.userName} />
       ) : (
-        <Img
-          src={new URL(`/src/assets/favicon.ico`, import.meta.url).href}
-          alt="d"
-          onClick={goToProfile}
-        />
+        <Img src={new URL(`/src/assets/favicon.ico`, import.meta.url).href} alt="d" />
       )}
 
       <InfoWrapper>
