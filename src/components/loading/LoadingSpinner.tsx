@@ -15,9 +15,7 @@ const LoadingSpinner = () => {
   const isDark = useRecoilValue(isDarkState);
   return (
     <Wrapper>
-      <Spinner
-        style={{ background: isDark ? 'var(--colors-black-500)' : 'var(--colors-white-500)' }}
-      />
+      <Spinner style={{ background: 'transparent' }} />
     </Wrapper>
   );
 };
