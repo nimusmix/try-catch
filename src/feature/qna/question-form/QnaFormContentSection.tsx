@@ -78,7 +78,9 @@ const QnaFormContentSection = ({
     <Wrapper>
       <MiniTitle sizeType="xl" textAlign="left" display="inline-flex">
         질문 내용 <Required>*</Required>
-        <span className="alert">(코드박스는 (Ctrl + Enter)로 벗어날 수 있습니다.)</span>
+        <span className="alert">
+          (코드박스는 <mark>Ctrl + Enter</mark>로 벗어날 수 있습니다.)
+        </span>
       </MiniTitle>
       <MilkdownEditor
         width="100%"

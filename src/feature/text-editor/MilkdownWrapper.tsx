@@ -10,7 +10,7 @@ const MilkDownWrapper = styled.div<{
   .milkdown-menu-wrapper {
     width: 100%;
     border: ${({ theme: { isDark } }) =>
-      isDark ? '1px var(--colors-black-100) solid' : '1px solid var(--colors-brand-200)'};
+      isDark ? '1px var(--colors-black-100) solid' : '1px solid var(--colors-brand-100)'};
     border-radius: var(--borders-radius-lg);
 
     .milkdown-menu {
@@ -20,13 +20,13 @@ const MilkDownWrapper = styled.div<{
     .milkdown-menu,
     .menu-selector-list {
       background-color: ${({ theme: { isDark } }) =>
-        isDark ? 'rgba(36, 42, 54, 1)' : 'var(--colors-brand-200)'};
+        isDark ? 'rgba(36, 42, 54, 1)' : 'var(--colors-brand-100)'};
       border: ${({ theme: { isDark } }) =>
-        isDark ? 'rgb(46, 52, 64)' : '1px solid var(--colors-brand-200)'};
+        isDark ? 'rgb(46, 52, 64)' : '1px solid var(--colors-brand-100)'};
 
       .button {
         background-color: ${({ theme: { isDark } }) =>
-          isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-200)'};
+          isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-100)'};
         border-radius: 4px;
 
         span {
@@ -35,7 +35,7 @@ const MilkDownWrapper = styled.div<{
 
         &:hover {
           background-color: ${({ theme: { isDark } }) =>
-            isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-100)'};
+            isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-200)'};
           span {
             color: ${({ theme: { isDark } }) =>
               isDark ? 'var(--colors-brand-500)' : 'var(--colors-brand-500)'};
@@ -45,25 +45,25 @@ const MilkDownWrapper = styled.div<{
     }
 
     .milkdown {
-      background-color: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : '#f7f8ff')};
+      background-color: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : '#fcfcfc')};
       color: ${({ theme: { textColor } }) => textColor};
 
       box-shadow: none;
       border-radius: 0 0 0.5rem 0.5rem;
       border-bottom: 1px solid
         ${({ theme: { isDark } }) =>
-          isDark ? 'var(--colors-black-100)' : 'var(--colors-brand-200)'};
+          isDark ? 'var(--colors-black-100)' : 'var(--colors-brand-100)'};
       border-left: 1px solid
         ${({ theme: { isDark } }) =>
-          isDark ? 'var(--colors-black-100)' : 'var(--colors-brand-200)'};
+          isDark ? 'var(--colors-black-100)' : 'var(--colors-brand-100)'};
       border-right: 1px solid
         ${({ theme: { isDark } }) =>
-          isDark ? 'var(--colors-black-100)' : 'var(--colors-brand-200)'};
+          isDark ? 'var(--colors-black-100)' : 'var(--colors-brand-100)'};
 
       .ProseMirror-selectednode {
         padding: 0.5rem;
         outline: ${({ theme: { isDark } }) =>
-          isDark ? 'rgb(46, 52, 64)' : '1px solid var(--colors-brand-200)'};
+          isDark ? 'rgb(46, 52, 64)' : '1px solid var(--colors-brand-100)'};
         border-radius: 0.5rem;
       }
     }
@@ -71,7 +71,7 @@ const MilkDownWrapper = styled.div<{
 
   .milkdown-hdnsow.tooltip {
     background-color: ${({ theme: { isDark } }) =>
-      isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-200)'};
+      isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-100)'};
     border: none;
 
     .icon.active {
@@ -83,7 +83,7 @@ const MilkDownWrapper = styled.div<{
     }
 
     &:after {
-      background: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : '#c7d4e8')};
+      background: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : '#fcfcfc')};
     }
   }
 
@@ -99,7 +99,7 @@ const MilkDownWrapper = styled.div<{
   .milkdown-emoji-filter {
     min-height: 15rem;
     background-color: ${({ theme: { isDark } }) =>
-      isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-200)'};
+      isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-100)'};
 
     .slash-dropdown-item span {
       color: ${({ theme: { textColor } }) => textColor};
@@ -113,8 +113,8 @@ const MilkDownWrapper = styled.div<{
 
   .code-fence_selector-list {
     background-color: ${({ theme: { isDark } }) =>
-      isDark ? 'rgb(46, 52, 64) !important;' : 'var(--colors-brand-200) !important;'};
-    border: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-200)')};
+      isDark ? 'rgb(46, 52, 64) !important;' : 'var(--colors-brand-100) !important;'};
+    border: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-100)')};
   }
 
   .code-fence_selector-list-item {
@@ -128,8 +128,8 @@ const MilkDownWrapper = styled.div<{
 
   .block-menu {
     background: ${({ theme: { isDark } }) =>
-      isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-200)'};
-    border: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-200)')};
+      isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-100)'};
+    border: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-100)')};
 
     .block-menu-item span {
       color: ${({ theme: { textColor } }) => textColor};
@@ -152,19 +152,22 @@ const MilkDownWrapper = styled.div<{
   }
 
   .milkdown .editor .code-fence pre {
-    background-color: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : '#dae1f3')};
+    background-color: ${({ theme: { isDark } }) =>
+      isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-100)'};
     color: ${({ theme: { textColor } }) => textColor};
   }
   .code-fence {
     & > pre > code > div {
-      background-color: ${({ theme: { isDark } }) => (isDark ? 'rgb(37, 41, 50)' : '#dae1f3')};
+      background-color: ${({ theme: { isDark } }) =>
+        isDark ? 'rgb(37, 41, 50)' : 'var(--colors-brand-100)'};
     }
-    background-color: ${({ theme: { isDark } }) => (isDark ? 'rgb(37, 41, 50)' : '#dae1f3')};
+    background-color: ${({ theme: { isDark } }) =>
+      isDark ? 'rgb(37, 41, 50)' : 'var(--colors-brand-100)'};
 
     .code-fence_selector {
       overflow: hidden;
       background-color: ${({ theme: { isDark } }) =>
-        isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-200)'};
+        isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-100)'};
       border: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : 'none')};
 
       .icon {
@@ -189,7 +192,7 @@ const MilkDownWrapper = styled.div<{
 
   .image-container {
     background-color: ${({ theme: { isDark } }) =>
-      isDark ? 'rgb(37,41,50)' : '#dae1f3'} !important;
+      isDark ? 'rgb(37,41,50)' : 'var(--colors-brand-100)'} !important;
     & > span.placeholder:before {
       content: '이미지 추가';
       color: ${({ theme: { textColor } }) => textColor};

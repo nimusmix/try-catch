@@ -52,7 +52,8 @@ const MiniTitle = styled.h3<IMiniTitleProps>`
   }
   
   .alert{
-    color ${({ theme: { textColor100 } }) => textColor100}
+    color ${({ theme: { textColor100 } }) => textColor100};
+    font-size: 1rem;
   }
 
   ${({ sizeType }) => sizeType && sizeList[sizeType]}
