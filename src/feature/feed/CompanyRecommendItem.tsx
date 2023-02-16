@@ -68,7 +68,7 @@ const CompanyRecommendItem = ({ companyId, logoSrc, companyName, isFollowed }: I
       },
       onSuccess: () => {
         queryClient.invalidateQueries(['companyRecommendList']);
-        window.location.replace('/');
+        queryClient.invalidateQueries('feed');
       },
     }
   );
@@ -80,6 +80,7 @@ const CompanyRecommendItem = ({ companyId, logoSrc, companyName, isFollowed }: I
       onMutate: () => updateSubscribe('cancel'),
       onSuccess: () => {
         queryClient.invalidateQueries(['companyRecommendList']);
+        queryClient.invalidateQueries('feed');
       },
     }
   );
