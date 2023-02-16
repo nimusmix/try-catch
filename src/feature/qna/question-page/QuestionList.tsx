@@ -143,7 +143,7 @@ const QuestionList = ({
               {page.data.map((questionItem) => {
                 return (
                   <li key={questionItem.questionId}>
-                    <QuestionItem {...questionItem} setTop={setTop} />
+                    <QuestionItem {...questionItem} />
                   </li>
                 );
               })}
