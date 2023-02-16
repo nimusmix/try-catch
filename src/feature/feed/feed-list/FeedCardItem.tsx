@@ -194,7 +194,14 @@ const FeedCardItem = ({
             style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
             onClick={onClickCompanyHandler}
           >
-            <img src={logoSrc} alt={companyName} />
+            <img
+              src={
+                logoSrc !== 'http://www.cntechcorp.co.kr/favicon.ico'
+                  ? logoSrc
+                  : 'https://raw.githubusercontent.com/trycatch-ssafy/logo/main/cntech-systems.png'
+              }
+              alt={companyName}
+            />
             <MiniTitle
               sizeType="xl"
               textAlign="left"
