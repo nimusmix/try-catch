@@ -24,7 +24,7 @@ const FollowingPage = () => {
       enabled: !!userId,
       onSuccess: () => {
         queryClient.invalidateQueries(['myFollowingList', 'userId', userName]);
-        queryClient.invalidateQueries(['userDetail', userName]);
+        queryClient.invalidateQueries(['profileBio', userName]);
       },
     }
   );
