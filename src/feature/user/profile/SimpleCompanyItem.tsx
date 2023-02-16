@@ -42,8 +42,14 @@ const SimpleCompanyItem = ({ companyId, companyName, isSubscribe, logoSrc }: ISu
       },
     }
   );
-  const { mutate: unsubscribe } = useMutation(['put', 'subscribe', companyName], () =>
-    puttSubscribe(companyId)
+  const { mutate: unsubscribe } = useMutation(
+    ['put', 'subscribe', companyName],
+    () => puttSubscribe(companyId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('userDetail');
+      },
+    }
   );
 
   const subscribeBtnHandler = () => {
