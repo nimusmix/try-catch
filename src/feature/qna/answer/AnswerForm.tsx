@@ -67,7 +67,7 @@ const AnswerForm = ({ questionId }: { questionId: string }) => {
     {
       onSuccess: (data) => {
         window.scrollTo({
-          top: document.body.scrollHeight - 1200,
+          top: document.body.scrollHeight,
           behavior: 'smooth',
         });
         queryClient.invalidateQueries(['question', questionId]);

@@ -3,6 +3,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useNavigate } from 'react-router-dom';
+import { Dispatch } from 'react';
 import {
   IconCheckCircle,
   IconComment,
@@ -159,8 +160,9 @@ const QuestionItem = ({
   tags = [],
   isSolved,
   isLiked,
+  setTop,
   ...rest
-}: Partial<IQuestion>) => {
+}: Partial<IQuestion> & { setTop: Dispatch<number> }) => {
   const isDark = useRecoilValue(isDarkState);
   const setKeyword = useSetRecoilState(qnaSearchKeywordState);
   const navigate = useNavigate();
@@ -168,6 +170,7 @@ const QuestionItem = ({
   return (
     <Wrapper
       onClick={() => {
+        setTop(window.scrollY);
         navigate(`/question/${rest.questionId}`);
       }}
     >
