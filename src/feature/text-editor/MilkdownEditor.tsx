@@ -33,10 +33,10 @@ import { IQuestion } from '../../interface/qna';
 import { getQuestionDetail } from '../../apis/qna/qna';
 import { postImage } from '../../apis/upload/upload';
 
-const uploader: Uploader = async (files, schema) => {
+const uploader: Uploader = async (files: any, schema: any) => {
   const images: File[] = [];
 
-  for (let i = 0; i < files.length; i++) {
+  for (let i = 0; i < files.length; i += 1) {
     const file = files.item(i);
     if (!file) {
       // eslint-disable-next-line no-continue
