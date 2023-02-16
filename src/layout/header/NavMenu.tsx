@@ -1,11 +1,14 @@
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import {
   CHALLENGES_PAGE_NAME,
   FEED_PAGE_NAME,
   QNA_PAGE_NAME,
   ROADMAP_PAGE_NAME,
 } from '../../constant';
+import isMobileState from '../../recoil/isMobileState';
+import { media } from '../../utils/media';
 
 const NavList = [
   {
@@ -52,16 +55,36 @@ export const Ul = styled.ul`
   display: flex;
   height: 100%;
   margin-left: 1.5rem;
+
+  ${media.phone`
+    li:nth-child(3),li:nth-child(4){
+      display: none;
+    }
+  `}
 `;
 
 const NavMenu = () => {
+  const isMobile = useRecoilValue(isMobileState);
   return (
     <Ul>
-      {NavList.map((item) => (
-        <li key={item.title}>
-          <NavItem to={item.link}>{item.title}</NavItem>
-        </li>
-      ))}
+      {/* eslint-disable-next-line array-callback-return,consistent-return */}
+      {NavList.map((item) => {
+        if (isMobile) {
+          if (item.title === 'Q&A' || item.title === '피드') {
+            return (
+              <li key={item.title}>
+                <NavItem to={item.link}>{item.title}</NavItem>
+              </li>
+            );
+          }
+        } else {
+          return (
+            <li key={item.title}>
+              <NavItem to={item.link}>{item.title}</NavItem>
+            </li>
+          );
+        }
+      })}
     </Ul>
   );
 };

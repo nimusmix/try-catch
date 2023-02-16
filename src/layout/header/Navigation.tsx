@@ -6,6 +6,9 @@ import { ReactComponent as LogoLightTheme } from '../../assets/horizontal_logo_l
 import { isDarkState, isLoggedInState, isSystemThemeState } from '../../recoil';
 import { Header, MemberNavMenu, NavMenu, NonMemberNavMenu } from '../index';
 import ThemeButton from './ThemeButton';
+import { media } from '../../utils/media';
+import useWindowSize from '../../hooks/useWindowSize';
+import isMobileState from '../../recoil/isMobileState';
 
 const Logo = styled.div`
   display: flex;
@@ -17,10 +20,18 @@ const Logo = styled.div`
   & > a {
     padding-left: 2rem;
   }
+
+  ${media.phone`
+     width : auto;
+     padding-left: 1rem;
+     & > a {
+      padding-left: 0;
+     }
+  `}
 `;
 
 const Nav = styled.nav`
-  padding: 0 3rem 0 1rem;
+  padding: 0 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -42,6 +53,8 @@ const ThemeButtonWrapper = styled.div`
 const Navigation = () => {
   const [isDark, setIsDark] = useRecoilState(isDarkState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [width] = useWindowSize();
+  const isMobile = useRecoilValue(isMobileState);
 
   /** 테마: 시스템 설정 */
   const [isSystemTheme, setSystemTheme] = useRecoilState(isSystemThemeState);
@@ -64,12 +77,25 @@ const Navigation = () => {
     <Header>
       <Nav>
         <NavWrapper>
-          <Logo>
-            <NavLink to="/">
-              {isDark && <LogoDarkTheme width="100%" height="60" />}
-              {isDark || <LogoLightTheme width="100%" height="60" />}
-            </NavLink>
-          </Logo>
+          {isMobile && width < 601 && (
+            <Logo>
+              <NavLink to="/">
+                <img
+                  src={new URL(`/src/assets/favicon.ico`, import.meta.url).href}
+                  alt="logo"
+                  width="20"
+                />
+              </NavLink>
+            </Logo>
+          )}
+          {isMobile || (
+            <Logo>
+              <NavLink to="/">
+                {isDark && <LogoDarkTheme width="100%" height="60" />}
+                {isDark || <LogoLightTheme width="100%" height="60" />}
+              </NavLink>
+            </Logo>
+          )}
           <NavMenu />
         </NavWrapper>
         {isLoggedIn && (

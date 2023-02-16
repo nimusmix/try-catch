@@ -44,13 +44,15 @@ const GlobalStyles = createGlobalStyle`
     height: 3px;
   }
 
-  #notice-list::-webkit-scrollbar{
+  #notice-list::-webkit-scrollbar,
+  textarea::-webkit-scrollbar{
     width: 6px;
     height: 6px;
   }
 
   #notice-list::-webkit-scrollbar-thumb,
-  body::-webkit-scrollbar-thumb {
+  body::-webkit-scrollbar-thumb,
+  textarea::-webkit-scrollbar-thumb{
     height: 30%; /* 스크롤바의 길이 */
     background: var(--colors-brand-500); /* 스크롤바의 색상 */
 

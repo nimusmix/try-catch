@@ -7,6 +7,7 @@ import { darkTheme, lightTheme } from '../styles/theme';
 import { isDarkState } from '../recoil';
 import AnimationLoader from '../components/animation/AnimationLoader';
 import animationData from '../assets/lottie/cat-ch-404.json';
+import Navigation from './header/Navigation';
 
 const Main = styled.main`
   position: relative;
@@ -52,6 +53,7 @@ const MobileAlert = () => {
 
   return (
     <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+      <Navigation />
       <Main>
         <Backdrop />
         <AnimationLoader animationData={animationData} autoplay loop />
@@ -61,9 +63,14 @@ const MobileAlert = () => {
         </Header>
         <SubTitle margin="2rem 0">죄송합니다.</SubTitle>
         <H3>
-          모바일 뷰는 준비 중이에요.😥
+          모바일 뷰는 준비 중입니다.😥
           <br />
-          트라이캐치는 아직 데스크탑뷰만 지원해요.
+          트라이캐치는 아직 데스크탑뷰에 최적화 되어있습니다.
+        </H3>
+        <H3>
+          모바일으로는 Q&A와 피드 조회만 가능합니다.
+          <br />
+          불편을 드려서 죄송합니다.
         </H3>
       </Main>
     </ThemeProvider>

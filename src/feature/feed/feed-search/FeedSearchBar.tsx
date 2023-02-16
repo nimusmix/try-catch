@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { IconSearch } from '../../../components/icons/Icons';
 import { Input } from '../../../components';
 import { isDarkState } from '../../../recoil';
+import { media } from '../../../utils/media';
 
 interface ISearchValue {
   keyword: string;
@@ -24,7 +25,7 @@ const SearchIcon = styled.button`
 `;
 
 const StyledSearchBar = styled.div<{ isFocus: boolean }>`
-  width: 17.75rem;
+  /* width: 17.75rem; */
   height: 2.5rem;
   border-width: 0.0625rem;
   border-color: ${({ theme: { borderColor } }) => borderColor};
@@ -56,6 +57,11 @@ const StyledSearchBar = styled.div<{ isFocus: boolean }>`
   input:-webkit-autofill:active {
     transition: background-color 5000s ease-in-out 0s;
   }
+
+  ${media.phone`
+      min-width: unset;
+      width: 100%;
+    `}
 `;
 
 const FeedSearchInput = styled(Input)`
@@ -91,7 +97,7 @@ const FeedSearchBar = () => {
           />
         </SearchIcon>
         <FeedSearchInput
-          width="15.7rem"
+          width="cal(100%)"
           height="2.25rem"
           borderRadius="0.375rem"
           border="none"
