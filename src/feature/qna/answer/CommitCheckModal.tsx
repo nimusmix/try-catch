@@ -46,6 +46,11 @@ export const StyledInput = styled(Input)`
   border-radius: 0;
   margin-top: 1rem;
   margin-right: 1rem;
+  background-color: transparent;
+`;
+
+const SubText = styled(Paragraph)`
+  color: ${({ theme }) => theme.textColor100};
 `;
 
 const CommitCheckModal = ({ questionId, answerId }: { questionId: number; answerId: number }) => {
@@ -116,6 +121,7 @@ const CommitCheckModal = ({ questionId, answerId }: { questionId: number; answer
             </Paragraph>
           </div>
           <MiniTitle sizeType="xl">레포지토리의 이름을 입력해주세요.</MiniTitle>
+          <SubText sizeType="sm">존재하지 않는 레포지토리일 경우 자동으로 생성됩니다.</SubText>
           <StyledInput onChange={inputChange} />
           <Button onClick={clickSaveBtn} margin="1.5rem 0 0 0">
             저장
