@@ -25,10 +25,45 @@ import { prismPlugin } from '@milkdown/plugin-prism';
 import { refractor } from 'refractor/lib/common';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
+import { upload, uploadPlugin } from '@milkdown/plugin-upload';
 import MilkDownWrapper from './MilkdownWrapper';
 import { useQuestionDispatch } from '../../context/QnaContext';
 import { IQuestion } from '../../interface/qna';
 import { getQuestionDetail } from '../../apis/qna/qna';
+import { postImage } from '../../apis/upload/upload';
+
+const uploader: any = async (files: any, schema: any) => {
+  const images: File[] = [];
+
+  for (let i = 0; i < files.length; i += 1) {
+    const file = files.item(i);
+    if (!file) {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+
+    // You can handle whatever the file type you want, we handle image here.
+    if (!file.type.includes('image')) {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+
+    images.push(file);
+  }
+
+  const nodes: Node[] = await Promise.all(
+    images.map(async (image) => {
+      const url = await postImage(image);
+      const alt = image.name;
+      return schema.nodes.image.createAndFill({
+        url,
+        alt,
+      }) as unknown as Node;
+    })
+  );
+
+  return nodes;
+};
 
 const MilkdownEditor = (
   {
@@ -48,6 +83,7 @@ const MilkdownEditor = (
 ) => {
   const { questionId } = useParams();
   const dispatch = useQuestionDispatch();
+
   useQuery<IQuestion>(['question', questionId] as const, getQuestionDetail(Number(questionId)), {
     onSuccess: (q) => {
       dispatch({ type: 'SET_CATEGORY', category: q.category });
@@ -80,6 +116,11 @@ const MilkdownEditor = (
         .use(nord)
         .use(commonmark)
         .use(gfm)
+        .use(
+          upload.configure(uploadPlugin, {
+            uploader,
+          })
+        )
         .use(history)
         .use(
           slash.configure(slashPlugin, {
