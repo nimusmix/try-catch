@@ -1,29 +1,20 @@
-// import React from 'react';
-// import { Navigate, Outlet, useLocation } from "react-router-dom";
-//
-// const ProtectedRoute = ({
-//   redirectPath = '/',
-//   children,
-// }: {
-//   redirectPath: string;
-//   children: React.ReactNode;
-// }) => {
-//   // const token = 토큰얻어오기();
-//   const location = useLocation();
-//
-//   if (!token) {
-//     return <Navigate to={redirectPath} replace state={{ from: location }} />;
-//   }
-//
-//   return children || <Outlet />;
-// };
-//
-// export default ProtectedRoute;
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import getAccToken from '../utils/getAccToken';
 
-import React from 'react';
+interface IProtectedRouteProps {
+  redirectPath?: string;
+  children: React.ReactNode;
+}
 
-const ProtectedRoute = () => {
-  return <div />;
+const ProtectedRoute = ({ redirectPath = '/' }: IProtectedRouteProps) => {
+  const token = getAccToken();
+  const location = useLocation();
+
+  if (!token) {
+    return <Navigate to={redirectPath} replace state={{ from: location }} />;
+  }
+
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

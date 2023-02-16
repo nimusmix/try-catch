@@ -36,6 +36,7 @@ import {
 } from './pages';
 import { Bookmark, Challenges, Error, Feed, Profile, QnA, Roadmap, Settings } from './routes';
 import ScrollToTop from './components/scroll-to-top/ScrollToTop';
+import ProtectedRoute from './routes/ProtectedRoute';
 
 const router = createBrowserRouter([
   {
@@ -67,11 +68,19 @@ const router = createBrowserRouter([
           },
           {
             path: 'form',
-            element: <QnaFormPage />,
+            element: (
+              <ProtectedRoute redirectPath={`/${QNA_PAGE_NAME}`}>
+                <QnaFormPage />
+              </ProtectedRoute>
+            ),
           },
           {
             path: 'form/:questionId',
-            element: <QnaFormPage edit />,
+            element: (
+              <ProtectedRoute redirectPath={`/${QNA_PAGE_NAME}`}>
+                <QnaFormPage edit />
+              </ProtectedRoute>
+            ),
           },
           {
             path: ':questionId',
@@ -117,7 +126,11 @@ const router = createBrowserRouter([
           },
           {
             path: 'form',
-            element: <RoadmapFormPage />,
+            element: (
+              <ProtectedRoute redirectPath={`/${ROADMAP_PAGE_NAME}`}>
+                <RoadmapFormPage />
+              </ProtectedRoute>
+            ),
           },
           {
             path: 'list',
@@ -125,7 +138,11 @@ const router = createBrowserRouter([
           },
           {
             path: 'edit',
-            element: <RoadmapEditPage />,
+            element: (
+              <ProtectedRoute redirectPath={`/${ROADMAP_PAGE_NAME}`}>
+                <RoadmapEditPage />
+              </ProtectedRoute>
+            ),
           },
           {
             path: ':userName',
@@ -169,7 +186,11 @@ const router = createBrowserRouter([
           },
           {
             path: 'edit',
-            element: <ProfileEditPage />,
+            element: (
+              <ProtectedRoute redirectPath="/">
+                <ProfileEditPage />
+              </ProtectedRoute>
+            ),
           },
         ],
       },

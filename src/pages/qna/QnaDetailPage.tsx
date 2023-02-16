@@ -23,7 +23,7 @@ const QnaDetailWrapper = styled.section`
   ${media.phone`
     max-width: unset;
     min-width: unset;
-    width: var(--breakpoints-mobile);
+    width: 100%;
     flex-direction: column;
   `}
 `;
@@ -44,6 +44,14 @@ const Aside = styled.aside`
   position: sticky;
   top: 7rem;
   height: 500px;
+  ${media.phone`
+  background-color: ${({ theme: { isDark } }: any) =>
+    isDark ? 'var(--colors-brand-100)' : 'var(--colors-brand-100)'};
+    position: static;
+    padding: 1rem 1rem 0 1rem;
+    top: unset;
+    height: unset;
+  `}
 `;
 
 const QnaDetailPage = () => {
