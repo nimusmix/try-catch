@@ -65,7 +65,7 @@ const RoadmapMain = () => {
           </Button>
         </div>
         <Button borderRadius="var(--borders-radius-lg)" onClick={createdRoadmapHandler}>
-          내 로드맵
+          {haveRoadmap ? '로드맵 수정' : '로드맵 생성'}
         </Button>
       </ButtonWrapper>
       {activeBE ? <BERoadmap /> : <FERoadmap />}

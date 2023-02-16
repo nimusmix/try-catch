@@ -50,6 +50,7 @@ export const StyledInput = styled(Input)`
 `;
 
 const SubText = styled(Paragraph)`
+  margin-top: 0.25rem;
   color: ${({ theme }) => theme.textColor100};
 `;
 
