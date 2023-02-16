@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { IBookmarkRoadMap } from '../../interface/bookmark';
 import { Paragraph, MiniTitle, Button, Card } from '../../components';
 import { IconLikeEmpty } from '../../components/icons/Icons';
@@ -66,6 +67,13 @@ const BookmarkRoadmapItem = ({
   createdAt,
   updatedAt,
 }: Partial<IBookmarkRoadMap>) => {
+  const navigate = useNavigate();
+
+  const goToProfile = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    navigate(`/profile/${author?.userName}`);
+  };
+
   return (
     <ItemWrapper>
       {author?.profileImage ? (
@@ -75,7 +83,7 @@ const BookmarkRoadmapItem = ({
       )}
 
       <InfoWrapper>
-        <Paragraph sizeType="lg" fontWeight="500">
+        <Paragraph sizeType="lg" fontWeight="500" onClick={goToProfile}>
           {author?.userName}
         </Paragraph>
 

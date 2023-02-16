@@ -7,6 +7,7 @@ import { QuestionItem } from '../index';
 import question from '../Question';
 import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
 import QuestionNoContent from './QuestionNoContent';
+import QnaPageTopState from '../../../recoil/qnaPageTopState';
 
 const QuestionList = ({
   filter,
@@ -15,6 +16,7 @@ const QuestionList = ({
   filter: string;
   setIsLoading: Dispatch<boolean>;
 }) => {
+  const [top, setTop] = useRecoilState(QnaPageTopState);
   const [activeCategory, setActiveCategory] = useRecoilState<string>(qnaCategoryState);
   const keyword = useRecoilValue(qnaSearchKeywordState);
 
@@ -22,15 +24,11 @@ const QuestionList = ({
   const scrollToTop = () => {
     setTimeout(() => {
       window.scrollTo({
-        top: 180,
+        top,
         behavior: 'smooth', // for smoothly scrolling
       });
     }, 100);
   };
-
-  useEffect(() => {
-    scrollToTop();
-  }, [keyword, activeCategory, filter]);
 
   // TODO 나중에 search 엔드포인트 변경되면 그때 바꾸면 됨
   const {
@@ -101,11 +99,16 @@ const QuestionList = ({
             pageParams: data.pageParams,
           };
         }
-        console.log(filteredData);
         return { ...filteredData };
       },
     }
   );
+
+  useEffect(() => {
+    scrollToTop();
+    setTop(180);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [keyword, activeCategory, filter]);
 
   useEffect(() => {
     setIsLoading(isLoading);
@@ -128,7 +131,7 @@ const QuestionList = ({
       {questionList?.pages.reduce((acc, page) => acc + page.data.length, 0) === 0 && (
         <QuestionNoContent />
       )}
-      <ul>
+      <ul className="question-list">
         {questionList?.pages?.map((page, index) => {
           return (
             // eslint-disable-next-line react/no-array-index-key

@@ -71,7 +71,7 @@ const QnaFormTitleSection = ({ dispatch }: { dispatch: QuestionDispatch }) => {
     if (isTitleFocus) {
       setMessageTrigger(true);
     }
-    if (title.length > 10) {
+    if (title.trim().length > 10) {
       setMessageTrigger(false);
     }
   }, [isTitleFocus, title.length]);
@@ -95,9 +95,9 @@ const QnaFormTitleSection = ({ dispatch }: { dispatch: QuestionDispatch }) => {
       />
       <div className="message">
         <span className="validation-message">
-          {messageTrigger && title.length < 10 ? '제목은 최소 10자 이상이어야 합니다.' : ''}
+          {messageTrigger && title.trim().length < 10 ? '제목은 최소 10자 이상이어야 합니다.' : ''}
         </span>
-        <span className="title-size">({title.length}/100)</span>
+        <span className="title-size">({title.trim().length}/100)</span>
       </div>
       <Input
         placeholder="제목을 입력해 주세요"

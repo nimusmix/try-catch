@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Button, Checkbox, Paragraph } from '../../components';
+import { Button, Checkbox, Paragraph } from '../../../components';
 import FeedSearchBar from './FeedSearchBar';
-import FeedTag from './FeedTag';
-import { IconRefresh } from '../../components/icons/Icons';
+import FeedTag from '../FeedTag';
+import { IconRefresh } from '../../../components/icons/Icons';
+import { media } from '../../../utils/media';
 
 const searchFilterList = [
   {
@@ -46,6 +47,12 @@ interface FeedSearchProps {
   keyword: string;
 }
 
+const FeedRecommendTags = styled.div`
+  ${media.phone`
+      display: none;
+    `}
+`;
+
 export const FeedSearchWrapper = styled.div`
   border-radius: var(--borders-radius-xl);
   box-sizing: border-box;
@@ -81,7 +88,7 @@ const ToolTip = styled.div`
     text-align: center;
     position: absolute;
     z-index: 1;
-    left: 50%;
+    left: 10%;
     transform: translateX(-50%);
 
     top: -40px;
@@ -100,9 +107,31 @@ const ToolTip = styled.div`
       font-style: normal;
     }
   }
-  &.tooltip:hover .tooltip-content {
-    visibility: visible;
-    opacity: 1;
+  @media (hover: hover) and (pointer: fine) {
+    /* when supported */
+    &.tooltip:hover .tooltip-content {
+      visibility: visible;
+      opacity: 1;
+    }
+    ${media.phone`
+    &.tooltip:hover .tooltip-content {
+      visibility: hidden;
+      opacity: 1;
+    }
+    `}
+  }
+`;
+
+const KeyWordWrapper = styled(Paragraph)`
+  span {
+    display: -webkit-box;
+    max-width: 190px;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
   }
 `;
 
@@ -142,7 +171,11 @@ const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps
           </Button>
         )}
         <CheckboxWrapper key={searchFilterList[0].id}>
-          <FilterTitle sizeType="sm" padding="0 0.5rem" id={`${searchFilterList[0].filterName}`}>
+          <FilterTitle
+            sizeType="sm"
+            padding="0 0.4rem 0 0rem"
+            id={`${searchFilterList[0].filterName}`}
+          >
             {searchFilterList[0].filterName}
           </FilterTitle>
           <Checkbox
@@ -153,7 +186,7 @@ const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps
         </CheckboxWrapper>
         <ToolTip className="tooltip">
           <CheckboxWrapper key={searchFilterList[1].id}>
-            <FilterTitle sizeType="sm" padding="0 0.5rem" id={`${searchFilterList[1].filterName}`}>
+            <FilterTitle sizeType="sm" padding="0 0.4rem" id={`${searchFilterList[1].filterName}`}>
               {searchFilterList[1].filterName}
             </FilterTitle>
             <Checkbox
@@ -187,28 +220,30 @@ const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps
           <Paragraph sizeType="sm" margin="auto 0.5rem auto 0">
             검색 키워드:{'  '}
           </Paragraph>
-          <Paragraph sizeType="base">
+          <KeyWordWrapper sizeType="base">
             <Button
               as="span"
               designType="grayFill"
               fontSize="var(--fonts-body-sm)"
               padding="0 0.5rem"
               borderRadius="var(--borders-radius-base)"
-              style={{ fontWeight: '500', margin: '0px' }}
+              style={{
+                fontWeight: '500',
+                margin: '0px',
+              }}
             >
               {keyword}
             </Button>
-          </Paragraph>
+          </KeyWordWrapper>
         </div>
       )}
-
-      <Hr />
-      <div>
+      <FeedRecommendTags>
+        <Hr />
         <Paragraph sizeType="base" padding="0" margin="0 0 15px 0" style={{ fontWeight: '500' }}>
           추천 태그 🏷️
         </Paragraph>
         <FeedTag tags={tagListProps} />
-      </div>
+      </FeedRecommendTags>
     </FeedSearchWrapper>
   );
 };

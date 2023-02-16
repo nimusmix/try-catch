@@ -17,7 +17,7 @@ const sizeList = {
     font-size: var(--fonts-desktop-heading-2xl);
     line-height: var(--lineHights-desktop-heading-2xl);
 
-    @media (max-width: 768px) {
+    @media (max-width: 600px) {
       font-size: var(--fonts-mobile-heading-xl);
       line-height: var(--lineHights-mobile-heading-xl);
     }
@@ -27,7 +27,7 @@ const sizeList = {
     font-size: var(--fonts-desktop-heading-3xl);
     line-height: var(--lineHights-desktop-heading-3xl);
 
-    @media (max-width: 768px) {
+    @media (max-width: 600px) {
       font-size: var(--fonts-mobile-heading-2xl);
       line-height: var(--lineHights-mobile-heading-2xl);
     }
@@ -49,6 +49,10 @@ const MiniTitle = styled.h3<IMiniTitleProps>`
   
   .blue {
     color ${({ theme: { brandColor } }) => brandColor}
+  }
+  
+  .alert{
+    color ${({ theme: { textColor100 } }) => textColor100}
   }
 
   ${({ sizeType }) => sizeType && sizeList[sizeType]}

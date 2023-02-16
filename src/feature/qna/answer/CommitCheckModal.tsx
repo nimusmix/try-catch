@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Modal, MiniTitle, Button, Input, Paragraph } from '../../../components';
 import { toastState } from '../../../recoil';
 import isModalOpenedState from '../../../recoil/isModalOpenedState';
-import { answerCommit, postRepo } from '../../../apis/answer/answer';
+import { answerCommit, putRepo } from '../../../apis/answer/answer';
 
 const ModalBody = styled.div`
   display: flex;
@@ -32,7 +32,8 @@ const ModalBody = styled.div`
 `;
 
 const Highlight = styled.span`
-  background-color: var(--colors-brand-200);
+  background-color: ${({ theme }) =>
+    theme.isDark ? 'var(--colors-brand-500)' : 'var(--colors-brand-200)'};
   font-weight: 600;
 `;
 
@@ -45,6 +46,12 @@ export const StyledInput = styled(Input)`
   border-radius: 0;
   margin-top: 1rem;
   margin-right: 1rem;
+  background-color: transparent;
+`;
+
+const SubText = styled(Paragraph)`
+  margin-top: 0.25rem;
+  color: ${({ theme }) => theme.textColor100};
 `;
 
 const CommitCheckModal = ({ questionId, answerId }: { questionId: number; answerId: number }) => {
@@ -70,9 +77,9 @@ const CommitCheckModal = ({ questionId, answerId }: { questionId: number; answer
     // 백에 알려주기
     const data = {
       repoName: '',
-      doCommit: false,
+      repoChecked: true,
     };
-    postRepo(data);
+    putRepo(data);
   };
 
   const clickSaveBtn = (e: React.MouseEvent) => {
@@ -81,9 +88,9 @@ const CommitCheckModal = ({ questionId, answerId }: { questionId: number; answer
     // 백에 알려주기
     const data = {
       repoName,
-      doCommit: true,
+      repoChecked: true,
     };
-    postRepo(data).then(() => answerCommit(questionId, answerId));
+    putRepo(data).then(() => answerCommit(questionId, answerId));
   };
 
   return (
@@ -115,6 +122,7 @@ const CommitCheckModal = ({ questionId, answerId }: { questionId: number; answer
             </Paragraph>
           </div>
           <MiniTitle sizeType="xl">레포지토리의 이름을 입력해주세요.</MiniTitle>
+          <SubText sizeType="sm">존재하지 않는 레포지토리일 경우 자동으로 생성됩니다.</SubText>
           <StyledInput onChange={inputChange} />
           <Button onClick={clickSaveBtn} margin="1.5rem 0 0 0">
             저장

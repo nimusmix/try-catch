@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useQuery } from 'react-query';
-import React from 'react';
+import React, { useState } from 'react';
 import { IconBookmarkFill, IconUserCircle } from '../../components/icons/Icons';
 import { BOOKMARK_PAGE_NAME } from '../../constant';
 import { Paragraph } from '../../components';
@@ -12,6 +12,7 @@ import { Ul } from './NavMenu';
 import NoticeBell from './NoticeBell';
 import getAccToken from '../../utils/getAccToken';
 import ThemeButton from './ThemeButton';
+import isMobileState from '../../recoil/isMobileState';
 
 const Bookmark = styled(NavLink)``;
 
@@ -83,7 +84,7 @@ export const DropLiContainer = styled.div`
   position: absolute;
   display: none;
 
-  ${Dropdown}:focus & {
+  &.active {
     display: block;
   }
 `;
@@ -97,10 +98,14 @@ const Line = styled.div`
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
   const acc = getAccToken();
+  const isMobile = useRecoilValue(isMobileState);
+
   const { data: profileImage } = useQuery(['user', 'profileImage'] as const, () => getImage(acc!));
   const { data: userName } = useQuery(['user', 'userName'] as const, getName, {
     enabled: !!profileImage,
   });
+
+  const [dropdownActive, setDropdownActive] = useState(false);
 
   const navi = useNavigate();
 
@@ -115,8 +120,6 @@ const MemberNavMenu = () => {
   };
 
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
-  // const setAccToken = useSetRecoilState(accToken);
-  // const setRefToken = useSetRecoilState(refToken);
   const logout = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsLoggedIn(false);
@@ -130,21 +133,29 @@ const MemberNavMenu = () => {
       <Li>
         <ThemeButton />
       </Li>
-      <Li>
-        <NoticeBell />
-      </Li>
-
-      <Li>
-        <Bookmark to={`/${BOOKMARK_PAGE_NAME}`}>
-          <IconBookmarkFill
-            color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-            size="24"
-          />
-        </Bookmark>
-      </Li>
+      {isMobile || (
+        <>
+          <Li>
+            <NoticeBell />
+          </Li>
+          <Li>
+            <Bookmark to={`/${BOOKMARK_PAGE_NAME}`}>
+              <IconBookmarkFill
+                color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
+                size="24"
+              />
+            </Bookmark>
+          </Li>
+        </>
+      )}
       <ProfileLi>
         <Dropdown>
-          <ProfileWrapper>
+          <ProfileWrapper
+            onClick={() => {
+              if (isMobile) return;
+              setDropdownActive((prev) => !prev);
+            }}
+          >
             {profileImage ? (
               <Img src={profileImage} />
             ) : (
@@ -155,15 +166,17 @@ const MemberNavMenu = () => {
                 />
               </span>
             )}
-            <Paragraph
-              as="span"
-              sizeType="base"
-              color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-            >
-              {userName}
-            </Paragraph>
+            {isMobile || (
+              <Paragraph
+                as="span"
+                sizeType="base"
+                color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
+              >
+                {userName}
+              </Paragraph>
+            )}
           </ProfileWrapper>
-          <DropLiContainer>
+          <DropLiContainer className={dropdownActive ? 'active' : ''}>
             <DropUl>
               <DropLi as="div" onClick={goToProfile}>
                 내 프로필

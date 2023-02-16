@@ -6,6 +6,7 @@ import CompanyProfileBio from '../../feature/user/profile/CompanyProfileBio';
 import { ICompany } from '../../interface/user';
 import { getCompanyId, getCompanyDetail } from '../../apis/profile/companyProfile';
 import CompanyFeedList from '../../feature/user/profile/CompanyFeedList';
+import LoadingSpinner from '../../components/loading/LoadingSpinner';
 
 const ProfileWrapper = styled.div`
   display: flex;
@@ -16,12 +17,20 @@ const ProfileWrapper = styled.div`
 
 const CompanyProfilePage = () => {
   const { companyName } = useParams();
-  const { data: id } = useQuery<number>(['companyId', companyName], () =>
+  const { data: id, isLoading: idLoading } = useQuery<number>(['companyId', companyName], () =>
     getCompanyId(companyName!)
   );
-  const { data: company } = useQuery<ICompany>(['companyDetail', id], () => getCompanyDetail(id!), {
-    enabled: !!id,
-  });
+  const { data: company, isLoading: contentLoading } = useQuery<ICompany>(
+    ['companyDetail', id],
+    () => getCompanyDetail(id!),
+    {
+      enabled: !!id,
+    }
+  );
+
+  if (idLoading || contentLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <Layout>

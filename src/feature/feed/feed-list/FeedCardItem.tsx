@@ -3,14 +3,15 @@ import styled from 'styled-components';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
-import { Card, MiniTitle } from '../../components';
-import { IconBookmarkEmpty, IconBookmarkFill } from '../../components/icons/Icons';
-import FeedTag from './FeedTag';
-import { isLoggedInState, toastState } from '../../recoil';
-import { postFeedRead } from '../../apis/feed/feed';
-import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
-import { COMPANY } from '../../constant/company';
-import { IFeedItemProps } from '../../interface/feed';
+import { Card, MiniTitle } from '../../../components';
+import { IconBookmarkEmpty, IconBookmarkFill } from '../../../components/icons/Icons';
+import FeedTag from '../FeedTag';
+import { isLoggedInState, toastState } from '../../../recoil';
+import { postFeedRead } from '../../../apis/feed/feed';
+import { postBookmark, putBookmark } from '../../../apis/bookmark/bookmark';
+import { COMPANY } from '../../../constant/company';
+import { IFeedItemProps } from '../../../interface/feed';
+import { media } from '../../../utils/media';
 
 const BookmarkButton = styled.button`
   display: flex;
@@ -36,6 +37,10 @@ const CardHeader = styled.div`
       isDark
         ? 'rgba(39, 110, 226, 0.2) 0px 0px 0px 2px, rgba(39, 110, 226, 0.3) 0px 4px 6px -1px, rgba(39, 110, 226, 0.08) 0px 1px 0px inset;'
         : 'rgba(0, 0, 0, 0.16) 0px 1px 4px'};
+  }
+  button:hover ${MiniTitle} {
+    color: var(--colors-brand-500);
+    transition: color 0.3s ease-in;
   }
 `;
 
@@ -104,6 +109,10 @@ const StyledCard = styled(Card)`
       transition: color 0.3s ease-in;
     } */
   }
+  ${media.phone`
+    min-width: unset;
+    width: 90%;
+  `}
 `;
 
 const FeedCardItem = ({
@@ -172,57 +181,55 @@ const FeedCardItem = ({
   }
 
   return (
-    <StyledCard
-      width="17.125rem"
-      as="a"
-      href={`${url}`}
-      target="_blank"
-      rel="noreferrer"
-      onClick={() => {
-        if (isLoggedIn) postFeedRead({ feedId: id });
-      }}
-    >
-      <CardHeader>
-        <button
-          type="button"
-          style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
-          onClick={onClickCompanyHandler}
-        >
-          <img src={logoSrc} alt={companyName} />
+    <a href={`${url}`} target="_blank" rel="noreferrer">
+      <StyledCard
+        width="274px"
+        onClick={() => {
+          if (isLoggedIn) postFeedRead({ feedId: id });
+        }}
+      >
+        <CardHeader>
+          <button
+            type="button"
+            style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+            onClick={onClickCompanyHandler}
+          >
+            <img src={logoSrc} alt={companyName} />
+            <MiniTitle
+              sizeType="xl"
+              textAlign="left"
+              margin="0 0 0 0.5rem"
+              style={{ fontSize: 'var(--fonts-body-base)' }}
+            >
+              {companyName}
+            </MiniTitle>
+          </button>
+          <BookmarkButton onClick={onClickBookmarkHandler}>
+            {/* 북마크 */}
+            {isBookmarked && <IconBookmarkFill size="22" color="var(--colors-brand-500)" />}
+            {isBookmarked || <IconBookmarkEmpty size="22" color="var(--colors-brand-500)" />}
+          </BookmarkButton>
+        </CardHeader>
+
+        <FeedThumbnailImg>
+          <FeedThumbnailImgChild image={newThumbnailImage} />
+        </FeedThumbnailImg>
+
+        <CardBody>
           <MiniTitle
             sizeType="xl"
             textAlign="left"
-            margin="0 0 0 0.5rem"
+            margin="0.2rem 0 0 0"
             style={{ fontSize: 'var(--fonts-body-base)' }}
           >
-            {companyName}
+            {title}
           </MiniTitle>
-        </button>
-        <BookmarkButton onClick={onClickBookmarkHandler}>
-          {/* 북마크 */}
-          {isBookmarked && <IconBookmarkFill size="22" color="var(--colors-brand-500)" />}
-          {isBookmarked || <IconBookmarkEmpty size="22" color="var(--colors-brand-500)" />}
-        </BookmarkButton>
-      </CardHeader>
-
-      <FeedThumbnailImg>
-        <FeedThumbnailImgChild image={newThumbnailImage} />
-      </FeedThumbnailImg>
-
-      <CardBody>
-        <MiniTitle
-          sizeType="xl"
-          textAlign="left"
-          margin="0.2rem 0 0 0"
-          style={{ fontSize: 'var(--fonts-body-base)' }}
-        >
-          {title}
-        </MiniTitle>
-      </CardBody>
-      <CardFooter>
-        <FeedTag tags={tags.length === 0 ? keywords : tags} />
-      </CardFooter>
-    </StyledCard>
+        </CardBody>
+        <CardFooter>
+          <FeedTag tags={tags.length === 0 ? keywords : tags} />
+        </CardFooter>
+      </StyledCard>
+    </a>
   );
 };
 

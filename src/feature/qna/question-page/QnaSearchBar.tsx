@@ -5,6 +5,8 @@ import { IconRefresh, IconSearch } from '../../../components/icons/Icons';
 import { Button, Input, Paragraph } from '../../../components';
 import { isDarkState } from '../../../recoil';
 import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
+import { media } from '../../../utils/media';
+import useWindowSize from '../../../hooks/useWindowSize';
 
 interface ISearchValue {
   data: string;
@@ -26,25 +28,62 @@ const StyledSearchBar = styled.div`
   border-color: ${({ theme: { borderColor } }) => borderColor};
   position: relative;
   margin: 0 auto 0 0;
+
+  ${media.phone`
+    margin-right: 1rem;
+  `}
 `;
 
 const StyledSearch = styled.div`
   display: flex;
   width: 41.25rem;
   padding-bottom: 1rem;
+  ${media.phone`
+    width: 100%;
+    input{
+      width: 85%;
+    }
+    
+    button{
+      width: 80px;
+    }
+  `}
 `;
 
 const KeywordWrapper = styled.span`
   display: flex;
   justify-content: space-between;
 
-  & > div {
+  .result-message {
+    display: flex;
+    font-weight: 600;
+    .blue {
+      display: inline-block;
+      margin-right: 0.2rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+      max-width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  & > div:first-child {
     display: flex;
   }
 
   p {
     margin-right: 0.25rem;
   }
+
+  ${media.phone`
+    .result-message{
+      .blue{
+        max-width: 120px
+      }
+    }
+  `}
 `;
 
 const SearchBarForm = styled.form`
@@ -55,14 +94,31 @@ const SearchBarForm = styled.form`
   background: ${({ theme: { bgColor } }) => bgColor};
   opacity: 0.9;
   backdrop-filter: blur(30px);
+
+  ${media.phone`
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1rem 0 1rem;
+    top: 7rem;
+    
+    & > div {
+      display: flex;
+      justify-content: center;
+    }
+  `}
 `;
 
 const QnaSearchBar = () => {
   const [keyword, setKeyword] = useRecoilState(qnaSearchKeywordState);
   const isDark = useRecoilValue(isDarkState);
   const { register, handleSubmit, resetField } = useForm<ISearchValue>();
+  const [width] = useWindowSize();
 
   const onSubmit = (data: ISearchValue) => {
+    if (!data.data) {
+      // eslint-disable-next-line no-param-reassign
+      data.data = '';
+    }
     setKeyword(data.data.toLocaleLowerCase());
     resetField('data');
   };
@@ -88,25 +144,17 @@ const QnaSearchBar = () => {
             {...inputProps}
           />
         </StyledSearchBar>
-        <Button fontSize="var(--fonts-body-base)" onClick={() => {}} padding="0.25rem 1.125rem">
-          검색
+        <Button fontSize="var(--fonts-body-base)" padding="0.25rem 1.125rem">
+          {width < 601 ? <IconSearch /> : '검색'}
         </Button>
       </StyledSearch>
       <KeywordWrapper>
         <div>
-          <Paragraph sizeType="lg">현재 검색 키워드: </Paragraph>
           <Paragraph sizeType="base">
             {keyword.length > 0 ? (
-              <Button
-                as="span"
-                designType="grayFill"
-                fontSize="var(--fonts-body-sm)"
-                padding="0 0.5rem"
-                borderRadius="var(--borders-radius-base)"
-                style={{ marginBottom: '0.5rem', fontWeight: '500' }}
-              >
-                {keyword}
-              </Button>
+              <Paragraph as="span" sizeType="lg" className="result-message">
+                &apos;<b className="blue">{keyword}</b>&apos; 검색 결과
+              </Paragraph>
             ) : (
               <Button
                 as="span"
@@ -116,7 +164,7 @@ const QnaSearchBar = () => {
                 borderRadius="var(--borders-radius-base)"
                 style={{ marginBottom: '0.5rem', fontWeight: '500' }}
               >
-                없음
+                전체
               </Button>
             )}
           </Paragraph>

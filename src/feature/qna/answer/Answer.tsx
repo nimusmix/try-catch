@@ -21,6 +21,7 @@ import { postFollow, putFollow } from '../../../apis/user/user';
 import { putAnswer, selectAnswer } from '../../../apis/answer/answer';
 import { isLoggedInState, toastState } from '../../../recoil';
 import elapsedTime from '../../../utils/elapsed-time';
+import isMobileState from '../../../recoil/isMobileState';
 
 const AnswerItem = styled.li`
   position: relative;
@@ -205,6 +206,7 @@ const Answer = ({
   const isAuthor = useIsMe(questionAuthorId);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const isLogin = useRecoilValue(isLoggedInState);
+  const isMobile = useRecoilValue(isMobileState);
   const setToast = useSetRecoilState(toastState);
   const [isEdit, setIsEdit] = useState(false);
   const [answerInput, setAnswerInput] = useState(() => answer.content);
@@ -378,6 +380,7 @@ const Answer = ({
           (isMe && <TbEdit className="edit" onClick={() => setIsEdit((prev) => !prev)} />)}
         <AuthorWrapper
           onClick={() => {
+            if (isMobile) return;
             navigate(`/profile/${answer.author.userName}`);
           }}
         >

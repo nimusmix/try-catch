@@ -44,6 +44,18 @@ const FlowWrapper = styled.div`
   border: 1px ${({ theme }) => theme.borderColor} solid;
   border-radius: var(--borders-radius-base);
   margin-bottom: 2.25rem;
+  button {
+    background-color: ${({ theme: { isDark } }) =>
+      isDark ? 'rgba(46, 52, 64, 1)' : 'var(--colors-white-500)'};
+    border-bottom: 1px solid
+      ${({ theme: { isDark } }) => (isDark ? 'var(--colors-black-100)' : '#eeeeee')};
+    :hover {
+      background-color: ${({ theme: { isDark } }) => (isDark ? 'var(--colors-black-200)' : null)};
+    }
+    svg {
+      fill: ${({ theme: { textColor } }) => textColor};
+    }
+  }
 `;
 
 const initialNodes = [
@@ -68,7 +80,7 @@ const RoadmapForm = () => {
   const { pathname } = useLocation();
   const isEditPage = pathname === '/roadmap/edit';
 
-  const { data: myName } = useQuery<string>(['myName'], () => getName(), { enabled: !!isEditPage });
+  const { data: myName } = useQuery<string>(['myName'], () => getName());
   const { data: oldRoadmap, isLoading } = useQuery<IRoadmap>(
     ['oldRoadmap', myName] as const,
     () => getRoadmapDetail(myName!),
@@ -106,7 +118,10 @@ const RoadmapForm = () => {
 
   const navi = useNavigate();
   const saveRoadmap = useMutation(postRoadmap, {
-    onSuccess: () => navi(`/roadmap/${myName}`),
+    onSuccess: () => {
+      console.log('이름', myName);
+      navi(`/roadmap/${myName}`);
+    },
     onError: (error) => logOnDev.log(error),
   });
 

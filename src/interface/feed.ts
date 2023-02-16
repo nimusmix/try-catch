@@ -47,7 +47,7 @@ export interface IFeedSearch {
   advanced: boolean;
   publishDateStart: string | null; // 'yyyy-MM-dd';
   publishDateEnd: string | null; // 'yyyy-MM-dd';
-  page: number; // 0부터 시작 (defualt: 0)
+  page: number; // 0부터 시작 (default: 0)
   size: number; // 페이지당 개수
 }
 
@@ -76,7 +76,7 @@ interface IFeedListResponse {
 
 /**
  * Request get: Company 추천
- * {API_URL}/feed/companys?recommend=~
+ * {API_URL}/feed/company
  *
  * [] 안의 값이 디폴트
  *
@@ -93,17 +93,16 @@ interface IFeedCompanyRequest {
 
 /**
  * Response: Company 추천
- * {API_URL}/feed/companys?recommend=~
+ * {API_URL}/feed/company
  *
  * 응답:
- * Array<IfeedCompany>
+ * Array<IFeedCompany>
  */
-interface IfeedCompany {
+export interface IFeedCompany {
   companyId: number; // 회사 아이디 (회사 프로필페이지 이동 위함)
-  logoSrc: string; // 회사 이름 (회사 로고 이미지 가져오기 위함)
+  logoSrc: string; // 회사 로고 이미지 경로
   companyName: string; // 회사 이름 표기
   isFollowed: boolean; // 구독 여부 (비 로그인시: 모두 false)
-  score: number; // 조회수 | 추천 지수
 }
 
 /**

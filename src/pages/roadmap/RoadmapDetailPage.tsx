@@ -109,12 +109,7 @@ const RoadmapDetailPage = () => {
 
   const { data: roadmapDetail, isLoading } = useQuery<IRoadmap>(
     ['roadmap', userName] as const,
-    () => getRoadmapDetail(userName!),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['roadmap', userName]);
-      },
-    }
+    () => getRoadmapDetail(userName!)
   );
 
   const { data: myName } = useQuery<string>(['myName'], () => getName());

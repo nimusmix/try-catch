@@ -3,9 +3,12 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { ReactComponent as LogoDarkTheme } from '../../assets/horizontal_logo_dark_theme.svg';
 import { ReactComponent as LogoLightTheme } from '../../assets/horizontal_logo_light_theme.svg';
-import { isDarkState, isLoggedInState, isSystemThemeState } from '../../recoil';
+import { isDarkState, isLoggedInState } from '../../recoil';
 import { Header, MemberNavMenu, NavMenu, NonMemberNavMenu } from '../index';
 import ThemeButton from './ThemeButton';
+import { media } from '../../utils/media';
+import useWindowSize from '../../hooks/useWindowSize';
+import isMobileState from '../../recoil/isMobileState';
 
 const Logo = styled.div`
   display: flex;
@@ -17,10 +20,18 @@ const Logo = styled.div`
   & > a {
     padding-left: 2rem;
   }
+
+  ${media.phone`
+     width : auto;
+     padding-left: 1rem;
+     & > a {
+      padding-left: 0;
+     }
+  `}
 `;
 
 const Nav = styled.nav`
-  padding: 0 3rem 0 1rem;
+  padding: 0 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -42,34 +53,32 @@ const ThemeButtonWrapper = styled.div`
 const Navigation = () => {
   const [isDark, setIsDark] = useRecoilState(isDarkState);
   const isLoggedIn = useRecoilValue(isLoggedInState);
-
-  /** 테마: 시스템 설정 */
-  const [isSystemTheme, setSystemTheme] = useRecoilState(isSystemThemeState);
-  const mql = window.matchMedia('(prefers-color-scheme: dark)');
-
-  const ChangeEventTheme = (e: any) => {
-    if (!isSystemTheme) {
-      // 아무것도 안함
-    } else if (e.matches) {
-      // 해당 미디어 쿼리가 참인 경우 (다크모드)
-      setIsDark(true);
-    } else {
-      // 해당 미디어 쿼리가 거짓인 경우
-      setIsDark(false);
-    }
-  };
-  mql.addEventListener('change', ChangeEventTheme, { once: true });
+  const [width] = useWindowSize();
+  const isMobile = useRecoilValue(isMobileState);
 
   return (
     <Header>
       <Nav>
         <NavWrapper>
-          <Logo>
-            <NavLink to="/">
-              {isDark && <LogoDarkTheme width="100%" height="60" />}
-              {isDark || <LogoLightTheme width="100%" height="60" />}
-            </NavLink>
-          </Logo>
+          {isMobile && width < 601 && (
+            <Logo>
+              <NavLink to="/">
+                <img
+                  src={new URL(`/src/assets/favicon.ico`, import.meta.url).href}
+                  alt="logo"
+                  width="20"
+                />
+              </NavLink>
+            </Logo>
+          )}
+          {isMobile || (
+            <Logo>
+              <NavLink to="/">
+                {isDark && <LogoDarkTheme width="100%" height="60" />}
+                {isDark || <LogoLightTheme width="100%" height="60" />}
+              </NavLink>
+            </Logo>
+          )}
           <NavMenu />
         </NavWrapper>
         {isLoggedIn && (

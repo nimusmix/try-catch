@@ -1,8 +1,10 @@
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getUserId, getUserSubscription } from '../../apis/profile/profile';
 import LoadingSpinner from '../../components/loading/LoadingSpinner';
+import ProfileEmptyUpper from '../../feature/user/profile/ProfileEmptyUpper';
+import SimpleCompanyItem from '../../feature/user/profile/SimpleCompanyItem';
 import { ISubscription } from '../../interface/user';
 
 export const ModalWrapper = styled.div`
@@ -48,13 +50,18 @@ const SubscriptionPage = () => {
   const { userName } = useParams();
 
   const { data: userId, isLoading: userIdLoading } = useQuery<number>(
-    ['myAnswerList', 'userId'] as const,
+    ['mySubscriptionList', 'userId', userName] as const,
     () => getUserId(userName!)
   );
+
+  const queryClient = useQueryClient();
   const { data: subscription, isLoading: contentLoading } = useQuery<Array<ISubscription>>(
     ['subscription', userName],
     () => getUserSubscription(userId!),
-    { enabled: !!userId }
+    {
+      enabled: !!userId,
+      onSuccess: () => queryClient.invalidateQueries([['mySubscriptionList', 'userId', userName]]),
+    }
   );
 
   const navi = useNavigate();
@@ -75,7 +82,10 @@ const SubscriptionPage = () => {
         </NavItem>
       </NavWrapper>
       <ItemWrapper>
-        <p>구독 구현 후 테스트해보기</p>
+        {subscription?.map((item) => (
+          <SimpleCompanyItem {...item} key={item.companyId} />
+        ))}
+        {(!subscription || subscription?.length === 0) && <ProfileEmptyUpper category={0} />}
       </ItemWrapper>
     </ModalWrapper>
   );

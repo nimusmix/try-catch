@@ -3,21 +3,26 @@ import { AxiosError } from 'axios';
 import styled from 'styled-components';
 import { useEffect } from 'react';
 
-import { IFeedList, IFeedListProps, IFeedSearch } from '../../interface/feed';
+import { IFeedList, IFeedListProps, IFeedSearch } from '../../../interface/feed';
 import FeedListItem from './FeedListItem';
 import FeedCardItem from './FeedCardItem';
 
-import { getFeedSearchList } from '../../apis/feed/feed';
+import { getFeedSearchList } from '../../../apis/feed/feed';
 
-import FeedCardSkeletonList from './skeleton/FeedCardSkeletonList';
-import FeedItemSkeletonList from './skeleton/FeedItemSkeletonList';
-import FeedNoContent from './FeedNoContent';
+import FeedCardSkeletonList from '../skeleton/FeedCardSkeletonList';
+import FeedItemSkeletonList from '../skeleton/FeedItemSkeletonList';
+import FeedNoContent from '../feed-search/FeedNoContent';
+import { media } from '../../../utils/media';
 
 const FeedListWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   width: 52.875rem;
+  ${media.phone`
+    min-width: unset;
+    width: 100%;
+  `}
 `;
 
 const FeedList = ({
@@ -108,37 +113,41 @@ const FeedList = ({
       {/* 첫 페이지 로딩 리스트 아이템 스켈레톤 */}
       {isLoading && !activeViewOption && <FeedItemSkeletonList />}
       {isError && <h2>에러입니다.</h2>}
+      {/* 구독 리스트 없을 때 */}
+      {subscribe && data?.pages[0].feedList.length === 0 && (
+        <FeedNoContent keyword={keyword} subscribe={subscribe} />
+      )}
       {/* 검색 결과가 없을 때 */}
-      {data?.pages[0].feedList.length === 0 && <FeedNoContent keyword={keyword} />}
+      {!subscribe && data?.pages[0].feedList.length === 0 && (
+        <FeedNoContent keyword={keyword} subscribe={subscribe} />
+      )}
       {/* 검색 결과가 있을 때 */}
-      {data?.pages.map((page, index) => {
-        const pageIdx = `${page} ${index}`;
-        return (
-          <FeedListWrapper key={pageIdx}>
-            {page.feedList.map((feedItem) => {
-              if (activeViewOption)
-                return (
-                  <FeedCardItem
-                    key={feedItem.feedId}
-                    {...feedItem}
-                    checkedItemsProps={checkedItemsProps}
-                  />
-                );
+      <FeedListWrapper>
+        {data?.pages.map((page, index) => {
+          const pageIdx = `${page} ${index}`;
+          return page.feedList.map((feedItem) => {
+            if (activeViewOption)
               return (
-                <FeedListItem
+                <FeedCardItem
                   key={feedItem.feedId}
                   {...feedItem}
-                  keyword={keyword}
-                  paramSort={paramSort}
-                  subscribe={subscribe}
-                  advanced={advanced}
                   checkedItemsProps={checkedItemsProps}
                 />
               );
-            })}
-          </FeedListWrapper>
-        );
-      })}
+            return (
+              <FeedListItem
+                key={feedItem.feedId}
+                {...feedItem}
+                keyword={keyword}
+                paramSort={paramSort}
+                subscribe={subscribe}
+                advanced={advanced}
+                checkedItemsProps={checkedItemsProps}
+              />
+            );
+          });
+        })}
+      </FeedListWrapper>
     </div>
   );
 };

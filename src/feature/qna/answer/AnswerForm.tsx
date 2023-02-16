@@ -66,11 +66,15 @@ const AnswerForm = ({ questionId }: { questionId: string }) => {
     postAnswer(questionId as string, { content: answerInput }),
     {
       onSuccess: (data) => {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: 'smooth',
+        });
         queryClient.invalidateQueries(['question', questionId]);
         setAnswerInput('');
 
         // 레포 체크되었고 커밋하기로 했으면 커밋 요청
-        if (data.repoChecked && data.doCommit) {
+        if (data.repoChecked && data.repoName) {
           answerCommit(Number(questionId), data.answerId);
           // 레포 체크 안 되었으면 모달 오픈
         } else if (!data.repoChecked) {

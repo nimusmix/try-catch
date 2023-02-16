@@ -12,7 +12,7 @@ const SubTitle = styled.h2<ITitleProps>`
   font-size: var(--fonts-desktop-heading-4xl);
   line-height: var(--lineHights-desktop-heading-4xl);
   font-weight: ${({ fontWeight }) => fontWeight || '600'};
-  @media (max-width: 768px) {
+  @media (max-width: 600px) {
     font-size: var(--fonts-mobile-heading-3xl);
     line-height: var(--lineHights-mobile-heading-3xl);
   }

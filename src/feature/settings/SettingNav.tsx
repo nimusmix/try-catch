@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const Wrapper = styled.div`
   nav {
@@ -41,6 +41,15 @@ const Wrapper = styled.div`
       background-color: ${({ theme: { isDark } }) =>
         isDark ? 'var(--colors-black-400)' : 'var(--colors-white-400)'};
     }
+    &.active {
+      color: var(--colors-brand-500);
+      box-shadow: ${({ theme: { isDark } }) =>
+        isDark
+          ? 'rgb(255 255 255 / 6%) 0 0 0 0.05rem, rgb(255 255 255 / 4%) 0 0 1.25rem'
+          : 'rgb(8 60 130 / 6%) 0 0 0 0.05rem, rgb(30 34 40 / 4%) 0 0 1.25rem'};
+      background-color: ${({ theme: { isDark } }) =>
+        isDark ? 'rgba(46, 52, 64, 1)' : 'var(--colors-white-500)'};
+    }
   }
 `;
 
@@ -63,26 +72,26 @@ interface ISettingNav {
   link: string;
 }
 
-const ul = (index: number) => {
-  const underline = document.getElementById('underline') as HTMLDivElement;
-  underline.style.transform = `translate3d(0,${index * 100}%,0)`;
-};
-
-const NavItem = ({ id, title, link }: ISettingNav) => {
+const NavItem = ({ title, link }: ISettingNav) => {
   return (
-    <NavLink to={link}>
-      <button type="button" onClick={() => ul(id)}>
-        {title}
-      </button>
+    <NavLink to={link} className={({ isActive }) => (isActive ? 'active' : '')}>
+      <button type="button">{title}</button>
     </NavLink>
   );
 };
 
 const SettingNav = () => {
+  const sampleLocation = useLocation().pathname;
+  const index = sampleLocation === SettingNavList[1].link ? 1 : 0;
+
   return (
     <Wrapper>
       <nav>
-        <div className="underline" id="underline" />
+        <div
+          className="underline"
+          id="underline"
+          style={{ transform: `translate3d(0,${index * 100}%,0)` }}
+        />
         {SettingNavList.map((item) => (
           <NavItem key={item.id} {...item} />
         ))}

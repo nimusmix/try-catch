@@ -1,28 +1,35 @@
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import {
   CHALLENGES_PAGE_NAME,
   FEED_PAGE_NAME,
   QNA_PAGE_NAME,
   ROADMAP_PAGE_NAME,
 } from '../../constant';
+import isMobileState from '../../recoil/isMobileState';
+import { media } from '../../utils/media';
 
 const NavList = [
   {
     link: `/${QNA_PAGE_NAME}`,
     title: 'Q&A',
+    className: 'qna',
   },
   {
     link: `/${FEED_PAGE_NAME}`,
     title: '피드',
+    className: 'feed',
   },
   {
     link: `/${ROADMAP_PAGE_NAME}`,
     title: '로드맵',
+    className: 'roadmap',
   },
   {
     link: `/${CHALLENGES_PAGE_NAME}`,
     title: '챌린지',
+    className: 'challenge',
   },
 ];
 
@@ -52,16 +59,38 @@ export const Ul = styled.ul`
   display: flex;
   height: 100%;
   margin-left: 1.5rem;
+
+  ${media.phone`
+    li.roadmap, li.challenge{
+      display: none;
+    }
+  `}
 `;
 
 const NavMenu = () => {
+  const isMobile = useRecoilValue(isMobileState);
   return (
     <Ul>
-      {NavList.map((item) => (
-        <li key={item.title}>
-          <NavItem to={item.link}>{item.title}</NavItem>
-        </li>
-      ))}
+      {/* eslint-disable-next-line array-callback-return,consistent-return */}
+      {NavList.map((item) => {
+        if (isMobile) {
+          if (item.title === 'Q&A' || item.title === '피드') {
+            return (
+              <li key={item.title}>
+                <NavItem to={item.link} className={item.className}>
+                  {item.title}
+                </NavItem>
+              </li>
+            );
+          }
+        } else {
+          return (
+            <li key={item.title}>
+              <NavItem to={item.link}>{item.title}</NavItem>
+            </li>
+          );
+        }
+      })}
     </Ul>
   );
 };

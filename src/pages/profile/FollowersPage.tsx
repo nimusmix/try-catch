@@ -1,25 +1,28 @@
-import { useQuery } from 'react-query';
+import { QueryClient, useQuery, useQueryClient } from 'react-query';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ModalWrapper, NavWrapper, NavItem, ItemWrapper } from './SubscriptionPage';
 import { getUserId, getUserFollow } from '../../apis/profile/profile';
 import { ISimpleUserData } from '../../interface/user';
 import SimpleUserItem from '../../feature/user/profile/SimpleUserItem';
 import LoadingSpinner from '../../components/loading/LoadingSpinner';
+import ProfileEmptyUpper from '../../feature/user/profile/ProfileEmptyUpper';
 
 const FollowersPage = () => {
   const { userName } = useParams();
   const navi = useNavigate();
 
   const { data: userId, isLoading: userIdLoading } = useQuery<number>(
-    ['myAnswerList', 'userId'] as const,
+    ['myFollowerList', 'userId', userName] as const,
     () => getUserId(userName!)
   );
 
+  const queryClient = useQueryClient();
   const { data: followers, isLoading: contentLoading } = useQuery<Array<ISimpleUserData>>(
     ['follower', userName],
     () => getUserFollow(userId!, { type: 'follower' }),
     {
       enabled: !!userId,
+      onSuccess: () => queryClient.invalidateQueries(['myFollowerList', 'userId', userName]),
     }
   );
 
@@ -43,6 +46,7 @@ const FollowersPage = () => {
         {followers?.map((user: ISimpleUserData) => {
           return <SimpleUserItem {...user} key={user.userId} />;
         })}
+        {(!followers || followers?.length === 0) && <ProfileEmptyUpper category={2} />}
       </ItemWrapper>
     </ModalWrapper>
   );

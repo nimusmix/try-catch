@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 import { useMutation } from 'react-query';
-import { Link, useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import { ISimpleUserData } from '../../../interface/user';
 import { Button, Paragraph } from '../../../components';
 import getImageUrl from '../../../utils/getImageUrl';
@@ -45,10 +45,10 @@ const SimpleUserItem = ({
   isFollowed,
 }: ISimpleUserData) => {
   const [isFollowedState, setIsFollowedState] = useState(isFollowed);
-  const [isModalOpened, setIsModalOpened] = useRecoilState(isModalOpenedState);
+  const setIsModalOpened = useSetRecoilState(isModalOpenedState);
 
-  const { mutate: follow } = useMutation(['post', 'follow'], () => postFollow(userId!));
-  const { mutate: unfollow } = useMutation(['put', 'follow'], () => putFollow(userId!));
+  const { mutate: follow } = useMutation(['post', 'follow', userName], () => postFollow(userId!));
+  const { mutate: unfollow } = useMutation(['put', 'follow', userName], () => putFollow(userId!));
 
   const followBtnHandler = () => {
     if (isFollowedState) {
@@ -67,7 +67,6 @@ const SimpleUserItem = ({
 
   return (
     <UserItemWrapper>
-      {/* <InfoWrapper as={Link} to={`/profile/${userName}`}> */}
       <InfoWrapper onClick={infoHandler}>
         <ProfileImg src={profileImage} />
         <Paragraph sizeType="base">{userName}</Paragraph>
@@ -75,13 +74,13 @@ const SimpleUserItem = ({
       </InfoWrapper>
 
       <Button
-        designType={isFollowedState === true ? 'blueFill' : 'blueEmpty'}
+        designType={isFollowedState ? 'blueFill' : 'blueEmpty'}
         padding="0.15rem 0.75rem"
         fontSize="14px"
         borderRadius="var(--borders-radius-base)"
         onClick={followBtnHandler}
       >
-        {isFollowedState === true ? '팔로잉' : '팔로우'}
+        {isFollowedState ? '팔로잉' : '팔로우'}
       </Button>
     </UserItemWrapper>
   );

@@ -46,7 +46,7 @@ const TooltipAside = styled.aside`
 export const Required = styled.span`
   color: tomato;
   line-height: 2rem;
-  margin-left: 0.5rem;
+  margin: 0 1rem 0 0.5rem;
 `;
 
 const QnaFormPage = ({ edit }: { edit?: boolean }) => {
@@ -141,7 +141,7 @@ const QnaFormPage = ({ edit }: { edit?: boolean }) => {
                 <QnaFormFooter>
                   <Button
                     onClick={onClickSubmitQuestion}
-                    disabled={canSubmit}
+                    disabled={!canSubmit}
                     className={canSubmit ? '' : 'no-valid-button'}
                   >
                     {edit ? '수정' : '작성'}

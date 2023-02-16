@@ -15,6 +15,8 @@ import elapsedTime from './utils/elapsed-time';
 import getAccToken from './utils/getAccToken';
 import { getNotifications } from './apis/notice/notice';
 import SEOMetaTag from './components/seo/SEOMetaTag';
+import { media } from './utils/media';
+import isMobileState from './recoil/isMobileState';
 
 const GlobalStyles = createGlobalStyle`
   *{
@@ -24,6 +26,11 @@ const GlobalStyles = createGlobalStyle`
     background-color: ${({ theme: { bgColor } }) => bgColor};
     color: ${({ theme: { textColor } }) => textColor};
     min-width: var(--breakpoints-desktop);
+
+    ${media.phone`
+      min-width: unset;
+      width: 100%;
+    `}
   }
   
   body {
@@ -37,13 +44,15 @@ const GlobalStyles = createGlobalStyle`
     height: 3px;
   }
 
-  #notice-list::-webkit-scrollbar{
+  #notice-list::-webkit-scrollbar,
+  textarea::-webkit-scrollbar{
     width: 6px;
     height: 6px;
   }
 
   #notice-list::-webkit-scrollbar-thumb,
-  body::-webkit-scrollbar-thumb {
+  body::-webkit-scrollbar-thumb,
+  textarea::-webkit-scrollbar-thumb{
     height: 30%; /* 스크롤바의 길이 */
     background: var(--colors-brand-500); /* 스크롤바의 색상 */
 
@@ -88,6 +97,7 @@ function App() {
       setNotifications([]);
       logOnDev.dir(e);
     });
+
     // error 발생시
     sseEvents.current.addEventListener('error', (error: any) => {
       if (error.target?.readyState === EventSource.CLOSED) {
@@ -184,6 +194,19 @@ function App() {
     logOnDev.log(notifications);
     logOnDev.log('-------------');
   }, [notifications, notifications.length]);
+
+  const [isMobile, setIsMobile] = useRecoilState(isMobileState);
+
+  useEffect(() => {
+    const isMobileState = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobileState) {
+      // mobile
+      setIsMobile(true);
+    } else {
+      // desktop
+      setIsMobile(false);
+    }
+  }, [setIsMobile]);
 
   return (
     <HelmetProvider>

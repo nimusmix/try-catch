@@ -62,8 +62,11 @@ export interface IRepoHistory {
  */
 export interface IBadge {
   badgeId: number;
-  badgeName: string;
-  image: string;
+  title: string;
+  content: string;
+  imgSrc: string;
+  earnedAt: string;
+  isNew: boolean;
 }
 export interface IBadgeList {
   badges: Array<IBadge>;
@@ -120,6 +123,7 @@ export interface ISubscription {
   companyId: number;
   companyName: string;
   isSubscribe: boolean;
+  logoSrc: string;
 }
 
 // "유저의" 구독 목록

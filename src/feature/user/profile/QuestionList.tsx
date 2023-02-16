@@ -14,7 +14,7 @@ const QuestionWrapper = styled.section`
 const QuestionList = () => {
   const { userName } = useParams();
   const { data: userId, isLoading: userIdLoading } = useQuery<number>(
-    ['questionList', 'userId'] as const,
+    ['questionList', 'userId', userName] as const,
     () => getUserId(userName!)
   );
 
@@ -37,11 +37,7 @@ const QuestionList = () => {
   return (
     <QuestionWrapper>
       {questionList?.map((ques: IQuestion) => {
-        return (
-          <Link to={`/question/${ques.questionId}`} key={ques.questionId}>
-            <QuestionItem {...ques} />
-          </Link>
-        );
+        return <QuestionItem {...ques} key={ques.questionId} />;
       })}
     </QuestionWrapper>
   );

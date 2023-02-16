@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { IconBellFill } from '../../components/icons/Icons';
 import { MiniTitle, Paragraph } from '../../components';
@@ -47,7 +46,7 @@ const DropContainer = styled.div`
   border: none;
   padding: 1rem 0.5rem 1rem 1.2rem;
 
-  ${NoticeDropdown}:focus & {
+  &.active {
     display: block;
   }
 
@@ -106,7 +105,7 @@ const DropUl = styled.ul`
 
 const NoticeBell = () => {
   const isDark = useRecoilValue(isDarkState);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [notifications, setNotifications] = useRecoilState(notificationsState);
   const [noticeIsOpen, setNoticeIsOpen] = useState(false);
 
@@ -123,8 +122,7 @@ const NoticeBell = () => {
       <NoticeDropdown
         noticeCount={notifications.length}
         onClick={() => {
-          setNoticeIsOpen(true);
-          console.log(1);
+          setNoticeIsOpen((prev) => !prev);
         }}
       >
         <Alert>
@@ -133,7 +131,7 @@ const NoticeBell = () => {
             size="20"
           />
         </Alert>
-        <DropContainer>
+        <DropContainer className={noticeIsOpen ? 'active' : ''}>
           <div className="title">
             <MiniTitle sizeType="2xl" textAlign="left">
               알림

@@ -1,9 +1,9 @@
-import FeedCardItem from './FeedCardItem';
-import FeedList from './FeedList';
-import FeedListItem from './FeedListItem';
-import FeedSearchSide from './FeedSearchSide';
+import FeedCardItem from './feed-list/FeedCardItem';
+import FeedList from './feed-list/FeedList';
+import FeedListItem from './feed-list/FeedListItem';
+import FeedSearchSide from './feed-search/FeedSearchSide';
 import FeedView from './FeedView';
-import FeedFilter from './FeedFilter';
+import FeedFilter from './feed-search/FeedFilter';
 import CompanyRecommend from './CompanyRecommend';
 
 export {

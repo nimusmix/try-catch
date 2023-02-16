@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import { HeaderImage, Layout } from '../../layout';
 import { Paragraph, SubTitle } from '../../components';
 import { header_feed } from '../../assets';
@@ -12,19 +13,48 @@ import {
   FeedView,
 } from '../../feature/feed';
 import { QuestionPageBody as FeedPageBody } from '../qna/QnaPage';
+import { isLoggedInState } from '../../recoil';
+import { media } from '../../utils/media';
 
 const Aside = styled.aside`
-  margin: 3rem 0rem 0;
+  margin: 0rem;
   position: sticky;
-  top: 6rem;
-  height: 500px;
+  top: 3rem;
   width: 20.75rem;
+  padding: 3rem 1rem 4px 4px;
+  overflow-y: scroll;
+  max-height: 90vh;
+
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
+  ${media.phone`
+      min-width: unset;
+      width: 100%;
+      top: 0rem;
+      z-index: 1001;
+      padding: 3.1rem 0rem 0rem;
+    `}
 `;
 
 const FilterTop = styled.section`
   display: flex;
   justify-content: right;
   margin-bottom: 1rem;
+  ${media.phone`
+      > div{
+        display: none;
+      }
+    `}
+`;
+
+const FeedContentSection = styled.section`
+  margin: 3rem 0 0 0;
+  ${media.phone`
+      margin: 0rem;
+  `}
 `;
 
 const filterOptions = [
@@ -39,7 +69,10 @@ const filterOptions = [
 ];
 
 const FeedPage = () => {
-  const [activeFilterOption, setActiveFilterOption] = useState('최신순');
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [activeFilterOption, setActiveFilterOption] = useState(
+    isLoggedIn ? '나의 관심순' : '최신순'
+  );
   const [activeViewOption, setActiveViewOption] = useState<boolean>(true);
   const [tagListProps, setTagListProps] = useState<Array<string>>([]);
   const [checkedItemsProps, setCheckedItemsProps] = useState<Array<number>>([]);
@@ -70,14 +103,17 @@ const FeedPage = () => {
       </HeaderImage>
       <FeedPageBody>
         <Aside>
-          <FeedSearchSide
-            tagListProps={tagListProps}
-            getCheckData={getCheckData}
-            keyword={keyword}
-          />
-          <CompanyRecommend />
+          <div>
+            <FeedSearchSide
+              tagListProps={tagListProps}
+              getCheckData={getCheckData}
+              keyword={keyword}
+            />
+
+            <CompanyRecommend />
+          </div>
         </Aside>
-        <section style={{ margin: '3rem 1.5rem 0' }}>
+        <FeedContentSection>
           <FilterTop>
             <FeedFilter filterOptions={filterOptions} changeOption={setActiveFilterOption} />
             <FeedView setActiveViewOption={setActiveViewOption} />
@@ -92,7 +128,7 @@ const FeedPage = () => {
             tagListProps={tagListProps}
             checkedItemsProps={checkedItemsProps}
           />
-        </section>
+        </FeedContentSection>
       </FeedPageBody>
     </Layout>
   );

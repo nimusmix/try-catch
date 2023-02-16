@@ -547,6 +547,18 @@ export const DetailWrapper = styled.div`
     border-radius: var(--borders-radius-base);
     background-color: ${({ theme }) => theme.bgColor};
   }
+  button {
+    background-color: ${({ theme: { isDark } }) =>
+      isDark ? 'rgba(46, 52, 64, 1)' : 'var(--colors-white-500)'};
+    border-bottom: 1px solid
+      ${({ theme: { isDark } }) => (isDark ? 'var(--colors-black-100)' : '#eeeeee')};
+    :hover {
+      background-color: ${({ theme: { isDark } }) => (isDark ? 'var(--colors-black-200)' : null)};
+    }
+    svg {
+      fill: ${({ theme: { textColor } }) => textColor};
+    }
+  }
 `;
 
 const FERoadmap = () => {

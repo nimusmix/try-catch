@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { IconArrowDown, IconArrowUp } from '../icons/Icons';
 
@@ -109,27 +109,19 @@ const SelectBox = styled.div<Partial<ISelectBoxProps>>`
   }
 `;
 
-const Dropdown2 = ({ items, width, height, fontSize, changeOption }: ISelectBoxProps) => {
+const Dropdown = ({ items, width, height, fontSize, changeOption }: ISelectBoxProps) => {
   const [isActive, setActive] = useState(false);
   const [selectItem, setSelectItem] = useState<string>(items[0].value || '');
+  const SelectBoxRef = useRef<HTMLDivElement>(null);
 
   const handleClick = () => {
-    const selectBox = document.getElementById('selectBox');
-    if (selectBox?.classList.contains('active')) {
-      selectBox?.classList.remove('active');
-      setActive(false);
-    } else {
-      selectBox?.classList.add('active');
-      setActive(true);
-    }
+    setActive((prev) => !prev);
   };
 
   const handleSelectOption = (event: React.MouseEvent<HTMLLIElement>) => {
     const target = event.target as Element;
-    const label = document.getElementsByClassName('selectBoxLabel')[0];
     const labelText = document.getElementsByClassName('labelText')[0];
     labelText.innerHTML = target.textContent || labelText?.textContent || '';
-    label.parentElement?.classList.remove('active');
     setActive(false);
     setSelectItem(target.getAttribute('data-value') || '');
   };
@@ -138,10 +130,23 @@ const Dropdown2 = ({ items, width, height, fontSize, changeOption }: ISelectBoxP
     changeOption(selectItem);
   }, [selectItem, changeOption]);
 
+  // 외부 클릭시 닫힘
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (SelectBoxRef.current && !SelectBoxRef.current.contains(e.target as Node)) {
+        setActive(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [SelectBoxRef]);
+
   return (
     <SelectBox
-      id="selectBox"
-      className="selectBox "
+      ref={SelectBoxRef}
+      className={isActive ? 'active' : ''}
       width={width}
       height={height}
       fontSize={fontSize}
@@ -166,4 +171,4 @@ const Dropdown2 = ({ items, width, height, fontSize, changeOption }: ISelectBoxP
   );
 };
 
-export default Dropdown2;
+export default Dropdown;
