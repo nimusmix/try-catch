@@ -12,12 +12,20 @@ import { isLoggedInState } from '../../recoil';
 import { useQuestionDispatch } from '../../context/QnaContext';
 import QnaDetailSkeleton from '../../feature/qna/skeleton/QnaDetailSkeleton';
 import qnaCategoryState from '../../recoil/qnaCategoryState';
+import { media } from '../../utils/media';
 
 const QnaDetailWrapper = styled.section`
   margin-top: 3rem;
   max-width: var(--breakpoints-desktop);
   min-width: var(--breakpoints-desktop);
   display: flex;
+
+  ${media.phone`
+    max-width: unset;
+    min-width: unset;
+    width: 100%;
+    flex-direction: column;
+  `}
 `;
 
 const QnaDetailMain = styled.section`
@@ -25,14 +33,25 @@ const QnaDetailMain = styled.section`
   margin-right: 2rem;
 
   & > ul {
-    margin-bottom: 10rem;
+    margin-bottom: 3rem;
   }
+  ${media.phone`
+    width: 100%;
+  `}
 `;
 
 const Aside = styled.aside`
   position: sticky;
   top: 7rem;
   height: 500px;
+  ${media.phone`
+  background-color: ${({ theme: { isDark } }: any) =>
+    isDark ? 'rgba(36,42,54)' : 'var(--colors-brand-100)'};
+    position: static;
+    padding: 1rem 1rem 0 1rem;
+    top: unset;
+    height: unset;
+  `}
 `;
 
 const QnaDetailPage = () => {

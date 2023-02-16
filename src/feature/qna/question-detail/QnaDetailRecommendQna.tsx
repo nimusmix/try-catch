@@ -60,7 +60,7 @@ const QnaDetailRecommendQna = ({
 }: Partial<IQnaDetailPopularQnaProps>) => {
   const isDark = useRecoilValue(isDarkState);
   return (
-    <PopularQnaWrapper>
+    <PopularQnaWrapper as="li">
       <Link to={`/question/${questionId}`}>
         <span className="best">
           <IconBest width="14px" height="14px" />

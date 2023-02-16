@@ -77,13 +77,9 @@ const BookmarkRoadmapItem = ({
   return (
     <ItemWrapper>
       {author?.profileImage ? (
-        <Img src={author.profileImage} alt={author.userName} onClick={goToProfile} />
+        <Img src={author.profileImage} alt={author.userName} />
       ) : (
-        <Img
-          src={new URL(`/src/assets/favicon.ico`, import.meta.url).href}
-          alt="d"
-          onClick={goToProfile}
-        />
+        <Img src={new URL(`/src/assets/favicon.ico`, import.meta.url).href} alt="d" />
       )}
 
       <InfoWrapper>
