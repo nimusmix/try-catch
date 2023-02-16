@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { ModalWrapper, NavWrapper, NavItem, ItemWrapper } from './SubscriptionPage';
 import { getUserId, getUserFollow } from '../../apis/profile/profile';
 import { ISimpleUserData } from '../../interface/user';
@@ -12,13 +12,18 @@ const FollowingPage = () => {
   const navi = useNavigate();
 
   const { data: userId, isLoading: userIdLoading } = useQuery<number>(
-    ['myFollowingList', userName] as const,
+    ['myFollowingList', 'userId', userName] as const,
     () => getUserId(userName!)
   );
+
+  const queryClient = useQueryClient();
   const { data: following, isLoading: contentLoading } = useQuery<any>(
     ['following', userName],
     () => getUserFollow(userId!, { type: 'followee' }),
-    { enabled: !!userId }
+    {
+      enabled: !!userId,
+      onSuccess: () => queryClient.invalidateQueries(['myFollowingList', 'userId', userName]),
+    }
   );
 
   if (userIdLoading || contentLoading) {

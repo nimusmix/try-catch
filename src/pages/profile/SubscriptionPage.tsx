@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getUserId, getUserSubscription } from '../../apis/profile/profile';
@@ -50,13 +50,18 @@ const SubscriptionPage = () => {
   const { userName } = useParams();
 
   const { data: userId, isLoading: userIdLoading } = useQuery<number>(
-    ['mySubscriptionList', userName] as const,
+    ['mySubscriptionList', 'userId', userName] as const,
     () => getUserId(userName!)
   );
+
+  const queryClient = useQueryClient();
   const { data: subscription, isLoading: contentLoading } = useQuery<Array<ISubscription>>(
     ['subscription', userName],
     () => getUserSubscription(userId!),
-    { enabled: !!userId }
+    {
+      enabled: !!userId,
+      onSuccess: () => queryClient.invalidateQueries([['mySubscriptionList', 'userId', userName]]),
+    }
   );
 
   const navi = useNavigate();
