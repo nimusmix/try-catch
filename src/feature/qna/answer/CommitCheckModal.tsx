@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Modal, MiniTitle, Button, Input, Paragraph } from '../../../components';
 import { toastState } from '../../../recoil';
 import isModalOpenedState from '../../../recoil/isModalOpenedState';
-import { answerCommit, postRepo } from '../../../apis/answer/answer';
+import { answerCommit, putRepo } from '../../../apis/answer/answer';
 
 const ModalBody = styled.div`
   display: flex;
@@ -72,7 +72,7 @@ const CommitCheckModal = ({ questionId, answerId }: { questionId: number; answer
       repoName: '',
       doCommit: false,
     };
-    postRepo(data);
+    putRepo(data);
   };
 
   const clickSaveBtn = (e: React.MouseEvent) => {
@@ -83,7 +83,7 @@ const CommitCheckModal = ({ questionId, answerId }: { questionId: number; answer
       repoName,
       doCommit: true,
     };
-    postRepo(data).then(() => answerCommit(questionId, answerId));
+    putRepo(data).then(() => answerCommit(questionId, answerId));
   };
 
   return (
