@@ -7,8 +7,6 @@ import { QuestionItem } from '../index';
 import question from '../Question';
 import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
 import QuestionNoContent from './QuestionNoContent';
-import isMobileState from '../../../recoil/isMobileState';
-import useWindowSize from '../../../hooks/useWindowSize';
 import QnaPageTopState from '../../../recoil/qnaPageTopState';
 
 const QuestionList = ({
@@ -18,8 +16,6 @@ const QuestionList = ({
   filter: string;
   setIsLoading: Dispatch<boolean>;
 }) => {
-  const isMobile = useRecoilValue(isMobileState);
-  const [windowWidth] = useWindowSize();
   const [top, setTop] = useRecoilState(QnaPageTopState);
   const [activeCategory, setActiveCategory] = useRecoilState<string>(qnaCategoryState);
   const keyword = useRecoilValue(qnaSearchKeywordState);

@@ -18,6 +18,7 @@ import { IQuestion } from '../../../interface/qna';
 import categoryToKorean from '../../../utils/category-to-korean';
 import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
 import QnaPageTopState from '../../../recoil/qnaPageTopState';
+import { media } from '../../../utils/media';
 
 const Wrapper = styled.article`
   max-width: 848px;
@@ -81,6 +82,10 @@ const QuestionFooter = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 1.3rem;
+
+  ${media.phone`
+    flex-direction: column;
+  `}
 `;
 
 const TagsWrapper = styled.div`
@@ -90,6 +95,11 @@ const TagsWrapper = styled.div`
     margin-right: 0.5rem;
     margin-bottom: 0.25rem;
   }
+
+  ${media.phone`
+    width: 100%;
+    margin-bottom: 0.2rem;
+  `}
 `;
 
 const InfoWrapper = styled.div`
@@ -106,6 +116,12 @@ const InfoWrapper = styled.div`
       margin-right: 0.2rem;
     }
   }
+
+  ${media.phone`
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  `}
 `;
 
 const UpperTag = styled(Button)`

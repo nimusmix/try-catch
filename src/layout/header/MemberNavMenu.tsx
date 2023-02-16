@@ -133,18 +133,21 @@ const MemberNavMenu = () => {
       <Li>
         <ThemeButton />
       </Li>
-      <Li>
-        <NoticeBell />
-      </Li>
-
-      <Li>
-        <Bookmark to={`/${BOOKMARK_PAGE_NAME}`}>
-          <IconBookmarkFill
-            color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-            size="24"
-          />
-        </Bookmark>
-      </Li>
+      {isMobile || (
+        <>
+          <Li>
+            <NoticeBell />
+          </Li>
+          <Li>
+            <Bookmark to={`/${BOOKMARK_PAGE_NAME}`}>
+              <IconBookmarkFill
+                color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
+                size="24"
+              />
+            </Bookmark>
+          </Li>
+        </>
+      )}
       <ProfileLi>
         <Dropdown>
           <ProfileWrapper onClick={() => setDropdownActive((prev) => !prev)}>

@@ -76,6 +76,14 @@ const KeywordWrapper = styled.span`
   p {
     margin-right: 0.25rem;
   }
+
+  ${media.phone`
+    .result-message{
+      .blue{
+        max-width: 120px
+      }
+    }
+  `}
 `;
 
 const SearchBarForm = styled.form`
@@ -90,8 +98,8 @@ const SearchBarForm = styled.form`
   ${media.phone`
     display: flex;
     flex-direction: column;
-    top: 9rem;
-    padding: 3rem 1rem 0 1rem;
+    padding: 1rem 1rem 0 1rem;
+    top: 7rem;
     
     & > div {
       display: flex;
