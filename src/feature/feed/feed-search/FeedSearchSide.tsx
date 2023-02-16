@@ -5,6 +5,7 @@ import { Button, Checkbox, Paragraph } from '../../../components';
 import FeedSearchBar from './FeedSearchBar';
 import FeedTag from '../FeedTag';
 import { IconRefresh } from '../../../components/icons/Icons';
+import { media } from '../../../utils/media';
 
 const searchFilterList = [
   {
@@ -45,6 +46,12 @@ interface FeedSearchProps {
   getCheckData: (data: Array<number>) => void;
   keyword: string;
 }
+
+const FeedRecommendTags = styled.div`
+  ${media.phone`
+      display: none;
+    `}
+`;
 
 export const FeedSearchWrapper = styled.div`
   border-radius: var(--borders-radius-xl);
@@ -100,9 +107,18 @@ const ToolTip = styled.div`
       font-style: normal;
     }
   }
-  &.tooltip:hover .tooltip-content {
-    visibility: visible;
-    opacity: 1;
+  @media (hover: hover) and (pointer: fine) {
+    /* when supported */
+    &.tooltip:hover .tooltip-content {
+      visibility: visible;
+      opacity: 1;
+    }
+    ${media.phone`
+    &.tooltip:hover .tooltip-content {
+      visibility: hidden;
+      opacity: 1;
+    }
+    `}
   }
 `;
 
@@ -201,14 +217,13 @@ const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps
           </Paragraph>
         </div>
       )}
-
-      <Hr />
-      <div>
+      <FeedRecommendTags>
+        <Hr />
         <Paragraph sizeType="base" padding="0" margin="0 0 15px 0" style={{ fontWeight: '500' }}>
           추천 태그 🏷️
         </Paragraph>
         <FeedTag tags={tagListProps} />
-      </div>
+      </FeedRecommendTags>
     </FeedSearchWrapper>
   );
 };

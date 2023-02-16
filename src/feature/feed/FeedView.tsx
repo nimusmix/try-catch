@@ -1,6 +1,9 @@
 import styled from 'styled-components';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
+import { useRecoilValue } from 'recoil';
 import { IconCard, IconList } from '../../components/icons/Icons';
+import isMobileState from '../../recoil/isMobileState';
+import useWindowSize from '../../hooks/useWindowSize';
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,6 +26,14 @@ interface FeedViewProps {
 }
 
 const FeedView = ({ setActiveViewOption }: FeedViewProps) => {
+  const [windowWidth, windowHeight] = useWindowSize();
+
+  useEffect(() => {
+    if (windowWidth > 0 && windowWidth < 600) {
+      setActiveViewOption(false);
+    }
+  }, [windowWidth, setActiveViewOption]);
+
   return (
     <Wrapper>
       <IconWrapper onClick={() => setActiveViewOption(true)}>

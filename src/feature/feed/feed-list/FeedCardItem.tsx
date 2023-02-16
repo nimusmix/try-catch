@@ -11,6 +11,7 @@ import { postFeedRead } from '../../../apis/feed/feed';
 import { postBookmark, putBookmark } from '../../../apis/bookmark/bookmark';
 import { COMPANY } from '../../../constant/company';
 import { IFeedItemProps } from '../../../interface/feed';
+import { media } from '../../../utils/media';
 
 const BookmarkButton = styled.button`
   display: flex;
@@ -108,6 +109,10 @@ const StyledCard = styled(Card)`
       transition: color 0.3s ease-in;
     } */
   }
+  ${media.phone`
+    min-width: unset;
+    width: 90%;
+  `}
 `;
 
 const FeedCardItem = ({
@@ -176,57 +181,55 @@ const FeedCardItem = ({
   }
 
   return (
-    <StyledCard
-      width="17.125rem"
-      as="a"
-      href={`${url}`}
-      target="_blank"
-      rel="noreferrer"
-      onClick={() => {
-        if (isLoggedIn) postFeedRead({ feedId: id });
-      }}
-    >
-      <CardHeader>
-        <button
-          type="button"
-          style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
-          onClick={onClickCompanyHandler}
-        >
-          <img src={logoSrc} alt={companyName} />
+    <a href={`${url}`} target="_blank" rel="noreferrer">
+      <StyledCard
+        width="274px"
+        onClick={() => {
+          if (isLoggedIn) postFeedRead({ feedId: id });
+        }}
+      >
+        <CardHeader>
+          <button
+            type="button"
+            style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
+            onClick={onClickCompanyHandler}
+          >
+            <img src={logoSrc} alt={companyName} />
+            <MiniTitle
+              sizeType="xl"
+              textAlign="left"
+              margin="0 0 0 0.5rem"
+              style={{ fontSize: 'var(--fonts-body-base)' }}
+            >
+              {companyName}
+            </MiniTitle>
+          </button>
+          <BookmarkButton onClick={onClickBookmarkHandler}>
+            {/* 북마크 */}
+            {isBookmarked && <IconBookmarkFill size="22" color="var(--colors-brand-500)" />}
+            {isBookmarked || <IconBookmarkEmpty size="22" color="var(--colors-brand-500)" />}
+          </BookmarkButton>
+        </CardHeader>
+
+        <FeedThumbnailImg>
+          <FeedThumbnailImgChild image={newThumbnailImage} />
+        </FeedThumbnailImg>
+
+        <CardBody>
           <MiniTitle
             sizeType="xl"
             textAlign="left"
-            margin="0 0 0 0.5rem"
+            margin="0.2rem 0 0 0"
             style={{ fontSize: 'var(--fonts-body-base)' }}
           >
-            {companyName}
+            {title}
           </MiniTitle>
-        </button>
-        <BookmarkButton onClick={onClickBookmarkHandler}>
-          {/* 북마크 */}
-          {isBookmarked && <IconBookmarkFill size="22" color="var(--colors-brand-500)" />}
-          {isBookmarked || <IconBookmarkEmpty size="22" color="var(--colors-brand-500)" />}
-        </BookmarkButton>
-      </CardHeader>
-
-      <FeedThumbnailImg>
-        <FeedThumbnailImgChild image={newThumbnailImage} />
-      </FeedThumbnailImg>
-
-      <CardBody>
-        <MiniTitle
-          sizeType="xl"
-          textAlign="left"
-          margin="0.2rem 0 0 0"
-          style={{ fontSize: 'var(--fonts-body-base)' }}
-        >
-          {title}
-        </MiniTitle>
-      </CardBody>
-      <CardFooter>
-        <FeedTag tags={tags.length === 0 ? keywords : tags} />
-      </CardFooter>
-    </StyledCard>
+        </CardBody>
+        <CardFooter>
+          <FeedTag tags={tags.length === 0 ? keywords : tags} />
+        </CardFooter>
+      </StyledCard>
+    </a>
   );
 };
 
