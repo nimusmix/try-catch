@@ -14,18 +14,22 @@ const NavList = [
   {
     link: `/${QNA_PAGE_NAME}`,
     title: 'Q&A',
+    className: 'qna',
   },
   {
     link: `/${FEED_PAGE_NAME}`,
     title: '피드',
+    className: 'feed',
   },
   {
     link: `/${ROADMAP_PAGE_NAME}`,
     title: '로드맵',
+    className: 'roadmap',
   },
   {
     link: `/${CHALLENGES_PAGE_NAME}`,
     title: '챌린지',
+    className: 'challenge',
   },
 ];
 
@@ -57,7 +61,7 @@ export const Ul = styled.ul`
   margin-left: 1.5rem;
 
   ${media.phone`
-    li:nth-child(3),li:nth-child(4){
+    li.roadmap, li.challenge{
       display: none;
     }
   `}
@@ -73,7 +77,9 @@ const NavMenu = () => {
           if (item.title === 'Q&A' || item.title === '피드') {
             return (
               <li key={item.title}>
-                <NavItem to={item.link}>{item.title}</NavItem>
+                <NavItem to={item.link} className={item.className}>
+                  {item.title}
+                </NavItem>
               </li>
             );
           }
