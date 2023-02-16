@@ -81,6 +81,7 @@ const RoadmapForm = () => {
   const isEditPage = pathname === '/roadmap/edit';
 
   const { data: myName } = useQuery<string>(['myName'], () => getName(), { enabled: !!isEditPage });
+  console.log('위에', myName);
   const { data: oldRoadmap, isLoading } = useQuery<IRoadmap>(
     ['oldRoadmap', myName] as const,
     () => getRoadmapDetail(myName!),
@@ -118,7 +119,10 @@ const RoadmapForm = () => {
 
   const navi = useNavigate();
   const saveRoadmap = useMutation(postRoadmap, {
-    onSuccess: () => navi(`/roadmap/${myName}`),
+    onSuccess: () => {
+      console.log('이름', myName);
+      navi(`/roadmap/${myName}`);
+    },
     onError: (error) => logOnDev.log(error),
   });
 
