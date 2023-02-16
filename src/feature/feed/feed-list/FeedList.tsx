@@ -66,7 +66,7 @@ const FeedList = ({
   useEffect(() => {
     const handleScroll = () => {
       const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
-      if (scrollTop + clientHeight >= scrollHeight - 500) {
+      if (scrollTop + clientHeight >= scrollHeight - 550) {
         fetchNextPage();
       }
     };
