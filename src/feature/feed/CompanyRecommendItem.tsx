@@ -81,6 +81,7 @@ const CompanyRecommendItem = ({ companyId, logoSrc, companyName, isFollowed }: I
       onSuccess: () => {
         queryClient.invalidateQueries(['companyRecommendList']);
         queryClient.invalidateQueries('feed');
+        queryClient.invalidateQueries('feedSubscription');
       },
     }
   );
