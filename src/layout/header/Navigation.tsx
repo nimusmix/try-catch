@@ -31,7 +31,7 @@ const Logo = styled.div`
 `;
 
 const Nav = styled.nav`
-  padding: 0 1rem;
+  padding: 0 2.25rem 0 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;

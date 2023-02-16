@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Button, Checkbox, Paragraph } from '../../../components';
 import FeedSearchBar from './FeedSearchBar';
 import FeedTag from '../FeedTag';
 import { IconRefresh } from '../../../components/icons/Icons';
 import { media } from '../../../utils/media';
+import { isLoggedInState, toastState } from '../../../recoil';
 
 const searchFilterList = [
   {
@@ -61,11 +63,11 @@ export const FeedSearchWrapper = styled.div`
   color: var(--colors-black-500);
   list-style: none;
   position: relative;
-  background: #fff;
   transition: all 300ms ease 0s;
   box-shadow: rgb(8 60 130 / 6%) 0px 0px 0px 0.05rem, rgb(30 34 40 / 4%) 0rem 0rem 1.25rem;
   margin-bottom: 25px !important;
-  background-color: ${({ theme: { isDark } }) => (isDark ? 'rgba(46, 52, 64, 1)' : 'fff')};
+  background-color: ${({ theme: { isDark } }) =>
+    isDark ? 'rgba(46, 52, 64, 1)' : 'var(--colors-white-500)'};
 `;
 
 const ToolTip = styled.div`
@@ -137,6 +139,8 @@ const KeyWordWrapper = styled(Paragraph)`
 
 const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps) => {
   const [checkedItems, setCheckedItems] = useState<Array<number>>([]);
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [toast, setToast] = useRecoilState(toastState);
 
   const handleSingleCheck = (checked: boolean, id: number) => {
     if (checked) {
@@ -148,7 +152,19 @@ const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps
     }
   };
   const onSingleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleSingleCheck(e.target.checked, Number(e.target.id));
+    if (Number(e.target.id) === 1) {
+      /** 로그인 시에만 구독 필터 가능 */
+      if (isLoggedIn) handleSingleCheck(e.target.checked, Number(e.target.id));
+      else {
+        setToast({
+          type: 'negative',
+          message: '로그인 후 이용하실 수 있어요',
+          isVisible: true,
+        });
+      }
+    } else {
+      handleSingleCheck(e.target.checked, Number(e.target.id));
+    }
   };
 
   const navigate = useNavigate();

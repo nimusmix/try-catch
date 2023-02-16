@@ -5,6 +5,7 @@ import { Outlet } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { EventSourcePolyfill } from 'event-source-polyfill';
 import { isDarkState, isLoggedInState, toastState } from './recoil';
 import { darkTheme, lightTheme } from './styles/theme';
 import Toast from './feature/toast/Toast';
@@ -13,10 +14,10 @@ import { API_URL, SITE_URL } from './constant';
 import { logOnDev } from './utils/logging';
 import elapsedTime from './utils/elapsed-time';
 import getAccToken from './utils/getAccToken';
-import { getNotifications } from './apis/notice/notice';
 import SEOMetaTag from './components/seo/SEOMetaTag';
 import { media } from './utils/media';
 import isMobileState from './recoil/isMobileState';
+import { getNotifications } from './apis/notice/notice';
 
 const GlobalStyles = createGlobalStyle`
   *{
@@ -38,6 +39,10 @@ const GlobalStyles = createGlobalStyle`
     overflow-y: scroll;
   }
 
+  mark{
+    background-color: #fbfb62d1;
+    padding: 0.15rem;
+  }
   
   body::-webkit-scrollbar {
     width: 3px;
@@ -89,7 +94,14 @@ function App() {
   const sseEvents = useRef<EventSource | null>(null);
 
   const connect = useCallback(async () => {
-    sseEvents.current = new EventSource(`${BASE_URL}/connect?token=${acc}`);
+    sseEvents.current = new EventSourcePolyfill(`${BASE_URL}/connect?token=${acc}`, {
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Access-Control-Allow-Origin': '*',
+      },
+      heartbeatTimeout: 86400000,
+    });
     // connection 되면
     sseEvents.current.addEventListener('open', (e) => {
       logOnDev.log('sse 연결됨');
@@ -165,15 +177,16 @@ function App() {
     if (!isLoggedIn) {
       return;
     }
-
-    connect().then(() => getNotifications());
+    if (acc) {
+      connect().then(() => getNotifications());
+    }
 
     // eslint-disable-next-line consistent-return
     return () => {
       logOnDev.log('sse 연결 종료');
       sseEvents.current!.close();
     };
-  }, [connect, isLoggedIn, sseEvents]);
+  }, [acc, connect, isLoggedIn, sseEvents]);
 
   // 재연결
   useEffect(() => {

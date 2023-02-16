@@ -38,6 +38,7 @@ export const NavItem = styled.div<{ toggle?: boolean }>`
   &.isActive {
     border-bottom: 1px var(--colors-brand-500) solid;
   }
+  cursor: pointer;
 `;
 
 export const ItemWrapper = styled.div`
@@ -60,7 +61,9 @@ const SubscriptionPage = () => {
     () => getUserSubscription(userId!),
     {
       enabled: !!userId,
-      onSuccess: () => queryClient.invalidateQueries([['mySubscriptionList', 'userId', userName]]),
+      onSuccess: () => {
+        queryClient.invalidateQueries([['mySubscriptionList', 'userId', userName]]);
+      },
     }
   );
 

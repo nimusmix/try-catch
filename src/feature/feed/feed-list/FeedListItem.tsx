@@ -13,6 +13,7 @@ import { postBookmark, putBookmark } from '../../../apis/bookmark/bookmark';
 import { COMPANY } from '../../../constant/company';
 import { IFeedItemProps } from '../../../interface/feed';
 import { media } from '../../../utils/media';
+import isMobileState from '../../../recoil/isMobileState';
 
 const DefaultDIv = styled.div`
   /* 한 줄 자르기 */
@@ -218,9 +219,10 @@ const FeedListItem = ({
   };
 
   const navigate = useNavigate();
+  const isMobile = useRecoilValue(isMobileState);
   const onClickCompanyHandler = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    navigate(`/profile/company/${COMPANY[companyName]}`);
+    if (!isMobile) navigate(`/profile/company/${COMPANY[companyName]}`);
   };
 
   let newThumbnailImage: string = thumbnailImage;

@@ -82,6 +82,7 @@ export const DropLiContainer = styled.div`
   margin-top: 4px;
   padding: 1rem;
   position: absolute;
+  right: 0;
   display: none;
 
   &.active {

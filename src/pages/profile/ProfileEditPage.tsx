@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../../layout/Layout';
 import { MiniTitle, Input, Button, Paragraph } from '../../components';
@@ -82,16 +82,20 @@ const ProfileEditPage = () => {
   const token = getAccToken();
   const userId = tokenDecode(token!, 'id');
   const { data: user, isLoading } = useQuery<IUserDetail>(
-    ['userDetail'] as const,
+    ['userDetail', userId] as const,
     () => getUserDetail(userId!),
     {
       enabled: !!userId,
     }
   );
 
+  const queryClient = useQueryClient();
   const navi = useNavigate();
   const editProfile = useMutation(patchUserDetail, {
-    onSuccess: () => navi(`/profile/${user?.userName}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['userDetail', userId]);
+      navi(`/profile/${user?.userName}`);
+    },
     onError: (error) => logOnDev.log(error),
   });
 
