@@ -147,6 +147,10 @@ const TitleWrapper = styled.div`
   h3 {
     margin-right: 0.5rem;
   }
+
+  span {
+    align-self: self-start;
+  }
 `;
 
 const QuestionItem = ({

@@ -12,6 +12,7 @@ import { Ul } from './NavMenu';
 import NoticeBell from './NoticeBell';
 import getAccToken from '../../utils/getAccToken';
 import ThemeButton from './ThemeButton';
+import isMobileState from '../../recoil/isMobileState';
 
 const Bookmark = styled(NavLink)``;
 
@@ -97,6 +98,7 @@ const Line = styled.div`
 const MemberNavMenu = () => {
   const isDark = useRecoilValue(isDarkState);
   const acc = getAccToken();
+  const isMobile = useRecoilValue(isMobileState);
 
   const { data: profileImage } = useQuery(['user', 'profileImage'] as const, () => getImage(acc!));
   const { data: userName } = useQuery(['user', 'userName'] as const, getName, {
@@ -156,13 +158,15 @@ const MemberNavMenu = () => {
                 />
               </span>
             )}
-            <Paragraph
-              as="span"
-              sizeType="base"
-              color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
-            >
-              {userName}
-            </Paragraph>
+            {isMobile || (
+              <Paragraph
+                as="span"
+                sizeType="base"
+                color={isDark ? 'var(--colors-white-100)' : 'var(--colors-black-100)'}
+              >
+                {userName}
+              </Paragraph>
+            )}
           </ProfileWrapper>
           <DropLiContainer className={dropdownActive ? 'active' : ''}>
             <DropUl>

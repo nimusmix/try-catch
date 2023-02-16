@@ -46,7 +46,7 @@ const Aside = styled.aside`
   height: 500px;
   ${media.phone`
   background-color: ${({ theme: { isDark } }: any) =>
-    isDark ? 'var(--colors-brand-100)' : 'var(--colors-brand-100)'};
+    isDark ? 'rgba(36,42,54)' : 'var(--colors-brand-100)'};
     position: static;
     padding: 1rem 1rem 0 1rem;
     top: unset;
