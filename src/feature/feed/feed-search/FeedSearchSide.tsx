@@ -122,6 +122,19 @@ const ToolTip = styled.div`
   }
 `;
 
+const KeyWordWrapper = styled(Paragraph)`
+  span {
+    display: -webkit-box;
+    max-width: 190px;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
+  }
+`;
+
 const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps) => {
   const [checkedItems, setCheckedItems] = useState<Array<number>>([]);
 
@@ -158,7 +171,11 @@ const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps
           </Button>
         )}
         <CheckboxWrapper key={searchFilterList[0].id}>
-          <FilterTitle sizeType="sm" padding="0 0.5rem" id={`${searchFilterList[0].filterName}`}>
+          <FilterTitle
+            sizeType="sm"
+            padding="0 0.4rem 0 0rem"
+            id={`${searchFilterList[0].filterName}`}
+          >
             {searchFilterList[0].filterName}
           </FilterTitle>
           <Checkbox
@@ -169,7 +186,7 @@ const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps
         </CheckboxWrapper>
         <ToolTip className="tooltip">
           <CheckboxWrapper key={searchFilterList[1].id}>
-            <FilterTitle sizeType="sm" padding="0 0.5rem" id={`${searchFilterList[1].filterName}`}>
+            <FilterTitle sizeType="sm" padding="0 0.4rem" id={`${searchFilterList[1].filterName}`}>
               {searchFilterList[1].filterName}
             </FilterTitle>
             <Checkbox
@@ -203,18 +220,21 @@ const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps
           <Paragraph sizeType="sm" margin="auto 0.5rem auto 0">
             검색 키워드:{'  '}
           </Paragraph>
-          <Paragraph sizeType="base">
+          <KeyWordWrapper sizeType="base">
             <Button
               as="span"
               designType="grayFill"
               fontSize="var(--fonts-body-sm)"
               padding="0 0.5rem"
               borderRadius="var(--borders-radius-base)"
-              style={{ fontWeight: '500', margin: '0px' }}
+              style={{
+                fontWeight: '500',
+                margin: '0px',
+              }}
             >
               {keyword}
             </Button>
-          </Paragraph>
+          </KeyWordWrapper>
         </div>
       )}
       <FeedRecommendTags>
