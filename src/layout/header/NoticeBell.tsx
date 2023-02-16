@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { IconBellFill } from '../../components/icons/Icons';
 import { MiniTitle, Paragraph } from '../../components';
@@ -106,7 +105,7 @@ const DropUl = styled.ul`
 
 const NoticeBell = () => {
   const isDark = useRecoilValue(isDarkState);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [notifications, setNotifications] = useRecoilState(notificationsState);
   const [noticeIsOpen, setNoticeIsOpen] = useState(false);
 
@@ -124,7 +123,6 @@ const NoticeBell = () => {
         noticeCount={notifications.length}
         onClick={() => {
           setNoticeIsOpen((prev) => !prev);
-          console.log(1);
         }}
       >
         <Alert>

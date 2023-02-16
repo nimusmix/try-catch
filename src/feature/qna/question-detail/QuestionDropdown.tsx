@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
@@ -17,6 +17,11 @@ const DropContainer = styled(DropLiContainer)`
   text-align: left;
   translate: -95px;
   border: none;
+  display: none;
+
+  &.active {
+    display: block;
+  }
 `;
 
 const DropList = styled(DropLi)`
@@ -41,25 +46,25 @@ const DropList = styled(DropLi)`
   }
 `;
 
-const ModalBody = styled.div`
-  display: flex;
-  padding: 0 2rem;
-  flex-direction: column;
-  h3 {
-    margin-bottom: 0.5rem;
-  }
-
-  p {
-    margin-bottom: 1rem;
-  }
-  .question__button-wrapper {
-    display: flex;
-    justify-content: flex-end;
-    button:first-child {
-      margin-right: 0.5rem;
-    }
-  }
-`;
+// const ModalBody = styled.div`
+//   display: flex;
+//   padding: 0 2rem;
+//   flex-direction: column;
+//   h3 {
+//     margin-bottom: 0.5rem;
+//   }
+//
+//   p {
+//     margin-bottom: 1rem;
+//   }
+//   .question__button-wrapper {
+//     display: flex;
+//     justify-content: flex-end;
+//     button:first-child {
+//       margin-right: 0.5rem;
+//     }
+//   }
+// `;
 
 const QuestionDropdown = ({
   questionId,
@@ -74,7 +79,7 @@ const QuestionDropdown = ({
 }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
   const isMe = useIsMe(userId);
   const setToast = useSetRecoilState(toastState);
   const navigate = useNavigate();
@@ -88,6 +93,7 @@ const QuestionDropdown = ({
   };
 
   const onClickCopy = async () => {
+    setDropdownIsOpen(false);
     try {
       await navigator.clipboard.writeText(window.location.href);
       setToast({ type: 'positive', message: '클립보드에 링크가 복사됐어요', isVisible: true });
@@ -96,11 +102,13 @@ const QuestionDropdown = ({
     }
   };
 
-  const onClickOpenDropDown = () => {};
+  const onClickOpenDropDown = () => {
+    setDropdownIsOpen((prev) => !prev);
+  };
   return (
     <Dropdown>
       <IconMore size="18" color="var(--colors-brand-500)" onClick={onClickOpenDropDown} />
-      <DropContainer ref={dropdownRef}>
+      <DropContainer className={dropdownIsOpen ? 'active' : ''}>
         <DropUl>
           {isMe && !isSolved && (
             <>
