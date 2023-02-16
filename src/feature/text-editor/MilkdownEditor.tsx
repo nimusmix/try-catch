@@ -190,10 +190,6 @@ const MilkdownEditor = (
     []
   );
 
-  if (loading) {
-    return <h1>loading...</h1>;
-  }
-
   return (
     <MilkDownWrapper width={width} ref={ref}>
       <ReactEditor editor={editor} />
