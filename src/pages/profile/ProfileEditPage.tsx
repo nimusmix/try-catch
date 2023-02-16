@@ -82,7 +82,7 @@ const ProfileEditPage = () => {
   const token = getAccToken();
   const userId = tokenDecode(token!, 'id');
   const { data: user, isLoading } = useQuery<IUserDetail>(
-    ['userDetail'] as const,
+    ['userDetail', userId] as const,
     () => getUserDetail(userId!),
     {
       enabled: !!userId,
