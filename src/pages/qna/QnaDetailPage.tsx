@@ -33,7 +33,7 @@ const QnaDetailMain = styled.section`
   margin-right: 2rem;
 
   & > ul {
-    margin-bottom: 10rem;
+    margin-bottom: 3rem;
   }
   ${media.phone`
     width: 100%;
