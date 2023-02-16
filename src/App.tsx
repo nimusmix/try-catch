@@ -177,15 +177,16 @@ function App() {
     if (!isLoggedIn) {
       return;
     }
-
-    connect().then(() => getNotifications());
+    if (acc) {
+      connect().then(() => getNotifications());
+    }
 
     // eslint-disable-next-line consistent-return
     return () => {
       logOnDev.log('sse 연결 종료');
       sseEvents.current!.close();
     };
-  }, [connect, isLoggedIn, sseEvents]);
+  }, [acc, connect, isLoggedIn, sseEvents]);
 
   // 재연결
   useEffect(() => {
