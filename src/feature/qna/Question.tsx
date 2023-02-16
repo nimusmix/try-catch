@@ -31,9 +31,9 @@ const QuestionDiv = styled(Div)`
   width: 100%;
   padding: 0;
   margin-bottom: 2.5rem;
-  background-color: ${({ theme: { isDark } }) => (isDark ? 'rgba(46, 52, 64, 1)' : '#f7f8ff')};
+  background-color: ${({ theme: { isDark } }) => (isDark ? 'rgba(46, 52, 64, 1)' : '#fcfcfc')};
   border: ${({ theme: { isDark } }) =>
-    isDark ? 'rgb(46, 52, 64)' : '1px solid var(--colors-brand-200)'};
+    isDark ? 'rgb(46, 52, 64)' : '1px solid var(--colors-brand-100)'};
 `;
 
 const UpperWrapper = styled.div`
@@ -42,9 +42,9 @@ const UpperWrapper = styled.div`
   padding: 2rem 2rem 1rem;
   justify-content: space-between;
   background-color: ${({ theme: { isDark } }) =>
-    isDark ? 'rgba(36, 42, 54, 1)' : 'var(--colors-brand-200)'};
+    isDark ? 'rgba(36, 42, 54, 1)' : 'var(--colors-brand-100)'};
   border-bottom: ${({ theme: { isDark } }) =>
-      isDark ? 'var(--colors-black-100)' : 'rgb(182, 202,229)'}
+      isDark ? 'var(--colors-black-100)' : 'rgb(182, 202, 229)'}
     solid 1px;
   border-radius: 0.7rem 0.7rem 0 0;
 

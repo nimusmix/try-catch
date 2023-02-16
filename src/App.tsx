@@ -5,6 +5,7 @@ import { Outlet } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { EventSourcePolyfill } from 'event-source-polyfill';
 import { isDarkState, isLoggedInState, toastState } from './recoil';
 import { darkTheme, lightTheme } from './styles/theme';
 import Toast from './feature/toast/Toast';
@@ -93,7 +94,9 @@ function App() {
   const sseEvents = useRef<EventSource | null>(null);
 
   const connect = useCallback(async () => {
-    sseEvents.current = new EventSource(`${BASE_URL}/connect?token=${acc}`);
+    sseEvents.current = new EventSourcePolyfill(`${BASE_URL}/connect?token=${acc}`, {
+      heartbeatTimeout: 86400000,
+    });
     // connection 되면
     sseEvents.current.addEventListener('open', (e) => {
       logOnDev.log('sse 연결됨');
