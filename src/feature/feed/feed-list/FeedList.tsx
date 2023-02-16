@@ -113,8 +113,14 @@ const FeedList = ({
       {/* 첫 페이지 로딩 리스트 아이템 스켈레톤 */}
       {isLoading && !activeViewOption && <FeedItemSkeletonList />}
       {isError && <h2>에러입니다.</h2>}
+      {/* 구독 리스트 없을 때 */}
+      {subscribe && data?.pages[0].feedList.length === 0 && (
+        <FeedNoContent keyword={keyword} subscribe={subscribe} />
+      )}
       {/* 검색 결과가 없을 때 */}
-      {data?.pages[0].feedList.length === 0 && <FeedNoContent keyword={keyword} />}
+      {!subscribe && data?.pages[0].feedList.length === 0 && (
+        <FeedNoContent keyword={keyword} subscribe={subscribe} />
+      )}
       {/* 검색 결과가 있을 때 */}
       <FeedListWrapper>
         {data?.pages.map((page, index) => {

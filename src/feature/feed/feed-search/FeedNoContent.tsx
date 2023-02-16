@@ -23,17 +23,33 @@ const Wrapper = styled.article`
   }
 `;
 
-const FeedNoContent = ({ keyword }: Partial<IFeedList>) => {
+const FeedNoContent = ({ keyword, subscribe }: Partial<IFeedList>) => {
   return (
     <Wrapper>
-      <MiniTitle sizeType="xl">
-        <em>{keyword}</em>에 대한 검색결과가 없어요...
-      </MiniTitle>
-      <Paragraph sizeType="base" textAlign="center" margin="0 0 3rem 0">
-        검색어의 철자가 정확한지 확인해 주세요.
-        <br />
-        비슷한 다른 검색어를 입력해보세요.
-      </Paragraph>
+      {/* 키워드가 있지만 결과가 없을 때 */}
+      {keyword ? (
+        <>
+          <MiniTitle sizeType="xl">
+            <em>{keyword}</em>에 대한 검색결과가 없어요...
+          </MiniTitle>
+          <Paragraph sizeType="base" textAlign="center" margin="0 0 3rem 0">
+            검색어의 철자가 정확한지 확인해 주세요.
+            <br />
+            비슷한 다른 검색어를 입력해보세요.
+          </Paragraph>
+        </>
+      ) : null}
+      {/* 키워드가 없고 구독한 기술 블로그가 없을 때 */}
+      {!keyword && !subscribe && (
+        <>
+          <MiniTitle sizeType="xl">
+            <em>구독 중인 기술 블로그</em>가 없어요...
+          </MiniTitle>
+          <Paragraph sizeType="base" textAlign="center" margin="0 0 3rem 0">
+            관심있는 기업의 기술 블로그를 구독해보세요!
+          </Paragraph>
+        </>
+      )}
 
       <AnimationLoader animationData={noContent} autoplay loop height={460} />
     </Wrapper>
