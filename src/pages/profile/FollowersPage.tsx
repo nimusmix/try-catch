@@ -24,7 +24,6 @@ const FollowersPage = () => {
       enabled: !!userId,
       onSuccess: () => {
         queryClient.invalidateQueries(['myFollowerList', 'userId', userName]);
-        queryClient.invalidateQueries(['profileBio', userName]);
       },
     }
   );

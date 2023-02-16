@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { ISimpleUserData } from '../../../interface/user';
@@ -47,8 +47,17 @@ const SimpleUserItem = ({
   const [isFollowedState, setIsFollowedState] = useState(isFollowed);
   const setIsModalOpened = useSetRecoilState(isModalOpenedState);
 
-  const { mutate: follow } = useMutation(['post', 'follow', userName], () => postFollow(userId!));
-  const { mutate: unfollow } = useMutation(['put', 'follow', userName], () => putFollow(userId!));
+  const queryClient = useQueryClient();
+  const { mutate: follow } = useMutation(['post', 'follow', userName], () => postFollow(userId!), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('userDetail');
+    },
+  });
+  const { mutate: unfollow } = useMutation(['put', 'follow', userName], () => putFollow(userId!), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('userDetail');
+    },
+  });
 
   const followBtnHandler = () => {
     if (isFollowedState) {

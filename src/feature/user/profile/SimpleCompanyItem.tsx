@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { Button, Paragraph } from '../../../components';
@@ -32,8 +32,15 @@ const SimpleCompanyItem = ({ companyId, companyName, isSubscribe, logoSrc }: ISu
   const [isSubscribedState, setIsSubscribedState] = useState(isSubscribe);
   const setIsModalOpened = useSetRecoilState(isModalOpenedState);
 
-  const { mutate: subscribe } = useMutation(['post', 'subscribe', companyName], () =>
-    postSubscribe(companyId)
+  const queryClient = useQueryClient();
+  const { mutate: subscribe } = useMutation(
+    ['post', 'subscribe', companyName],
+    () => postSubscribe(companyId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('userDetail');
+      },
+    }
   );
   const { mutate: unsubscribe } = useMutation(['put', 'subscribe', companyName], () =>
     puttSubscribe(companyId)
