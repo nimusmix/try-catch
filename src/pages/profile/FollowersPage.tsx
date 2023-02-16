@@ -12,7 +12,7 @@ const FollowersPage = () => {
   const navi = useNavigate();
 
   const { data: userId, isLoading: userIdLoading } = useQuery<number>(
-    ['myAnswerList', 'userId'] as const,
+    ['myFollowerList', userName] as const,
     () => getUserId(userName!)
   );
 
