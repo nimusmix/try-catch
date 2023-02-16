@@ -252,7 +252,15 @@ const FeedListItem = ({
         <FeedHeader>
           <LinkWrapper url={url} onClick={handleFeedRead}>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <CompanyImg src={logoSrc} alt={companyName} onClick={onClickCompanyHandler} />
+              <CompanyImg
+                src={
+                  logoSrc !== 'http://www.cntechcorp.co.kr/favicon.ico'
+                    ? logoSrc
+                    : 'https://raw.githubusercontent.com/trycatch-ssafy/logo/main/cntech-systems.png'
+                }
+                alt={companyName}
+                onClick={onClickCompanyHandler}
+              />
               <MiniTitle
                 sizeType="xl"
                 textAlign="left"
