@@ -80,8 +80,7 @@ const RoadmapForm = () => {
   const { pathname } = useLocation();
   const isEditPage = pathname === '/roadmap/edit';
 
-  const { data: myName } = useQuery<string>(['myName'], () => getName(), { enabled: !!isEditPage });
-  console.log('위에', myName);
+  const { data: myName } = useQuery<string>(['myName'], () => getName());
   const { data: oldRoadmap, isLoading } = useQuery<IRoadmap>(
     ['oldRoadmap', myName] as const,
     () => getRoadmapDetail(myName!),
