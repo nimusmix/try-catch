@@ -15,6 +15,7 @@ const Wrapper = styled.div`
   align-items: center;
   z-index: 100;
   height: 300px;
+  cursor: default;
 
   > div > svg {
     margin-top: 50px;
