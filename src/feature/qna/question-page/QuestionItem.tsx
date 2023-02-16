@@ -3,7 +3,6 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useNavigate } from 'react-router-dom';
-import { Dispatch } from 'react';
 import {
   IconCheckCircle,
   IconComment,
@@ -18,6 +17,7 @@ import elapsedTime from '../../../utils/elapsed-time';
 import { IQuestion } from '../../../interface/qna';
 import categoryToKorean from '../../../utils/category-to-korean';
 import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
+import QnaPageTopState from '../../../recoil/qnaPageTopState';
 
 const Wrapper = styled.article`
   max-width: 848px;
@@ -160,9 +160,9 @@ const QuestionItem = ({
   tags = [],
   isSolved,
   isLiked,
-  setTop,
   ...rest
-}: Partial<IQuestion> & { setTop: Dispatch<number> }) => {
+}: Partial<IQuestion>) => {
+  const setTop = useSetRecoilState(QnaPageTopState);
   const isDark = useRecoilValue(isDarkState);
   const setKeyword = useSetRecoilState(qnaSearchKeywordState);
   const navigate = useNavigate();
