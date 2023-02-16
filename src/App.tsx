@@ -38,6 +38,10 @@ const GlobalStyles = createGlobalStyle`
     overflow-y: scroll;
   }
 
+  mark{
+    background-color: #fbfb62d1;
+    padding: 0.15rem;
+  }
   
   body::-webkit-scrollbar {
     width: 3px;
