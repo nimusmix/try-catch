@@ -44,7 +44,7 @@ const Wrapper = styled.div`
 
     @media (prefers-reduced-motion: no-preference) {
       & .sun {
-        transition: transform 1s cubic-bezier(0.5, 1.25, 0.75, 1.25);
+        transition: transform 0.5s cubic-bezier(0.5, 1.25, 0.75, 1.25);
       }
       & .sun-beams {
         transition: transform 0.5s cubic-bezier(0.5, 1.5, 0.75, 1.25),

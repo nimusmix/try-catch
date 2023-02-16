@@ -31,10 +31,11 @@ const Wrapper = styled.article`
 `;
 
 const FeedNoContent = ({ keyword }: Partial<IFeedList>) => {
+  const isLoggedIn = useRecoilValue(isLoggedInState);
   const acc = getAccToken();
-  const userId = tokenDecode(acc!, 'id');
+  const userId = isLoggedIn ? tokenDecode(acc!, 'id') : null;
 
-  const { data: subscription, isLoading: contentLoading } = useQuery<Array<ISubscription>>(
+  const { data: subscription } = useQuery<Array<ISubscription>>(
     ['feedSubscription', userId],
     () => getUserSubscription(userId!),
     {
