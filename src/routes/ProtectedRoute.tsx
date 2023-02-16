@@ -1,12 +1,12 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import getAccToken from '../utils/getAccToken';
 
 interface IProtectedRouteProps {
   redirectPath?: string;
-  children: React.ReactNode;
+  children: any;
 }
 
-const ProtectedRoute = ({ redirectPath = '/' }: IProtectedRouteProps) => {
+const ProtectedRoute = ({ redirectPath = '/', children }: IProtectedRouteProps) => {
   const token = getAccToken();
   const location = useLocation();
 
@@ -14,7 +14,7 @@ const ProtectedRoute = ({ redirectPath = '/' }: IProtectedRouteProps) => {
     return <Navigate to={redirectPath} replace state={{ from: location }} />;
   }
 
-  return <Outlet />;
+  return children;
 };
 
 export default ProtectedRoute;
