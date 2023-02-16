@@ -16,7 +16,7 @@ const DropContainer = styled(DropLiContainer)`
   background-color: ${({ theme: { isDark } }) =>
     isDark ? 'rgb(46, 52, 64)' : 'var(--colors-brand-100)'};
   text-align: left;
-  translate: -95px;
+  translate: 0;
   border: none;
   display: none;
 
