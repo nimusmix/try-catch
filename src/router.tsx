@@ -69,9 +69,9 @@ const router = createBrowserRouter([
           {
             path: 'form',
             element: (
-              <ProtectedRoute redirectPath={`/${QNA_PAGE_NAME}`}>
-                <QnaFormPage />
-              </ProtectedRoute>
+              // <ProtectedRoute redirectPath={`/${QNA_PAGE_NAME}`}>
+              <QnaFormPage />
+              // </ProtectedRoute>
             ),
           },
           {
