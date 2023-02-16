@@ -22,7 +22,10 @@ const FollowersPage = () => {
     () => getUserFollow(userId!, { type: 'follower' }),
     {
       enabled: !!userId,
-      onSuccess: () => queryClient.invalidateQueries(['myFollowerList', 'userId', userName]),
+      onSuccess: () => {
+        queryClient.invalidateQueries(['myFollowerList', 'userId', userName]);
+        queryClient.invalidateQueries(['userDetail', userName]);
+      },
     }
   );
 
