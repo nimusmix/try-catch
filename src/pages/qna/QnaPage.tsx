@@ -53,13 +53,17 @@ export const Aside = styled.aside`
   ${media.phone`
     height: auto;
     margin:0;
-    padding: 3rem 1.5rem 0;
+    padding: 1rem 1.5rem 0 1.5rem;
     top: 3rem;
     background-color: ${({ theme: { bgColor } }: any) => bgColor};
     backdrop-filter: blur(30px);
+    
     &.qna-button-wrapper{
       display: none
-      
+    }
+    
+    ul{
+      width: 100%;
     }
   `}
 `;
@@ -68,6 +72,10 @@ const Ul = styled.ul`
   padding-top: 3rem;
   display: flex;
   max-width: 848px;
+
+  ${media.phone`
+    padding-top: 0.5rem;
+  `}
 `;
 
 const Li = styled.li`
@@ -94,7 +102,7 @@ const QnaFilterWrapper = styled.div`
   background: ${({ theme: { bgColor } }) => bgColor};
 
   ${media.phone`
-    top: 17.5rem;
+    top: 13.2rem;
   `}
 `;
 
