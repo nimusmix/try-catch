@@ -21,6 +21,7 @@ import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
 import { isLoggedInState, toastState } from '../../recoil';
 import QuestionDropdown from './question-detail/QuestionDropdown';
 import categoryToKorean from '../../utils/category-to-korean';
+import isMobileState from '../../recoil/isMobileState';
 
 const QuestionDiv = styled(Div)`
   //overflow: hidden;
@@ -195,6 +196,7 @@ const Question = ({
   ...rest
 }: IQuestion) => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
+  const isMobile = useRecoilValue(isMobileState);
   const [toast, setToast] = useRecoilState(toastState);
   const navigate = useNavigate();
 
@@ -355,7 +357,13 @@ const Question = ({
         </MiniTitle>
 
         {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
-        <div className="author" onClick={() => navigate(`/profile/${author.userName}`)}>
+        <div
+          className="author"
+          onClick={() => {
+            if (isMobile) return;
+            navigate(`/profile/${author.userName}`);
+          }}
+        >
           <ProfileImg src={author.profileImage} />
           <SubText sizeType="sm" margin="0 0.2rem 0 0.3rem">
             {author.userName}
