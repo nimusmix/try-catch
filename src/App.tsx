@@ -98,6 +98,7 @@ function App() {
       headers: {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
+        'Access-Control-Allow-Origin': '*',
       },
       heartbeatTimeout: 86400000,
     });
