@@ -15,7 +15,6 @@ export const navOptions = [
 
 export const RoadmapWrapper = styled.div`
   display: flex;
-  margin-bottom: 5rem;
 `;
 
 const RoadmapPage = () => {

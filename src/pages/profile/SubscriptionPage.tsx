@@ -50,7 +50,7 @@ const SubscriptionPage = () => {
   const { userName } = useParams();
 
   const { data: userId, isLoading: userIdLoading } = useQuery<number>(
-    ['myAnswerList', 'userId'] as const,
+    ['mySubscriptionList', userName] as const,
     () => getUserId(userName!)
   );
   const { data: subscription, isLoading: contentLoading } = useQuery<Array<ISubscription>>(

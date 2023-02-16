@@ -12,7 +12,7 @@ const FollowingPage = () => {
   const navi = useNavigate();
 
   const { data: userId, isLoading: userIdLoading } = useQuery<number>(
-    ['myAnswerList', 'userId'] as const,
+    ['myFollowingList', userName] as const,
     () => getUserId(userName!)
   );
   const { data: following, isLoading: contentLoading } = useQuery<any>(

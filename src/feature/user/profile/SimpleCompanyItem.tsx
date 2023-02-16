@@ -68,7 +68,7 @@ const SimpleCompanyItem = ({ companyId, companyName, isSubscribe, logoSrc }: ISu
         borderRadius="var(--borders-radius-base)"
         onClick={subscribeBtnHandler}
       >
-        {isSubscribedState ? '구독 중' : '구독'}
+        {isSubscribedState ? '구독중' : '구독'}
       </Button>
     </CompanyItemWrapper>
   );
