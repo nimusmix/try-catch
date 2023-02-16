@@ -97,7 +97,7 @@ const FeedSearchBar = () => {
           />
         </SearchIcon>
         <FeedSearchInput
-          width="cal(100%)"
+          width="calc(100% - 30px)"
           height="2.25rem"
           borderRadius="0.375rem"
           border="none"
