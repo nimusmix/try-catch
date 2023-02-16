@@ -71,7 +71,7 @@ const CommitCheckModal = ({ questionId, answerId }: { questionId: number; answer
     // 백에 알려주기
     const data = {
       repoName: '',
-      doCommit: false,
+      repoChecked: true,
     };
     putRepo(data);
   };
@@ -82,7 +82,7 @@ const CommitCheckModal = ({ questionId, answerId }: { questionId: number; answer
     // 백에 알려주기
     const data = {
       repoName,
-      doCommit: true,
+      repoChecked: true,
     };
     putRepo(data).then(() => answerCommit(questionId, answerId));
   };

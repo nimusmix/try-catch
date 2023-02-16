@@ -17,10 +17,6 @@ export const answerCommit = (questionId: number, answerId: number) => {
   return authApi.post(`/question/${questionId}/${answerId}/commit`);
 };
 
-export const postRepo = (data: { repoName?: string; doCommit: boolean }) => {
-  return authApi.post('/github-repo', data).then((res) => res.data);
-};
-
-export const putRepo = (data: { repoName?: string; doCommit: boolean }) => {
+export const putRepo = (data: { repoName?: string; repoChecked: boolean }) => {
   return authApi.put('/github-repo', data).then((res) => res.data);
 };
