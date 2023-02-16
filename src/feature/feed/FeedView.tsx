@@ -34,6 +34,8 @@ const FeedView = ({ setActiveViewOption }: FeedViewProps) => {
     }
   }, [windowWidth, setActiveViewOption]);
 
+  if (isMobileState) setActiveViewOption(false);
+
   return (
     <Wrapper>
       <IconWrapper onClick={() => setActiveViewOption(true)}>
