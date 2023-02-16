@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign,consistent-return */
 import React, { ForwardedRef, forwardRef } from 'react';
 import { Editor, editorViewOptionsCtx, rootCtx, themeManagerCtx } from '@milkdown/core';
+import { upload, Uploader, uploadPlugin } from '@milkdown/plugin-upload';
 import { nord } from '@milkdown/theme-nord';
 import { ReactEditor, useEditor } from '@milkdown/react';
 import { commonmark } from '@milkdown/preset-commonmark';
@@ -25,10 +26,45 @@ import { prismPlugin } from '@milkdown/plugin-prism';
 import { refractor } from 'refractor/lib/common';
 import { useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
+import type { Node } from 'prosemirror-model';
 import MilkDownWrapper from './MilkdownWrapper';
 import { useQuestionDispatch } from '../../context/QnaContext';
 import { IQuestion } from '../../interface/qna';
 import { getQuestionDetail } from '../../apis/qna/qna';
+import { postImage } from '../../apis/upload/upload';
+
+const uploader: Uploader = async (files, schema) => {
+  const images: File[] = [];
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files.item(i);
+    if (!file) {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+
+    // You can handle whatever the file type you want, we handle image here.
+    if (!file.type.includes('image')) {
+      // eslint-disable-next-line no-continue
+      continue;
+    }
+
+    images.push(file);
+  }
+
+  const nodes: Node[] = await Promise.all(
+    images.map(async (image) => {
+      const url = await postImage(image);
+      const alt = image.name;
+      return schema.nodes.image.createAndFill({
+        url,
+        alt,
+      }) as Node;
+    })
+  );
+
+  return nodes;
+};
 
 const MilkdownEditor = (
   {
@@ -154,6 +190,11 @@ const MilkdownEditor = (
         .use(emoji)
         .use(cursor)
         .use(tooltip)
+        .use(
+          upload.configure(uploadPlugin, {
+            uploader,
+          })
+        )
         .use(
           prismPlugin({
             configureRefractor: () => refractor,
