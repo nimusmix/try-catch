@@ -95,7 +95,7 @@ function App() {
 
   const connect = useCallback(async () => {
     sseEvents.current = new EventSourcePolyfill(`${BASE_URL}/connect?token=${acc}`, {
-      heartbeatTimeout: 86400000,
+      heartbeatTimeout: 10000,
     });
     // connection 되면
     sseEvents.current.addEventListener('open', (e) => {
