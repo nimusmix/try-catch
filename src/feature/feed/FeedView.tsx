@@ -27,6 +27,7 @@ interface FeedViewProps {
 
 const FeedView = ({ setActiveViewOption }: FeedViewProps) => {
   const [windowWidth, windowHeight] = useWindowSize();
+  const isMobile = useRecoilValue(isMobileState);
 
   useEffect(() => {
     if (windowWidth > 0 && windowWidth < 600) {
@@ -34,7 +35,7 @@ const FeedView = ({ setActiveViewOption }: FeedViewProps) => {
     }
   }, [windowWidth, setActiveViewOption]);
 
-  if (isMobileState) setActiveViewOption(false);
+  if (isMobile) setActiveViewOption(false);
 
   return (
     <Wrapper>
