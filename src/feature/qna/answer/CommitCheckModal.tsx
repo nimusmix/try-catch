@@ -32,7 +32,8 @@ const ModalBody = styled.div`
 `;
 
 const Highlight = styled.span`
-  background-color: var(--colors-brand-200);
+  background-color: ${({ theme }) =>
+    theme.isDark ? 'var(--colors-brand-500)' : 'var(--colors-brand-200)'};
   font-weight: 600;
 `;
 
