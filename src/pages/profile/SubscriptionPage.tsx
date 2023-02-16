@@ -63,7 +63,6 @@ const SubscriptionPage = () => {
       enabled: !!userId,
       onSuccess: () => {
         queryClient.invalidateQueries([['mySubscriptionList', 'userId', userName]]);
-        queryClient.invalidateQueries(['profileBio', userName]);
       },
     }
   );
