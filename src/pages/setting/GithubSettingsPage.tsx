@@ -34,7 +34,7 @@ const GithubSettingsPage = () => {
     e.preventDefault();
     const data = {
       repoName,
-      doCommit: true,
+      repoChecked: true,
     };
     putRepo(data);
   };
