@@ -11,6 +11,7 @@ import { isDarkState } from '../../recoil';
 import { IconEmail, IconGithub, IconGitlab } from '../../components/icons/Icons';
 import { Paragraph } from '../../components';
 import { media } from '../../utils/media';
+import isMobileState from '../../recoil/isMobileState';
 
 const StyledFooter = styled.footer`
   display: flex;
@@ -172,6 +173,7 @@ const members = [
 
 const Footer = () => {
   const isDark = useRecoilValue(isDarkState);
+  const isMobile = useRecoilValue(isMobileState);
 
   return (
     <StyledFooter>
@@ -209,12 +211,14 @@ const Footer = () => {
             </Icons>
           </Left>
           <Mid className="mid">
-            <ul className="footer-nav">
-              <li>사이트소개</li>
-              <li>연락처</li>
-              <li>버그제보</li>
-              <li>서비스 이용약관</li>
-            </ul>
+            {isMobile || (
+              <ul className="footer-nav">
+                <li>사이트소개</li>
+                <li>연락처</li>
+                <li>버그제보</li>
+                <li>서비스 이용약관</li>
+              </ul>
+            )}
             <div className="footer-desc">
               <Paragraph sizeType="sm">사이트명: 트라이캐치 | 문의 ssafy.e108@gmail.com</Paragraph>
               <Paragraph sizeType="sm">
