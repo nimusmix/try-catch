@@ -150,7 +150,12 @@ const MemberNavMenu = () => {
       )}
       <ProfileLi>
         <Dropdown>
-          <ProfileWrapper onClick={() => setDropdownActive((prev) => !prev)}>
+          <ProfileWrapper
+            onClick={() => {
+              if (isMobile) return;
+              setDropdownActive((prev) => !prev);
+            }}
+          >
             {profileImage ? (
               <Img src={profileImage} />
             ) : (

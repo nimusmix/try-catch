@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { Dropdown, DropLi, DropLiContainer, DropUl } from '../../../layout/header/MemberNavMenu';
 import { IconDelete, IconMore, IconPen, IconShare } from '../../../components/icons/Icons';
 import useIsMe from '../../../hooks/useIsMe';
 import { toastState } from '../../../recoil';
 import QuestionReportModal from './QuestionReportModal';
 import QuestionDeleteModal from './QuestionDeleteModal';
+import isMobileState from '../../../recoil/isMobileState';
 
 const DropContainer = styled(DropLiContainer)`
   padding: 0;
@@ -81,6 +82,7 @@ const QuestionDropdown = ({
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
   const isMe = useIsMe(userId);
+  const isMobile = useRecoilValue(isMobileState);
   const setToast = useSetRecoilState(toastState);
   const navigate = useNavigate();
 
@@ -103,6 +105,9 @@ const QuestionDropdown = ({
   };
 
   const onClickOpenDropDown = () => {
+    if (isMobile) {
+      return;
+    }
     setDropdownIsOpen((prev) => !prev);
   };
   return (
