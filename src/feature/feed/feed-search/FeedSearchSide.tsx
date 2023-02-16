@@ -61,11 +61,11 @@ export const FeedSearchWrapper = styled.div`
   color: var(--colors-black-500);
   list-style: none;
   position: relative;
-  background: #fff;
   transition: all 300ms ease 0s;
   box-shadow: rgb(8 60 130 / 6%) 0px 0px 0px 0.05rem, rgb(30 34 40 / 4%) 0rem 0rem 1.25rem;
   margin-bottom: 25px !important;
-  background-color: ${({ theme: { isDark } }) => (isDark ? 'rgba(46, 52, 64, 1)' : 'fff')};
+  background-color: ${({ theme: { isDark } }) =>
+    isDark ? 'rgba(46, 52, 64, 1)' : 'var(--colors-white-500)'};
 `;
 
 const ToolTip = styled.div`
