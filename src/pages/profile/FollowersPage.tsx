@@ -5,6 +5,7 @@ import { getUserId, getUserFollow } from '../../apis/profile/profile';
 import { ISimpleUserData } from '../../interface/user';
 import SimpleUserItem from '../../feature/user/profile/SimpleUserItem';
 import LoadingSpinner from '../../components/loading/LoadingSpinner';
+import ProfileEmptyUpper from '../../feature/user/profile/ProfileEmptyUpper';
 
 const FollowersPage = () => {
   const { userName } = useParams();
@@ -43,6 +44,7 @@ const FollowersPage = () => {
         {followers?.map((user: ISimpleUserData) => {
           return <SimpleUserItem {...user} key={user.userId} />;
         })}
+        {(!followers || followers?.length === 0) && <ProfileEmptyUpper category={2} />}
       </ItemWrapper>
     </ModalWrapper>
   );

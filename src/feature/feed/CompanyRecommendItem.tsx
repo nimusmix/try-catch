@@ -4,7 +4,6 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { Button, Paragraph } from '../../components';
 import { IFeedCompany } from '../../interface/feed';
-import getImageUrl from '../../utils/getImageUrl';
 import { COMPANY } from '../../constant/company';
 import { toastState, isLoggedInState } from '../../recoil';
 import { postSubscribe, puttSubscribe } from '../../apis/user/user';

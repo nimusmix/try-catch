@@ -63,13 +63,6 @@ export const ChallengeItem = ({ challengeId, title, content, imgSrc, state }: IC
     },
   });
 
-  // const { mutate: select } = useMutation(['select'], selectAnswer(questionId, answer.answerId), {
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries(['question', `${questionId}`]);
-  //     setToast({ type: 'positive', message: '댓글을 채택했어요', isVisible: true });
-  //   },
-  // });
-
   const handleBefore = () => {
     if (!isLogin) {
       setToast({ type: 'negative', message: '로그인 후 이용하실 수 있어요', isVisible: true });
@@ -91,7 +84,6 @@ export const ChallengeItem = ({ challengeId, title, content, imgSrc, state }: IC
           flexDirection: 'column',
         }}
       >
-        {/* <div>Monthly</div> */}
         <CardHeader>
           <MiniTitle sizeType="2xl" textAlign="left">
             {title}

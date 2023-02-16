@@ -3,13 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { Dropdown, DropLi, DropLiContainer, DropUl } from '../../../layout/header/MemberNavMenu';
-import {
-  IconDelete,
-  IconMore,
-  IconPen,
-  IconReport,
-  IconShare,
-} from '../../../components/icons/Icons';
+import { IconDelete, IconMore, IconPen, IconShare } from '../../../components/icons/Icons';
 import useIsMe from '../../../hooks/useIsMe';
 import { toastState } from '../../../recoil';
 import QuestionReportModal from './QuestionReportModal';
@@ -86,6 +80,10 @@ const QuestionDropdown = ({
   const navigate = useNavigate();
 
   const onClickModify = () => {
+    if (isSolved) {
+      setToast({ type: 'negative', message: '해결된 질문은 수정할 수 없어요', isVisible: true });
+      return;
+    }
     navigate(`/question/form/${questionId}`);
   };
 
@@ -120,12 +118,12 @@ const QuestionDropdown = ({
             <IconShare />
             공유하기
           </DropList>
-          {isMe || (
-            <DropList onClick={() => setIsReportModalOpen(true)}>
-              <IconReport color="tomato" />
-              신고하기
-            </DropList>
-          )}
+          {/* {isMe || ( */}
+          {/*  <DropList onClick={() => setIsReportModalOpen(true)}> */}
+          {/*    <IconReport color="tomato" /> */}
+          {/*    신고하기 */}
+          {/*  </DropList> */}
+          {/* )} */}
         </DropUl>
       </DropContainer>
       {/* 삭제 모달  */}

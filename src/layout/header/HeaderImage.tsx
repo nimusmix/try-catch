@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { media } from '../../utils/media';
 
 interface IHeaderImageProps {
   image: string;
@@ -23,6 +24,10 @@ const HeaderImage = styled.div<IHeaderImageProps>`
   p {
     color: var(--colors-black-400);
   }
+
+  ${media.phone`
+    min-height: 120px;
+  `}
 `;
 
 export default HeaderImage;

@@ -1,12 +1,14 @@
 import { useInfiniteQuery } from 'react-query';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { Dispatch, Fragment, useEffect } from 'react';
+import { Dispatch, Fragment, useEffect, useState } from 'react';
 import { getQuestionList } from '../../../apis/qna/qna';
 import qnaCategoryState from '../../../recoil/qnaCategoryState';
 import { QuestionItem } from '../index';
 import question from '../Question';
 import qnaSearchKeywordState from '../../../recoil/qnaSearchKeywordState';
 import QuestionNoContent from './QuestionNoContent';
+import isMobileState from '../../../recoil/isMobileState';
+import useWindowSize from '../../../hooks/useWindowSize';
 
 const QuestionList = ({
   filter,
@@ -15,14 +17,21 @@ const QuestionList = ({
   filter: string;
   setIsLoading: Dispatch<boolean>;
 }) => {
+  const [isFirstEnter, setIsFirstEnter] = useState(true);
   const [activeCategory, setActiveCategory] = useRecoilState<string>(qnaCategoryState);
   const keyword = useRecoilValue(qnaSearchKeywordState);
+  const isMobile = useRecoilValue(isMobileState);
+  const [windowWidth] = useWindowSize();
 
   // // 1. timeout을 줘서 스크롤이 끝난 후 작동하게 하는 방법
   const scrollToTop = () => {
+    let top = 180;
+    if (isMobile || windowWidth < 601) {
+      top = 120;
+    }
     setTimeout(() => {
       window.scrollTo({
-        top: 180,
+        top,
         behavior: 'smooth', // for smoothly scrolling
       });
     }, 100);
@@ -30,6 +39,7 @@ const QuestionList = ({
 
   useEffect(() => {
     scrollToTop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyword, activeCategory, filter]);
 
   // TODO 나중에 search 엔드포인트 변경되면 그때 바꾸면 됨
@@ -127,7 +137,7 @@ const QuestionList = ({
       {questionList?.pages.reduce((acc, page) => acc + page.data.length, 0) === 0 && (
         <QuestionNoContent />
       )}
-      <ul>
+      <ul className="question-list">
         {questionList?.pages?.map((page, index) => {
           return (
             // eslint-disable-next-line react/no-array-index-key

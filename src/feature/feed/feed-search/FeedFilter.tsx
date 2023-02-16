@@ -44,7 +44,7 @@ const FeedFilter = ({ filterOptions, changeOption }: IFeedFilterProps) => {
   const [toast, setToast] = useRecoilState(toastState);
 
   const [activeFilterOption, setActiveFilterOption] = useState<string | null>(
-    () => filterOptions[1].option
+    isLoggedIn ? filterOptions[0].option : filterOptions[1].option
   );
 
   const handleFilterOptionClick = (event: React.MouseEvent<HTMLButtonElement>) => {

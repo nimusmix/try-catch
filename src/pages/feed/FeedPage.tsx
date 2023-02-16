@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import { HeaderImage, Layout } from '../../layout';
 import { Paragraph, SubTitle } from '../../components';
 import { header_feed } from '../../assets';
@@ -12,16 +13,18 @@ import {
   FeedView,
 } from '../../feature/feed';
 import { QuestionPageBody as FeedPageBody } from '../qna/QnaPage';
+import { isLoggedInState } from '../../recoil';
 
 const Aside = styled.aside`
-  margin: 3rem 1.5rem 0 0rem;
+  margin: 0rem;
   position: sticky;
-  top: 5rem;
+  top: 3rem;
   min-height: 500px;
   width: 20.75rem;
-  max-height: 90vh;
-  padding: 4px;
+  padding: 3rem 1rem 4px 4px;
   overflow-y: scroll;
+  max-height: 90vh;
+
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
   ::-webkit-scrollbar {
@@ -47,7 +50,10 @@ const filterOptions = [
 ];
 
 const FeedPage = () => {
-  const [activeFilterOption, setActiveFilterOption] = useState('최신순');
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [activeFilterOption, setActiveFilterOption] = useState(
+    isLoggedIn ? '나의 관심순' : '최신순'
+  );
   const [activeViewOption, setActiveViewOption] = useState<boolean>(true);
   const [tagListProps, setTagListProps] = useState<Array<string>>([]);
   const [checkedItemsProps, setCheckedItemsProps] = useState<Array<number>>([]);
@@ -78,12 +84,15 @@ const FeedPage = () => {
       </HeaderImage>
       <FeedPageBody>
         <Aside>
-          <FeedSearchSide
-            tagListProps={tagListProps}
-            getCheckData={getCheckData}
-            keyword={keyword}
-          />
-          <CompanyRecommend />
+          <div>
+            <FeedSearchSide
+              tagListProps={tagListProps}
+              getCheckData={getCheckData}
+              keyword={keyword}
+            />
+
+            <CompanyRecommend />
+          </div>
         </Aside>
         <section style={{ margin: '3rem 0 0 0' }}>
           <FilterTop>

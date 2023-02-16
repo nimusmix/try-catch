@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 import styled from 'styled-components';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 import { IconBookmarkEmpty, IconBookmarkFill, IconLikeEmpty } from '../../components/icons/Icons';
 import { postBookmark, putBookmark } from '../../apis/bookmark/bookmark';
 import { Div, Paragraph, MiniTitle, Button, Card } from '../../components';
@@ -70,7 +71,7 @@ const InfoWrapper = styled.div`
   }
 `;
 
-const Bookmark = styled.div`
+const BookmarkButton = styled.div`
   display: flex;
   svg {
     cursor: pointer;
@@ -137,26 +138,41 @@ const RoadmapListItem = ({ roadmap }: { roadmap: IRoadmapItemProps }) => {
 
   const isDark = useRecoilValue(isDarkState);
 
+  const navigate = useNavigate();
+
+  const goToProfile = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    navigate(`/profile/${roadmap.author.userName}`);
+  };
+
   return (
     <ItemWrapper>
       {roadmap.author.profileImage ? (
-        <Img src={roadmap.author.profileImage} alt={roadmap.author.userName} />
+        <Img
+          src={roadmap.author.profileImage}
+          alt={roadmap.author.userName}
+          onClick={goToProfile}
+        />
       ) : (
-        <Img src={new URL(`/src/assets/favicon.ico`, import.meta.url).href} alt="d" />
+        <Img
+          src={new URL(`/src/assets/favicon.ico`, import.meta.url).href}
+          alt="d"
+          onClick={goToProfile}
+        />
       )}
 
       <InfoWrapper>
         <BookmarkWrapper>
-          <Paragraph sizeType="lg" fontWeight="500">
+          <Paragraph sizeType="lg" fontWeight="500" onClick={goToProfile}>
             {roadmap.author.userName}
           </Paragraph>
           {/* 북마크 */}
-          <Bookmark onClick={onClickBookmarkHandler}>
+          <BookmarkButton onClick={onClickBookmarkHandler}>
             {roadmap.isBookmarked && <IconBookmarkFill size="24" color="var(--colors-brand-500)" />}
             {roadmap.isBookmarked || (
               <IconBookmarkEmpty size="24" color="var(--colors-brand-500)" />
             )}
-          </Bookmark>
+          </BookmarkButton>
         </BookmarkWrapper>
         <SubText sizeType="sm">{roadmap.author.companyName || '지니가던 개발자'}</SubText>
         <Line />

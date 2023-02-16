@@ -81,7 +81,7 @@ const ToolTip = styled.div`
     text-align: center;
     position: absolute;
     z-index: 1;
-    left: 50%;
+    left: 10%;
     transform: translateX(-50%);
 
     top: -40px;

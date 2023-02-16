@@ -15,7 +15,8 @@ import elapsedTime from './utils/elapsed-time';
 import getAccToken from './utils/getAccToken';
 import { getNotifications } from './apis/notice/notice';
 import SEOMetaTag from './components/seo/SEOMetaTag';
-import MobileAlert from './layout/MobileAlert';
+import { media } from './utils/media';
+import isMobileState from './recoil/isMobileState';
 
 const GlobalStyles = createGlobalStyle`
   *{
@@ -25,6 +26,11 @@ const GlobalStyles = createGlobalStyle`
     background-color: ${({ theme: { bgColor } }) => bgColor};
     color: ${({ theme: { textColor } }) => textColor};
     min-width: var(--breakpoints-desktop);
+
+    ${media.phone`
+      min-width: unset;
+      width: 100%;
+    `}
   }
   
   body {
@@ -75,7 +81,6 @@ function App() {
   const acc = getAccToken();
 
   const [isConnected, setIsConnected] = useState(false); // State to track the connection status
-  const [mobile, setMobile] = useState(false);
   const [notifications, setNotifications] = useRecoilState(notificationsState);
 
   const BASE_URL = `https://${API_URL}/v1`;
@@ -188,20 +193,18 @@ function App() {
     logOnDev.log('-------------');
   }, [notifications, notifications.length]);
 
+  const [isMobile, setIsMobile] = useRecoilState(isMobileState);
+
   useEffect(() => {
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile) {
+    const isMobileState = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobileState) {
       // mobile
-      setMobile(true);
+      setIsMobile(true);
     } else {
       // desktop
-      setMobile(false);
+      setIsMobile(false);
     }
-  }, []);
-
-  if (mobile) {
-    return <MobileAlert />;
-  }
+  }, [setIsMobile]);
 
   return (
     <HelmetProvider>
