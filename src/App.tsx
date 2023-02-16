@@ -14,10 +14,10 @@ import { API_URL, SITE_URL } from './constant';
 import { logOnDev } from './utils/logging';
 import elapsedTime from './utils/elapsed-time';
 import getAccToken from './utils/getAccToken';
-import { getNotifications } from './apis/notice/notice';
 import SEOMetaTag from './components/seo/SEOMetaTag';
 import { media } from './utils/media';
 import isMobileState from './recoil/isMobileState';
+import { getNotifications } from './apis/notice/notice';
 
 const GlobalStyles = createGlobalStyle`
   *{
