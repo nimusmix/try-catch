@@ -32,8 +32,7 @@ const Wrapper = styled.div`
 const Editor = styled.textarea`
   width: 100%;
   height: 200px;
-  background-color: ${({ theme: { isDark } }) =>
-    isDark ? 'rgb(46, 52, 64)' : 'rgb(247, 248, 255)'};
+  background-color: ${({ theme: { isDark } }) => (isDark ? 'rgb(46, 52, 64)' : '#fcfcfc')};
   padding: 1rem;
   color: ${({ theme: { textColor } }) => textColor};
   resize: none;
