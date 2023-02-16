@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { Button, Checkbox, Paragraph } from '../../../components';
 import FeedSearchBar from './FeedSearchBar';
 import FeedTag from '../FeedTag';
 import { IconRefresh } from '../../../components/icons/Icons';
 import { media } from '../../../utils/media';
+import { isLoggedInState, toastState } from '../../../recoil';
 
 const searchFilterList = [
   {
@@ -137,6 +139,8 @@ const KeyWordWrapper = styled(Paragraph)`
 
 const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps) => {
   const [checkedItems, setCheckedItems] = useState<Array<number>>([]);
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const [toast, setToast] = useRecoilState(toastState);
 
   const handleSingleCheck = (checked: boolean, id: number) => {
     if (checked) {
@@ -148,7 +152,19 @@ const FeedSearchSide = ({ tagListProps, getCheckData, keyword }: FeedSearchProps
     }
   };
   const onSingleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleSingleCheck(e.target.checked, Number(e.target.id));
+    if (Number(e.target.id) === 1) {
+      /** 로그인 시에만 구독 필터 가능 */
+      if (isLoggedIn) handleSingleCheck(e.target.checked, Number(e.target.id));
+      else {
+        setToast({
+          type: 'negative',
+          message: '로그인 후 이용하실 수 있어요',
+          isVisible: true,
+        });
+      }
+    } else {
+      handleSingleCheck(e.target.checked, Number(e.target.id));
+    }
   };
 
   const navigate = useNavigate();
