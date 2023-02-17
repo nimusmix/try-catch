@@ -19,6 +19,7 @@ export const postImage = (data: File) =>
     .post('', data, {
       headers: {
         'Content-Type': 'application/octet-stream',
+        'Access-Control-Allow-Origin': '*',
       },
     })
     .then((res: AxiosResponse<IImageResponse>) => {
