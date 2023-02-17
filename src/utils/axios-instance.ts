@@ -27,4 +27,4 @@ export const api = axiosApi(BASE_URL);
 
 // 토큰이 필요한 axios 요청
 export const authApi = axiosAuthApi(BASE_URL);
-export const imageApi = axiosAuthApi(IMAGE_SERVER_URL);
+export const imageApi = axiosApi(IMAGE_SERVER_URL);
