@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { useRecoilValue } from 'recoil';
 import { Paragraph } from '../../../components';
 import { IUserAnswer } from '../../../interface/user';
 import elapsedTime from '../../../utils/elapsed-time';
+import { isDarkState } from '../../../recoil';
 
 const ItemWrapper = styled.div`
   width: 800px;
@@ -23,7 +25,8 @@ const QuestionWrapper = styled.div`
   align-items: flex-start;
   height: 116px;
   padding: 1.25rem;
-  background-color: var(--colors-brand-100);
+  background-color: ${({ theme: { isDark } }) =>
+    isDark ? 'var(--colors-black-300)' : 'var(--colors-brand-100)'};
   border-radius: var(--borders-radius-base);
   margin-top: 0.5rem;
   margin-bottom: 1rem;
@@ -65,10 +68,15 @@ const AnswerListItem = ({
   timestamp,
   likeCount,
 }: Partial<IUserAnswer>) => {
+  const isDark = useRecoilValue(isDarkState);
   return (
     <ItemWrapper>
       <QuestionWrapper>
-        <Paragraph sizeType="lg" fontWeight="600" color="var(--colors-black-500)">
+        <Paragraph
+          sizeType="lg"
+          fontWeight="600"
+          color={isDark ? 'var(--colors-white-500)' : 'var(--colors-black-500)'}
+        >
           {questionTitle}
         </Paragraph>
         <QuestionContentWrapper>
