@@ -7,6 +7,7 @@ import { Button, Paragraph } from '../../../components';
 import isModalOpenedState from '../../../recoil/isModalOpenedState';
 import { ISubscription } from '../../../interface/user';
 import { postSubscribe, puttSubscribe } from '../../../apis/user/user';
+import { COMPANY } from '../../../constant/company';
 
 const CompanyItemWrapper = styled.div`
   display: flex;
@@ -64,7 +65,7 @@ const SimpleCompanyItem = ({ companyId, companyName, isSubscribe, logoSrc }: ISu
   const navi = useNavigate();
   const infoHandler = () => {
     setIsModalOpened(false);
-    navi(`/profile/company/${companyName}`);
+    navi(`/profile/company/${COMPANY[companyName]}`);
   };
 
   return (
