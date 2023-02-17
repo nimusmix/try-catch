@@ -3,7 +3,6 @@ import { setupInterceptorsTo, tokenInterceptor } from './interceptors';
 import { API_URL } from '../constant';
 
 const BASE_URL = `https://${API_URL}/v1`;
-const IMAGE_SERVER_URL = `https://image.try-catch.kr/v1/images/bucket`;
 
 // 토큰이 필요없는 axios
 const axiosApi = (url: string, options: AxiosRequestConfig = {}) => {
@@ -27,4 +26,3 @@ export const api = axiosApi(BASE_URL);
 
 // 토큰이 필요한 axios 요청
 export const authApi = axiosAuthApi(BASE_URL);
-export const imageApi = axiosApi(IMAGE_SERVER_URL);
