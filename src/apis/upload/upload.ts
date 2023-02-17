@@ -1,10 +1,12 @@
-import { authApi } from '../../utils/axios-instance';
+import { imageApi } from '../../utils/axios-instance';
 
 export const postImage = (data: File) =>
-  authApi
-    .post(`/images/question`, data, {
+  imageApi
+    .post('', data, {
       headers: {
-        'Content-Type': 'image/png',
+        'Content-Type': 'application/octet-stream',
       },
     })
-    .then((res) => res.data);
+    .then((res) => {
+      console.log(res.data);
+    });
