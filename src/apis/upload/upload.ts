@@ -1,5 +1,6 @@
-import { AxiosResponse } from 'axios';
-import { imageApi } from '../../utils/axios-instance';
+import axios, { AxiosResponse } from 'axios';
+
+const IMAGE_SERVER_URL = `https://image.try-catch.kr/v1/images/bucket`;
 
 interface IImageResponse {
   bucket_id: number;
@@ -15,8 +16,8 @@ interface IImageResponse {
 }
 
 export const postImage = (data: File) =>
-  imageApi
-    .post('', data, {
+  axios
+    .post(`${IMAGE_SERVER_URL}?format=png`, data, {
       headers: {
         'Content-Type': 'application/octet-stream',
         'Access-Control-Allow-Origin': '*',
@@ -24,7 +25,7 @@ export const postImage = (data: File) =>
     })
     .then((res: AxiosResponse<IImageResponse>) => {
       const imageId = res.data.image_id;
-      const src = `https://image.try-catch.kr/v1/images/bucket/${imageId}`;
+      const src = `${IMAGE_SERVER_URL}/${imageId}`;
 
       return src;
     });
