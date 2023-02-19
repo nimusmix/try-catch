@@ -82,7 +82,10 @@ const FeedPage = () => {
   const advanced = checkedItemsProps.includes(2);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({
+      top: 180,
+      behavior: 'smooth',
+    });
   }, [keyword, subscribe, advanced]);
 
   const getData = (data: Array<string>) => {
@@ -103,15 +106,12 @@ const FeedPage = () => {
       </HeaderImage>
       <FeedPageBody>
         <Aside>
-          <div>
-            <FeedSearchSide
-              tagListProps={tagListProps}
-              getCheckData={getCheckData}
-              keyword={keyword}
-            />
-
-            <CompanyRecommend />
-          </div>
+          <FeedSearchSide
+            tagListProps={tagListProps}
+            getCheckData={getCheckData}
+            keyword={keyword}
+          />
+          <CompanyRecommend />
         </Aside>
         <FeedContentSection>
           <FilterTop>

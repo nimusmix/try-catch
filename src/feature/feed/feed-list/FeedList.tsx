@@ -28,7 +28,6 @@ const FeedListWrapper = styled.div`
 const FeedList = ({
   activeViewOption,
   keyword,
-  // query,
   subscribe,
   advanced,
   tagListProps,
@@ -38,7 +37,7 @@ const FeedList = ({
 }: IFeedList) => {
   const paramSort = activeFilterOption === '최신순' ? 'date' : 'user';
 
-  const { status, data, isLoading, isError, isFetchingNextPage, fetchNextPage } = useInfiniteQuery<
+  const { data, isLoading, isError, isFetchingNextPage, fetchNextPage } = useInfiniteQuery<
     IFeedListProps,
     AxiosError
   >(
@@ -66,7 +65,7 @@ const FeedList = ({
   useEffect(() => {
     const handleScroll = () => {
       const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
-      if (scrollTop + clientHeight >= scrollHeight - 550) {
+      if (scrollTop + clientHeight >= scrollHeight - 600) {
         fetchNextPage();
       }
     };

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { isDarkState, isSystemThemeState } from '../../recoil';
@@ -111,7 +112,7 @@ const ThemeButton = () => {
   const [isSystemTheme, setSystemTheme] = useRecoilState(isSystemThemeState);
   const mql = window.matchMedia('(prefers-color-scheme: dark)');
 
-  const ChangeEventTheme = (e: any) => {
+  const ChangeEventTheme = (e: MediaQueryListEvent) => {
     if (!isSystemTheme) {
       // 아무것도 안함
     } else if (e.matches) {
@@ -135,7 +136,6 @@ const ThemeButton = () => {
         type="button"
         className="theme-toggle"
         id="theme-toggle"
-        title="트라이 캐치 light & dark"
         aria-label="auto"
         aria-live="polite"
         onClick={onClick}

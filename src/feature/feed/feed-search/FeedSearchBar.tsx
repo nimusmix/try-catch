@@ -25,7 +25,6 @@ const SearchIcon = styled.button`
 `;
 
 const StyledSearchBar = styled.div<{ isFocus: boolean }>`
-  /* width: 17.75rem; */
   height: 2.5rem;
   border-width: 0.0625rem;
   border-color: ${({ theme: { borderColor } }) => borderColor};
