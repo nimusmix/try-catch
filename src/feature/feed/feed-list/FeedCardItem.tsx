@@ -104,14 +104,11 @@ const StyledCard = styled(Card)`
         ? 'rgba(59, 130, 246, 0.16) 0px 3px 6px, rgba(59, 130, 246, 0.23) 0px 3px 6px'
         : 'rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px'};
     translate: 1px 1px;
-    /* ${CardBody} > h3 {
-      color: var(--colors-brand-500);
-      transition: color 0.3s ease-in;
-    } */
   }
   ${media.phone`
     min-width: unset;
-    width: 90%;
+    width: 100%;
+    margin: 0.5rem auto;
   `}
 `;
 
@@ -181,13 +178,13 @@ const FeedCardItem = ({
   }
 
   return (
-    <a href={`${url}`} target="_blank" rel="noreferrer">
-      <StyledCard
-        width="274px"
-        onClick={() => {
-          if (isLoggedIn) postFeedRead({ feedId: id });
-        }}
-      >
+    <StyledCard
+      width="274px"
+      onClick={() => {
+        if (isLoggedIn) postFeedRead({ feedId: id });
+      }}
+    >
+      <a href={`${url}`} target="_blank" rel="noreferrer">
         <CardHeader>
           <button
             type="button"
@@ -235,8 +232,8 @@ const FeedCardItem = ({
         <CardFooter>
           <FeedTag tags={tags.length === 0 ? keywords : tags} />
         </CardFooter>
-      </StyledCard>
-    </a>
+      </a>
+    </StyledCard>
   );
 };
 

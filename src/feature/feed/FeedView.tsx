@@ -35,7 +35,9 @@ const FeedView = ({ setActiveViewOption }: FeedViewProps) => {
     }
   }, [windowWidth, setActiveViewOption]);
 
-  if (isMobile) setActiveViewOption(false);
+  useEffect(() => {
+    if (isMobile) setActiveViewOption(true);
+  }, [isMobile, setActiveViewOption]);
 
   return (
     <Wrapper>

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Card } from '../../../components';
 
-const DivBackground = styled.div`
+export const DivBackground = styled.div`
   background-color: ${({ theme: { isDark } }) => (isDark ? 'var(--colors-black-200)' : '#ededed')};
   background: linear-gradient(
       100deg,

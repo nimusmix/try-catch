@@ -68,6 +68,11 @@ export const FeedSearchWrapper = styled.div`
   margin-bottom: 25px !important;
   background-color: ${({ theme: { isDark } }) =>
     isDark ? 'rgba(46, 52, 64, 1)' : 'var(--colors-white-500)'};
+
+  ${media.phone`
+    border-radius: 0rem;
+    padding-bottom: 0.25rem;
+    `}
 `;
 
 const ToolTip = styled.div`
