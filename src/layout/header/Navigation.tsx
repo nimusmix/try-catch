@@ -62,13 +62,13 @@ const Navigation = () => {
         <NavWrapper>
           {isMobile && width < 601 && (
             <Logo>
-              <NavLink to="/">
+              <a>
                 <img
                   src={new URL(`/src/assets/favicon.ico`, import.meta.url).href}
                   alt="logo"
                   width="20"
                 />
-              </NavLink>
+              </a>
             </Logo>
           )}
           {isMobile || (
