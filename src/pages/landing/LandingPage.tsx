@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../../layout/Layout';
 import MarqueeLogoCard from '../../feature/landing/marquee-logo-wall/MarqueeLogoCard';
 import LandingTitle from '../../feature/landing/landing-title/LandingTitle';
@@ -15,7 +16,6 @@ import FeedSection from '../../feature/landing/Sections/FeedSection';
 import RoadmapSection from '../../feature/landing/Sections/RoadmapSection';
 import ChallengeSection from '../../feature/landing/Sections/ChallengeSection';
 import isMobileState from '../../recoil/isMobileState';
-import MobileAlert from '../../layout/MobileAlert';
 
 const LandingPageBody = styled(QuestionPageBody)`
   min-width: var(--breakpoints-desktop);
@@ -80,6 +80,7 @@ const LogoWrapper = styled.div`
 `;
 
 const LandingPage = () => {
+  const navigate = useNavigate();
   const isDark = useRecoilValue(isDarkState);
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
   const isMobile = useRecoilValue(isMobileState);
@@ -98,7 +99,7 @@ const LandingPage = () => {
   }, [setIsLoggedIn]);
 
   if (isMobile) {
-    return <MobileAlert />;
+    navigate('question');
   }
 
   return (
